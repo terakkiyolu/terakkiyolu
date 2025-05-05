@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yol Haritamız - Terakki Yolu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: rgb(0, 0, 0);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: rgb(247, 247, 247);
+            text-decoration: none;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #ccc;
+            margin: 2px 0;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 250px;
+            height: 100%;
+            background: rgba(88, 92, 100, 0.67);
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: right 0.3s ease;
+            z-index: 1000;
+        }
+
+        .nav-menu.active {
+            right: 0;
+        }
+
+        .nav-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5rem;
+            margin: 15px 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #ccc;
+        }
+
+        /* Sayfa İçeriği */
+        .page-header {
+            height: 40vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://picsum.photos/id/42/1920/1080');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .page-subtitle {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .content-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .roadmap-intro {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .roadmap-intro h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .roadmap-intro p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #ccc;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: rgba(255, 255, 255, 0.2);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: #fff;
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 50%;
+        }
+
+        .left::after {
+            right: -12.5px;
+        }
+
+        .right::after {
+            left: -12.5px;
+        }
+
+        .timeline-content {
+            padding: 20px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            position: relative;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-date {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .timeline-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .timeline-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ccc;
+        }
+
+        .policy-areas {
+            margin-top: 80px;
+        }
+
+        .policy-area {
+            margin-bottom: 60px;
+        }
+
+        .policy-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .policy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .policy-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 25px;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .policy-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .policy-card i {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .policy-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .policy-card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ccc;
+        }
+
+        .download-section {
+            margin-top: 80px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .download-section h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .download-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #ccc;
+        }
+
+        .download-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .download-button {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 4px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .download-button:hover {
+            background: #ccc;
+            transform: translateY(-5px);
+        }
+
+        .download-button i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .social {
+            padding: 40px 20px;
+            text-align: center;
+            background: #1a1a1a;
+        }
+
+        .social h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .social-links a {
+            color: #fff;
+            margin: 0 15px;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #ccc;
+        }
+
+        @media (max-width: 768px) {
+            .navbar .logo {
+                font-size: 1.5rem;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .page-title {
+                font-size: 2.5rem;
+            }
+            .page-subtitle {
+                font-size: 1.2rem;
+            }
+            .roadmap-intro h2 {
+                font-size: 2rem;
+            }
+            .timeline::after {
+                left: 31px;
+            }
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .timeline-item::after {
+                left: 18px;
+            }
+            .left::after, .right::after {
+                left: 18px;
+            }
+            .right {
+                left: 0;
+            }
+            .policy-title {
+                font-size: 1.8rem;
+            }
+            .download-section {
+                padding: 20px;
+            }
+            .download-section h2 {
+                font-size: 1.8rem;
+            }
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">TERAKKİ YOLU</a>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html">Ana Sayfa</a>
+            <a href="#">Hakkımızda</a>
+            <a href="ilkelerimiz.html">İLKLERİMİZ</a>
+            <a href="kadromuz.html">KADROMUZ</a>
+            <a href="yol-haritamiz.html">YOL HARİTAMIZ</a>
+            <a href="#">İletişim</a>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div>
+            <h1 class="page-title">YOL HARİTAMIZ</h1>
+            <p class="page-subtitle">Terakki Yolu'nun ülkemizin geleceği için planları ve hedefleri</p>
+        </div>
+    </header>
+
+    <section class="content-section">
+        <div class="roadmap-intro">
+            <h2>Geleceğe Doğru</h2>
+            <p>Terakki Yolu olarak, ülkemizin karşı karşıya olduğu sorunlara çözüm önerilerimiz ve gelecek vizyonumuz doğrultusunda hazırladığımız yol haritamızı sizlerle paylaşıyoruz. Ekonomi, eğitim, sağlık, dış politika ve diğer alanlardaki planlarımız, ilkelerimiz doğrultusunda şekillenmiştir.</p>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-date">2023-2024</div>
+                    <h3 class="timeline-title">Temel Atma Dönemi</h3>
+                    <p class="timeline-description">Toplumsal uzlaşı ve diyalog ortamının oluşturulması, ekonomik istikrarın sağlanması ve temel reformların planlanması.</p>
+                </div>
+            </div>
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="timeline-date">2024-2026</div>
+                    <h3 class="timeline-title">Yapısal Reformlar</h3>
+                    <p class="timeline-description">Eğitim, sağlık ve adalet sistemlerinde kapsamlı reformların hayata geçirilmesi, ekonomik kalkınma programlarının uygulanması.</p>
+                </div>
+            </div>
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-date">2026-2028</div>
+                    <h3 class="timeline-title">Sürdürülebilir Büyüme</h3>
+                    <p class="timeline-description">Çevre dostu politikaların yaygınlaştırılması, yenilenebilir enerji yatırımlarının artırılması ve sürdürülebilir ekonomik büyümenin sağlanması.</p>
+                </div>
+            </div>
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="timeline-date">2028-2030</div>
+                    <h3 class="timeline-title">Küresel Entegrasyon</h3>
+                    <p class="timeline-description">Uluslararası ilişkilerin güçlendirilmesi, küresel ekonomiye entegrasyonun artırılması ve bölgesel liderlik rolünün pekiştirilmesi.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="policy-areas">
+            <div class="policy-area">
+                <h3 class="policy-title">Ekonomi Politikaları</h3>
+                <div class="policy-grid">
+                    <div class="policy-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Sürdürülebilir Büyüme</h3>
+                        <p>Çevre dostu ve sürdürülebilir ekonomik büyüme modelleri geliştirerek, gelecek nesillere yaşanabilir bir dünya bırakmayı hedefliyoruz.</p>
+                    </div>
+                    <div class="policy-card">
+                        <i class="fas fa-industry"></i>
+                        <h3>Yerli Üretim</h3>
+                        <p>Yerli üretimi destekleyerek, ithalata bağımlılığı azaltmak ve istihdam olanaklarını artırmak için kapsamlı teşvik programları uygulayacağız.</p>
+                    </div>
+                    <div class="policy-card">
+                        <i class="fas fa-coins"></i>
+                        <h3>Adil Vergi Sistemi</h3>
+                        <p>Gelir dağılımındaki adaletsizliği gidermek için vergi sisteminde kapsamlı reformlar yaparak, adil bir vergi sistemi oluşturacağız.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="policy-area">
+                <h3 class="policy-title">Eğitim Politikaları</h3>
+                <div class="policy-grid">
+                    <div class="policy-card">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Fırsat Eşitliği</h3>
+                        <p>Toplumun her kesiminden çocukların ve gençlerin kaliteli eğitime erişimini sağlamak için fırsat eşitliğini temel alan politikalar geliştireceğiz.</p>
+                    </div>
+                    <div class="policy-card">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <h3>Öğretmen Gelişimi</h3>
+                        <p>Öğretmenlerin mesleki gelişimlerini destekleyerek, eğitim kalitesini artıracak ve öğretmenlik mesleğinin statüsünü yükselteceğiz.</p>
+                    </div>
+                    <div class="policy-card">
+                        <i class="fas fa-laptop-code"></i>
+                        <h3>Dijital Eğitim</h3>
+                        <p>Teknolojinin eğitimde etkin kullanımını sağlayarak, dijital çağın gereklerine uygun bir eğitim sistemi oluşturacağız.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="policy-area">
+                <h3 class="policy-title">Dış Politika</h3>
+                <div class="policy-grid">
+                    <div class="policy-card">
+                        <i class="fas fa-globe-americas"></i>
+                        <h3>Çok Yönlü Diplomasi</h3>
+                        <p>Uluslararası ilişkilerde çok yönlü diplomasiyi benimseyerek, bölgesel ve küresel işbirliklerini güçlendireceğiz.</p>
+                    </div>
+                    <div class="policy-card">
+                        <i class="fas fa-handshake"></i>
+                        <h3>Barış Odaklı Yaklaşım</h3>
+                        <p>Bölgesel ve küresel barışın tesisi için aktif rol alarak, çatışmaların çözümünde yapıcı diplomasiyi ön planda tutacağız.</p>
+                    </div>
+                    <div class="policy-card">
+                        <i class="fas fa-balance-scale-right"></i>
+                        <h3>Uluslararası Hukuk</h3>
+                        <p>Uluslararası hukuka saygılı, insan haklarını ve evrensel değerleri önceleyen bir dış politika anlayışını benimseyeceğiz.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="download-section">
+            <h2>Detaylı Yol Haritamız</h2>
+            <p>Terakki Yolu'nun tüm politika alanlarını kapsayan detaylı yol haritasını incelemek için aşağıdaki dokümanları indirebilirsiniz. Ekonomi, eğitim, sağlık, dış politika ve diğer alanlardaki planlarımızı ve hedeflerimizi içeren kapsamlı raporlarımıza ulaşın.</p>
+            <div class="download-buttons">
+                <a href="#" class="download-button">
+                    <i class="fas fa-file-pdf"></i>
+                    Yol Haritası (PDF)
+                </a>
+                <a href="#" class="download-button">
+                    <i class="fas fa-file-powerpoint"></i>
+                    Sunum Dosyası
+                </a>
+                <a href="#" class="download-button">
+                    <i class="fas fa-file-alt"></i>
+                    Özet Rapor
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="social">
+        <h3>Bizi Takip Edin</h3>
+        <div class="social-links">
+            <a href="#" target="_blank" aria-label="Twitter hesabımıza git"><i class="fab fa-twitter"></i></a>
+            <a href="#" target="_blank" aria-label="Instagram hesabımıza git"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank" aria-label="Facebook hesabımıza git"><i class="fab fa-facebook"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
