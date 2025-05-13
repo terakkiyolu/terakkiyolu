@@ -1,0 +1,1860 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SİYASİ ARŞİV SİSTEMİ</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        :root {
+            --primary-red: #e53935;
+            --dark-red: #c62828;
+            --light-red: #ef5350;
+            
+            /* Light mode colors */
+            --light-bg: #f5f5f5;
+            --light-card-bg: #ffffff;
+            --light-text: #333333;
+            --light-secondary-text: #666666;
+            --light-border: #e0e0e0;
+            --light-hover: #f0f0f0;
+            
+            /* Dark mode colors */
+            --dark-bg: #121212;
+            --dark-card-bg: #1e1e1e;
+            --dark-text: #e0e0e0;
+            --dark-secondary-text: #aaaaaa;
+            --dark-border: #333333;
+            --dark-hover: #2a2a2a;
+            
+            --sidebar-width: 60px;
+            --sidebar-expanded-width: 180px;
+            --transition-speed: 0.3s;
+        }
+        
+        .light {
+            --bg-color: var(--light-bg);
+            --card-bg: var(--light-card-bg);
+            --text-color: var(--light-text);
+            --secondary-text: var(--light-secondary-text);
+            --border-color: var(--light-border);
+            --hover-color: var(--light-hover);
+        }
+        
+        .dark {
+            --bg-color: var(--dark-bg);
+            --card-bg: var(--dark-card-bg);
+            --text-color: var(--dark-text);
+            --secondary-text: var(--dark-secondary-text);
+            --border-color: var(--dark-border);
+            --hover-color: var(--dark-hover);
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .sidebar-menu li {
+            margin: 0 20px;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--secondary-text);
+            transition: all var(--transition-speed) ease;
+            padding: 5px;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            color: var(--primary-red);
+        }
+        
+        .sidebar-menu .icon {
+            font-size: 1.5rem;
+            margin-bottom: 3px;
+        }
+        
+        .sidebar-menu .text {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 20px;
+            padding-bottom: 80px; /* Space for bottom sidebar */
+        }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .theme-toggle:hover {
+            background-color: var(--hover-color);
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            background-color: var(--card-bg);
+            padding: 40px 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s ease;
+            max-height: 500px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary-red);
+        }
+        
+        .hero-section.collapsed {
+            max-height: 80px;
+            padding: 15px 20px;
+            cursor: pointer;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+        
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .hero-section.collapsed .hero-title {
+            margin-bottom: 0;
+            font-size: 1.8rem;
+        }
+        
+        .hero-description {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: var(--secondary-text);
+            transition: opacity 0.3s ease;
+        }
+        
+        .hero-section.collapsed .hero-description {
+            opacity: 0;
+            height: 0;
+            margin: 0;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            transition: opacity 0.3s ease;
+        }
+        
+        .hero-section.collapsed .hero-stats {
+            opacity: 0;
+            height: 0;
+            margin: 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-red);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .hero-toggle {
+            position: absolute;
+            right: 20px;
+            bottom: 15px;
+            background: none;
+            border: none;
+            color: var(--primary-red);
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        
+        .hero-section.collapsed .hero-toggle {
+            transform: rotate(180deg);
+            bottom: 50%;
+            margin-bottom: -10px;
+        }
+        
+        /* Search Bar */
+        .search-container {
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .search-bar:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-red), 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-red);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-red);
+            font-size: 1.2rem;
+        }
+        
+        .search-bar::placeholder {
+            color: var(--secondary-text);
+        }
+        
+        /* Content Areas */
+        .content-area {
+            display: none;
+        }
+        
+        .content-area.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .category-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-left: 5px solid var(--primary-red);
+            padding-left: 15px;
+        }
+        
+        /* Folder Grid */
+        .folder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .folder-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .folder {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-left: 4px solid var(--primary-red);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .folder::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary-red);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        
+        .folder:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            background-color: var(--hover-color);
+        }
+        
+        .folder:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .folder-list .folder {
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        
+        .folder-list .folder .folder-icon {
+            margin-right: 20px;
+            margin-bottom: 0;
+        }
+        
+        .folder-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: var(--primary-red);
+        }
+        
+        .folder-name {
+            font-weight: 600;
+            text-align: center;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .folder-list .folder-name {
+            text-align: left;
+        }
+        
+        /* Document Styles */
+        .document {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-left: 4px solid var(--primary-red);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            min-height: 180px;
+        }
+
+        .document::after {
+            content: "Görüntülemek için tıklayın";
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--secondary-text);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .document:hover::after {
+            opacity: 1;
+        }
+
+        .document:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            background-color: var(--hover-color);
+        }
+
+        .document-preview {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .document:hover .document-preview {
+            opacity: 1;
+        }
+
+        .document-preview-icon {
+            font-size: 2rem;
+            color: var(--text-color);
+        }
+        
+        .document-list .document {
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: auto;
+        }
+        
+        .document-list .document .document-icon {
+            margin-right: 20px;
+            margin-bottom: 0;
+        }
+        
+        .document-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        
+        .document-icon.text {
+            color: var(--primary-red);
+        }
+        
+        .document-icon.image {
+            color: #ff6b6b;
+        }
+        
+        .document-icon.video {
+            color: #ff4757;
+        }
+        
+        .document-icon.audio {
+            color: #ff7f50;
+        }
+        
+        .document-name {
+            font-weight: 600;
+            text-align: center;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .document-list .document-name {
+            text-align: left;
+        }
+        
+        .document-info {
+            font-size: 0.8rem;
+            color: var(--secondary-text);
+            margin-top: 8px;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            background-color: var(--card-bg);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border-left: 5px solid var(--primary-red);
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-red);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--light-red);
+            text-decoration: underline;
+        }
+        
+        .breadcrumb-separator {
+            margin: 0 10px;
+            color: var(--secondary-text);
+        }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background-color: var(--primary-red);
+            color: white;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 99;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--dark-red);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--card-bg);
+            padding: 20px;
+            text-align: center;
+            margin-top: 50px;
+            border-top: 1px solid var(--border-color);
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+            margin-bottom: 60px; /* Space for bottom sidebar */
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal-content {
+            background-color: var(--card-bg);
+            margin: 5% auto;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            width: 80%;
+            max-width: 900px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-red);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .modal-close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-color);
+            background: none;
+            border: none;
+            transition: all 0.2s;
+        }
+        
+        .modal-close:hover {
+            color: var(--primary-red);
+            transform: scale(1.2);
+        }
+        
+        .modal-body {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            color: var(--text-color);
+        }
+        
+        .modal-body img, .modal-body video {
+            max-width: 100%;
+            margin: 15px 0;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .modal-body p {
+            margin-bottom: 15px;
+        }
+        
+        .modal-body blockquote {
+            border-left: 3px solid var(--primary-red);
+            padding: 10px 20px;
+            margin: 20px 0;
+            background-color: rgba(229, 57, 53, 0.1);
+            font-style: italic;
+            color: var(--secondary-text);
+        }
+        
+        .modal-body ul, .modal-body ol {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+        
+        .modal-body li {
+            margin-bottom: 8px;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+        
+        .modal-info {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+        }
+        
+        .modal-info div {
+            margin-bottom: 5px;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .modal-btn {
+            padding: 10px 15px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+        
+        .modal-btn:hover {
+            background-color: var(--hover-color);
+            transform: translateY(-2px);
+        }
+        
+        .modal-btn.primary {
+            background-color: var(--primary-red);
+            color: white;
+            border: none;
+        }
+        
+        .modal-btn.primary:hover {
+            background-color: var(--dark-red);
+        }
+        
+        /* Recent Documents */
+        .recent-documents {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--primary-red);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .recent-documents h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            color: var(--text-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .recent-list {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-red) var(--card-bg);
+        }
+        
+        .recent-list::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .recent-list::-webkit-scrollbar-track {
+            background: var(--card-bg);
+        }
+        
+        .recent-list::-webkit-scrollbar-thumb {
+            background-color: var(--primary-red);
+            border-radius: 10px;
+        }
+        
+        .recent-item {
+            min-width: 150px;
+            padding: 15px;
+            background-color: var(--hover-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid var(--primary-red);
+        }
+        
+        .recent-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .recent-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: var(--primary-red);
+        }
+        
+        .recent-name {
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--text-color);
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            width: 100%;
+        }
+
+        .loading-spinner {
+            border: 5px solid var(--border-color);
+            border-top: 5px solid var(--primary-red);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background-color: var(--dark-red);
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        /* Search Page */
+        .search-page {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+            min-height: 100vh;
+        }
+        
+        .search-page.active {
+            display: block;
+        }
+        
+        .search-page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .search-page-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--text-color);
+        }
+        
+        .search-results {
+            margin-top: 20px;
+        }
+        
+        .search-result-item {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-red);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-result-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: var(--hover-color);
+        }
+        
+        .search-result-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+            color: var(--primary-red);
+        }
+        
+        .search-result-content {
+            flex: 1;
+        }
+        
+        .search-result-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+        
+        .search-result-path {
+            font-size: 0.8rem;
+            color: var(--secondary-text);
+        }
+        
+        .search-result-highlight {
+            background-color: rgba(229, 57, 53, 0.2);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 30px;
+            color: var(--secondary-text);
+            font-size: 1.2rem;
+        }
+        
+        /* Responsive Styles */
+        @media (min-width: 769px) {
+            .sidebar {
+                top: 0;
+                left: 0;
+                width: var(--sidebar-width);
+                height: 100vh;
+                flex-direction: column;
+                border-top: none;
+                border-right: 1px solid var(--border-color);
+            }
+            
+            .sidebar-menu {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .sidebar-menu li {
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .sidebar-menu a {
+                padding: 10px 0;
+            }
+            
+            .main-content {
+                margin-left: var(--sidebar-width);
+                padding-bottom: 20px;
+            }
+            
+            footer {
+                margin-left: var(--sidebar-width);
+                margin-bottom: 0;
+            }
+            
+            .back-to-top {
+                bottom: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .folder-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-section.collapsed .hero-title {
+                font-size: 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+            
+            .modal-actions {
+                flex-wrap: wrap;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .folder-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+            
+            .folder-name, .document-name {
+                font-size: 0.9rem;
+            }
+            
+            .folder-icon, .document-icon {
+                font-size: 30px;
+                margin-bottom: 10px;
+            }
+            
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .hero-section.collapsed .hero-title {
+                font-size: 1.3rem;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+            }
+            
+            .modal-title {
+                font-size: 1.5rem;
+            }
+            
+            .sidebar-menu li {
+                margin: 0 10px;
+            }
+            
+            .sidebar-menu .icon {
+                font-size: 1.3rem;
+            }
+            
+            .sidebar-menu .text {
+                font-size: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="Tema Değiştir">
+        <span id="theme-icon">🌙</span>
+    </button>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <ul class="sidebar-menu">
+            <li>
+                <a href="#" id="home-link" class="active" onclick="showMainContent()">
+                    <span class="icon">🏠︎</span> 
+                    <span class="text">Ana Sayfa</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" id="search-link" onclick="showSearchPage()">
+                    <span class="icon">⚲</span>
+                    <span class="text">Arama</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Hero Section -->
+            <div class="hero-section" id="hero-section">
+                <div class="hero-content">
+                    <h2 class="hero-title">SİYASİ USULSÜZLÜKLER ARŞİVİ</h2>
+                    <p class="hero-description">Türkiye'deki siyasi partilerin usulsüzlüklerini, tartışmalı söylemlerini ve tutulmayan vaatlerini arşivliyoruz. Gerçekler gün yüzüne çıkacak!</p>
+                    
+                    <div class="hero-stats" id="hero-stats">
+                        <!-- İstatistikler JSON'dan yüklenecek -->
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                </div>
+                <button class="hero-toggle" id="hero-toggle">▲</button>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <span class="search-icon">⚲</span>
+                <input type="text" class="search-bar" id="searchBar" placeholder="Arşivde detaylı arama yap...">
+            </div>
+            
+            <!-- Recent Documents -->
+            <div class="recent-documents" id="recentDocuments" style="display: none;">
+                <h3>SON GÖRÜNTÜLENEN BELGELER</h3>
+                <div class="recent-list" id="recentList">
+                    <!-- JavaScript ile doldurulacak -->
+                </div>
+            </div>
+            
+            <!-- Main Content (Parties) -->
+            <div class="content-area active" id="main-content">
+                <div class="category-section">
+                    <h2 class="section-title">SİYASİ PARTİLER</h2>
+                    <div class="folder-grid" id="contentView">
+                        <!-- Partiler JSON'dan yüklenecek -->
+                        <div class="loading">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Search Page -->
+            <div class="search-page" id="search-page">
+                <div class="search-page-header">
+                    <h2 class="search-page-title">ARAMA SONUÇLARI</h2>
+                </div>
+                
+                <div class="search-container">
+                    <span class="search-icon">⚲</span>
+                    <input type="text" class="search-bar" id="searchPageBar" placeholder="Tüm arşivde detaylı arama yap...">
+                </div>
+                
+                <div class="search-results" id="searchResults">
+                    <!-- Arama sonuçları JavaScript ile doldurulacak -->
+                    <div class="no-results">
+                        <p>Arama yapmak için yukarıdaki arama kutusunu kullanın.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Document Preview Modal -->
+            <div id="belgeModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="modalBaslik">Belge Başlığı</h2>
+                        <button class="modal-close" onclick="modalKapat()">&times;</button>
+                    </div>
+                    <div class="modal-body" id="modalIcerik">
+                        <!-- İçerik JavaScript ile doldurulacak -->
+                    </div>
+                    <div class="modal-footer">
+                        <div class="modal-info" id="modalBilgi">
+                            <!-- Belge bilgileri JavaScript ile doldurulacak -->
+                        </div>
+                        <div class="modal-actions">
+                            <button class="modal-btn" onclick="belgeYazdir()">
+                                <span>🖨️</span> Yazdır
+                            </button>
+                            <button class="modal-btn" onclick="belgeIndir()">
+                                <span>💾</span> İndir
+                            </button>
+                            <button class="modal-btn" onclick="belgePaylasim()">
+                                <span>🔗</span> Paylaş
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="back-to-top" onclick="sayfaBasinaGit()">↑</div>
+        </div>
+    </div>
+    
+   
+    <script>
+        // Global değişkenler
+        let arsivVerileri = null;
+        let sonGorulenBelgeler = [];
+        
+        // Sayfa yüklendiğinde verileri çek
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tema kontrolü
+            setupThemeToggle();
+            
+            // Hero section'ı otomatik olarak gizle
+            setTimeout(function() {
+                collapseHeroSection();
+            }, 3000);
+            
+            // JSON dosyasını yükle
+            fetch('arsiv-verileri.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('JSON dosyası yüklenemedi');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Verileri global değişkene kaydet
+                    arsivVerileri = data;
+                    
+                    // İstatistikleri güncelle
+                    istatistikleriGuncelle();
+                    
+                    // Partileri yükle
+                    partileriYukle();
+                    
+                    // Parti içeriklerini oluştur
+                    partiIcerikleriniOlustur();
+                    
+                    // Son görüntülenen belgeleri localStorage'dan al
+                    const kaydedilenBelgeler = localStorage.getItem('sonGorulenBelgeler');
+                    if (kaydedilenBelgeler) {
+                        sonGorulenBelgeler = JSON.parse(kaydedilenBelgeler);
+                        sonBelgeleriGuncelle();
+                    }
+                    
+                    // URL hash'e göre içeriği göster
+                    if (window.location.hash) {
+                        const hash = window.location.hash.substring(1);
+                        if (document.getElementById(hash)) {
+                            if (hash.includes('-')) {
+                                showEventContent(hash);
+                            } else {
+                                showPartyContent(hash);
+                            }
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Veri yükleme hatası:', error);
+                    document.getElementById('contentView').innerHTML = `
+                        <div class="error-message">
+                            <p>Veriler yüklenirken bir hata oluştu. Lütfen sayfayı yenileyin veya daha sonra tekrar deneyin.</p>
+                            <p>Hata: ${error.message}</p>
+                        </div>
+                    `;
+                });
+                
+            // Arama kutusu olayları
+            document.getElementById('searchBar').addEventListener('input', function(e) {
+                if (e.target.value.length >= 2) {
+                    showSearchPage();
+                    document.getElementById('searchPageBar').value = e.target.value;
+                    performDetailedSearch(e.target.value);
+                }
+            });
+            
+            document.getElementById('searchPageBar').addEventListener('input', function(e) {
+                performDetailedSearch(e.target.value);
+            });
+            
+            // Hero toggle butonu
+            document.getElementById('hero-toggle').addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleHeroSection();
+            });
+            
+            // Hero section tıklama
+            document.getElementById('hero-section').addEventListener('click', function(e) {
+                if (this.classList.contains('collapsed')) {
+                    expandHeroSection();
+                }
+            });
+        });
+        
+        // Tema değiştirme
+        function setupThemeToggle() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const htmlElement = document.documentElement;
+            
+            // Kaydedilmiş tema varsa onu kullan
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                htmlElement.className = savedTheme;
+                updateThemeIcon(savedTheme);
+            }
+            
+            themeToggle.addEventListener('click', function() {
+                if (htmlElement.classList.contains('dark')) {
+                    htmlElement.classList.remove('dark');
+                    htmlElement.classList.add('light');
+                    localStorage.setItem('theme', 'light');
+                    updateThemeIcon('light');
+                } else {
+                    htmlElement.classList.remove('light');
+                    htmlElement.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                    updateThemeIcon('dark');
+                }
+            });
+            
+            function updateThemeIcon(theme) {
+                themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+            }
+        }
+        
+        // Hero section fonksiyonları
+        function collapseHeroSection() {
+            const heroSection = document.getElementById('hero-section');
+            heroSection.classList.add('collapsed');
+        }
+        
+        function expandHeroSection() {
+            const heroSection = document.getElementById('hero-section');
+            heroSection.classList.remove('collapsed');
+        }
+        
+        function toggleHeroSection() {
+            const heroSection = document.getElementById('hero-section');
+            if (heroSection.classList.contains('collapsed')) {
+                expandHeroSection();
+            } else {
+                collapseHeroSection();
+            }
+        }
+        
+        // İstatistikleri güncelle
+        function istatistikleriGuncelle() {
+            const statsContainer = document.getElementById('hero-stats');
+            const stats = arsivVerileri.istatistikler;
+            
+            statsContainer.innerHTML = `
+                <div class="stat-item">
+                    <div class="stat-number">${stats.parti_sayisi}</div>
+                    <div class="stat-label">Siyasi Parti</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${stats.usulsuzluk_sayisi}</div>
+                    <div class="stat-label">Arşivlenen Usulsüzlük</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${stats.vaat_sayisi}</div>
+                    <div class="stat-label">Tutulmayan Vaat</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">${stats.soylem_sayisi}</div>
+                    <div class="stat-label">Tartışmalı Söylem</div>
+                </div>
+            `;
+        }
+        
+        // Partileri yükle
+        function partileriYukle() {
+            const contentView = document.getElementById('contentView');
+            const partiler = arsivVerileri.partiler;
+            
+            let html = '';
+            
+            partiler.forEach(parti => {
+                html += `
+                    <div class="folder" onclick="showPartyContent('${parti.id}')" data-category="all">
+                        <div class="folder-icon">📁</div>
+                        <div class="folder-name">${parti.ad}</div>
+                    </div>
+                `;
+            });
+            
+            contentView.innerHTML = html;
+        }
+        
+        // Parti içeriklerini oluştur
+        function partiIcerikleriniOlustur() {
+            const container = document.querySelector('.container');
+            const partiler = arsivVerileri.partiler;
+            
+            partiler.forEach(parti => {
+                // Parti içerik alanını oluştur
+                let partiHTML = `
+                    <div class="content-area" id="${parti.id}">
+                        <div class="breadcrumb">
+                            <a href="#" onclick="showMainContent()">Ana Sayfa</a>
+                            <span class="breadcrumb-separator">&gt;</span>
+                            <span>${parti.ad}</span>
+                        </div>
+                        
+                        <div class="folder-grid" id="${parti.id.replace('content', 'ContentView')}">
+                `;
+                
+                // Parti olaylarını ekle
+                parti.olaylar.forEach(olay => {
+                    partiHTML += `
+                        <div class="folder" onclick="showEventContent('${olay.id}')" data-category="${olay.kategori}" data-date="${olay.tarih}">
+                            <div class="folder-icon">📁</div>
+                            <div class="folder-name">${olay.ad}</div>
+                        </div>
+                    `;
+                });
+                
+                partiHTML += `
+                        </div>
+                    </div>
+                `;
+                
+                container.insertAdjacentHTML('beforeend', partiHTML);
+                
+                // Olay içeriklerini oluştur
+                parti.olaylar.forEach(olay => {
+                    let olayHTML = `
+                        <div class="content-area" id="${olay.id}">
+                            <div class="breadcrumb">
+                                <a href="#" onclick="showMainContent()">Ana Sayfa</a>
+                                <span class="breadcrumb-separator">&gt;</span>
+                                <a href="#" onclick="showPartyContent('${parti.id}')">${parti.ad}</a>
+                                <span class="breadcrumb-separator">&gt;</span>
+                                <span>${olay.ad}</span>
+                            </div>
+                            
+                            <div class="folder-grid" id="${olay.id.replace(/-/g, '')}View">
+                    `;
+                    
+                    // Olaya ait belgeleri ekle
+                    if (olay.belgeler && olay.belgeler.length > 0) {
+                        olay.belgeler.forEach(belge => {
+                            let iconClass = 'text';
+                            let iconSymbol = '📄';
+                            
+                            if (belge.tip === 'image') {
+                                iconClass = 'image';
+                                iconSymbol = '🖼️';
+                            } else if (belge.tip === 'audio') {
+                                iconClass = 'audio';
+                                iconSymbol = '🔊';
+                            } else if (belge.tip === 'video') {
+                                iconClass = 'video';
+                                iconSymbol = '🎬';
+                            }
+                            
+                            olayHTML += `
+                                <div class="document" onclick="belgeGoster('${olay.id}', '${belge.id}')" data-category="${olay.kategori}" data-date="${belge.tarih}">
+                                    <div class="document-icon ${iconClass}">${iconSymbol}</div>
+                                    <div class="document-name">${belge.baslik}</div>
+                                    <div class="document-info">${belge.tarih}</div>
+                                    <div class="document-preview">
+                                        <div class="document-preview-icon">👁️</div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        olayHTML += `
+                            <div class="error-message">
+                                <p>Bu olaya ait belge bulunmamaktadır.</p>
+                            </div>
+                        `;
+                    }
+                    
+                    olayHTML += `
+                            </div>
+                        </div>
+                    `;
+                    
+                    container.insertAdjacentHTML('beforeend', olayHTML);
+                });
+            });
+        }
+        
+        // Ana içerik ve parti içeriklerini gösterme fonksiyonları
+        function showMainContent() {
+            hideAllContent();
+            document.getElementById('main-content').classList.add('active');
+            document.getElementById('search-page').classList.remove('active');
+            document.getElementById('hero-section').style.display = 'block';
+            document.getElementById('recentDocuments').style.display = sonGorulenBelgeler.length > 0 ? 'block' : 'none';
+            
+            // Sidebar menü aktifliğini güncelle
+            updateSidebarActiveLink('home-link');
+            
+            window.location.hash = '';
+        }
+        
+        function showPartyContent(contentId) {
+            hideAllContent();
+            document.getElementById(contentId).classList.add('active');
+            document.getElementById('hero-section').style.display = 'none';
+            
+            // Sidebar menü aktifliğini güncelle
+            updateSidebarActiveLink('home-link');
+            
+            window.location.hash = contentId;
+        }
+        
+        function showEventContent(contentId) {
+            hideAllContent();
+            document.getElementById(contentId).classList.add('active');
+            document.getElementById('hero-section').style.display = 'none';
+            
+            // Sidebar menü aktifliğini güncelle
+            updateSidebarActiveLink('home-link');
+            
+            window.location.hash = contentId;
+        }
+        
+        function hideAllContent() {
+            const contentAreas = document.querySelectorAll('.content-area');
+            contentAreas.forEach(area => {
+                area.classList.remove('active');
+            });
+            document.getElementById('search-page').classList.remove('active');
+            document.getElementById('hero-section').style.display = 'none';
+            document.getElementById('recentDocuments').style.display = 'none';
+        }
+        
+        // Arama sayfasını göster
+        function showSearchPage() {
+            hideAllContent();
+            document.getElementById('search-page').classList.add('active');
+            
+            // Sidebar menü aktifliğini güncelle
+            updateSidebarActiveLink('search-link');
+            
+            // Arama kutusuna odaklan
+            document.getElementById('searchPageBar').focus();
+        }
+        
+        // Sidebar menü aktifliğini güncelle
+        function updateSidebarActiveLink(activeId) {
+            document.querySelectorAll('.sidebar-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.getElementById(activeId).classList.add('active');
+        }
+        
+        // Detaylı arama fonksiyonu
+        function performDetailedSearch(searchTerm) {
+            if (!arsivVerileri) return;
+            
+            searchTerm = searchTerm.toLowerCase();
+            const resultsContainer = document.getElementById('searchResults');
+            
+            if (searchTerm.length < 2) {
+                resultsContainer.innerHTML = `
+                    <div class="no-results">
+                        <p>Arama yapmak için yukarıdaki arama kutusunu kullanın.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let results = [];
+            
+            // Partileri ara
+            arsivVerileri.partiler.forEach(parti => {
+                if (parti.ad.toLowerCase().includes(searchTerm)) {
+                    results.push({
+                        type: 'parti',
+                        id: parti.id,
+                        title: parti.ad,
+                        path: 'Ana Sayfa > ' + parti.ad,
+                        icon: '📁'
+                    });
+                }
+                
+                // Olayları ara
+                parti.olaylar.forEach(olay => {
+                    if (olay.ad.toLowerCase().includes(searchTerm) || 
+                        olay.kategori.toLowerCase().includes(searchTerm) ||
+                        olay.tarih.toLowerCase().includes(searchTerm)) {
+                        results.push({
+                            type: 'olay',
+                            id: olay.id,
+                            title: olay.ad,
+                            path: 'Ana Sayfa > ' + parti.ad + ' > ' + olay.ad,
+                            icon: '📁'
+                        });
+                    }
+                    
+                    // Belgeleri ara
+                    if (olay.belgeler && olay.belgeler.length > 0) {
+                        olay.belgeler.forEach(belge => {
+                            if (belge.baslik.toLowerCase().includes(searchTerm) || 
+                                belge.icerik.toLowerCase().includes(searchTerm) || 
+                                belge.kategori.toLowerCase().includes(searchTerm) || 
+                                belge.tarih.toLowerCase().includes(searchTerm) || 
+                                belge.kaynak.toLowerCase().includes(searchTerm)) {
+                                
+                                let icon = '📄';
+                                if (belge.tip === 'image') icon = '🖼️';
+                                else if (belge.tip === 'audio') icon = '🔊';
+                                else if (belge.tip === 'video') icon = '🎬';
+                                
+                                results.push({
+                                    type: 'belge',
+                                    olayId: olay.id,
+                                    belgeId: belge.id,
+                                    title: belge.baslik,
+                                    path: 'Ana Sayfa > ' + parti.ad + ' > ' + olay.ad + ' > ' + belge.baslik,
+                                    icon: icon
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+            
+            // Sonuçları göster
+            if (results.length > 0) {
+                let html = '';
+                
+                results.forEach(result => {
+                    let onClick = '';
+                    
+                    if (result.type === 'parti') {
+                        onClick = `onclick="showPartyContent('${result.id}')"`;
+                    } else if (result.type === 'olay') {
+                        onClick = `onclick="showEventContent('${result.id}')"`;
+                    } else if (result.type === 'belge') {
+                        onClick = `onclick="belgeGoster('${result.olayId}', '${result.belgeId}')"`;
+                    }
+                    
+                    // Başlıkta arama terimini vurgula
+                    const highlightedTitle = result.title.replace(
+                        new RegExp(searchTerm, 'gi'),
+                        match => `<span class="search-result-highlight">${match}</span>`
+                    );
+                    
+                    html += `
+                        <div class="search-result-item" ${onClick}>
+                            <div class="search-result-icon">${result.icon}</div>
+                            <div class="search-result-content">
+                                <div class="search-result-title">${highlightedTitle}</div>
+                                <div class="search-result-path">${result.path}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                resultsContainer.innerHTML = html;
+            } else {
+                resultsContainer.innerHTML = `
+                    <div class="no-results">
+                        <p>"${searchTerm}" için sonuç bulunamadı.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Belge önizleme modalını göster
+        function belgeGoster(olayId, belgeId) {
+            if (!arsivVerileri) return;
+            
+            // Olayı bul
+            const parti = arsivVerileri.partiler.find(p => 
+                p.olaylar.some(o => o.id === olayId)
+            );
+            
+            if (!parti) return;
+            
+            const olay = parti.olaylar.find(o => o.id === olayId);
+            if (!olay) return;
+            
+            const belge = olay.belgeler.find(b => b.id === belgeId);
+            if (!belge) return;
+            
+            // Modal içeriğini doldur
+            document.getElementById('modalBaslik').textContent = belge.baslik;
+            document.getElementById('modalIcerik').innerHTML = belge.icerik;
+            document.getElementById('modalBilgi').innerHTML = `
+                <div>Tarih: ${belge.tarih}</div>
+                <div>Kategori: ${belge.kategori}</div>
+                <div>Kaynak: ${belge.kaynak}</div>
+            `;
+            
+            // Modalı göster
+            document.getElementById('belgeModal').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Sayfanın kaydırılmasını engelle
+            
+            // Son görüntülenen belgelere ekle
+            sonGorulenBelgelereEkle(olayId, belgeId, belge.baslik, belge.tip);
+        }
+        
+        // Modalı kapat
+        function modalKapat() {
+            document.getElementById('belgeModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Sayfanın kaydırılmasına izin ver
+        }
+        
+        // Son görüntülenen belgelere ekle
+        function sonGorulenBelgelereEkle(olayId, belgeId, baslik, tip) {
+            // Zaten listede varsa çıkar
+            sonGorulenBelgeler = sonGorulenBelgeler.filter(belge => belge.belgeId !== belgeId);
+            
+            // Başa ekle
+            sonGorulenBelgeler.unshift({
+                olayId: olayId,
+                belgeId: belgeId,
+                baslik: baslik,
+                tip: tip
+            });
+            
+            // Maksimum 5 belge tut
+            if (sonGorulenBelgeler.length > 5) {
+                sonGorulenBelgeler.pop();
+            }
+            
+            // localStorage'a kaydet
+            localStorage.setItem('sonGorulenBelgeler', JSON.stringify(sonGorulenBelgeler));
+            
+            // Listeyi güncelle
+            sonBelgeleriGuncelle();
+        }
+        
+        // Son görüntülenen belgeleri güncelle
+        function sonBelgeleriGuncelle() {
+            const recentList = document.getElementById('recentList');
+            recentList.innerHTML = '';
+            
+            if (sonGorulenBelgeler.length === 0) {
+                document.getElementById('recentDocuments').style.display = 'none';
+                return;
+            }
+            
+            document.getElementById('recentDocuments').style.display = 'block';
+            
+            sonGorulenBelgeler.forEach(belge => {
+                let iconClass = 'text';
+                let iconSymbol = '📄';
+                
+                if (belge.tip === 'image') {
+                    iconClass = 'image';
+                    iconSymbol = '🖼️';
+                } else if (belge.tip === 'audio') {
+                    iconClass = 'audio';
+                    iconSymbol = '🔊';
+                } else if (belge.tip === 'video') {
+                    iconClass = 'video';
+                    iconSymbol = '🎬';
+                }
+                
+                const item = document.createElement('div');
+                item.className = 'recent-item';
+                item.onclick = function() { belgeGoster(belge.olayId, belge.belgeId); };
+                item.innerHTML = `
+                    <div class="recent-icon ${iconClass}">${iconSymbol}</div>
+                    <div class="recent-name">${belge.baslik}</div>
+                `;
+                
+                recentList.appendChild(item);
+            });
+        }
+        
+        // Belge yazdırma fonksiyonu
+        function belgeYazdir() {
+            const modalBody = document.getElementById('modalIcerik').innerHTML;
+            const modalTitle = document.getElementById('modalBaslik').textContent;
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>${modalTitle}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; }
+                        h1 { color: #333; }
+                        img, video { max-width: 100%; }
+                        blockquote { border-left: 3px solid #e53935; padding-left: 15px; color: #666; }
+                    </style>
+                </head>
+                <body>
+                    <h1>${modalTitle}</h1>
+                    ${modalBody}
+                    <div style="margin-top: 30px; font-size: 0.9rem; color: #666;">
+                        Kaynak: Siyasi Arşiv Sistemi
+                    </div>
+                </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+        }
+        
+        // Belge indirme fonksiyonu
+        function belgeIndir() {
+            const modalBody = document.getElementById('modalIcerik').innerHTML;
+            const modalTitle = document.getElementById('modalBaslik').textContent;
+            
+            // HTML içeriğini text olarak indir
+            const element = document.createElement('a');
+            const file = new Blob([
+                `<h1>${modalTitle}</h1>\n${modalBody}\n\nKaynak: Siyasi Arşiv Sistemi`
+            ], {type: 'text/html'});
+            
+            element.href = URL.createObjectURL(file);
+            element.download = `${modalTitle.replace(/\s+/g, '-').toLowerCase()}.html`;
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+        
+        // Belge paylaşma fonksiyonu
+        function belgePaylasim() {
+            const modalTitle = document.getElementById('modalBaslik').textContent;
+            
+            // Web Share API kullanılabilir mi kontrol et
+            if (navigator.share) {
+                navigator.share({
+                    title: modalTitle,
+                    text: `${modalTitle} - Siyasi Arşiv Sistemi`,
+                    url: window.location.href
+                })
+                .catch(error => {
+                    alert('Paylaşım sırasında bir hata oluştu.');
+                });
+            } else {
+                // Web Share API desteklenmiyorsa URL'i panoya kopyala
+                const dummyInput = document.createElement('input');
+                document.body.appendChild(dummyInput);
+                dummyInput.value = window.location.href;
+                dummyInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(dummyInput);
+                
+                alert('Bağlantı panoya kopyalandı!');
+            }
+        }
+        
+        // Sayfa yukarı kaydırma butonu
+        window.onscroll = function() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                document.querySelector('.back-to-top').style.display = 'block';
+            } else {
+                document.querySelector('.back-to-top').style.display = 'none';
+            }
+        };
+        
+        function sayfaBasinaGit() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Modal dışına tıklandığında kapat
+        window.onclick = function(event) {
+            const modal = document.getElementById('belgeModal');
+            if (event.target === modal) {
+                modalKapat();
+            }
+        };
+        
+        // URL hash değiştiğinde ilgili içeriği göster
+        window.addEventListener('hashchange', function() {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                if (document.getElementById(hash)) {
+                    if (hash.includes('-')) {
+                        showEventContent(hash);
+                    } else {
+                        showPartyContent(hash);
+                    }
+                }
+            } else {
+                showMainContent();
+            }
+        });
+    </script>
+</body>
+</html>

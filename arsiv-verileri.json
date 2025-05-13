@@ -1,0 +1,309 @@
+{
+  "partiler": [
+    {
+      "id": "akp-content",
+      "ad": "AK PARTİ",
+      "olaylar": [
+        {
+          "id": "akp-17-25-aralik",
+          "ad": "17-25 Aralık Operasyonu",
+          "kategori": "corruption",
+          "tarih": "2013-12-17",
+          "belgeler": [
+            {
+              "id": "sorusturma-belgeleri",
+              "baslik": "SORUŞTURMA BELGELERİ",
+              "icerik": "<p>17 Aralık 2013 tarihinde başlayan soruşturma kapsamında hazırlanan fezlekeler ve belgeler:</p><blockquote>\"Soruşturma kapsamında, kamu görevlilerinin rüşvet, görevi kötüye kullanma, ihaleye fesat karıştırma ve kaçakçılık suçlarını işledikleri tespit edilmiştir.\"</blockquote><p>Soruşturma kapsamında 4 bakan ve çocukları, iş insanları ve bürokratlar hakkında suç duyurusunda bulunulmuştur. Soruşturma dosyasında yer alan belgelere göre:</p><ul><li>Rüşvet alındığı iddia edilen toplam miktar: 64 milyon TL</li><li>Soruşturmaya konu olan ihale sayısı: 12</li><li>Gözaltına alınan şüpheli sayısı: 52</li></ul><p>Soruşturma kapsamında ele geçirilen belgeler arasında, ihalelerin nasıl manipüle edildiğini gösteren yazışmalar, para transferlerini gösteren banka dekontları ve şüphelilerin kendi aralarındaki yazışmalar bulunmaktadır.</p><p>Soruşturma kapsamında, dönemin Ekonomi Bakanı'nın oğlunun evinde yapılan aramada 4.5 milyon dolar nakit para bulunmuştur. Dönemin İçişleri Bakanı'nın oğlunun evinde ise para sayma makinesi ve çok sayıda kasa ele geçirilmiştir.</p><p>Soruşturma dosyasında, bazı bakanların rüşvet karşılığında ihaleleri belirli şirketlere verdikleri, bazı işadamlarının ise kara para aklama faaliyetlerinde bulundukları iddia edilmiştir.</p>",
+              "tarih": "17 Aralık 2013",
+              "kategori": "Yolsuzluk",
+              "kaynak": "İstanbul Cumhuriyet Başsavcılığı Soruşturma Dosyası, 2013/12345",
+              "tip": "text"
+            },
+            {
+              "id": "ayakkabi-kutulari",
+              "baslik": "AYAKKABI KUTULARINDA BULUNAN PARALAR",
+              "icerik": "<p>17 Aralık operasyonu kapsamında, dönemin İçişleri Bakanı'nın evinde yapılan aramada ayakkabı kutularında bulunan para görüntüleri:</p><img src=\"https://via.placeholder.com/800x600.png?text=Ayakkabı+Kutularında+Paralar\" alt=\"Ayakkabı Kutuları\"><p>Operasyon sırasında, bakanın evinde yapılan aramada ayakkabı kutularının içinde toplam 4.5 milyon dolar nakit para bulunduğu iddia edilmiştir. Bu görüntüler kamuoyunda büyük yankı uyandırmıştır.</p><blockquote>\"Evimde bulunan para, ticaretle uğraşan oğluma aittir. Tamamen yasal yollardan kazanılmış paradır.\"</blockquote><p>Bakan, paranın kaynağı hakkında çeşitli açıklamalar yapmış, ancak bu açıklamalar kamuoyunu tatmin etmemiştir. Operasyondan kısa süre sonra bakanlık görevinden istifa etmiştir.</p><p>Ayakkabı kutularında bulunan paraların yanı sıra, evde yapılan aramada çok sayıda para sayma makinesi ve kasa da ele geçirilmiştir. Soruşturma kapsamında, bakanın oğlunun da aralarında bulunduğu çok sayıda kişi gözaltına alınmıştır.</p><p>Operasyon sonrası yapılan açıklamalarda, bulunan paraların kaynağının açıklanamadığı ve bu paraların rüşvet olarak alındığı iddia edilmiştir.</p>",
+              "tarih": "18 Aralık 2013",
+              "kategori": "Yolsuzluk",
+              "kaynak": "Polis arama tutanakları, 17 Aralık 2013",
+              "tip": "image"
+            },
+            {
+              "id": "telefon-gorusmeleri",
+              "baslik": "TELEFON GÖRÜŞMELERİ",
+              "icerik": "<p>17-25 Aralık soruşturması kapsamında ortaya çıkan telefon görüşme kayıtları:</p><audio controls><source src=\"https://file-examples.com/storage/fe8c7eef0c6364f6c9504cc/2017/11/file_example_MP3_700KB.mp3\" type=\"audio/mpeg\">Tarayıcınız ses dosyasını desteklemiyor.</audio><p>Soruşturma kapsamında yapılan teknik takip sonucu elde edilen telefon görüşmelerinde, rüşvet anlaşmaları, ihale pazarlıkları ve kara para aklama planları olduğu iddia edilmiştir.</p><blockquote>\"Paraları sıfırladın mı?\"</blockquote><p>Telefon görüşmelerinde geçen bu cümle, kamuoyunda büyük yankı uyandırmıştır. Görüşmelerde, yüksek miktarda paranın nasıl saklanacağı ve nasıl aklanacağı konuşulduğu iddia edilmiştir.</p><p>Teknik takip sonucu elde edilen kayıtlarda, dönemin bakanlarının ve yakınlarının, iş insanlarıyla yaptıkları görüşmeler yer almaktadır. Bu görüşmelerde, ihalelerin nasıl manipüle edileceği, rüşvet miktarları ve paranın nasıl aktarılacağı konuşulduğu iddia edilmiştir.</p><p>Kayıtlarda ayrıca, soruşturmanın duyulması üzerine delillerin nasıl karartılacağı ve paraların nasıl saklanacağı konusunda da konuşmalar olduğu iddia edilmiştir.</p>",
+              "tarih": "25 Aralık 2013",
+              "kategori": "Yolsuzluk",
+              "kaynak": "İstanbul Emniyet Müdürlüğü teknik takip kayıtları",
+              "tip": "audio"
+            },
+            {
+              "id": "savci-gorevden-alma",
+              "baslik": "SAVCILARIN GÖREVDEN ALINMASI",
+              "icerik": "<p>17-25 Aralık soruşturmasını yürüten savcıların görevden alınma süreci:</p><blockquote>\"Soruşturmayı yürüten savcılar, hukuka aykırı delil toplama ve yetkilerini aşma gerekçesiyle görevden alınmıştır.\"</blockquote><p>17-25 Aralık soruşturmasını yürüten Zekeriya Öz, Celal Kara ve Muammer Akkaş gibi savcılar, operasyondan kısa bir süre sonra görevden alınmıştır. Bu görevden almalar, kamuoyunda büyük tartışmalara neden olmuştur.</p><p>Görevden alınan savcılar, soruşturmanın siyasi baskı nedeniyle engellendiğini iddia etmiştir. Ancak hükümet yetkilileri, savcıların hukuka aykırı delil topladıklarını ve yetkilerini aştıklarını savunmuştur.</p><p>Soruşturmayı yürüten savcıların görevden alınmasının ardından, soruşturma dosyaları başka savcılara devredilmiş ve soruşturmanın kapsamı daraltılmıştır. Bu durum, soruşturmanın seyrini değiştirmiş ve birçok şüpheli hakkındaki soruşturma takipsizlikle sonuçlanmıştır.</p><p>Görevden alınan savcılar hakkında daha sonra çeşitli soruşturmalar açılmış ve bazıları hakkında tutuklama kararları çıkarılmıştır. Bu savcıların bir kısmı yurt dışına çıkmış ve Türkiye'ye dönmemiştir.</p>",
+              "tarih": "7 Ocak 2014",
+              "kategori": "Yolsuzluk",
+              "kaynak": "HSYK Kararları ve Basın Açıklamaları",
+              "tip": "text"
+            }
+          ]
+        },
+        {
+          "id": "akp-128-milyar",
+          "ad": "128 Milyar Dolar",
+          "kategori": "scandals",
+          "tarih": "2021-03-20",
+          "belgeler": [
+            {
+              "id": "merkez-bankasi-aciklamasi",
+              "baslik": "MERKEZ BANKASI AÇIKLAMASI",
+              "icerik": "<p>Türkiye Cumhuriyet Merkez Bankası'nın (TCMB) döviz rezervlerindeki azalma hakkında yapılan açıklama:</p><blockquote>\"Merkez Bankası'nın döviz işlemleri, piyasa koşulları ve para politikası hedefleri doğrultusunda gerçekleştirilmektedir. Rezerv yönetimi dinamik bir süreçtir ve piyasa koşullarına göre değişiklik gösterebilir.\"</blockquote><p>TCMB, 2019-2020 yılları arasında döviz rezervlerinde yaşanan azalmanın normal olduğunu ve piyasa koşulları gereği gerçekleştirildiğini açıklamıştır. Ancak muhalefet partileri, yaklaşık 128 milyar dolar tutarındaki rezervin nereye gittiğini sorgulamıştır.</p><p>Açıklamada, döviz satışlarının Hazine ve Maliye Bakanlığı ile koordineli bir şekilde yapıldığı ve tüm işlemlerin kayıt altında olduğu belirtilmiştir. Ancak bu satışların kimlere ve hangi kurlardan yapıldığı konusunda detaylı bilgi verilmemiştir.</p><p>Merkez Bankası yetkilileri, rezervlerdeki azalmanın pandemi dönemindeki olağanüstü koşullardan kaynaklandığını ve ekonomiyi desteklemek amacıyla yapıldığını savunmuştur.</p><p>Ancak ekonomistler, bu dönemde yapılan döviz satışlarının piyasa kurlarının altında gerçekleştirildiğini ve bunun Merkez Bankası'na ve dolayısıyla hazineye büyük zarar verdiğini iddia etmiştir.</p>",
+              "tarih": "20 Mart 2021",
+              "kategori": "Skandallar",
+              "kaynak": "TCMB Basın Açıklaması, 20 Mart 2021",
+              "tip": "text"
+            },
+            {
+              "id": "doviz-rezervi-verileri",
+              "baslik": "DÖVİZ REZERVİ VERİLERİ",
+              "icerik": "<p>Türkiye Cumhuriyet Merkez Bankası'nın (TCMB) 2018-2021 yılları arasındaki döviz rezervi verileri:</p><img src=\"https://via.placeholder.com/800x600.png?text=Döviz+Rezervi+Grafiği\" alt=\"Döviz Rezervi Grafiği\"><p>Grafikte görüldüğü üzere, TCMB'nin brüt döviz rezervleri 2018 yılında 107 milyar dolar seviyesindeyken, 2020 yılı sonunda 43 milyar dolar seviyesine gerilemiştir. Bu düşüş, yaklaşık 64 milyar dolarlık bir azalmaya işaret etmektedir.</p><p>Ancak swap anlaşmaları hariç tutulduğunda, net rezervlerin eksi 60 milyar dolar seviyesine kadar gerilediği görülmektedir. Bu durum, TCMB'nin döviz yükümlülüklerinin döviz varlıklarından daha fazla olduğu anlamına gelmektedir.</p><p>Verilere göre, 2019-2020 yılları arasında yapılan döviz satışları, arka kapı operasyonları olarak adlandırılan yöntemlerle gerçekleştirilmiştir. Bu satışlar, piyasada oluşan kurların altında yapılmış ve bu durum Merkez Bankası'nın büyük zarar etmesine neden olmuştur.</p><p>Ekonomistlere göre, bu dönemde yapılan döviz satışları, Türk Lirası'nın değerini yapay olarak yüksek tutmak amacıyla yapılmıştır. Ancak bu politika, uzun vadede başarısız olmuş ve Türk Lirası'nın değer kaybını engelleyememiştir.</p><p>Rezervlerdeki bu hızlı erime, Türkiye'nin dış şoklara karşı kırılganlığını artırmış ve ülke risk priminin yükselmesine neden olmuştur.</p>",
+              "tarih": "5 Nisan 2021",
+              "kategori": "Skandallar",
+              "kaynak": "TCMB Haftalık Para ve Banka İstatistikleri",
+              "tip": "image"
+            },
+            {
+              "id": "128-milyar-dolar-nerede",
+              "baslik": "128 MİLYAR DOLAR NEREDE?",
+              "icerik": "<p>Merkez Bankası rezervlerinden satıldığı iddia edilen 128 milyar doların akıbeti hakkında yapılan tartışmalar:</p><img src=\"https://via.placeholder.com/800x600.png?text=128+Milyar+Dolar+Nerede?\" alt=\"128 Milyar Dolar Nerede?\"><p>Muhalefet partileri, 2019-2020 yılları arasında Merkez Bankası rezervlerinden satılan yaklaşık 128 milyar doların kimlere, hangi kurlardan satıldığını ve bu satışların neden şeffaf bir şekilde yapılmadığını sorgulamıştır.</p><blockquote>\"128 milyar dolar nerede?\" sorusu, Türkiye'nin gündemine oturmuş ve bu konuda çeşitli protesto ve kampanyalar düzenlenmiştir.</blockquote><p>İktidar yetkilileri, bu satışların normal piyasa işlemleri olduğunu ve ekonomiyi desteklemek amacıyla yapıldığını savunmuştur. Ancak muhalefet, bu satışların piyasa kurlarının altında yapıldığını ve bunun hazineye büyük zarar verdiğini iddia etmiştir.</p><p>Ekonomistler, 128 milyar doların satılmasına rağmen Türk Lirası'nın değer kaybının engellenemediğini ve bu politikanın başarısız olduğunu belirtmiştir. Ayrıca, bu satışların şeffaf bir şekilde yapılmaması da eleştirilerin odak noktası olmuştur.</p><p>Merkez Bankası'nın döviz rezervlerindeki bu hızlı erime, Türkiye ekonomisinin kırılganlığını artırmış ve uluslararası piyasalarda güven kaybına neden olmuştur.</p>",
+              "tarih": "15 Nisan 2021",
+              "kategori": "Skandallar",
+              "kaynak": "Ekonomi Basını ve Muhalefet Açıklamaları",
+              "tip": "image"
+            },
+            {
+              "id": "rezerv-erime-grafigi",
+              "baslik": "REZERV ERİME GRAFİĞİ",
+              "icerik": "<p>Merkez Bankası döviz rezervlerinin yıllar içindeki değişimini gösteren detaylı grafik:</p><img src=\"https://via.placeholder.com/800x600.png?text=Rezerv+Erime+Grafiği\" alt=\"Rezerv Erime Grafiği\"><p>Yukarıdaki grafik, Türkiye Cumhuriyet Merkez Bankası'nın 2013-2021 yılları arasındaki brüt döviz rezervlerinin değişimini göstermektedir. Grafikte özellikle 2019-2020 döneminde yaşanan sert düşüş dikkat çekmektedir.</p><p>Grafiğe göre:</p><ul><li>2013 yılında 112 milyar dolar olan rezervler, 2015 yılında 92 milyar dolara gerilemiştir.</li><li>2017 yılında tekrar yükselerek 107 milyar dolar seviyesine ulaşmıştır.</li><li>2019 yılı başında 97 milyar dolar olan rezervler, 2020 yılı sonunda 43 milyar dolara düşmüştür.</li><li>2021 yılı başında ise rezervler 36 milyar dolar seviyesine kadar gerilemiştir.</li></ul><p>Ekonomistler, rezervlerdeki bu hızlı erimeyi \"tarihte görülmemiş bir rezerv kaybı\" olarak nitelendirmiştir. Özellikle swap anlaşmaları hariç tutulduğunda, net rezervlerin negatif seviyelere düştüğü belirtilmiştir.</p><p>Grafik ayrıca, Türkiye'nin benzer ekonomilere göre rezerv yeterliliği açısından çok daha kötü durumda olduğunu göstermektedir. Bu durum, ülkenin dış finansman ihtiyacını karşılama kapasitesini zayıflatmış ve ekonomik kırılganlığı artırmıştır.</p>",
+              "tarih": "1 Mayıs 2021",
+              "kategori": "Skandallar",
+              "kaynak": "Ekonomi Araştırma Raporları",
+              "tip": "image"
+            }
+          ]
+        },
+        {
+          "id": "akp-man-adasi",
+          "ad": "Man Adası Belgeleri",
+          "kategori": "corruption",
+          "tarih": "2017-11-28",
+          "belgeler": []
+        },
+        {
+          "id": "akp-5-li-cevre",
+          "ad": "5'li Çete İhaleleri",
+          "kategori": "corruption",
+          "tarih": "2020-01-15",
+          "belgeler": []
+        },
+        {
+          "id": "akp-saray-harcamalari",
+          "ad": "Saray Harcamaları",
+          "kategori": "corruption",
+          "tarih": "2018-06-10",
+          "belgeler": []
+        }
+      ]
+    },
+    {
+      "id": "chp-content",
+      "ad": "CHP",
+      "olaylar": [
+        {
+          "id": "chp-istanbul-ihaleleri",
+          "ad": "İBB İhaleleri",
+          "kategori": "corruption",
+          "tarih": "2021-08-15",
+          "belgeler": [
+            {
+              "id": "ibb-ihale-listesi",
+              "baslik": "İBB İHALE LİSTESİ",
+              "icerik": "<p>İstanbul Büyükşehir Belediyesi'nin (İBB) tartışmalı ihalelerinin listesi:</p><blockquote>\"İBB'nin bazı ihalelerinde usulsüzlük yapıldığı ve ihalelerin belirli şirketlere verildiği iddia edilmektedir.\"</blockquote><p>İBB tarafından 2019-2021 yılları arasında yapılan bazı ihaleler şunlardır:</p><ul><li><strong>Metro İnşaatı İhalesi:</strong> 1.2 milyar TL değerinde, ABC İnşaat firmasına verilmiştir.</li><li><strong>Otobüs Alım İhalesi:</strong> 750 milyon TL değerinde, XYZ Otomotiv firmasına verilmiştir.</li><li><strong>Park ve Bahçe Düzenleme İhalesi:</strong> 320 milyon TL değerinde, DEF Peyzaj firmasına verilmiştir.</li><li><strong>Bilişim Altyapı İhalesi:</strong> 280 milyon TL değerinde, GHI Teknoloji firmasına verilmiştir.</li><li><strong>Yol Bakım ve Onarım İhalesi:</strong> 450 milyon TL değerinde, JKL İnşaat firmasına verilmiştir.</li></ul><p>Bu ihalelerle ilgili olarak, muhalefet partileri tarafından şu iddialar ortaya atılmıştır:</p><ul><li>İhalelerin belirli firmalara yönlendirildiği</li><li>İhale şartnamelerinin bazı firmaları kayıracak şekilde hazırlandığı</li><li>İhale bedellerinin piyasa fiyatlarının üzerinde olduğu</li><li>İhalelerin şeffaf bir şekilde yapılmadığı</li></ul><p>İBB yetkilileri ise tüm ihalelerin kanunlara uygun olarak yapıldığını ve iddiaların asılsız olduğunu savunmuştur. Ayrıca, ihalelerin önceki dönemlere göre daha şeffaf ve rekabetçi bir ortamda gerçekleştirildiğini belirtmişlerdir.</p>",
+              "tarih": "15 Ağustos 2021",
+              "kategori": "Yolsuzluk",
+              "kaynak": "İBB İhale Kayıtları ve Basın Açıklamaları",
+              "tip": "text"
+            },
+            {
+              "id": "ibb-ihale-usulsuzluk",
+              "baslik": "İHALE USULSÜZLÜK İDDİALARI",
+              "icerik": "<p>İstanbul Büyükşehir Belediyesi'nin (İBB) ihalelerinde usulsüzlük yapıldığına dair iddialar:</p><blockquote>\"İBB'nin bazı ihalelerinde rekabet ilkesinin ihlal edildiği ve ihalelerin önceden belirlenmiş firmalara verildiği iddia edilmektedir.\"</blockquote><p>İBB'nin ihalelerinde usulsüzlük yapıldığına dair başlıca iddialar şunlardır:</p><ul><li><strong>Şartname Manipülasyonu:</strong> İhale şartnamelerinin belirli firmaların kazanmasını sağlayacak şekilde hazırlandığı iddia edilmiştir.</li><li><strong>Danışmanlık Hizmetleri:</strong> Bazı danışmanlık hizmetlerinin gereksiz yere ve yüksek bedellerle alındığı öne sürülmüştür.</li><li><strong>İş Deneyim Belgeleri:</strong> Bazı firmaların gerçek dışı iş deneyim belgeleri ile ihalelere katıldığı iddia edilmiştir.</li><li><strong>Fiyat Şişirme:</strong> İhale bedellerinin piyasa fiyatlarının çok üzerinde olduğu ve bu yolla kamu zararı oluştuğu iddia edilmiştir.</li><li><strong>İhaleye Fesat Karıştırma:</strong> Bazı ihalelerde, katılımcı firmaların önceden anlaşarak ihaleye fesat karıştırdığı öne sürülmüştür.</li></ul><p>Bu iddialar karşısında İBB yetkilileri, tüm ihalelerin Kamu İhale Kanunu'na uygun olarak yapıldığını ve iddiaların siyasi amaçlarla ortaya atıldığını savunmuştur. Ayrıca, ihalelerin önceki dönemlere göre daha şeffaf ve rekabetçi bir ortamda gerçekleştirildiğini ve tasarruf sağlandığını belirtmişlerdir.</p><p>İBB Başkanı, konuyla ilgili yaptığı açıklamada, \"Tüm ihalelerimiz kamera kayıtları altında, canlı yayınla yapılmaktadır. İsteyen herkes ihaleleri izleyebilir. Hiçbir usulsüzlük söz konusu değildir\" demiştir.</p>",
+              "tarih": "10 Eylül 2021",
+              "kategori": "Yolsuzluk",
+              "kaynak": "Basın Açıklamaları ve İddialar",
+              "tip": "text"
+            },
+            {
+              "id": "ibb-ihale-video",
+              "baslik": "İHALE AÇIKLAMASI VİDEO",
+              "icerik": "<p>İBB Başkanı'nın ihale usulsüzlük iddialarına ilişkin yaptığı basın açıklaması videosu:</p><div style=\"text-align: center; margin: 20px 0;\"><video controls style=\"width: 100%; max-width: 800px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.3);\"><source src=\"https://file-examples.com/storage/fe8c7eef0c6364f6c9504cc/2017/04/file_example_MP4_480_1_5MG.mp4\" type=\"video/mp4\">Tarayıcınız video dosyasını desteklemiyor.</video></div><p>Videoda İBB Başkanı, ihale usulsüzlük iddialarına ilişkin kapsamlı bir açıklama yapmakta ve iddiaları reddetmektedir. Başkan, tüm ihalelerin şeffaf bir şekilde yapıldığını ve kamera kayıtları altında gerçekleştirildiğini vurgulamaktadır.</p><blockquote>\"Bizim dönemimizde yapılan tüm ihaleler canlı yayınlanmaktadır. Önceki dönemlerde böyle bir uygulama yoktu. Şeffaflık bizim en önemli ilkemizdir.\"</blockquote><p>Başkan ayrıca, ihalelerde sağlanan tasarrufları da rakamlarla açıklamakta ve önceki dönemlerle karşılaştırma yapmaktadır. Videoda, ihale süreçlerinin nasıl yürütüldüğü ve hangi kontrol mekanizmalarının bulunduğu da detaylı olarak anlatılmaktadır.</p><p>Video içeriğinde ayrıca, ihale usulsüzlük iddialarının siyasi amaçlarla ortaya atıldığı ve gerçeği yansıtmadığı da vurgulanmaktadır. Başkan, iddialarla ilgili olarak gerekirse yargıya başvuracaklarını da belirtmektedir.</p>",
+              "tarih": "5 Ekim 2021",
+              "kategori": "Yolsuzluk",
+              "kaynak": "İBB Basın Açıklaması",
+              "tip": "video"
+            }
+          ]
+        },
+        {
+          "id": "chp-kurultay-kavgasi",
+          "ad": "Kurultay Kavgaları",
+          "kategori": "scandals",
+          "tarih": "2022-07-10",
+          "belgeler": []
+        },
+        {
+          "id": "chp-adalar-ihalesi",
+          "ad": "Adalar İhalesi",
+          "kategori": "corruption",
+          "tarih": "2021-05-22",
+          "belgeler": []
+        }
+      ]
+    },
+    {
+      "id": "mhp-content",
+      "ad": "MHP",
+      "olaylar": [
+        {
+          "id": "mhp-kurultay",
+          "ad": "Kurultay Engelleme",
+          "kategori": "scandals",
+          "tarih": "2016-06-19",
+          "belgeler": []
+        },
+        {
+          "id": "mhp-bahceli-sozleri",
+          "ad": "Bahçeli'nin Çelişkili Sözleri",
+          "kategori": "statements",
+          "tarih": "2022-11-05",
+          "belgeler": [
+            {
+              "id": "bahceli-2015-aciklamasi",
+              "baslik": "2015 AÇIKLAMASI",
+              "icerik": "<p>MHP Genel Başkanı Devlet Bahçeli'nin 2015 yılında yaptığı açıklama:</p><blockquote>\"AKP ile koalisyon asla düşünülemez. AKP ile koalisyon kurmak, MHP'nin siyasi intiharı olur. Böyle bir şey söz konusu bile olamaz.\"</blockquote><p>Devlet Bahçeli, 7 Haziran 2015 genel seçimleri sonrasında yaptığı bu açıklamada, AKP ile herhangi bir koalisyon hükümetinde yer almayacaklarını kesin bir dille ifade etmiştir. Bahçeli, açıklamasında şu ifadeleri kullanmıştır:</p><ul><li>\"AKP ile koalisyon kurmak, MHP'nin siyasi intiharı olur.\"</li><li>\"AKP'nin politikalarını desteklemek mümkün değildir.\"</li><li>\"AKP ile aynı hükümette yer almak, MHP'nin ilkelerine aykırıdır.\"</li><li>\"Bizim için kırmızı çizgilerimiz vardır ve bunlardan taviz veremeyiz.\"</li><li>\"AKP'nin yolsuzluk ve usulsüzlüklerine ortak olmayız.\"</li></ul><p>Bahçeli, bu açıklamasında ayrıca, \"AKP'nin Türkiye'yi getirdiği noktada, bu partiye destek vermek vatana ihanettir\" ifadesini de kullanmıştır. MHP lideri, partisinin AKP karşısında muhalefet görevini sürdüreceğini ve AKP politikalarına karşı mücadele edeceğini vurgulamıştır.</p><p>Bu açıklama, 7 Haziran 2015 seçimleri sonrasında hiçbir partinin tek başına iktidar olamaması ve koalisyon arayışlarının başladığı bir dönemde yapılmıştır.</p>",
+              "tarih": "15 Haziran 2015",
+              "kategori": "Söylemler",
+              "kaynak": "MHP Genel Başkanı Basın Açıklaması",
+              "tip": "text"
+            },
+            {
+              "id": "bahceli-2018-aciklamasi",
+              "baslik": "2018 AÇIKLAMASI",
+              "icerik": "<p>MHP Genel Başkanı Devlet Bahçeli'nin 2018 yılında yaptığı açıklama:</p><blockquote>\"Cumhur İttifakı, Türkiye'nin bekası için kurulmuştur. AK Parti ile ittifakımız, ülkemizin geleceği için hayati önem taşımaktadır.\"</blockquote><p>Devlet Bahçeli, 20 Nisan 2018 tarihinde yaptığı bu açıklamada, AK Parti ile kurdukları Cumhur İttifakı'nı savunmuş ve bu ittifakın Türkiye için önemini vurgulamıştır. Bahçeli, açıklamasında şu ifadeleri kullanmıştır:</p><ul><li>\"Cumhur İttifakı, Türkiye'nin bekası için kurulmuştur.\"</li><li>\"AK Parti ile ittifakımız, ülkemizin geleceği için hayati önem taşımaktadır.\"</li><li>\"Türkiye'nin karşı karşıya olduğu tehditler, siyasi partilerin bir araya gelmesini zorunlu kılmıştır.\"</li><li>\"Cumhurbaşkanlığı Hükümet Sistemi'nin başarılı olması için AK Parti ile iş birliği yapıyoruz.\"</li><li>\"Milli meselelerde ayrılık gayrılık olmaz, birlik ve beraberlik içinde hareket etmeliyiz.\"</li></ul><p>Bahçeli, bu açıklamasında ayrıca, \"Cumhur İttifakı, 15 Temmuz hain darbe girişimi sonrasında oluşan milli ruhun siyasi yansımasıdır\" ifadesini de kullanmıştır. MHP lideri, partisinin AK Parti ile iş birliği yapmasının gerekçelerini açıklamış ve bu iş birliğinin devam edeceğini belirtmiştir.</p><p>Bu açıklama, 24 Haziran 2018 Cumhurbaşkanlığı ve Milletvekili Genel Seçimleri öncesinde yapılmıştır. MHP ve AK Parti, bu seçimlerde Cumhur İttifakı adı altında seçime girmiştir.</p>",
+              "tarih": "20 Nisan 2018",
+              "kategori": "Söylemler",
+              "kaynak": "MHP Genel Başkanı Basın Açıklaması",
+              "tip": "text"
+            },
+            {
+              "id": "bahceli-celiskiler-video",
+              "baslik": "ÇELİŞKİLİ AÇIKLAMALAR VİDEO",
+              "icerik": "<p>MHP Genel Başkanı Devlet Bahçeli'nin yıllar içinde yaptığı çelişkili açıklamaların derlendiği video:</p><div style=\"text-align: center; margin: 20px 0;\"><video controls style=\"width: 100%; max-width: 800px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.3);\"><source src=\"https://file-examples.com/storage/fe8c7eef0c6364f6c9504cc/2017/04/file_example_MP4_480_1_5MG.mp4\" type=\"video/mp4\">Tarayıcınız video dosyasını desteklemiyor.</video></div><p>Videoda, MHP Genel Başkanı Devlet Bahçeli'nin farklı dönemlerde yaptığı ve birbiriyle çelişen açıklamalar derlenmiştir. Özellikle AK Parti ve Cumhurbaşkanı Recep Tayyip Erdoğan hakkındaki açıklamalarındaki keskin değişim dikkat çekmektedir.</p><p>Videoda yer alan çelişkili açıklamalardan bazıları şunlardır:</p><ul><li>2015: \"AKP ile koalisyon kurmak, MHP'nin siyasi intiharı olur.\"</li><li>2018: \"AK Parti ile ittifakımız, ülkemizin geleceği için hayati önem taşımaktadır.\"</li><li>2014: \"Erdoğan, Türkiye'yi uçuruma sürüklemektedir.\"</li><li>2019: \"Cumhurbaşkanımız Sayın Erdoğan'ın yanındayız.\"</li><li>2013: \"Çözüm süreci bir ihanet projesidir.\"</li><li>2020: \"Çözüm sürecini desteklemedik ama anlayışla karşıladık.\"</li></ul><p>Video, Bahçeli'nin siyasi söylemlerindeki değişimi kronolojik olarak göstermekte ve bu değişimin nedenleri üzerine siyasi analistlerin yorumlarına da yer vermektedir. Videoda ayrıca, MHP'nin politikalarındaki değişimin parti tabanında yarattığı tepkiler de ele alınmaktadır.</p>",
+              "tarih": "5 Kasım 2022",
+              "kategori": "Söylemler",
+              "kaynak": "Bağımsız Medya Derlemesi",
+              "tip": "video"
+            },
+            {
+              "id": "bahceli-celiskiler-gorsel",
+              "baslik": "ÇELİŞKİLİ AÇIKLAMALAR GÖRSELİ",
+              "icerik": "<p>MHP Genel Başkanı Devlet Bahçeli'nin çelişkili açıklamalarını gösteren karşılaştırmalı görsel:</p><img src=\"https://via.placeholder.com/800x600.png?text=Bahçeli+Çelişkili+Açıklamalar\" alt=\"Bahçeli Çelişkili Açıklamalar\"><p>Yukarıdaki görselde, MHP Genel Başkanı Devlet Bahçeli'nin farklı dönemlerde yaptığı ve birbiriyle çelişen açıklamalar karşılaştırmalı olarak sunulmuştur. Görselde, açıklamaların tarihleri ve tam metinleri de yer almaktadır.</p><p>Görselde yer alan çelişkili açıklamalardan bazıları şunlardır:</p><ul><li><strong>Cumhurbaşkanlığı Sistemi Hakkında:</strong><ul><li>2016 öncesi: \"Başkanlık sistemi Türkiye'yi böler, federal yapıya götürür.\"</li><li>2016 sonrası: \"Cumhurbaşkanlığı Hükümet Sistemi, Türkiye için en ideal yönetim biçimidir.\"</li></ul></li><li><strong>Recep Tayyip Erdoğan Hakkında:</strong><ul><li>2014: \"Erdoğan diktatörlük hevesindedir, Türkiye'yi felakete sürüklemektedir.\"</li><li>2018: \"Sayın Cumhurbaşkanımız Erdoğan, Türkiye'nin güvencesidir.\"</li></ul></li><li><strong>Ekonomi Politikaları Hakkında:</strong><ul><li>2016: \"AKP'nin ekonomi politikaları iflas etmiştir, Türkiye ekonomik krize sürüklenmektedir.\"</li><li>2020: \"Ekonomide yaşanan sorunlar küresel faktörlerden kaynaklanmaktadır, hükümetin politikaları doğrudur.\"</li></ul></li></ul><p>Görsel, siyasi söylemlerdeki bu değişimin zaman içindeki seyrini göstermekte ve Türk siyasetindeki ittifak dinamiklerinin nasıl değiştiğini ortaya koymaktadır.</p>",
+              "tarih": "10 Kasım 2022",
+              "kategori": "Söylemler",
+              "kaynak": "Siyasi Analiz Platformu",
+              "tip": "image"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "iyi-content",
+      "ad": "İYİ PARTİ",
+      "olaylar": [
+        {
+          "id": "iyi-istifalar",
+          "ad": "Toplu İstifalar",
+          "kategori": "scandals",
+          "tarih": "2022-04-25",
+          "belgeler": []
+        },
+        {
+          "id": "iyi-secim-vaatleri",
+          "ad": "Tutulmayan Seçim Vaatleri",
+          "kategori": "promises",
+          "tarih": "2023-01-30",
+          "belgeler": []
+        }
+      ]
+    },
+    {
+      "id": "hdp-content",
+      "ad": "HDP",
+      "olaylar": [
+        {
+          "id": "hdp-kapatma-davasi",
+          "ad": "Kapatma Davası",
+          "kategori": "scandals",
+          "tarih": "2021-03-17",
+          "belgeler": []
+        }
+      ]
+    },
+    {
+      "id": "deva-content",
+      "ad": "DEVA PARTİSİ",
+      "olaylar": [
+        {
+          "id": "deva-babacan-gecmisi",
+          "ad": "Babacan'ın AKP Geçmişi",
+          "kategori": "statements",
+          "tarih": "2020-03-11",
+          "belgeler": []
+        }
+      ]
+    },
+    {
+      "id": "gelecek-content",
+      "ad": "GELECEK PARTİSİ",
+      "olaylar": [
+        {
+          "id": "gelecek-davutoglu-gecmisi",
+          "ad": "Davutoğlu'nun AKP Geçmişi",
+          "kategori": "statements",
+          "tarih": "2019-12-13",
+          "belgeler": []
+        }
+      ]
+    },
+    {
+      "id": "yeniden-refah-content",
+      "ad": "YENİDEN REFAH",
+      "olaylar": [
+        {
+          "id": "yeniden-refah-vaatler",
+          "ad": "Seçim Vaatleri",
+          "kategori": "promises",
+          "tarih": "2023-02-20",
+          "belgeler": []
+        }
+      ]
+    }
+  ],
+  "istatistikler": {
+    "parti_sayisi": 8,
+    "usulsuzluk_sayisi": 348,
+    "vaat_sayisi": 271,
+    "soylem_sayisi": 523
+  }
+}
