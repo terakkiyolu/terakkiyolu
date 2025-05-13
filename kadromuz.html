@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kadromuz - Terakki Yolu</title>
+    <link rel="icon" type="image/png" href="/terakki1.jpg">
+    <link rel="apple-touch-icon" href="/terakki1.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: rgb(0, 0, 0);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: rgb(247, 247, 247);
+            text-decoration: none;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #ccc;
+            margin: 2px 0;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 250px;
+            height: 100%;
+            background: rgba(88, 92, 100, 0.67);
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: right 0.3s ease;
+            z-index: 1000;
+        }
+
+        .nav-menu.active {
+            right: 0;
+        }
+
+        .nav-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5rem;
+            margin: 15px 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #ccc;
+        }
+
+        /* Sayfa İçeriği */
+        .page-header {
+            height: 40vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://picsum.photos/id/20/1920/1080');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .page-subtitle {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .content-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .team-intro {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .team-intro h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .team-intro p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #ccc;
+        }
+
+        .leadership-team {
+            margin-bottom: 80px;
+        }
+
+        .leadership-title {
+            font-size: 2rem;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .leadership-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: #fff;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .team-member {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+
+        .member-photo {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .member-info {
+            padding: 20px;
+        }
+
+        .member-name {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .member-position {
+            font-size: 1rem;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        .member-bio {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+
+        .member-social {
+            display: flex;
+            gap: 15px;
+        }
+
+        .member-social a {
+            color: #fff;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .member-social a:hover {
+            color: #ccc;
+        }
+
+        .departments {
+            margin-top: 80px;
+        }
+
+        .department {
+            margin-bottom: 60px;
+        }
+
+        .department-title {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .department-members {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .department-member {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .department-member:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .department-member-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .department-member-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .department-member-info p {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .join-team {
+            margin-top: 80px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .join-team h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .join-team p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #ccc;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 4px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #ccc;
+            transform: translateY(-5px);
+        }
+
+        .social {
+            padding: 40px 20px;
+            text-align: center;
+            background: #1a1a1a;
+        }
+
+        .social h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .social-links a {
+            color: #fff;
+            margin: 0 15px;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #ccc;
+        }
+
+        @media (max-width: 768px) {
+            .navbar .logo {
+                font-size: 1.5rem;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .page-title {
+                font-size: 2.5rem;
+            }
+            .page-subtitle {
+                font-size: 1.2rem;
+            }
+            .team-intro h2 {
+                font-size: 2rem;
+            }
+            .leadership-title {
+                font-size: 1.8rem;
+            }
+            .department-title {
+                font-size: 1.5rem;
+            }
+            .join-team {
+                padding: 20px;
+            }
+            .join-team h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="logo">TERAKKİ YOLU</a>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html">Ana Sayfa</a>
+            <a href="#">Hakkımızda</a>
+            <a href="ilkelerimiz.html">İLKLERİMİZ</a>
+            <a href="kadromuz.html">KADROMUZ</a>
+            <a href="yol-haritamiz.html">YOL HARİTAMIZ</a>
+            <a href="#">İletişim</a>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div>
+            <h1 class="page-title">KADROMUZ</h1>
+            <p class="page-subtitle">Terakki Yolu'nun değerli ekibi ve ülkemizin geleceği için çalışan kadromuz</p>
+        </div>
+    </header>
+
+    <section class="content-section">
+        <div class="team-intro">
+            <h2>Güçlü Kadromuz</h2>
+            <p>Terakki Yolu olarak, toplumun her kesiminden gelen, alanında uzman ve deneyimli bir ekiple çalışıyoruz. Kadromuz, ülkemizin sorunlarına çözüm üretmek ve geleceğini şekillendirmek için var gücüyle çalışmaktadır.</p>
+        </div>
+
+        <div class="leadership-team">
+            <h3 class="leadership-title">Liderlik Kadrosu</h3>
+            <div class="team-grid">
+                <div class="team-member">
+                    <img src="https://picsum.photos/id/1005/600/800" alt="Ahmet Yılmaz" class="member-photo">
+                    <div class="member-info">
+                        <h3 class="member-name">Ahmet Yılmaz</h3>
+                        <p class="member-position">Genel Başkan</p>
+                        <p class="member-bio">20 yıllık siyasi deneyime sahip olan Ahmet Yılmaz, ekonomi alanındaki uzmanlığı ve toplumsal sorunlara getirdiği çözüm önerileriyle tanınmaktadır. Terakki Yolu'nun kurucu lideridir.</p>
+                        <div class="member-social">
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <img src="https://picsum.photos/id/1011/600/800" alt="Zeynep Kaya" class="member-photo">
+                    <div class="member-info">
+                        <h3 class="member-name">Zeynep Kaya</h3>
+                        <p class="member-position">Genel Başkan Yardımcısı</p>
+                        <p class="member-bio">Eğitim politikaları konusunda uzman olan Zeynep Kaya, 15 yıllık akademik kariyerinin ardından siyasete atılmıştır. Eğitimde fırsat eşitliği ve kaliteli eğitim için çalışmaktadır.</p>
+                        <div class="member-social">
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <img src="https://picsum.photos/id/1012/600/800" alt="Mehmet Demir" class="member-photo">
+                    <div class="member-info">
+                        <h3 class="member-name">Mehmet Demir</h3>
+                        <p class="member-position">Genel Sekreter</p>
+                        <p class="member-bio">Hukuk alanındaki deneyimiyle tanınan Mehmet Demir, adalet sisteminin iyileştirilmesi ve hukukun üstünlüğünün sağlanması için çalışmaktadır. Terakki Yolu'nun kurucu üyelerindendir.</p>
+                        <div class="member-social">
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="departments">
+            <div class="department">
+                <h3 class="department-title">Ekonomi Politikaları</h3>
+                <div class="department-members">
+                    <div class="department-member">
+                        <img src="https://picsum.photos/id/1025/200/200" alt="Ali Yıldız" class="department-member-photo">
+                        <div class="department-member-info">
+                            <h4>Ali Yıldız</h4>
+                            <p>Ekonomi Politikaları Başkanı</p>
+                        </div>
+                    </div>
+                    <div class="department-member">
+                        <img src="https://picsum.photos/id/1026/200/200" alt="Ayşe Öztürk" class="department-member-photo">
+                        <div class="department-member-info">
+                            <h4>Ayşe Öztürk</h4>
+                            <p>Maliye Uzmanı</p>
+                        </div>
+                    </div>
+                    <div class="department-member">
+                        <img src="https://picsum.photos/id/1027/200/200" alt="Kemal Aydın" class="department-member-photo">
+                        <div class="department-member-info">
+                            <h4>Kemal Aydın</h4>
+                            <p>Kalkınma Stratejileri Uzmanı</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="department">
+                <h3 class="department-title">Eğitim ve Kültür</h3>
+                <div class="department-members">
+                    <div class="department-member">
+                        <img src="https://picsum.photos/id/1028/200/200" alt="Selin Yılmaz" class="department-member-photo">
+                        <div class="department-member-info">
+                            <h4>Selin Yılmaz</h4>
+                            <p>Eğitim Politikaları Başkanı</p>
+                        </div>
+                    </div>
+                    <div class="department-member">
+                        <img src="https://picsum.photos/id/1029/200/200" alt="Murat Kaya" class="department-member-photo">
+                        <div class="department-member-info">
+                            <h4>Murat Kaya</h4>
+                            <p>Kültür ve Sanat Danışmanı</p>
+                        </div>
+                    </div>
+                    <div class="department-member">
+                        <img src="https://picsum.photos/id/1030/200/200" alt="Deniz Şahin" class="department-member-photo">
+                        <div class="department-member-info">
+                            <h4>Deniz Şahin</h4>
+                            <p>Gençlik Politikaları Uzmanı</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="department">
+                <h3 class="department-title">Dış Politika</h3>
+                <div class="department-members">
+                    <div class="department-member">
+                        <img src="https://picsum.photos/id/1031/200/200" alt="Osman Kılıç" class="department-member-photo">
+                        <div class="department-member-info">
+                            <h4>Osman Kılıç</h4>
+                            <p>Dış İlişkiler Başkanı</p>
+                        </div>
+                    </div>
+                    <div class="department-member">
+                        <img src="https://picsum.photos/id/1032/200/200" alt="Elif Yıldırım" class="department-member-photo">
+                        <div class="department-member-info">
+                            <h4>Elif Yıldırım</h4>
+                            <p>Uluslararası İlişkiler Uzmanı</p>
+                        </div>
+                    </div>
+                    <div class="department-member">
+                        <img src="https://picsum.photos/id/1033/200/200" alt="Hakan Demir" class="department-member-photo">
+                        <div class="department-member-info">
+                            <h4>Hakan Demir</h4>
+                            <p>Stratejik Araştırmalar Uzmanı</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="join-team">
+            <h2>Ekibimize Katılın</h2>
+            <p>Terakki Yolu olarak, ülkemizin geleceğini şekillendirmek için çalışacak, ilkelerimizi benimsemiş, yetenekli ve idealist bireyleri aramıza katılmaya davet ediyoruz. Siz de değişimin bir parçası olmak istiyorsanız, bizimle iletişime geçin.</p>
+            <a href="#" class="cta-button">Başvuru Formu</a>
+        </div>
+    </section>
+
+    <footer class="social">
+        <h3>Bizi Takip Edin</h3>
+        <div class="social-links">
+            <a href="#" target="_blank" aria-label="Twitter hesabımıza git"><i class="fab fa-twitter"></i></a>
+            <a href="#" target="_blank" aria-label="Instagram hesabımıza git"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank" aria-label="Facebook hesabımıza git"><i class="fab fa-facebook"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

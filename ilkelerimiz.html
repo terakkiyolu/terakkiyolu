@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İlkelerimiz - Terakki Yolu</title>
+    <link rel="icon" type="image/png" href="/terakki1.jpg">
+    <link rel="apple-touch-icon" href="/terakki1.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00ff8c;
+            --secondary: #121212;
+            --accent: #ff3d00;
+            --text: #ffffff;
+            --dark: #0a0a0a;
+            --light: #f0f0f0;
+            --gradient: linear-gradient(135deg, #00ff8c, #00b8ff);
+            --card-bg: rgba(18, 18, 18, 0.8);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--dark);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+        }
+
+        /* Cursor */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            pointer-events: none;
+            mix-blend-mode: difference;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: var(--transition);
+            mix-blend-mode: difference;
+        }
+
+        .navbar.scrolled {
+            background-color: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 1.5rem;
+            mix-blend-mode: normal;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .menu-toggle {
+            width: 30px;
+            height: 20px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            display: block;
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background: var(--text);
+            border-radius: 2px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: var(--transition);
+        }
+
+        .menu-toggle span:nth-child(1) {
+            top: 0px;
+        }
+
+        .menu-toggle span:nth-child(2), .menu-toggle span:nth-child(3) {
+            top: 9px;
+        }
+
+        .menu-toggle span:nth-child(4) {
+            top: 18px;
+        }
+
+        .menu-toggle.open span:nth-child(1) {
+            top: 9px;
+            width: 0%;
+            left: 50%;
+        }
+
+        .menu-toggle.open span:nth-child(2) {
+            transform: rotate(45deg);
+        }
+
+        .menu-toggle.open span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+
+        .menu-toggle.open span:nth-child(4) {
+            top: 9px;
+            width: 0%;
+            left: 50%;
+        }
+
+        .menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            transform: translateY(-20px);
+        }
+
+        .menu.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .menu-items {
+            list-style: none;
+            text-align: center;
+        }
+
+        .menu-items li {
+            margin: 1.5rem 0;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition);
+            transition-delay: calc(var(--i) * 0.1s);
+        }
+
+        .menu.open .menu-items li {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-items a {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text);
+            text-decoration: none;
+            position: relative;
+            display: inline-block;
+            transition: var(--transition);
+            text-transform: uppercase;
+        }
+
+        .menu-items a::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            color: var(--primary);
+            overflow: hidden;
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            white-space: nowrap;
+        }
+
+        .menu-items a:hover::before {
+            width: 100%;
+        }
+
+        .menu-footer {
+            position: absolute;
+            bottom: 2rem;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .menu-footer a {
+            color: var(--text);
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .menu-footer a:hover {
+            color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://picsum.photos/id/1/1920/1080');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 90%;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-title .highlight {
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            max-width: 800px;
+            margin: 0 auto;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .scroll-indicator span {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .scroll-indicator .line {
+            width: 1px;
+            height: 50px;
+            background-color: var(--text);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scroll-indicator .line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary);
+            animation: scrollLine 1.5s infinite;
+        }
+
+        @keyframes scrollLine {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        /* Main Content */
+        .section {
+            padding: 8rem 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+            border-radius: 5px;
+        }
+
+        .section-description {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Principles Grid */
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .principle-card {
+            position: relative;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 2rem;
+            transition: var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .principle-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition);
+        }
+
+        .principle-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .principle-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .principle-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .principle-card:hover .principle-icon {
+            transform: scale(1.2);
+        }
+
+        .principle-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .principle-description {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            line-height: 1.7;
+            flex-grow: 1;
+        }
+
+        .principle-number {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 5rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
+
+        .principle-card:hover .principle-number {
+            color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Manifesto Section */
+        .manifesto-section {
+            position: relative;
+            padding: 8rem 1.5rem;
+            background-color: var(--secondary);
+        }
+
+        .manifesto-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://picsum.photos/id/1/1920/1080') center/cover no-repeat;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .manifesto-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .manifesto-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+        }
+
+        .manifesto-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background: var(--gradient);
+            border-radius: 5px;
+        }
+
+        .manifesto-content {
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+
+        .manifesto-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .manifesto-content strong {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .manifesto-quote {
+            font-size: 1.8rem;
+            font-weight: 300;
+            font-style: italic;
+            margin: 3rem 0;
+            padding: 2rem;
+            border-left: 5px solid var(--primary);
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-container {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--primary);
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover::before {
+            width: 100%;
+        }
+
+        .cta-button.outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .cta-button.outline:hover {
+            background-color: var(--primary);
+            color: var(--dark);
+        }
+
+        /* Join Movement Section */
+        .join-section {
+            padding: 8rem 1.5rem;
+            text-align: center;
+            background-color: var(--dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .join-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 255, 140, 0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .join-container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .join-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1.5rem;
+        }
+
+        .join-description {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .join-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .join-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .join-input:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        .join-button {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            border: none;
+            background: var(--gradient);
+            color: var(--dark);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .join-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 5rem 1.5rem;
+            background-color: var(--secondary);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 2rem;
+            color: var(--text);
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+
+        .footer-logo span {
+            color: var(--primary);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .footer-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--primary);
+        }
+
+        .footer-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background-color: var(--primary);
+            color: var(--dark);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-items a {
+                font-size: 2rem;
+            }
+
+            .principle-card {
+                padding: 1.5rem;
+            }
+
+            .principle-title {
+                font-size: 1.5rem;
+            }
+
+            .manifesto-quote {
+                font-size: 1.4rem;
+                padding: 1.5rem;
+            }
+
+            .cta-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .join-form {
+                flex-direction: column;
+            }
+
+            .join-button {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section {
+                padding: 5rem 1.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .section-description {
+                font-size: 1rem;
+            }
+
+            .principle-icon {
+                font-size: 2rem;
+            }
+
+            .principle-title {
+                font-size: 1.3rem;
+            }
+
+            .manifesto-title {
+                font-size: 2rem;
+            }
+
+            .manifesto-content {
+                font-size: 1rem;
+            }
+
+            .manifesto-quote {
+                font-size: 1.2rem;
+                padding: 1rem;
+            }
+
+            .join-title {
+                font-size: 2rem;
+            }
+
+            .join-description {
+                font-size: 1rem;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .stagger-item.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="custom-cursor"></div>
+
+    <nav class="navbar">
+        <a href="index.html" class="logo">TERAKKI<span>YOLU</span></a>
+        <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="menu">
+            <ul class="menu-items">
+                <li style="--i: 1;"><a href="index.html" data-text="Ana Sayfa">Ana Sayfa</a></li>
+                <li style="--i: 2;"><a href="#" data-text="Hakkımızda">Hakkımızda</a></li>
+                <li style="--i: 3;"><a href="ilkelerimiz.html" data-text="İlkelerimiz">İlkelerimiz</a></li>
+                <li style="--i: 4;"><a href="kadromuz.html" data-text="Kadromuz">Kadromuz</a></li>
+                <li style="--i: 5;"><a href="yol-haritamiz.html" data-text="Yol Haritamız">Yol Haritamız</a></li>
+                <li style="--i: 6;"><a href="#" data-text="İletişim">İletişim</a></li>
+            </ul>
+            <div class="menu-footer">
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">İLKE<span class="highlight">LERİMİZ</span></h1>
+            <p class="hero-subtitle">Terakki Yolu olarak, toplumsal dönüşüm ve direniş için benimsediğimiz temel değerler ve ilkeler</p>
+        </div>
+        <div class="scroll-indicator">
+            <span>Keşfet</span>
+            <div class="line"></div>
+        </div>
+    </section>
+
+    <section id="principles" class="section">
+        <div class="section-header fade-in">
+            <h2 class="section-title">TEMEL İLKELERİMİZ</h2>
+            <p class="section-description">
+                Terakki Yolu olarak, toplumsal dönüşüm ve ilerleme için kararlılıkla savunduğumuz ilkelerimiz, mücadelemizin temelini oluşturuyor. Bu ilkeler, aydınlık bir geleceği inşa etmek için atacağımız her adımda bize rehberlik etmektedir.
+            </p>
+        </div>
+
+        <div class="principles-grid">
+            <div class="principle-card stagger-item" style="--i: 1;">
+                <div class="principle-number">01</div>
+                <div class="principle-icon">
+                    <i class="fas fa-balance-scale"></i>
+                </div>
+                <h3 class="principle-title">Adalet</h3>
+                <p class="principle-description">
+                    Her türlü baskıya, ayrımcılığa ve sömürüye karşı durmak, toplumun tüm kesimleri için adaletin sağlanması için direnmek en temel ilkemizdir. Ekonomik, sosyal ve hukuki adaleti tesis etmek için sistemin yanlışlarına karşı mücadele ediyoruz.
+                </p>
+            </div>
+
+            <div class="principle-card stagger-item" style="--i: 2;">
+                <div class="principle-number">02</div>
+                <div class="principle-icon">
+                    <i class="fas fa-fist-raised"></i>
+                </div>
+                <h3 class="principle-title">Dayanışma</h3>
+                <p class="principle-description">
+                    Ezilenlerin, sömürülenlerin ve yok sayılanların yanında durarak, toplumsal dayanışmayı güçlendirmek için çalışıyoruz. Ortak mücadelemizde, hiç kimsenin yalnız kalmaması ve tüm toplumsal kesimlerin birlikte hareket etmesi için örgütleniyor ve direniş ağları kuruyoruz.
+                </p>
+            </div>
+
+            <div class="principle-card stagger-item" style="--i: 3;">
+                <div class="principle-number">03</div>
+                <div class="principle-icon">
+                    <i class="fas fa-dove"></i>
+                </div>
+                <h3 class="principle-title">Özgürlük</h3>
+                <p class="principle-description">
+                    Her türlü düşünce ve ifade özgürlüğünü savunuyor, baskı rejimlerine karşı direnerek özgürlüklerin genişletilmesi için mücadele ediyoruz. Özgür düşüncenin, özgür bir toplumun temel taşı olduğuna inanıyoruz. Her bireyin kendi potansiyelini gerçekleştireceği bir düzen için çalışıyoruz.
+                </p>
+            </div>
+
+            <div class="principle-card stagger-item" style="--i: 4;">
+                <div class="principle-number">04</div>
+                <div class="principle-icon">
+                    <i class="fas fa-university"></i>
+                </div>
+                <h3 class="principle-title">Laiklik</h3>
+                <p class="principle-description">
+                    Devlet yönetiminde laiklik ilkesini savunuyor, her türlü din istismarına karşı direniyoruz. İnanç özgürlüğünün teminat altına alındığı, hiçbir dini inancın diğerine üstün tutulmadığı ve kimsenin inancından dolayı baskı görmediği bir toplum düzeni için mücadele ediyoruz.
+                </p>
+            </div>
+
+            <div class="principle-card stagger-item" style="--i: 5;">
+                <div class="principle-number">05</div>
+                <div class="principle-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h3 class="principle-title">Ekolojik Direniş</h3>
+                <p class="principle-description">
+                    Kapitalist sistemin doğayı sömürmesine karşı çıkıyor, rant uğruna yaşam alanlarımızın yok edilmesine karşı direniyoruz. Doğal varlıklarımızı korumak, gelecek nesillere yaşanabilir bir dünya bırakmak için ekolojik adaleti savunuyoruz.
+                </p>
+            </div>
+
+            <div class="principle-card stagger-item" style="--i: 6;">
+                <div class="principle-number">06</div>
+                <div class="principle-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h3 class="principle-title">Bilimsellik</h3>
+                <p class="principle-description">
+                    Gerici ve dogmatik düşüncelere karşı bilimsel düşünceyi savunuyor, aydınlanma değerlerinin toplumumuzda kök salması için çalışıyoruz. Eğitimde fırsat eşitliğini sağlamak, bilimsel araştırmaları desteklemek ve aklı rehber edinmek için mücadele ediyoruz.
+                </p>
+            </div>
+
+            <div class="principle-card stagger-item" style="--i: 7;">
+                <div class="principle-number">07</div>
+                <div class="principle-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="principle-title">Halkçılık</h3>
+                <p class="principle-description">
+                    Ekonomik kaynakların adil dağıtılması, kamusal hizmetlere eşit erişim ve toplumun çıkarlarının sermaye karşısında korunması için mücadele ediyoruz. Halkın iradesinin siyasetin merkezinde olduğu, katılımcı ve doğrudan demokrasinin güçlendirildiği bir sistem için direniş gösteriyoruz.
+                </p>
+            </div>
+
+            <div class="principle-card stagger-item" style="--i: 8;">
+                <div class="principle-number">08</div>
+                <div class="principle-icon">
+                    <i class="fas fa-globe-americas"></i>
+                </div>
+                <h3 class="principle-title">Enternasyonalizm</h3>
+                <p class="principle-description">
+                    Dünya halklarının ortak mücadelesini destekliyor, emperyalizme ve sömürgeciliğe karşı küresel dayanışma ağlarının parçası oluyoruz. Sınırların ötesinde, ezilen halkların kurtuluş mücadelesiyle dayanışma içinde olduğumuzu ilan ediyoruz.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="manifesto-section">
+        <div class="manifesto-bg"></div>
+        <div class="manifesto-container fade-in">
+            <h2 class="manifesto-title">Terakki Yolu Manifestosu</h2>
+            <div class="manifesto-content">
+                <p>Bizler, <strong>Terakki Yolu</strong> olarak, adaletsizliğin, eşitsizliğin ve baskının hüküm sürdüğü bu düzene karşı direnmeyi seçtik. İnanıyoruz ki, gerçek ilerleme ancak toplumsal dönüşüm ve özgürleşme ile mümkündür.</p>
+                
+                <div class="manifesto-quote">
+                    "Bir ağaç gibi tek ve hür, bir orman gibi kardeşçesine yaşamak için direniyor ve mücadele ediyoruz."
+                </div>
+                
+                <p>Bu topraklarda yaşayan herkesin eşit haklara sahip olduğu, düşünce ve ifade özgürlüğünün kısıtlanmadığı, ekonomik kaynakların adil paylaşıldığı, doğal varlıklarımızın korunduğu bir sistem için <strong>mücadele ediyoruz</strong>.</p>
+                
+                <p>Karanlığa karşı aydınlığı, gericiliğe karşı bilimi, adaletsizliğe karşı eşitliği, sömürüye karşı dayanışmayı savunuyor ve bunun için <strong>örgütleniyoruz</strong>. Her türlü baskıya karşı direnmenin, özgürlük yolunda ilerlemenin tek yolu budur.</p>
+                
+                <p>Terakki Yolu olarak, gençlerin öncülüğünde, kadınların eşit katılımıyla, emekçilerin haklarını savunarak ve toplumun tüm kesimlerini kapsayan bir <strong>direniş hareketi</strong> inşa ediyoruz. Geleceğimizi kendi ellerimizle şekillendirmek, adaleti ve özgürlüğü bu topraklarda hâkim kılmak için omuz omuza yürüyoruz.</p>
+                
+                <p>Bu manifestoyu okuyan herkesi, değişimin ve dönüşümün bir parçası olmaya, Terakki Yolu'nda bizimle birlikte <strong>mücadele etmeye</strong> çağırıyoruz!</p>
+                
+                <div class="cta-container">
+                    <a href="#" class="cta-button">Manifestomuzu İndir</a>
+                    <a href="#" class="cta-button outline">Bize Katıl</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="join-section">
+        <div class="join-bg"></div>
+        <div class="join-container fade-in">
+            <h2 class="join-title">Harekete Geç</h2>
+            <p class="join-description">Değişimin parçası ol! Terakki Yolu'nda bizimle birlikte yürü, mücadeleye katıl.</p>
+            <form class="join-form">
+                <input type="email" class="join-input" placeholder="E-posta adresiniz" required>
+                <button type="submit" class="join-button">Katıl</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <a href="index.html" class="footer-logo">TERAKKI<span>YOLU</span></a>
+        <div class="footer-links">
+            <a href="index.html" class="footer-link">Ana Sayfa</a>
+            <a href="#" class="footer-link">Hakkımızda</a>
+            <a href="ilkelerimiz.html" class="footer-link">İlkelerimiz</a>
+            <a href="kadromuz.html" class="footer-link">Kadromuz</a>
+            <a href="yol-haritamiz.html" class="footer-link">Yol Haritamız</a>
+            <a href="#" class="footer-link">İletişim</a>
+        </div>
+        <div class="social-links">
+            <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="social-link" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+            <a href="#" class="social-link" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p class="copyright">© 2025 Terakki Yolu. Tüm Hakları Saklıdır.</p>
+    </footer>
+
+    <script>
+        // Custom cursor
+        const cursor = document.querySelector('.custom-cursor');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+        
+        document.addEventListener('mousedown', () => {
+            cursor.style.width = '15px';
+            cursor.style.height = '15px';
+        });
+        
+        document.addEventListener('mouseup', () => {
+            cursor.style.width = '20px';
+            cursor.style.height = '20px';
+        });
+
+        // Menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const menu = document.querySelector('.menu');
+        
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('open');
+            menu.classList.toggle('open');
+            document.body.classList.toggle('menu-open');
+        });
+
+        // Navbar scroll effect
+        const navbar = document.querySelector('.navbar');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll indicator
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        
+        scrollIndicator.addEventListener('click', () => {
+            document.getElementById('principles').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Fade in animation
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const staggerItems = document.querySelectorAll('.stagger-item');
+        
+        const fadeInObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        fadeElements.forEach(element => {
+            fadeInObserver.observe(element);
+        });
+        
+        staggerItems.forEach((item, index) => {
+            item.style.transitionDelay = `${index * 0.1}s`;
+            fadeInObserver.observe(item);
+        });
+    </script>
+</body>
+</html>
