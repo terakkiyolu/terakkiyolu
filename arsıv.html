@@ -1,62 +1,39 @@
 <!DOCTYPE html>
-<html lang="tr" class="dark">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SİYASİ ARŞİV SİSTEMİ</title>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700&display=swap');
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Montserrat', sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease;
         }
         
         :root {
             --primary-red: #e53935;
             --dark-red: #c62828;
             --light-red: #ef5350;
-            
-            /* Light mode colors */
-            --light-bg: #f5f5f5;
-            --light-card-bg: #ffffff;
-            --light-text: #333333;
-            --light-secondary-text: #666666;
-            --light-border: #e0e0e0;
-            --light-hover: #f0f0f0;
-            
-            /* Dark mode colors */
-            --dark-bg: #121212;
-            --dark-card-bg: #1e1e1e;
-            --dark-text: #e0e0e0;
-            --dark-secondary-text: #aaaaaa;
-            --dark-border: #333333;
-            --dark-hover: #2a2a2a;
-            
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --secondary-text: #666666;
+            --border-color: #e0e0e0;
+            --hover-color: #f5f5f5;
+            --shadow-color: rgba(0, 0, 0, 0.1);
             --sidebar-width: 60px;
             --sidebar-expanded-width: 180px;
             --transition-speed: 0.3s;
-        }
-        
-        .light {
-            --bg-color: var(--light-bg);
-            --card-bg: var(--light-card-bg);
-            --text-color: var(--light-text);
-            --secondary-text: var(--light-secondary-text);
-            --border-color: var(--light-border);
-            --hover-color: var(--light-hover);
-        }
-        
-        .dark {
-            --bg-color: var(--dark-bg);
-            --card-bg: var(--dark-card-bg);
-            --text-color: var(--dark-text);
-            --secondary-text: var(--dark-secondary-text);
-            --border-color: var(--dark-border);
-            --hover-color: var(--dark-hover);
+            --max-content-width: 1200px;
+            --font-size-base: 16px;
+            --font-size-small: 14px;
+            --font-size-large: 18px;
         }
         
         body {
@@ -64,6 +41,14 @@
             color: var(--text-color);
             line-height: 1.6;
             overflow-x: hidden;
+            font-size: var(--font-size-base);
+            transition: background-color 0.3s ease, color 0.3s ease, font-size 0.3s ease;
+        }
+        
+        .container {
+            max-width: var(--max-content-width);
+            margin: 0 auto;
+            padding: 0 20px;
         }
         
         /* Sidebar Styles */
@@ -78,7 +63,8 @@
             z-index: 1000;
             display: flex;
             justify-content: center;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 -2px 10px var(--shadow-color);
+            transition: background-color 0.3s ease;
         }
         
         .sidebar-menu {
@@ -121,33 +107,8 @@
         
         /* Main Content */
         .main-content {
-            padding: 20px;
+            padding: 20px 0;
             padding-bottom: 80px; /* Space for bottom sidebar */
-        }
-        
-        /* Theme Toggle */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 1001;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--card-bg);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .theme-toggle:hover {
-            background-color: var(--hover-color);
         }
         
         /* Hero Section */
@@ -158,8 +119,8 @@
             border-radius: 10px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.5s ease;
+            box-shadow: 0 4px 10px var(--shadow-color);
+            transition: all 0.5s ease, background-color 0.3s ease;
             max-height: 500px;
             border: 1px solid var(--border-color);
         }
@@ -269,6 +230,40 @@
             margin-bottom: -10px;
         }
         
+        /* Filter Controls */
+        .filter-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            justify-content: center;
+            transition: opacity 0.3s ease;
+        }
+        
+        .hero-section.collapsed .filter-controls {
+            opacity: 0;
+            height: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        .filter-btn {
+            padding: 8px 15px;
+            background-color: var(--hover-color);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            color: var(--text-color);
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--primary-red);
+            color: white;
+            border-color: var(--primary-red);
+        }
+        
         /* Search Bar */
         .search-container {
             margin: 20px 0;
@@ -283,13 +278,18 @@
             background-color: var(--card-bg);
             color: var(--text-color);
             font-size: 1rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px var(--shadow-color);
             transition: all 0.3s ease;
+        }
+
+        #mainSearchRedirect {
+            cursor: pointer;
+            background-color: var(--hover-color);
         }
         
         .search-bar:focus {
             outline: none;
-            box-shadow: 0 0 0 2px var(--primary-red), 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 0 2px var(--primary-red), 0 4px 10px var(--shadow-color);
             border-color: var(--primary-red);
         }
         
@@ -334,6 +334,7 @@
             letter-spacing: 1px;
             border-left: 5px solid var(--primary-red);
             padding-left: 15px;
+            transition: color 0.3s ease;
         }
         
         /* Folder Grid */
@@ -354,12 +355,12 @@
             border-radius: 10px;
             padding: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s ease, background-color 0.3s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
             border-left: 4px solid var(--primary-red);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px var(--shadow-color);
             position: relative;
             overflow: hidden;
         }
@@ -379,7 +380,7 @@
         
         .folder:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 16px var(--shadow-color);
             background-color: var(--hover-color);
         }
         
@@ -411,6 +412,7 @@
             font-size: 1.1rem;
             text-transform: uppercase;
             letter-spacing: 1px;
+            transition: color 0.3s ease;
         }
         
         .folder-list .folder-name {
@@ -423,12 +425,12 @@
             border-radius: 10px;
             padding: 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s ease, background-color 0.3s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
             border-left: 4px solid var(--primary-red);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px var(--shadow-color);
             position: relative;
             overflow: hidden;
             min-height: 180px;
@@ -453,7 +455,7 @@
 
         .document:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 16px var(--shadow-color);
             background-color: var(--hover-color);
         }
 
@@ -477,7 +479,7 @@
 
         .document-preview-icon {
             font-size: 2rem;
-            color: var(--text-color);
+            color: var(--card-bg);
         }
         
         .document-list .document {
@@ -520,6 +522,7 @@
             font-size: 1.1rem;
             text-transform: uppercase;
             letter-spacing: 1px;
+            transition: color 0.3s ease;
         }
         
         .document-list .document-name {
@@ -541,7 +544,8 @@
             border-left: 5px solid var(--primary-red);
             display: flex;
             align-items: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px var(--shadow-color);
+            transition: background-color 0.3s ease;
         }
         
         .breadcrumb a {
@@ -575,7 +579,7 @@
             border-radius: 50%;
             cursor: pointer;
             display: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px var(--shadow-color);
             z-index: 99;
             font-size: 1.5rem;
             transition: all 0.3s;
@@ -584,7 +588,7 @@
         .back-to-top:hover {
             background-color: var(--dark-red);
             transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 12px var(--shadow-color);
         }
         
         /* Footer */
@@ -597,6 +601,7 @@
             color: var(--secondary-text);
             font-size: 0.9rem;
             margin-bottom: 60px; /* Space for bottom sidebar */
+            transition: background-color 0.3s ease;
         }
         
         /* Modal Styles */
@@ -621,11 +626,12 @@
             border-radius: 10px;
             width: 80%;
             max-width: 900px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px var(--shadow-color);
             position: relative;
             max-height: 80vh;
             overflow-y: auto;
             animation: slideUp 0.3s;
+            transition: background-color 0.3s ease;
         }
         
         @keyframes slideUp {
@@ -669,13 +675,14 @@
             margin-bottom: 20px;
             line-height: 1.8;
             color: var(--text-color);
+            transition: color 0.3s ease;
         }
         
         .modal-body img, .modal-body video {
             max-width: 100%;
             margin: 15px 0;
             border: 1px solid var(--border-color);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px var(--shadow-color);
         }
         
         .modal-body p {
@@ -750,73 +757,252 @@
             background-color: var(--dark-red);
         }
         
-        /* Recent Documents */
-        .recent-documents {
+        /* History Section */
+        .history-page {
+            display: none;
+            padding: 20px 0;
+            animation: fadeIn 0.3s ease;
+            min-height: 100vh;
+        }
+        
+        .history-page.active {
+            display: block;
+        }
+        
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .history-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+        
+        .history-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .history-item {
             background-color: var(--card-bg);
             border-radius: 10px;
             padding: 20px;
-            margin-bottom: 30px;
-            border-left: 5px solid var(--primary-red);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .recent-documents h3 {
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            color: var(--text-color);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .recent-list {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary-red) var(--card-bg);
-        }
-        
-        .recent-list::-webkit-scrollbar {
-            height: 8px;
-        }
-        
-        .recent-list::-webkit-scrollbar-track {
-            background: var(--card-bg);
-        }
-        
-        .recent-list::-webkit-scrollbar-thumb {
-            background-color: var(--primary-red);
-            border-radius: 10px;
-        }
-        
-        .recent-item {
-            min-width: 150px;
-            padding: 15px;
-            background-color: var(--hover-color);
-            border-radius: 5px;
             cursor: pointer;
-            transition: all 0.2s;
-            border-left: 3px solid var(--primary-red);
+            transition: all 0.3s ease, background-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-left: 4px solid var(--primary-red);
+            box-shadow: 0 4px 8px var(--shadow-color);
         }
         
-        .recent-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        .history-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px var(--shadow-color);
+            background-color: var(--hover-color);
         }
         
-        .recent-icon {
-            font-size: 24px;
-            margin-bottom: 8px;
+        .history-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
             color: var(--primary-red);
         }
         
-        .recent-name {
-            font-size: 0.9rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .history-name {
+            font-weight: 600;
+            text-align: center;
             color: var(--text-color);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .history-date {
+            font-size: 0.8rem;
+            color: var(--secondary-text);
+        }
+        
+        .no-history {
+            text-align: center;
+            padding: 50px 0;
+            color: var(--secondary-text);
+        }
+        
+        .clear-history {
+            padding: 10px 20px;
+            background-color: var(--hover-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        
+        .clear-history:hover {
+            background-color: var(--primary-red);
+            color: white;
+            border-color: var(--primary-red);
+        }
+        
+        /* Settings Page */
+        .settings-page {
+            display: none;
+            padding: 20px 0;
+            animation: fadeIn 0.3s ease;
+            min-height: 100vh;
+        }
+        
+        .settings-page.active {
+            display: block;
+        }
+        
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .settings-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+        
+        .settings-section {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            transition: background-color 0.3s ease;
+        }
+        
+        .settings-section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+        
+        .settings-option {
+            margin-bottom: 20px;
+        }
+        
+        .settings-option-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+        
+        .settings-option-description {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+            margin-bottom: 10px;
+        }
+        
+        .settings-color-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.2s;
+        }
+        
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .color-option.active {
+            border-color: var(--text-color);
+        }
+        
+        .color-option[data-color="red"] {
+            background-color: #e53935;
+        }
+        
+        .color-option[data-color="blue"] {
+            background-color: #1976d2;
+        }
+        
+        .color-option[data-color="green"] {
+            background-color: #388e3c;
+        }
+        
+        .color-option[data-color="purple"] {
+            background-color: #7b1fa2;
+        }
+        
+        .color-option[data-color="orange"] {
+            background-color: #f57c00;
+        }
+        
+        .settings-slider {
+            width: 100%;
+            max-width: 300px;
+            margin-top: 10px;
+        }
+        
+        .settings-select {
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            width: 100%;
+            max-width: 300px;
+            transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .settings-select:focus {
+            outline: none;
+            border-color: var(--primary-red);
+        }
+        
+        .settings-button {
+            padding: 10px 20px;
+            background-color: var(--primary-red);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .settings-button:hover {
+            background-color: var(--dark-red);
+        }
+        
+        .settings-button.secondary {
+            background-color: var(--hover-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+        
+        .settings-button.secondary:hover {
+            background-color: var(--border-color);
         }
         
         /* Loading Animation */
@@ -854,7 +1040,7 @@
         /* Search Page */
         .search-page {
             display: none;
-            padding: 20px;
+            padding: 20px 0;
             animation: fadeIn 0.3s ease;
             min-height: 100vh;
         }
@@ -865,8 +1051,7 @@
         
         .search-page-header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
             margin-bottom: 20px;
         }
         
@@ -874,6 +1059,8 @@
             font-family: 'Bebas Neue', sans-serif;
             font-size: 2rem;
             color: var(--text-color);
+            transition: color 0.3s ease;
+            margin-bottom: 15px;
         }
         
         .search-results {
@@ -887,15 +1074,15 @@
             margin-bottom: 15px;
             border-left: 4px solid var(--primary-red);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s ease, background-color 0.3s ease;
             display: flex;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 5px var(--shadow-color);
         }
         
         .search-result-item:hover {
             transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px var(--shadow-color);
             background-color: var(--hover-color);
         }
         
@@ -914,6 +1101,7 @@
             font-size: 1.1rem;
             margin-bottom: 5px;
             color: var(--text-color);
+            transition: color 0.3s ease;
         }
         
         .search-result-path {
@@ -932,6 +1120,34 @@
             padding: 30px;
             color: var(--secondary-text);
             font-size: 1.2rem;
+        }
+        
+        /* View Toggle */
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: flex-end;
+        }
+        
+        .view-btn {
+            padding: 8px 15px;
+            background-color: var(--hover-color);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+            color: var(--text-color);
+        }
+        
+        .view-btn:hover, .view-btn.active {
+            background-color: var(--primary-red);
+            color: white;
+            border-color: var(--primary-red);
         }
         
         /* Responsive Styles */
@@ -1000,6 +1216,14 @@
             .modal-actions {
                 flex-wrap: wrap;
             }
+            
+            .history-list {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .settings-color-options {
+                justify-content: center;
+            }
         }
         
         @media (max-width: 480px) {
@@ -1044,27 +1268,38 @@
             .sidebar-menu .text {
                 font-size: 0.6rem;
             }
+            
+            .history-list {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Theme Toggle Button -->
-    <button class="theme-toggle" id="theme-toggle" aria-label="Tema Değiştir">
-        <span id="theme-icon">🌙</span>
-    </button>
-
     <!-- Sidebar -->
     <div class="sidebar">
         <ul class="sidebar-menu">
             <li>
                 <a href="#" id="home-link" class="active" onclick="showMainContent()">
-                    <span class="icon">🏠︎</span> 
+                    <i class="icon fas fa-home"></i>
                     <span class="text"></span>
                 </a>
             </li>
             <li>
-                <a href="#" id="search-link" onclick="showSearchPage()">
-                    <span class="icon">⚲</span>
+                <a href="#history" id="history-link" onclick="showHistoryPage()">
+                    <i class="icon fas fa-history"></i>
+                    <span class="text"></span>
+                </a>
+            </li>
+            <li>
+                <a href="#search" id="search-link" onclick="showSearchPage()">
+                    <i class="icon fas fa-search"></i>
+                    <span class="text"></span>
+                </a>
+            </li>
+            <li>
+                <a href="#settings" id="settings-link" onclick="showSettingsPage()">
+                    <i class="icon fas fa-cog"></i>
                     <span class="text"></span>
                 </a>
             </li>
@@ -1086,28 +1321,35 @@
                             <div class="loading-spinner"></div>
                         </div>
                     </div>
+                    
+                    <!-- Filter Controls -->
+                    <div class="filter-controls" id="filterControls">
+                        <button class="filter-btn active" data-filter="all">Tümü</button>
+                        <button class="filter-btn" data-filter="usulsuzluk">Usulsüzlükler</button>
+                        <button class="filter-btn" data-filter="vaat">Tutulmayan Vaatler</button>
+                        <button class="filter-btn" data-filter="soylem">Tartışmalı Söylemler</button>
+                    </div>
                 </div>
-                <button class="hero-toggle" id="hero-toggle">▲</button>
-            </div>
-            
-            <!-- Search Bar -->
-            <div class="search-container">
-                <span class="search-icon">⚲</span>
-                <input type="text" class="search-bar" id="searchBar" placeholder="Arşivde detaylı arama yap...">
-            </div>
-            
-            <!-- Recent Documents -->
-            <div class="recent-documents" id="recentDocuments" style="display: none;">
-                <h3>SON GÖRÜNTÜLENEN BELGELER</h3>
-                <div class="recent-list" id="recentList">
-                    <!-- JavaScript ile doldurulacak -->
-                </div>
+                <button class="hero-toggle" id="hero-toggle">
+                    <i class="fas fa-chevron-up"></i>
+                </button>
             </div>
             
             <!-- Main Content (Parties) -->
             <div class="content-area active" id="main-content">
                 <div class="category-section">
                     <h2 class="section-title">SİYASİ PARTİLER</h2>
+                    
+                    <!-- View Toggle -->
+                    <div class="view-toggle">
+                        <button class="view-btn active" id="gridViewBtn">
+                            <i class="fas fa-th-large"></i> Grid
+                        </button>
+                        <button class="view-btn" id="listViewBtn">
+                            <i class="fas fa-list"></i> Liste
+                        </button>
+                    </div>
+                    
                     <div class="folder-grid" id="contentView">
                         <!-- Partiler JSON'dan yüklenecek -->
                         <div class="loading">
@@ -1117,15 +1359,35 @@
                 </div>
             </div>
             
+            <!-- History Page -->
+            <div class="history-page" id="history-page">
+                <div class="history-header">
+                    <h2 class="history-title">GEÇMİŞ</h2>
+                </div>
+                
+                <div class="history-list" id="historyList">
+                    <!-- JavaScript ile doldurulacak -->
+                </div>
+                
+                <div class="no-history" id="noHistory" style="display: none;">
+                    <p>Henüz görüntülenen belge bulunmamaktadır.</p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="clear-history" id="clearHistory" onclick="gecmisiTemizle()">
+                        <i class="fas fa-trash"></i> Geçmişi Temizle
+                    </button>
+                </div>
+            </div>
+            
             <!-- Search Page -->
             <div class="search-page" id="search-page">
                 <div class="search-page-header">
-                    <h2 class="search-page-title">ARAMA SONUÇLARI</h2>
-                </div>
-                
-                <div class="search-container">
-                    <span class="search-icon">⚲</span>
-                    <input type="text" class="search-bar" id="searchPageBar" placeholder="Tüm arşivde detaylı arama yap...">
+                    <h2 class="search-page-title">ARAMA</h2>
+                    <div class="search-container">
+                        <i class="search-icon fas fa-search"></i>
+                        <input type="text" class="search-bar" id="searchPageBar" placeholder="Tüm arşivde detaylı arama yap..." autofocus>
+                    </div>
                 </div>
                 
                 <div class="search-results" id="searchResults">
@@ -1136,12 +1398,95 @@
                 </div>
             </div>
             
+            <!-- Settings Page -->
+            <div class="settings-page" id="settings-page">
+                <div class="settings-header">
+                    <h2 class="settings-title">AYARLAR</h2>
+                </div>
+                
+                <!-- Tema Ayarları -->
+                <div class="settings-section">
+                    <h3 class="settings-section-title">Tema Ayarları</h3>
+                    
+                    <!-- Renk Teması -->
+                    <div class="settings-option">
+                        <label class="settings-option-label">Renk Teması</label>
+                        <p class="settings-option-description">Arşiv sisteminin ana rengini seçin.</p>
+                        <div class="settings-color-options">
+                            <div class="color-option active" data-color="red" onclick="changeColorTheme('red')"></div>
+                            <div class="color-option" data-color="blue" onclick="changeColorTheme('blue')"></div>
+                            <div class="color-option" data-color="green" onclick="changeColorTheme('green')"></div>
+                            <div class="color-option" data-color="purple" onclick="changeColorTheme('purple')"></div>
+                            <div class="color-option" data-color="orange" onclick="changeColorTheme('orange')"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Arka Plan Rengi -->
+                    <div class="settings-option">
+                        <label class="settings-option-label">Arka Plan Rengi</label>
+                        <p class="settings-option-description">Arşiv sisteminin arka plan rengini seçin.</p>
+                        <select class="settings-select" id="bgColorSelect" onchange="changeBgColor(this.value)">
+                            <option value="light">Açık</option>
+                            <option value="dark">Koyu</option>
+                            <option value="sepia">Sepya</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Yazı Ayarları -->
+                <div class="settings-section">
+                    <h3 class="settings-section-title">Yazı Ayarları</h3>
+                    
+                    <!-- Yazı Boyutu -->
+                    <div class="settings-option">
+                        <label class="settings-option-label">Yazı Boyutu</label>
+                        <p class="settings-option-description">Arşiv sistemindeki yazıların boyutunu ayarlayın.</p>
+                        <input type="range" min="12" max="20" value="16" class="settings-slider" id="fontSizeSlider" oninput="changeFontSize(this.value)">
+                        <span id="fontSizeValue">16px</span>
+                    </div>
+                </div>
+                
+                <!-- Diğer Ayarlar -->
+                <div class="settings-section">
+                    <h3 class="settings-section-title">Diğer Ayarlar</h3>
+                    
+                    <!-- Animasyonlar -->
+                    <div class="settings-option">
+                        <label class="settings-option-label">Animasyonlar</label>
+                        <p class="settings-option-description">Arşiv sistemindeki animasyonları açın veya kapatın.</p>
+                        <select class="settings-select" id="animationsSelect" onchange="toggleAnimations(this.value)">
+                            <option value="on">Açık</option>
+                            <option value="off">Kapalı</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Otomatik Kaydetme -->
+                    <div class="settings-option">
+                        <label class="settings-option-label">Otomatik Kaydetme</label>
+                        <p class="settings-option-description">Ayarlarınızın otomatik olarak kaydedilmesini sağlar.</p>
+                        <select class="settings-select" id="autoSaveSelect" onchange="toggleAutoSave(this.value)">
+                            <option value="on">Açık</option>
+                            <option value="off">Kapalı</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Ayarları Sıfırla -->
+                <div class="settings-section">
+                    <h3 class="settings-section-title">Ayarları Sıfırla</h3>
+                    <p class="settings-option-description">Tüm ayarları varsayılan değerlerine sıfırlar.</p>
+                    <button class="settings-button" onclick="resetSettings()">Ayarları Sıfırla</button>
+                </div>
+            </div>
+            
             <!-- Document Preview Modal -->
             <div id="belgeModal" class="modal">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h2 class="modal-title" id="modalBaslik">Belge Başlığı</h2>
-                        <button class="modal-close" onclick="modalKapat()">&times;</button>
+                        <button class="modal-close" onclick="modalKapat()">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
                     <div class="modal-body" id="modalIcerik">
                         <!-- İçerik JavaScript ile doldurulacak -->
@@ -1152,33 +1497,43 @@
                         </div>
                         <div class="modal-actions">
                             <button class="modal-btn" onclick="belgeYazdir()">
-                                <span>🖨️</span> Yazdır
+                                <i class="fas fa-print"></i> Yazdır
                             </button>
                             <button class="modal-btn" onclick="belgeIndir()">
-                                <span>💾</span> İndir
+                                <i class="fas fa-download"></i> İndir
                             </button>
                             <button class="modal-btn" onclick="belgePaylasim()">
-                                <span>🔗</span> Paylaş
+                                <i class="fas fa-share-alt"></i> Paylaş
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="back-to-top" onclick="sayfaBasinaGit()">↑</div>
+            <div class="back-to-top" onclick="sayfaBasinaGit()">
+                <i class="fas fa-arrow-up"></i>
+            </div>
         </div>
     </div>
     
-   
+
     <script>
         // Global değişkenler
         let arsivVerileri = null;
         let sonGorulenBelgeler = [];
+        let currentView = 'grid'; // grid, list
+        let userSettings = {
+            colorTheme: 'red',
+            bgColor: 'light',
+            fontSize: 16,
+            animations: 'on',
+            autoSave: 'on'
+        };
         
         // Sayfa yüklendiğinde verileri çek
         document.addEventListener('DOMContentLoaded', function() {
-            // Tema kontrolü
-            setupThemeToggle();
+            // Kullanıcı ayarlarını yükle
+            loadSettings();
             
             // Hero section'ı otomatik olarak gizle
             setTimeout(function() {
@@ -1210,13 +1565,19 @@
                     const kaydedilenBelgeler = localStorage.getItem('sonGorulenBelgeler');
                     if (kaydedilenBelgeler) {
                         sonGorulenBelgeler = JSON.parse(kaydedilenBelgeler);
-                        sonBelgeleriGuncelle();
+                        gecmisiGuncelle();
                     }
                     
                     // URL hash'e göre içeriği göster
                     if (window.location.hash) {
                         const hash = window.location.hash.substring(1);
-                        if (document.getElementById(hash)) {
+                        if (hash === 'search') {
+                            showSearchPage();
+                        } else if (hash === 'history') {
+                            showHistoryPage();
+                        } else if (hash === 'settings') {
+                            showSettingsPage();
+                        } else if (document.getElementById(hash)) {
                             if (hash.includes('-')) {
                                 showEventContent(hash);
                             } else {
@@ -1224,6 +1585,12 @@
                             }
                         }
                     }
+                    
+                    // Filtreleme olaylarını ekle
+                    setupFilterEvents();
+                    
+                    // Görünüm değiştirme olaylarını ekle
+                    setupViewToggleEvents();
                 })
                 .catch(error => {
                     console.error('Veri yükleme hatası:', error);
@@ -1236,14 +1603,6 @@
                 });
                 
             // Arama kutusu olayları
-            document.getElementById('searchBar').addEventListener('input', function(e) {
-                if (e.target.value.length >= 2) {
-                    showSearchPage();
-                    document.getElementById('searchPageBar').value = e.target.value;
-                    performDetailedSearch(e.target.value);
-                }
-            });
-            
             document.getElementById('searchPageBar').addEventListener('input', function(e) {
                 performDetailedSearch(e.target.value);
             });
@@ -1260,37 +1619,311 @@
                     expandHeroSection();
                 }
             });
-        });
-        
-        // Tema değiştirme
-        function setupThemeToggle() {
-            const themeToggle = document.getElementById('theme-toggle');
-            const themeIcon = document.getElementById('theme-icon');
-            const htmlElement = document.documentElement;
             
-            // Kaydedilmiş tema varsa onu kullan
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                htmlElement.className = savedTheme;
-                updateThemeIcon(savedTheme);
-            }
+            // Ayarlar sayfası slider değerini güncelle
+            document.getElementById('fontSizeSlider').value = userSettings.fontSize;
+            document.getElementById('fontSizeValue').textContent = userSettings.fontSize + 'px';
+            document.getElementById('bgColorSelect').value = userSettings.bgColor;
+            document.getElementById('animationsSelect').value = userSettings.animations;
+            document.getElementById('autoSaveSelect').value = userSettings.autoSave;
             
-            themeToggle.addEventListener('click', function() {
-                if (htmlElement.classList.contains('dark')) {
-                    htmlElement.classList.remove('dark');
-                    htmlElement.classList.add('light');
-                    localStorage.setItem('theme', 'light');
-                    updateThemeIcon('light');
-                } else {
-                    htmlElement.classList.remove('light');
-                    htmlElement.classList.add('dark');
-                    localStorage.setItem('theme', 'dark');
-                    updateThemeIcon('dark');
+            // Renk teması seçimini güncelle
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.getAttribute('data-color') === userSettings.colorTheme) {
+                    option.classList.add('active');
                 }
             });
+        });
+        
+        // Kullanıcı ayarlarını yükle
+        function loadSettings() {
+            const savedSettings = localStorage.getItem('userSettings');
+            if (savedSettings) {
+                userSettings = JSON.parse(savedSettings);
+                applySettings();
+            }
+        }
+        
+        // Kullanıcı ayarlarını kaydet
+        function saveSettings() {
+            localStorage.setItem('userSettings', JSON.stringify(userSettings));
+        }
+        
+        // Kullanıcı ayarlarını uygula
+        function applySettings() {
+            // Renk teması
+            applyColorTheme(userSettings.colorTheme);
             
-            function updateThemeIcon(theme) {
-                themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+            // Arka plan rengi
+            applyBgColor(userSettings.bgColor);
+            
+            // Yazı boyutu
+            document.documentElement.style.setProperty('--font-size-base', userSettings.fontSize + 'px');
+            document.documentElement.style.setProperty('--font-size-small', (userSettings.fontSize - 2) + 'px');
+            document.documentElement.style.setProperty('--font-size-large', (userSettings.fontSize + 2) + 'px');
+            
+            // Animasyonlar
+            if (userSettings.animations === 'off') {
+                const style = document.createElement('style');
+                style.id = 'no-animations';
+                style.textContent = '*, *::before, *::after { animation-duration: 0s !important; transition-duration: 0s !important; }';
+                document.head.appendChild(style);
+            } else {
+                const noAnimations = document.getElementById('no-animations');
+                if (noAnimations) {
+                    noAnimations.remove();
+                }
+            }
+        }
+        
+        // Renk temasını değiştir
+        function changeColorTheme(color) {
+            userSettings.colorTheme = color;
+            applyColorTheme(color);
+            
+            // Renk seçeneklerini güncelle
+            document.querySelectorAll('.color-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            document.querySelector(`.color-option[data-color="${color}"]`).classList.add('active');
+            
+            if (userSettings.autoSave === 'on') {
+                saveSettings();
+            }
+        }
+        
+        // Renk temasını uygula
+        function applyColorTheme(color) {
+            let primaryColor, darkColor, lightColor;
+            
+            switch (color) {
+                case 'blue':
+                    primaryColor = '#1976d2';
+                    darkColor = '#0d47a1';
+                    lightColor = '#42a5f5';
+                    break;
+                case 'green':
+                    primaryColor = '#388e3c';
+                    darkColor = '#1b5e20';
+                    lightColor = '#66bb6a';
+                    break;
+                case 'purple':
+                    primaryColor = '#7b1fa2';
+                    darkColor = '#4a148c';
+                    lightColor = '#ab47bc';
+                    break;
+                case 'orange':
+                    primaryColor = '#f57c00';
+                    darkColor = '#e65100';
+                    lightColor = '#ff9800';
+                    break;
+                default: // red
+                    primaryColor = '#e53935';
+                    darkColor = '#c62828';
+                    lightColor = '#ef5350';
+                    break;
+            }
+            
+            document.documentElement.style.setProperty('--primary-red', primaryColor);
+            document.documentElement.style.setProperty('--dark-red', darkColor);
+            document.documentElement.style.setProperty('--light-red', lightColor);
+        }
+        
+        // Arka plan rengini değiştir
+        function changeBgColor(bgColor) {
+            userSettings.bgColor = bgColor;
+            applyBgColor(bgColor);
+            
+            if (userSettings.autoSave === 'on') {
+                saveSettings();
+            }
+        }
+        
+        // Arka plan rengini uygula
+        function applyBgColor(bgColor) {
+            let bgColorValue, cardBgValue, textColorValue, secondaryTextValue, borderColorValue, hoverColorValue;
+            
+            switch (bgColor) {
+                case 'dark':
+                    bgColorValue = '#121212';
+                    cardBgValue = '#1e1e1e';
+                    textColorValue = '#e0e0e0';
+                    secondaryTextValue = '#a0a0a0';
+                    borderColorValue = '#333333';
+                    hoverColorValue = '#2a2a2a';
+                    break;
+                case 'sepia':
+                    bgColorValue = '#f8f0e3';
+                    cardBgValue = '#fff8ee';
+                    textColorValue = '#5b4636';
+                    secondaryTextValue = '#8a7a6d';
+                    borderColorValue = '#d3c6b8';
+                    hoverColorValue = '#f0e6d9';
+                    break;
+                default: // light
+                    bgColorValue = '#f8f9fa';
+                    cardBgValue = '#ffffff';
+                    textColorValue = '#333333';
+                    secondaryTextValue = '#666666';
+                    borderColorValue = '#e0e0e0';
+                    hoverColorValue = '#f5f5f5';
+                    break;
+            }
+            
+            document.documentElement.style.setProperty('--bg-color', bgColorValue);
+            document.documentElement.style.setProperty('--card-bg', cardBgValue);
+            document.documentElement.style.setProperty('--text-color', textColorValue);
+            document.documentElement.style.setProperty('--secondary-text', secondaryTextValue);
+            document.documentElement.style.setProperty('--border-color', borderColorValue);
+            document.documentElement.style.setProperty('--hover-color', hoverColorValue);
+        }
+        
+        // Yazı boyutunu değiştir
+        function changeFontSize(size) {
+            userSettings.fontSize = parseInt(size);
+            document.getElementById('fontSizeValue').textContent = size + 'px';
+            
+            document.documentElement.style.setProperty('--font-size-base', size + 'px');
+            document.documentElement.style.setProperty('--font-size-small', (parseInt(size) - 2) + 'px');
+            document.documentElement.style.setProperty('--font-size-large', (parseInt(size) + 2) + 'px');
+            
+            if (userSettings.autoSave === 'on') {
+                saveSettings();
+            }
+        }
+        
+        // Animasyonları aç/kapat
+        function toggleAnimations(value) {
+            userSettings.animations = value;
+            
+            if (value === 'off') {
+                const style = document.createElement('style');
+                style.id = 'no-animations';
+                style.textContent = '*, *::before, *::after { animation-duration: 0s !important; transition-duration: 0s !important; }';
+                document.head.appendChild(style);
+            } else {
+                const noAnimations = document.getElementById('no-animations');
+                if (noAnimations) {
+                    noAnimations.remove();
+                }
+            }
+            
+            if (userSettings.autoSave === 'on') {
+                saveSettings();
+            }
+        }
+        
+        // Otomatik kaydetmeyi aç/kapat
+        function toggleAutoSave(value) {
+            userSettings.autoSave = value;
+            
+            if (value === 'on') {
+                saveSettings();
+            }
+        }
+        
+        // Ayarları sıfırla
+        function resetSettings() {
+            if (confirm('Tüm ayarları varsayılan değerlerine sıfırlamak istediğinize emin misiniz?')) {
+                userSettings = {
+                    colorTheme: 'red',
+                    bgColor: 'light',
+                    fontSize: 16,
+                    animations: 'on',
+                    autoSave: 'on'
+                };
+                
+                // Ayarları uygula
+                applySettings();
+                
+                // UI'ı güncelle
+                document.getElementById('fontSizeSlider').value = userSettings.fontSize;
+                document.getElementById('fontSizeValue').textContent = userSettings.fontSize + 'px';
+                document.getElementById('bgColorSelect').value = userSettings.bgColor;
+                document.getElementById('animationsSelect').value = userSettings.animations;
+                document.getElementById('autoSaveSelect').value = userSettings.autoSave;
+                
+                // Renk teması seçimini güncelle
+                document.querySelectorAll('.color-option').forEach(option => {
+                    option.classList.remove('active');
+                    if (option.getAttribute('data-color') === userSettings.colorTheme) {
+                        option.classList.add('active');
+                    }
+                });
+                
+                // Ayarları kaydet
+                saveSettings();
+                
+                alert('Ayarlar başarıyla sıfırlandı.');
+            }
+        }
+        
+        // Filtreleme olaylarını ayarla
+        function setupFilterEvents() {
+            // Hero section filtreleri
+            const filterButtons = document.querySelectorAll('#filterControls .filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Aktif sınıfı kaldır
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Tıklanan butona aktif sınıfı ekle
+                    this.classList.add('active');
+                    
+                    // Filtreleme yap
+                    const filter = this.getAttribute('data-filter');
+                    filterContent(filter);
+                });
+            });
+        }
+        
+        // İçeriği filtrele
+        function filterContent(filter) {
+            const items = document.querySelectorAll('#contentView .folder, #contentView .document');
+            
+            items.forEach(item => {
+                if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+        
+        // Görünüm değiştirme olaylarını ayarla
+        function setupViewToggleEvents() {
+            // Grid görünümü
+            document.getElementById('gridViewBtn').addEventListener('click', function() {
+                setActiveViewButton(this);
+                changeView('grid');
+            });
+            
+            // Liste görünümü
+            document.getElementById('listViewBtn').addEventListener('click', function() {
+                setActiveViewButton(this);
+                changeView('list');
+            });
+        }
+        
+        // Aktif görünüm butonunu ayarla
+        function setActiveViewButton(button) {
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            button.classList.add('active');
+        }
+        
+        // Görünümü değiştir
+        function changeView(view) {
+            currentView = view;
+            
+            // Grid görünümünü liste veya grid olarak ayarla
+            if (view === 'grid') {
+                document.getElementById('contentView').classList.remove('folder-list');
+                document.getElementById('contentView').classList.add('folder-grid');
+            } else if (view === 'list') {
+                document.getElementById('contentView').classList.remove('folder-grid');
+                document.getElementById('contentView').classList.add('folder-list');
             }
         }
         
@@ -1349,7 +1982,7 @@
             partiler.forEach(parti => {
                 html += `
                     <div class="folder" onclick="showPartyContent('${parti.id}')" data-category="all">
-                        <div class="folder-icon">📁</div>
+                        <div class="folder-icon"><i class="fas fa-folder"></i></div>
                         <div class="folder-name">${parti.ad}</div>
                     </div>
                 `;
@@ -1368,7 +2001,9 @@
                 let partiHTML = `
                     <div class="content-area" id="${parti.id}">
                         <div class="breadcrumb">
-                            <a href="#" onclick="showMainContent()">Ana Sayfa</a>
+                            <a href="#" onclick="showMainContent()">
+                                <i class="fas fa-home"></i> Ana Sayfa
+                            </a>
                             <span class="breadcrumb-separator">&gt;</span>
                             <span>${parti.ad}</span>
                         </div>
@@ -1380,7 +2015,9 @@
                 parti.olaylar.forEach(olay => {
                     partiHTML += `
                         <div class="folder" onclick="showEventContent('${olay.id}')" data-category="${olay.kategori}" data-date="${olay.tarih}">
-                            <div class="folder-icon">📁</div>
+                            <div class="folder-icon">
+                                ${getKategoriIkonu(olay.kategori)}
+                            </div>
                             <div class="folder-name">${olay.ad}</div>
                         </div>
                     `;
@@ -1398,7 +2035,9 @@
                     let olayHTML = `
                         <div class="content-area" id="${olay.id}">
                             <div class="breadcrumb">
-                                <a href="#" onclick="showMainContent()">Ana Sayfa</a>
+                                <a href="#" onclick="showMainContent()">
+                                    <i class="fas fa-home"></i> Ana Sayfa
+                                </a>
                                 <span class="breadcrumb-separator">&gt;</span>
                                 <a href="#" onclick="showPartyContent('${parti.id}')">${parti.ad}</a>
                                 <span class="breadcrumb-separator">&gt;</span>
@@ -1412,26 +2051,26 @@
                     if (olay.belgeler && olay.belgeler.length > 0) {
                         olay.belgeler.forEach(belge => {
                             let iconClass = 'text';
-                            let iconSymbol = '📄';
+                            let iconHTML = '<i class="fas fa-file-alt"></i>';
                             
                             if (belge.tip === 'image') {
                                 iconClass = 'image';
-                                iconSymbol = '🖼️';
+                                iconHTML = '<i class="fas fa-file-image"></i>';
                             } else if (belge.tip === 'audio') {
                                 iconClass = 'audio';
-                                iconSymbol = '🔊';
+                                iconHTML = '<i class="fas fa-file-audio"></i>';
                             } else if (belge.tip === 'video') {
                                 iconClass = 'video';
-                                iconSymbol = '🎬';
+                                iconHTML = '<i class="fas fa-file-video"></i>';
                             }
                             
                             olayHTML += `
                                 <div class="document" onclick="belgeGoster('${olay.id}', '${belge.id}')" data-category="${olay.kategori}" data-date="${belge.tarih}">
-                                    <div class="document-icon ${iconClass}">${iconSymbol}</div>
+                                    <div class="document-icon ${iconClass}">${iconHTML}</div>
                                     <div class="document-name">${belge.baslik}</div>
                                     <div class="document-info">${belge.tarih}</div>
                                     <div class="document-preview">
-                                        <div class="document-preview-icon">👁️</div>
+                                        <div class="document-preview-icon"><i class="fas fa-eye"></i></div>
                                     </div>
                                 </div>
                             `;
@@ -1454,13 +2093,28 @@
             });
         }
         
+        // Kategori ikonunu getir
+        function getKategoriIkonu(kategori) {
+            switch(kategori) {
+                case 'usulsuzluk':
+                    return '<i class="fas fa-exclamation-triangle"></i>';
+                case 'vaat':
+                    return '<i class="fas fa-times-circle"></i>';
+                case 'soylem':
+                    return '<i class="fas fa-comment-dots"></i>';
+                default:
+                    return '<i class="fas fa-folder"></i>';
+            }
+        }
+        
         // Ana içerik ve parti içeriklerini gösterme fonksiyonları
         function showMainContent() {
             hideAllContent();
             document.getElementById('main-content').classList.add('active');
             document.getElementById('search-page').classList.remove('active');
+            document.getElementById('history-page').classList.remove('active');
+            document.getElementById('settings-page').classList.remove('active');
             document.getElementById('hero-section').style.display = 'block';
-            document.getElementById('recentDocuments').style.display = sonGorulenBelgeler.length > 0 ? 'block' : 'none';
             
             // Sidebar menü aktifliğini güncelle
             updateSidebarActiveLink('home-link');
@@ -1496,8 +2150,23 @@
                 area.classList.remove('active');
             });
             document.getElementById('search-page').classList.remove('active');
+            document.getElementById('history-page').classList.remove('active');
+            document.getElementById('settings-page').classList.remove('active');
             document.getElementById('hero-section').style.display = 'none';
-            document.getElementById('recentDocuments').style.display = 'none';
+        }
+        
+        // Geçmiş sayfasını göster
+        function showHistoryPage() {
+            hideAllContent();
+            document.getElementById('history-page').classList.add('active');
+            
+            // Sidebar menü aktifliğini güncelle
+            updateSidebarActiveLink('history-link');
+            
+            // Geçmişi güncelle
+            gecmisiGuncelle();
+            
+            window.location.hash = 'history';
         }
         
         // Arama sayfasını göster
@@ -1510,6 +2179,19 @@
             
             // Arama kutusuna odaklan
             document.getElementById('searchPageBar').focus();
+            
+            window.location.hash = 'search';
+        }
+        
+        // Ayarlar sayfasını göster
+        function showSettingsPage() {
+            hideAllContent();
+            document.getElementById('settings-page').classList.add('active');
+            
+            // Sidebar menü aktifliğini güncelle
+            updateSidebarActiveLink('settings-link');
+            
+            window.location.hash = 'settings';
         }
         
         // Sidebar menü aktifliğini güncelle
@@ -1546,7 +2228,7 @@
                         id: parti.id,
                         title: parti.ad,
                         path: 'Ana Sayfa > ' + parti.ad,
-                        icon: '📁'
+                        icon: '<i class="fas fa-landmark"></i>'
                     });
                 }
                 
@@ -1560,7 +2242,7 @@
                             id: olay.id,
                             title: olay.ad,
                             path: 'Ana Sayfa > ' + parti.ad + ' > ' + olay.ad,
-                            icon: '📁'
+                            icon: getKategoriIkonu(olay.kategori)
                         });
                     }
                     
@@ -1573,10 +2255,10 @@
                                 belge.tarih.toLowerCase().includes(searchTerm) || 
                                 belge.kaynak.toLowerCase().includes(searchTerm)) {
                                 
-                                let icon = '📄';
-                                if (belge.tip === 'image') icon = '🖼️';
-                                else if (belge.tip === 'audio') icon = '🔊';
-                                else if (belge.tip === 'video') icon = '🎬';
+                                let icon = '<i class="fas fa-file-alt"></i>';
+                                if (belge.tip === 'image') icon = '<i class="fas fa-file-image"></i>';
+                                else if (belge.tip === 'audio') icon = '<i class="fas fa-file-audio"></i>';
+                                else if (belge.tip === 'video') icon = '<i class="fas fa-file-video"></i>';
                                 
                                 results.push({
                                     type: 'belge',
@@ -1614,7 +2296,7 @@
                     );
                     
                     html += `
-                        <div class="search-result-item" ${onClick}>
+                        <div class="search-result-item" ${onClick} data-type="${result.type}">
                             <div class="search-result-icon">${result.icon}</div>
                             <div class="search-result-content">
                                 <div class="search-result-title">${highlightedTitle}</div>
@@ -1655,9 +2337,9 @@
             document.getElementById('modalBaslik').textContent = belge.baslik;
             document.getElementById('modalIcerik').innerHTML = belge.icerik;
             document.getElementById('modalBilgi').innerHTML = `
-                <div>Tarih: ${belge.tarih}</div>
-                <div>Kategori: ${belge.kategori}</div>
-                <div>Kaynak: ${belge.kaynak}</div>
+                <div><i class="fas fa-calendar-alt"></i> Tarih: ${belge.tarih}</div>
+                <div><i class="fas fa-tag"></i> Kategori: ${belge.kategori}</div>
+                <div><i class="fas fa-link"></i> Kaynak: ${belge.kaynak}</div>
             `;
             
             // Modalı göster
@@ -1665,7 +2347,7 @@
             document.body.style.overflow = 'hidden'; // Sayfanın kaydırılmasını engelle
             
             // Son görüntülenen belgelere ekle
-            sonGorulenBelgelereEkle(olayId, belgeId, belge.baslik, belge.tip);
+            sonGorulenBelgelereEkle(olayId, belgeId, belge.baslik, belge.tip, parti.ad, olay.ad);
         }
         
         // Modalı kapat
@@ -1675,7 +2357,11 @@
         }
         
         // Son görüntülenen belgelere ekle
-        function sonGorulenBelgelereEkle(olayId, belgeId, baslik, tip) {
+        function sonGorulenBelgelereEkle(olayId, belgeId, baslik, tip, partiAd, olayAd) {
+            // Şu anki tarihi al
+            const now = new Date();
+            const tarih = `${now.getDate()}.${now.getMonth() + 1}.${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}`;
+            
             // Zaten listede varsa çıkar
             sonGorulenBelgeler = sonGorulenBelgeler.filter(belge => belge.belgeId !== belgeId);
             
@@ -1684,58 +2370,78 @@
                 olayId: olayId,
                 belgeId: belgeId,
                 baslik: baslik,
-                tip: tip
+                tip: tip,
+                partiAd: partiAd,
+                olayAd: olayAd,
+                tarih: tarih
             });
             
-            // Maksimum 5 belge tut
-            if (sonGorulenBelgeler.length > 5) {
+            // Maksimum 10 belge tut
+            if (sonGorulenBelgeler.length > 10) {
                 sonGorulenBelgeler.pop();
             }
             
             // localStorage'a kaydet
             localStorage.setItem('sonGorulenBelgeler', JSON.stringify(sonGorulenBelgeler));
             
-            // Listeyi güncelle
-            sonBelgeleriGuncelle();
+            // Geçmiş sayfası açıksa güncelle
+            if (document.getElementById('history-page').classList.contains('active')) {
+                gecmisiGuncelle();
+            }
         }
         
-        // Son görüntülenen belgeleri güncelle
-        function sonBelgeleriGuncelle() {
-            const recentList = document.getElementById('recentList');
-            recentList.innerHTML = '';
+        // Geçmişi güncelle
+        function gecmisiGuncelle() {
+            const historyList = document.getElementById('historyList');
+            const noHistory = document.getElementById('noHistory');
+            const clearHistory = document.getElementById('clearHistory');
             
             if (sonGorulenBelgeler.length === 0) {
-                document.getElementById('recentDocuments').style.display = 'none';
+                historyList.innerHTML = '';
+                noHistory.style.display = 'block';
+                clearHistory.style.display = 'none';
                 return;
             }
             
-            document.getElementById('recentDocuments').style.display = 'block';
+            noHistory.style.display = 'none';
+            clearHistory.style.display = 'inline-block';
+            
+            let html = '';
             
             sonGorulenBelgeler.forEach(belge => {
-                let iconClass = 'text';
-                let iconSymbol = '📄';
+                let iconHTML = '<i class="fas fa-file-alt"></i>';
                 
                 if (belge.tip === 'image') {
-                    iconClass = 'image';
-                    iconSymbol = '🖼️';
+                    iconHTML = '<i class="fas fa-file-image"></i>';
                 } else if (belge.tip === 'audio') {
-                    iconClass = 'audio';
-                    iconSymbol = '🔊';
+                    iconHTML = '<i class="fas fa-file-audio"></i>';
                 } else if (belge.tip === 'video') {
-                    iconClass = 'video';
-                    iconSymbol = '🎬';
+                    iconHTML = '<i class="fas fa-file-video"></i>';
                 }
                 
-                const item = document.createElement('div');
-                item.className = 'recent-item';
-                item.onclick = function() { belgeGoster(belge.olayId, belge.belgeId); };
-                item.innerHTML = `
-                    <div class="recent-icon ${iconClass}">${iconSymbol}</div>
-                    <div class="recent-name">${belge.baslik}</div>
+                html += `
+                    <div class="history-item" onclick="belgeGoster('${belge.olayId}', '${belge.belgeId}')">
+                        <div class="history-icon">${iconHTML}</div>
+                        <div class="history-name">${belge.baslik}</div>
+                        <div class="history-date">
+                            <div><i class="fas fa-landmark"></i> ${belge.partiAd || ''}</div>
+                            <div><i class="fas fa-folder"></i> ${belge.olayAd || ''}</div>
+                            <div><i class="fas fa-clock"></i> ${belge.tarih || ''}</div>
+                        </div>
+                    </div>
                 `;
-                
-                recentList.appendChild(item);
             });
+            
+            historyList.innerHTML = html;
+        }
+        
+        // Geçmişi temizle
+        function gecmisiTemizle() {
+            if (confirm('Geçmiş tamamen temizlenecek. Emin misiniz?')) {
+                sonGorulenBelgeler = [];
+                localStorage.removeItem('sonGorulenBelgeler');
+                gecmisiGuncelle();
+            }
         }
         
         // Belge yazdırma fonksiyonu
@@ -1779,7 +2485,10 @@
             // HTML içeriğini text olarak indir
             const element = document.createElement('a');
             const file = new Blob([
-                `<h1>${modalTitle}</h1>\n${modalBody}\n\nKaynak: Siyasi Arşiv Sistemi`
+                `<h1>${modalTitle}</h1>
+${modalBody}
+
+Kaynak: Siyasi Arşiv Sistemi`
             ], {type: 'text/html'});
             
             element.href = URL.createObjectURL(file);
@@ -1844,7 +2553,13 @@
         window.addEventListener('hashchange', function() {
             const hash = window.location.hash.substring(1);
             if (hash) {
-                if (document.getElementById(hash)) {
+                if (hash === 'search') {
+                    showSearchPage();
+                } else if (hash === 'history') {
+                    showHistoryPage();
+                } else if (hash === 'settings') {
+                    showSettingsPage();
+                } else if (document.getElementById(hash)) {
                     if (hash.includes('-')) {
                         showEventContent(hash);
                     } else {
