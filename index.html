@@ -86,7 +86,7 @@
         }
 
         .logo-text:hover {
-            color: #888; /* Kırmızımsı renk */
+            color: #ff5e5e; /* Kırmızımsı renk */
         }
 
         .logo-text span {
@@ -95,7 +95,7 @@
         }
 
         .logo-text:hover span {
-            color: #fff; /* Mavimsi renk */
+            color: #5e9fff; /* Mavimsi renk */
         }
 
         .nav-links {
@@ -161,35 +161,124 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
             position: relative;
             overflow: hidden;
             padding-top: 80px;
         }
 
-        .video-container {
+        /* Gençliğe Hitabe Bölümü */
+        .hitabe-container {
             width: 100%;
-            max-width: 800px; /* Video boyutu büyütüldü */
-            margin: 0 auto 40px; /* Alt margin eklendi */
+            max-width: 900px;
+            margin: 0 auto 40px;
             position: relative;
             z-index: 2;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 15px;
-            overflow: hidden;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            transform: translateY(0);
-            animation: float 6s ease-in-out infinite;
+            overflow: hidden;
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .video-container video {
+        .hitabe-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: auto;
-            display: block;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 0, 0, 0.05), rgba(0, 0, 255, 0.05));
+            z-index: -1;
+        }
+
+        .hitabe-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .hitabe-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, #ff5e5e, #5e9fff);
+        }
+
+        .hitabe-content {
+            text-align: justify;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #ddd;
+            font-weight: 400;
+            position: relative;
+            animation: fadeIn 2s ease;
+        }
+
+        .hitabe-paragraph {
+            margin-bottom: 20px;
+            position: relative;
+            animation: slideInUp 1s ease forwards;
+            opacity: 0;
+        }
+
+        .hitabe-paragraph:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .hitabe-paragraph:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .hitabe-paragraph:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .hitabe-paragraph:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+
+        .hitabe-paragraph:nth-child(5) {
+            animation-delay: 1s;
+        }
+
+        .hitabe-highlight {
+            color: #ff5e5e;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+            animation: highlight 3s ease infinite;
+        }
+
+        @keyframes highlight {
+            0%, 100% { color: #ff5e5e; }
+            50% { color: #5e9fff; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .hero-content {
@@ -198,6 +287,7 @@
             padding: 0 20px;
             max-width: 900px;
             margin: 0 auto;
+            text-align: center;
         }
 
         .hero h1 {
@@ -1351,6 +1441,12 @@
             .social-sidebar {
                 display: none;
             }
+            .hitabe-title {
+                font-size: 2rem;
+            }
+            .hitabe-content {
+                font-size: 1.1rem;
+            }
         }
 
         @media (max-width: 768px) {
@@ -1407,8 +1503,15 @@
                 border-radius: 50px;
                 padding: 15px;
             }
-            .video-container {
-                max-width: 90%;
+            .hitabe-container {
+                padding: 30px 20px;
+                width: 90%;
+            }
+            .hitabe-title {
+                font-size: 1.8rem;
+            }
+            .hitabe-content {
+                font-size: 1rem;
             }
         }
 
@@ -1432,11 +1535,14 @@
             .about-content, .contact-container {
                 flex-direction: column;
             }
-            .video-container {
-                width: 90%;
-            }
             .newsletter h3 {
                 font-size: 2rem;
+            }
+            .hitabe-title {
+                font-size: 1.5rem;
+            }
+            .hitabe-content {
+                font-size: 0.95rem;
             }
         }
     </style>
@@ -1478,18 +1584,21 @@
 
     <!-- Hero Section - Yeniden Tasarlandı -->
     <section class="hero" id="home">
-        <div class="video-container">
-            <video autoplay muted loop playsinline>
-                <source src="" type="video/mp4">
-                Tarayıcınız video oynatmayı desteklemiyor.
-            </video>
+        <div class="hitabe-container">
+            <h2 class="hitabe-title">Gençliğe Hitabe</h2>
+            <div class="hitabe-content">
+                <p class="hitabe-paragraph">Ey Türk gençliği! Birinci vazifen, Türk istiklâlini, Türk Cumhuriyetini, ilelebet muhafaza ve müdafaa etmektir.</p>
+                
+                <p class="hitabe-paragraph">Mevcudiyetinin ve istikbalinin yegâne temeli budur. Bu temel, <span class="hitabe-highlight">senin en kıymetli hazinendir</span>. İstikbalde dahi, seni bu hazineden mahrum etmek isteyecek dâhilî ve hâricî bedhahların olacaktır.</p>
+                
+                <p class="hitabe-paragraph">Bir gün, istiklâl ve cumhuriyeti müdafaa mecburiyetine düşersen, vazifeye atılmak için, içinde bulunacağın vaziyetin imkân ve şeraitini düşünmeyeceksin! Bu imkân ve şerait, çok namüsait bir mahiyette tezahür edebilir.</p>
+                
+                <p class="hitabe-paragraph">İstiklâl ve cumhuriyetine kastedecek düşmanlar, bütün dünyada emsali görülmemiş bir galibiyetin mümessili olabilirler. <span class="hitabe-highlight">Cebren ve hile ile aziz vatanın bütün kaleleri zapt edilmiş</span>, bütün tersanelerine girilmiş, bütün orduları dağıtılmış ve memleketin her köşesi bilfiil işgal edilmiş olabilir.</p>
+                
+                <!-- Buraya Gençliğe Hitabe'nin tamamını ekleyebilirsiniz -->
+            </div>
         </div>
-        <div class="hero-content">
-            <h1>Değişim İçin Harekete Geç</h1>
-            <p>Terakki Yolu, toplumsal ilerleme ve sürdürülebilir bir gelecek için çalışan genç ve dinamik bir sivil toplum örgütüdür. Geleceği birlikte inşa edelim.</p>
-            <a href="hakkimizda.html" class="btn">Bizi Keşfet</a>
-            <a href="iletisim.html" class="btn btn-filled">Bize Katıl</a>
-        </div>
+    
         <div class="scroll-down">
             <a href="#about"><i class="fas fa-chevron-down"></i></a>
         </div>
@@ -1504,7 +1613,7 @@
             </div>
             <div class="about-content">
                 <div class="about-image">
-                    <img src="https://source.unsplash.com/random/600x400/?youth,community" alt="Terakki Yolu Ekibi">
+                    <img src="ata1.JPG" alt="Terakki Yolu Ekibi">
                 </div>
                 <div class="about-text">
                     <h3>BİZ KİMİZ?</h3>
