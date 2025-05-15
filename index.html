@@ -142,15 +142,51 @@
             display: none;
             cursor: pointer;
             z-index: 1100;
+            width: 30px;
+            height: 24px;
+            position: relative;
+            transform: rotate(0deg);
+            transition: .5s ease-in-out;
         }
 
         .hamburger span {
             display: block;
-            width: 25px;
-            height: 2px;
+            position: absolute;
+            height: 3px;
+            width: 100%;
             background: var(--accent-color);
-            margin: 6px 0;
-            transition: var(--transition);
+            border-radius: 3px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+
+        .hamburger span:nth-child(1) {
+            top: 0px;
+        }
+
+        .hamburger span:nth-child(2) {
+            top: 10px;
+        }
+
+        .hamburger span:nth-child(3) {
+            top: 20px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            top: 10px;
+            transform: rotate(135deg);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+            left: -60px;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            top: 10px;
+            transform: rotate(-135deg);
         }
 
         /* Hero Section - Yeniden Tasarlandı */
@@ -228,13 +264,6 @@
             margin: 0 auto;
         }
 
-        .hitabe-paragraph {
-            margin-bottom: 10px;
-            position: relative;
-            animation: fadeIn 1s ease;
-            opacity: 1;
-        }
-
         .hitabe-highlight {
             color: #ff5e5e;
             font-weight: 600;
@@ -244,8 +273,8 @@
         }
 
         @keyframes highlight {
-            0%, 100% { color: #888; }
-            50% { color: #fff; }
+            0%, 100% { color: #ff5e5e; }
+            50% { color: #888; }
         }
 
         @keyframes fadeIn {
@@ -496,7 +525,7 @@
             overflow: hidden;
             border-radius: 10px;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            height: 512px;
+            height: 300px;
         }
 
         .about-video video {
@@ -1429,7 +1458,7 @@
                 align-items: center;
                 justify-content: center;
                 box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
-                transition: var(--transition);
+                transition: all 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
                 z-index: 1000;
                 backdrop-filter: blur(10px);
             }
@@ -1438,19 +1467,26 @@
             }
             .nav-links li {
                 margin: 15px 0;
+                opacity: 0;
+                transform: translateX(50px);
+                transition: all 0.4s ease;
             }
+            .nav-links.active li {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            .nav-links.active li:nth-child(1) { transition-delay: 0.1s; }
+            .nav-links.active li:nth-child(2) { transition-delay: 0.2s; }
+            .nav-links.active li:nth-child(3) { transition-delay: 0.3s; }
+            .nav-links.active li:nth-child(4) { transition-delay: 0.4s; }
+            .nav-links.active li:nth-child(5) { transition-delay: 0.5s; }
+            .nav-links.active li:nth-child(6) { transition-delay: 0.6s; }
+            .nav-links.active li:nth-child(7) { transition-delay: 0.7s; }
+            
             .hamburger {
                 display: block;
             }
-            .hamburger.active span:nth-child(1) {
-                transform: rotate(45deg) translate(5px, 5px);
-            }
-            .hamburger.active span:nth-child(2) {
-                opacity: 0;
-            }
-            .hamburger.active span:nth-child(3) {
-                transform: rotate(-45deg) translate(7px, -7px);
-            }
+            
             .hero h1 {
                 font-size: 3rem;
             }
@@ -1476,10 +1512,10 @@
                 width: 95%;
             }
             .hitabe-title {
-                font-size: 1.4rem;
+                font-size: 1.2rem;
             }
             .hitabe-content {
-                font-size: 0.55rem;
+                font-size: 0.45rem;
             }
         }
 
@@ -1507,10 +1543,10 @@
                 font-size: 2rem;
             }
             .hitabe-title {
-                font-size: 1.2rem;
+                font-size: 1rem;
             }
             .hitabe-content {
-                font-size: 0.5rem;
+                font-size: 0.35rem;
             }
             .hitabe-container {
                 padding: 20px 15px;
@@ -1556,7 +1592,7 @@
     <!-- Hero Section - Yeniden Tasarlandı -->
     <section class="hero" id="home">
         <div class="hitabe-container">
-            <h2 class="hitabe-title">Gençliğe Hitabe</h2>
+            <h2 class="hitabe-title">GENÇLİĞE HİTABE</h2>
             <div class="hitabe-content">
                 <p class="hitabe-paragraph"> <span class="hitabe-highlight">Ey Türk gençliği</span>! Birinci vazifen; Türk istiklalini, Türk cumhuriyetini, ilelebet muhafaza ve müdafaa etmektir.
 
