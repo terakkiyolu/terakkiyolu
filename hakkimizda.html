@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hakkımızda - Terakki Yolu</title>
+    <link rel="icon" type="image/png" href="/terakki1.jpg">
+    <link rel="apple-touch-icon" href="/terakki1.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #000;
+            --secondary-color: #333;
+            --accent-color: #fff;
+            --text-color: #fff;
+            --text-dark: #000;
+            --bg-color: #000;
+            --bg-light: #111;
+            --bg-lighter: #222;
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: var(--transition);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .logo-text:hover {
+            color: #ff5e5e; /* Kırmızımsı renk */
+        }
+
+        .logo-text span {
+            color: #888;
+            transition: var(--transition);
+        }
+
+        .logo-text:hover span {
+            color: #5e9fff; /* Mavimsi renk */
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a:hover {
+            color: #888;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: var(--accent-color);
+            margin: 6px 0;
+            transition: var(--transition);
+        }
+
+        /* Page Header */
+        .page-header {
+            height: 40vh;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            margin-top: 80px;
+        }
+
+        .page-header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .breadcrumbs {
+            color: #888;
+            font-size: 1rem;
+        }
+
+        .breadcrumbs a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumbs a:hover {
+            color: #888;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+        .section-description {
+            max-width: 800px;
+            margin: 0 auto;
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--bg-light);
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .about-image img {
+            width: 100%;
+            transition: var(--transition);
+            filter: grayscale(100%);
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+            filter: grayscale(0%);
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .about-text p {
+            margin-bottom: 15px;
+            color: #888;
+            font-weight: 300;
+        }
+
+        /* Timeline */
+        .history {
+            background: var(--bg-color);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .timeline-year {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-color);
+            color: var(--text-dark);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            z-index: 2;
+        }
+
+        .timeline-content {
+            width: 45%;
+            padding: 25px;
+            background: var(--bg-lighter);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            margin-top: 30px;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: 5%;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 5%;
+        }
+
+        .timeline-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .timeline-content p {
+            color: #888;
+            font-weight: 300;
+        }
+
+        /* Values Section */
+        .values {
+            background: var(--bg-light);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .value-card {
+            background: var(--bg-lighter);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .value-icon {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .value-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .value-card p {
+            color: #888;
+            font-weight: 300;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: var(--accent-color);
+            color: var(--text-dark);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .newsletter h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.7;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 30px 0 0 30px;
+            font-size: 1rem;
+            background: rgba(0, 0, 0, 0.1);
+            color: var(--text-dark);
+        }
+
+        .newsletter-input::placeholder {
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        .newsletter-btn {
+            padding: 0 25px;
+            background: var(--bg-color);
+            color: var(--accent-color);
+            border: none;
+            border-radius: 0 30px 30px 0;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .newsletter-btn:hover {
+            background: #333;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-color);
+            color: var(--accent-color);
+            padding: 60px 0 30px;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent-color);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #888;
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 300;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+            padding-left: 5px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .footer-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            color: var(--accent-color);
+            transition: var(--transition);
+        }
+
+        .footer-social a:hover {
+            background: var(--accent-color);
+            color: var(--text-dark);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent-color);
+            color: var(--text-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 999;
+        }
+
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: #888;
+            transform: translateY(-5px);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .section-title {
+                font-size: 2.2rem;
+            }
+            .timeline::before {
+                left: 30px;
+            }
+            .timeline-year {
+                left: 30px;
+                transform: translateX(-50%);
+            }
+            .timeline-content {
+                width: calc(100% - 60px);
+                margin-left: 60px !important;
+                margin-right: 0 !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 250px;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+                transition: var(--transition);
+                z-index: 1000;
+                backdrop-filter: blur(10px);
+            }
+            .nav-links.active {
+                right: 0;
+            }
+            .nav-links li {
+                margin: 15px 0;
+            }
+            .hamburger {
+                display: block;
+            }
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -7px);
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .newsletter-form {
+                flex-direction: column;
+            }
+            .newsletter-input {
+                border-radius: 30px;
+                margin-bottom: 10px;
+            }
+            .newsletter-btn {
+                border-radius: 30px;
+                padding: 15px;
+            }
+            .page-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .about-content {
+                flex-direction: column;
+            }
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <span class="logo-text">TERAKKİ <span>YOLU</span></span>
+                </a>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                    <li><a href="misyon.html">Misyon</a></li>
+                    <li><a href="projeler.html">Projeler</a></li>
+                    <li><a href="ekip.html">Ekip</a></li>
+                    <li><a href="etkinlikler.html">Etkinlikler</a></li>
+                    <li><a href="arsiv.html">Arşiv</a></li>
+                    <li><a href="iletisim.html">İletişim</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://source.unsplash.com/random/1920x1080/?community,youth') no-repeat center center/cover;">
+        <div class="page-header-content">
+            <h1 class="page-title">Hakkımızda</h1>
+            <div class="breadcrumbs">
+                <a href="index.html">Ana Sayfa</a> / <span>Hakkımızda</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="https://source.unsplash.com/random/600x400/?youth,community" alt="Terakki Yolu Ekibi">
+                </div>
+                <div class="about-text">
+                    <h3>BİZ KİMİZ?</h3>
+                    <p>Terakki Yolu, toplumsal sorunlara yenilikçi ve sürdürülebilir çözümler üretmek amacıyla bir araya gelmiş genç gönüllülerden oluşan bir sivil toplum örgütüdür. Eğitim, çevre, sosyal adalet ve kültürel gelişim alanlarında projeler yürütüyoruz.</p>
+                    <p>Amacımız, toplumun tüm kesimlerinin eşit fırsatlara sahip olduğu, sürdürülebilir bir gelecek için çalışmaktır. Faaliyetlerimizi şeffaflık, katılımcılık ve dayanışma ilkeleri doğrultusunda yürütüyoruz.</p>
+                    <p>Genç ve dinamik ekibimizle, yerel ve ulusal düzeyde projeler geliştiriyor, eğitimler düzenliyor ve savunuculuk faaliyetleri yürütüyoruz. Toplumsal dönüşüm için birlikte çalışıyoruz.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- History Section -->
+    <section class="section history" style="background: var(--bg-color);">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Tarihçemiz</h2>
+                <p class="section-description">Terakki Yolu'nun kuruluşundan bugüne kadar olan yolculuğu</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">2015</div>
+                    <div class="timeline-content">
+                        <h3>Kuruluş</h3>
+                        <p>Terakki Yolu, bir grup üniversite öğrencisi tarafından toplumsal sorunlara çözüm üretmek amacıyla kuruldu.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2017</div>
+                    <div class="timeline-content">
+                        <h3>İlk Büyük Proje</h3>
+                        <p>"Eğitimde Fırsat Eşitliği" projesi ile dezavantajlı bölgelerdeki öğrencilere eğitim desteği sağlamaya başladık.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2019</div>
+                    <div class="timeline-content">
+                        <h3>Ulusal Tanınırlık</h3>
+                        <p>Çevre projeleri ile ulusal çapta tanınırlık kazandık ve birçok ödül aldık.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2021</div>
+                    <div class="timeline-content">
+                        <h3>Uluslararası İşbirlikleri</h3>
+                        <p>Uluslararası sivil toplum örgütleri ile işbirliği yaparak projelerimizi genişlettik.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2023</div>
+                    <div class="timeline-content">
+                        <h3>Bugün</h3>
+                        <p>Bugün, 1000'den fazla gönüllü ve 50'den fazla tamamlanmış proje ile toplumsal değişim için çalışmaya devam ediyoruz.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="section values" style="background: var(--bg-light);">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Değerlerimiz</h2>
+                <p class="section-description">Terakki Yolu'nun temel değerleri ve ilkeleri</p>
+            </div>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>Adalet</h3>
+                    <p>Toplumsal adalet için çalışır, her bireyin eşit haklara sahip olması için mücadele ederiz.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3>Dayanışma</h3>
+                    <p>Toplumsal dayanışmayı güçlendirir, birlikte çalışmanın gücüne inanırız.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Yenilikçilik</h3>
+                    <p>Sorunlara yenilikçi çözümler üretir, değişimin öncüsü olmaya çalışırız.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <h3>Sürdürülebilirlik</h3>
+                    <p>Çevreye saygılı, sürdürülebilir bir gelecek için çalışırız.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Katılımcılık</h3>
+                    <p>Herkesin sesinin duyulduğu, katılımcı bir yaklaşımı benimseriz.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Şeffaflık</h3>
+                    <p>Tüm faaliyetlerimizde şeffaflığı ve hesap verebilirliği esas alırız.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <h3>BÜLTENİMİZE ABONE OLUN</h3>
+            <p>Terakki Yolu'nun faaliyetleri, etkinlikleri ve duyuruları hakkında düzenli bilgi almak için bültenimize abone olun.</p>
+            <form class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="E-posta Adresiniz" required>
+                <button type="submit" class="newsletter-btn">ABONE OL</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h4>TERAKKİ YOLU</h4>
+                    <p>Toplumsal ilerleme ve kalkınma için çalışan genç ve dinamik bir sivil toplum örgütü.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>HIZLI ERİŞİM</h4>
+                    <ul class="footer-links">
+                        <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                        <li><a href="misyon.html">Misyon & Vizyon</a></li>
+                        <li><a href="projeler.html">Projelerimiz</a></li>
+                        <li><a href="ekip.html">Ekibimiz</a></li>
+                        <li><a href="etkinlikler.html">Etkinlikler</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>FAALİYETLERİMİZ</h4>
+                    <ul class="footer-links">
+                        <li><a href="projeler.html">Eğitim Projeleri</a></li>
+                        <li><a href="projeler.html">Çevre Çalışmaları</a></li>
+                        <li><a href="projeler.html">Sosyal Sorumluluk</a></li>
+                        <li><a href="projeler.html">Kültürel Faaliyetler</a></li>
+                        <li><a href="arsiv.html">Arşiv</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>İLETİŞİM</h4>
+                    <ul class="footer-links">
+                        <li><a href="iletisim.html">Bize Ulaşın</a></li>
+                        <li><a href="iletisim.html#volunteer">Gönüllü Ol</a></li>
+                        <li><a href="iletisim.html#donate">Bağış Yap</a></li>
+                        <li><a href="iletisim.html#faq">Sıkça Sorulan Sorular</a></li>
+                        <li><a href="iletisim.html#privacy">Gizlilik Politikası</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Terakki Yolu. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        const body = document.querySelector('body');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            body.classList.toggle('no-scroll');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+                body.classList.remove('no-scroll');
+            });
+        });
+
+        // Sticky Header
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Back to Top Button
+        const backToTopButton = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('active');
+            } else {
+                backToTopButton.classList.remove('active');
+            }
+        });
+
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projelerimiz - Terakki Yolu</title>
+    <link rel="icon" type="image/png" href="/terakki1.jpg">
+    <link rel="apple-touch-icon" href="/terakki1.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #000;
+            --secondary-color: #333;
+            --accent-color: #fff;
+            --text-color: #fff;
+            --text-dark: #000;
+            --bg-color: #000;
+            --bg-light: #111;
+            --bg-lighter: #222;
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: var(--transition);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .logo-text:hover {
+            color: #ff5e5e; /* Kırmızımsı renk */
+        }
+
+        .logo-text span {
+            color: #888;
+            transition: var(--transition);
+        }
+
+        .logo-text:hover span {
+            color: #5e9fff; /* Mavimsi renk */
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a:hover {
+            color: #888;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: var(--accent-color);
+            margin: 6px 0;
+            transition: var(--transition);
+        }
+
+        /* Page Header */
+        .page-header {
+            height: 40vh;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            margin-top: 80px;
+        }
+
+        .page-header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .breadcrumbs {
+            color: #888;
+            font-size: 1rem;
+        }
+
+        .breadcrumbs a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumbs a:hover {
+            color: #888;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--accent-color);
+        }
+
+        .section-description {
+            max-width: 800px;
+            margin: 0 auto;
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        /* Projects Section */
+        .projects {
+            background: var(--bg-light);
+        }
+
+        .project-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+            justify-content: center;
+        }
+
+        .category-btn {
+            padding: 8px 20px;
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: var(--accent-color);
+            color: var(--text-dark);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            background: var(--bg-lighter);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+            filter: grayscale(100%);
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+            filter: grayscale(0%);
+        }
+
+        .project-content {
+            padding: 25px;
+            position: relative;
+        }
+
+        .project-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .project-content p {
+            color: #888;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        .project-link {
+            display: inline-block;
+            color: var(--accent-color);
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .project-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-color);
+            transition: var(--transition);
+        }
+
+        .project-link:hover::after {
+            width: 100%;
+        }
+
+        .project-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #888;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Featured Project */
+        .featured-project {
+            background: var(--bg-color);
+            padding: 80px 0;
+        }
+
+        .featured-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .featured-image {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .featured-image img {
+            width: 100%;
+            transition: var(--transition);
+            filter: grayscale(100%);
+        }
+
+        .featured-image:hover img {
+            transform: scale(1.05);
+            filter: grayscale(0%);
+        }
+
+        .featured-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .featured-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .featured-text p {
+            margin-bottom: 15px;
+            color: #888;
+            font-weight: 300;
+        }
+
+        .featured-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-item {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            padding: 20px;
+            background: var(--bg-lighter);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Impact Section */
+        .impact {
+            background: var(--bg-light);
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .impact-item {
+            background: var(--bg-lighter);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .impact-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .impact-icon {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .impact-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .impact-item p {
+            color: #888;
+            font-weight: 300;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: var(--accent-color);
+            color: var(--text-dark);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .newsletter h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.7;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 30px 0 0 30px;
+            font-size: 1rem;
+            background: rgba(0, 0, 0, 0.1);
+            color: var(--text-dark);
+        }
+
+        .newsletter-input::placeholder {
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        .newsletter-btn {
+            padding: 0 25px;
+            background: var(--bg-color);
+            color: var(--accent-color);
+            border: none;
+            border-radius: 0 30px 30px 0;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .newsletter-btn:hover {
+            background: #333;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-color);
+            color: var(--accent-color);
+            padding: 60px 0 30px;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-col h4 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent-color);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #888;
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 300;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+            padding-left: 5px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .footer-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            color: var(--accent-color);
+            transition: var(--transition);
+        }
+
+        .footer-social a:hover {
+            background: var(--accent-color);
+            color: var(--text-dark);
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent-color);
+            color: var(--text-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 999;
+        }
+
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: #888;
+            transform: translateY(-5px);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .section-title {
+                font-size: 2.2rem;
+            }
+            .featured-content {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 250px;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+                transition: var(--transition);
+                z-index: 1000;
+                backdrop-filter: blur(10px);
+            }
+            .nav-links.active {
+                right: 0;
+            }
+            .nav-links li {
+                margin: 15px 0;
+            }
+            .hamburger {
+                display: block;
+            }
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -7px);
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .newsletter-form {
+                flex-direction: column;
+            }
+            .newsletter-input {
+                border-radius: 30px;
+                margin-bottom: 10px;
+            }
+            .newsletter-btn {
+                border-radius: 30px;
+                padding: 15px;
+            }
+            .page-title {
+                font-size: 2.5rem;
+            }
+            .project-categories {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding-bottom: 15px;
+                justify-content: flex-start;
+            }
+            .category-btn {
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <span class="logo-text">TERAKKİ <span>YOLU</span></span>
+                </a>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                    <li><a href="misyon.html">Misyon</a></li>
+                    <li><a href="projeler.html">Projeler</a></li>
+                    <li><a href="ekip.html">Ekip</a></li>
+                    <li><a href="etkinlikler.html">Etkinlikler</a></li>
+                    <li><a href="arsiv.html">Arşiv</a></li>
+                    <li><a href="iletisim.html">İletişim</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://source.unsplash.com/random/1920x1080/?projects,community') no-repeat center center/cover;">
+        <div class="page-header-content">
+            <h1 class="page-title">Projelerimiz</h1>
+            <div class="breadcrumbs">
+                <a href="index.html">Ana Sayfa</a> / <span>Projelerimiz</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Project Section -->
+    <section class="section featured-project" id="featured">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Öne Çıkan Projemiz</h2>
+                <p class="section-description">Terakki Yolu'nun en güncel ve etkili projesi.</p>
+            </div>
+            <div class="featured-content">
+                <div class="featured-image">
+                    <img src="https://source.unsplash.com/random/800x600/?education,youth" alt="Eğitimde Fırsat Eşitliği">
+                </div>
+                <div class="featured-text">
+                    <h3>Eğitimde Fırsat Eşitliği</h3>
+                    <p>Eğitimde Fırsat Eşitliği projemiz, dezavantajlı bölgelerdeki gençlerin eğitime erişimini artırmak ve eğitim kalitesini yükseltmek amacıyla 2017 yılında başlatılmıştır.</p>
+                    <p>Proje kapsamında, dezavantajlı bölgelerdeki okullara teknolojik altyapı desteği sağlanmakta, öğrencilere burs imkanları sunulmakta ve gönüllü eğitmenler tarafından mentorluk hizmeti verilmektedir.</p>
+                    <p>Ayrıca, öğrencilerin sosyal ve kültürel gelişimlerine katkı sağlamak amacıyla çeşitli etkinlikler ve atölye çalışmaları düzenlenmektedir.</p>
+                    <div class="featured-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">5000+</div>
+                            <div class="stat-label">Öğrenci</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Okul</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">200+</div>
+                            <div class="stat-label">Gönüllü</div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn">Detaylı Bilgi</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="section projects" id="projects">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Tüm Projelerimiz</h2>
+                <p class="section-description">Terakki Yolu'nun yürüttüğü projeler ve faaliyetler.</p>
+            </div>
+            <div class="project-categories">
+                <button class="category-btn active">Tümü</button>
+                <button class="category-btn">Eğitim</button>
+                <button class="category-btn">Çevre</button>
+                <button class="category-btn">Sosyal Sorumluluk</button>
+                <button class="category-btn">Kültür & Sanat</button>
+                <button class="category-btn">Teknoloji</button>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://source.unsplash.com/random/600x400/?education,youth" alt="Eğitim Projesi">
+                    </div>
+                    <div class="project-content">
+                        <h3>Eğitimde Fırsat Eşitliği</h3>
+                        <p>Dezavantajlı bölgelerdeki gençlere eğitim desteği sağlıyoruz.</p>
+                        <span class="project-tag">Eğitim</span>
+                        <a href="#" class="project-link">Detaylı Bilgi <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://source.unsplash.com/random/600x400/?environment,sustainability" alt="Çevre Projesi">
+                    </div>
+                    <div class="project-content">
+                        <h3>Yeşil Gelecek</h3>
+                        <p>Çevre bilincini artırmak ve sürdürülebilir yaşam için çalışıyor
