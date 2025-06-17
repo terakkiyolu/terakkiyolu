@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF Gösterimi - Terakki Yolu</title>
+  <link rel="icon" type="image/png" href="/terakki1.jpg" />
+  <link rel="apple-touch-icon" href="/terakki1.jpg" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    /* Önceki stiller buraya gelecek (senin gönderdiğin CSS tamamen korunmalı) */
+
+    .pdf-viewer-section {
+        padding: 100px 20px;
+        background: var(--bg-light);
+        min-height: 100vh;
+    }
+
+    .pdf-container {
+        width: 100%;
+        max-width: 1000px;
+        height: 90vh;
+        margin: 0 auto;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        background: var(--bg-lighter);
+    }
+
+    .pdf-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        color: var(--accent-color);
+        font-weight: 800;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    @media (max-width: 768px) {
+        .pdf-container {
+            height: 70vh;
+        }
+        .section-title {
+            font-size: 2rem;
+        }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container">
+      <div class="navbar">
+        <a href="/" class="logo">
+          <span class="logo-text">Terakki <span>Yolu</span></span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="/">Ana Sayfa</a></li>
+          <li><a href="/hakkimizda">Hakkımızda</a></li>
+          <li><a href="/iletisim">İletişim</a></li>
+        </ul>
+        <div class="hamburger">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="pdf-viewer-section">
+    <h2 class="section-title">PDF GÖSTERİMİ</h2>
+    <div class="pdf-container">
+      <iframe src="sungu2.pdf" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-container">
+        <div class="footer-col">
+          <h4>Hakkımızda</h4>
+          <p>Terakki Yolu, hakikat ve ilerleme yolunda bir duraktır.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Bağlantılar</h4>
+          <ul class="footer-links">
+            <li><a href="/">Ana Sayfa</a></li>
+            <li><a href="/hakkimizda">Hakkımızda</a></li>
+            <li><a href="/iletisim">İletişim</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Sosyal Medya</h4>
+          <div class="footer-social">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2025 Terakki Yolu. Tüm Hakları Saklıdır.
+      </div>
+    </div>
+  </footer>
+
+  <a href="#" class="back-to-top"><i class="fas fa-chevron-up"></i></a>
+
+  <script>
+    // Menü ve geri dön düğmesi gibi JS kodları burada olabilir
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('active');
+    });
+
+    const backToTop = document.querySelector('.back-to-top');
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTop.classList.add('active');
+        } else {
+            backToTop.classList.remove('active');
+        }
+    });
+  </script>
+</body>
+</html>

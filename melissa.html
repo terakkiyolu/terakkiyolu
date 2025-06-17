@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MELİSSA APT - Borç Durumu ve Duyurular</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header-image {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/apt.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-image h1 {
+            color: white;
+            font-size: 3.5em;
+            font-weight: 700;
+            text-shadow: 3px 3px 8px rgba(0,0,0,0.7);
+            letter-spacing: 2px;
+            animation: fadeInDown 1.5s ease-out;
+        }
+        .apartment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 20px;
+            padding: 30px 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .apartment-card {
+            background: linear-gradient(145deg, #ffffff, #e6e6e6);
+            border-radius: 10px;
+            aspect-ratio: 1/1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), box-shadow 0.4s;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+        .apartment-card:nth-child(1) { animation-delay: 0.1s; }
+        .apartment-card:nth-child(2) { animation-delay: 0.2s; }
+        .apartment-card:nth-child(3) { animation-delay: 0.3s; }
+        .apartment-card:nth-child(4) { animation-delay: 0.4s; }
+        .apartment-card:nth-child(5) { animation-delay: 0.5s; }
+        .apartment-card:nth-child(6) { animation-delay: 0.6s; }
+        .apartment-card:nth-child(7) { animation-delay: 0.7s; }
+        .apartment-card:nth-child(8) { animation-delay: 0.8s; }
+        .apartment-card:nth-child(9) { animation-delay: 0.9s; }
+        .apartment-card:nth-child(10) { animation-delay: 1.0s; }
+        .apartment-card:nth-child(11) { animation-delay: 1.1s; }
+        .apartment-card:nth-child(12) { animation-delay: 1.2s; }
+        .apartment-card:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+        .apartment-card span {
+            font-size: 2em;
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            z-index: 1000;
+            animation: popupFadeIn 0.3s ease-out forwards;
+        }
+        .popup.active {
+            display: block;
+        }
+        .popup h3 {
+            font-size: 1.8em;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+        .popup p {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        .debt-zero {
+            color: #2ecc71;
+            font-weight: 600;
+        }
+        .debt-nonzero {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+        .popup button {
+            background: #1e3a8a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+        .popup button:hover {
+            background: #2c5282;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+        .overlay.active {
+            display: block;
+        }
+        .announcements {
+            margin: 40px 0;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            animation: slideInLeft 1s ease-out;
+        }
+        .announcements h2 {
+            font-size: 2em;
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .announcement-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            transition: transform 0.3s, background 0.3s;
+        }
+        .announcement-item:hover {
+            transform: translateX(10px);
+            background: #e8ecef;
+        }
+        .announcement-item p {
+            font-size: 1.1em;
+            color: #34495e;
+        }
+        @keyframes fadeInDown {
+            0% { opacity: 0; transform: translateY(-50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateYNordicTrack; }
+        }
+        @keyframes slideInLeft {
+            0% { opacity: 0; transform: translateX(-50px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes popupFadeIn {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        @media (max-width: 768px) {
+            .header-image {
+                height: 250px;
+            }
+            .header-image h1 {
+                font-size: 2.5em;
+            }
+            .container {
+                padding: 15px;
+            }
+            .apartment-grid {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                gap: 15px;
+            }
+            .apartment-card span {
+                font-size: 1.5em;
+            }
+            .popup h3 {
+                font-size: 1.6em;
+            }
+            .popup p {
+                font-size: 1.3em;
+            }
+            .announcements h2 {
+                font-size: 1.8em;
+            }
+            .announcement-item p {
+                font-size: 1em;
+            }
+        }
+        @media (max-width: 480px) {
+            .header-image {
+                height: 200px;
+            }
+            .header-image h1 {
+                font-size: 2em;
+            }
+            .apartment-card span {
+                font-size: 1.2em;
+            }
+            .popup h3 {
+                font-size: 1.4em;
+            }
+            .popup p {
+                font-size: 1.1em;
+            }
+            .announcements h2 {
+                font-size: 1.6em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-image">
+        <h1>MELİSSA APT</h1>
+    </div>
+    <div class="container">
+        
+        <div class="apartment-grid">
+            <div class="apartment-card" onclick="showPopup(1, 'Borç Yoktur', 'debt-zero')">
+                <span>1</span>
+            </div>
+            <div class="apartment-card" onclick="showPopup(2, 'Borç: 1500 TL', 'debt-nonzero')">
+                <span>2</span>
+            </div>
+            <div class="apartment-card" onclick="showPopup(3, 'Borç Yoktur', 'debt-zero')">
+                <span>3</span>
+            </div>
+            <div class="apartment-card" onclick="showPopup(4, 'Borç: 800 TL', 'debt-nonzero')">
+                <span>4</span>
+            </div>
+            <div class="apartment-card" onclick="showPopup(5, 'Borç Yoktur', 'debt-zero')">
+                <span>5</span>
+            </div>
+            <div class="apartment-card" onclick="showPopup(6, 'Borç: 2000 TL', 'debt-nonzero')">
+                <span>6</span>
+            </div>
+            <div class="apartment-card" onclick="showPopup(7, 'Borç Yoktur', 'debt-zero')">
+                <span>7</span>
+            </div>
+            <div class="apartment-card" onclick="showPopup(8, 'Borç: 1200 TL', 'debt-nonzero')">
+                <span>8</span>
+            </div>
+            <div class="apartment-card" onclick="showPopup(9, 'Borç Yoktur', 'debt-zero')">
+                <span>9</span>
+            </div>
+            <div class="apartment-card" onclick="showPopup(10, 'Borç: 950 TL', 'debt-nonzero')">
+                <span>10</span>
+            </div>
+            <div class="apartment-card" onclick="showPopup(11, 'Borç Yoktur', 'debt-zero')">
+                <span>11</span>
+            </div>
+            <div class="apartment-card" onclick="showPopup(12, 'Borç: 1800 TL', 'debt-nonzero')">
+                <span>12</span>
+            </div>
+        </div>
+        <div class="announcements">
+            <h2>Duyurular</h2>
+            <div class="announcement-item">
+                <p>17 Haziran 2025: Aidat ödemeleri için son tarih 30 Haziran 2025. Lütfen ödemelerinizi zamanında yapınız.</p>
+            </div>
+            <div class="announcement-item">
+                <p>15 Haziran 2025: Asansör bakımı 20 Haziran 2025 tarihinde yapılacaktır. 09:00-12:00 arası asansör kullanılamayacaktır.</p>
+            </div>
+            <div class="announcement-item">
+                <p>10 Haziran 2025: Ortak alan temizliği her Çarşamba günü yapılmaktadır. Lütfen eşyalarınızı koridorlarda bırakmayınız.</p>
+            </div>
+        </div>
+        <div class="overlay" id="overlay"></div>
+        <div class="popup" id="popup">
+            <h3 id="popup-title"></h3>
+            <p id="popup-debt"></p>
+            <button onclick="hidePopup()">Kapat</button>
+        </div>
+    </div>
+    <script>
+        function showPopup(apartmentNumber, debtText, debtClass) {
+            document.getElementById('popup-title').textContent = `Daire ${apartmentNumber}`;
+            const debtElement = document.getElementById('popup-debt');
+            debtElement.textContent = debtText;
+            debtElement.className = debtClass;
+            document.getElementById('popup').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        }
+        function hidePopup() {
+            document.getElementById('popup').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
