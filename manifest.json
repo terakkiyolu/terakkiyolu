@@ -1,21 +1,77 @@
 {
-  "name": "ERT HALI",
-  "short_name": "ERT",
-  "start_url": "/ertek.html",
+  "name": "ERT HALI - İşletme Yönetim Sistemi",
+  "short_name": "ERT HALI",
+  "description": "ERT HALI işletme yönetim sistemi - Satış, gider ve müşteri takibi",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#111111",
-  "theme_color": "#111111",
-  "description": "Sadece Kur'an meali ve araştırma sitesi. 24 farklı meal, not alma ve gelişmiş arama özelliği.",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "tr",
+  "categories": ["business", "productivity", "finance"],
   "icons": [
     {
-      "src": "/ert1.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "ert1.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "/ert1.png",
+      "src": "ert1.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Satış Girişi",
+      "short_name": "Satış",
+      "description": "Yeni satış kaydı oluştur",
+      "url": "/?tab=sales",
+      "icons": [
+        {
+          "src": "ert1.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Gider Girişi",
+      "short_name": "Gider",
+      "description": "Yeni gider kaydı oluştur",
+      "url": "/?tab=expenses",
+      "icons": [
+        {
+          "src": "ert1.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Müşteri Listesi",
+      "short_name": "Müşteriler",
+      "description": "Müşteri listesini görüntüle",
+      "url": "/?tab=customers",
+      "icons": [
+        {
+          "src": "ert1.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Raporlar",
+      "short_name": "Rapor",
+      "description": "İşletme raporlarını görüntüle",
+      "url": "/?tab=reports",
+      "icons": [
+        {
+          "src": "ert1.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }
