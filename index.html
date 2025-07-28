@@ -35,99 +35,142 @@
             box-shadow: none !important;
         }
 
-        button:focus,
-        input:focus,
-        select:focus,
-        textarea:focus,
-        .btn:focus,
-        .tab:focus,
-        .payment-option:focus {
-            outline: none !important;
-            box-shadow: none !important;
-        }
-
-        :focus {
-            outline: none !important;
-        }
-
-        ::-moz-focus-inner {
-            border: 0 !important;
-        }
-
-        button::-moz-focus-inner,
-        input::-moz-focus-inner {
-            border: 0 !important;
-        }
-
         :root {
             --bg-primary: #ffffff;
             --bg-secondary: #f8f9fa;
             --bg-tertiary: #e9ecef;
-            --text-primary: #000000;
+            --text-primary: #2c3e50;
             --text-secondary: #6c757d;
             --border-color: #dee2e6;
-            --shadow: rgba(0, 0, 0, 0.1);
-            --shadow-dark: rgba(0, 0, 0, 0.2);
-            --danger-color: #dc3545;
-            --warning-color: #ffc107;
-            --success-color: #28a745;
+            --shadow: rgba(0, 0, 0, 0.08);
+            --shadow-dark: rgba(0, 0, 0, 0.15);
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --success-color: #27ae60;
+            --info-color: #3498db;
+            --primary-color: #2980b9;
+            --navbar-height: 60px;
         }
 
         [data-theme="dark"] {
-            --bg-primary: #000000;
-            --bg-secondary: #1a1a1a;
-            --bg-tertiary: #2d2d2d;
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-tertiary: #404040;
             --text-primary: #ffffff;
             --text-secondary: #adb5bd;
             --border-color: #495057;
-            --shadow: rgba(255, 255, 255, 0.1);
-            --shadow-dark: rgba(255, 255, 255, 0.2);
+            --shadow: rgba(255, 255, 255, 0.08);
+            --shadow-dark: rgba(255, 255, 255, 0.15);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background-color: var(--bg-primary);
             color: var(--text-primary);
             transition: all 0.3s ease;
             line-height: 1.6;
+            padding-top: var(--navbar-height);
         }
 
-        /* PWA Install Button */
-        .pwa-install-btn {
-            display: none;
+        /* Modern Navbar */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+            backdrop-filter: blur(10px);
+            height: var(--navbar-height);
+            padding: 0 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--text-primary);
-            color: var(--bg-primary);
-            border: none;
-            padding: 12px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
+            top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
-            box-shadow: 0 4px 12px var(--shadow-dark);
-            transition: all 0.3s ease;
+            box-shadow: 0 2px 20px var(--shadow-dark);
         }
 
-        .pwa-install-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px var(--shadow-dark);
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-logo {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .nav-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-1px);
+        }
+
+        .theme-toggle {
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255,255,255,0.25);
+            transform: scale(1.05);
         }
 
         /* File System Status */
         .file-status {
             position: fixed;
-            top: 10px;
-            right: 10px;
+            top: 70px;
+            right: 20px;
             background: var(--success-color);
             color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.7rem;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
             font-weight: 600;
-            z-index: 1001;
+            z-index: 999;
             display: none;
+            box-shadow: 0 4px 12px var(--shadow-dark);
         }
 
         .file-status.error {
@@ -139,161 +182,180 @@
             color: var(--text-primary);
         }
 
-        /* Ripple Effect */
-        .ripple {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .ripple::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s ease, height 0.6s ease;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        [data-theme="dark"] .ripple::after {
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
-        }
-
-        .ripple:active::after {
-            width: 200px;
-            height: 200px;
-            transition: width 0.1s ease, height 0.1s ease;
-        }
-
-        .navbar {
-            background-color: var(--bg-secondary);
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 4px var(--shadow);
-        }
-
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .nav-logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            object-fit: cover;
-        }
-
-        .nav-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: 1px;
-        }
-
-        .admin-btn {
-            background: none;
-            border: 1px solid var(--border-color);
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-            transition: all 0.3s ease;
-        }
-
-        .admin-btn:hover {
-            border-color: var(--text-primary);
-            background-color: var(--bg-tertiary);
-        }
-
-        .theme-toggle {
-            background: none;
-            border: 2px solid var(--border-color);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            color: var(--text-primary);
-        }
-
-        .theme-toggle:hover {
-            border-color: var(--text-primary);
-            transform: scale(1.1);
-        }
-
         .container {
-            padding: 1rem;
-            max-width: 1200px;
+            padding: 1.5rem;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
+        /* Modern Tabs */
         .tabs {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 0.5rem;
-            background-color: var(--bg-secondary);
-            border-radius: 8px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
             padding: 0.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             border: 1px solid var(--border-color);
+            box-shadow: 0 2px 8px var(--shadow);
         }
 
         .tab {
-            padding: 0.75rem 0.5rem;
+            padding: 0.75rem 1rem;
             text-align: center;
             background: transparent;
             border: none;
             color: var(--text-secondary);
             cursor: pointer;
-            border-radius: 6px;
+            border-radius: 8px;
             transition: all 0.3s ease;
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             position: relative;
-            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .tab.active {
-            background-color: var(--text-primary);
-            color: var(--bg-primary);
+            background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+            color: white;
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
         }
 
         .tab-content {
             display: none;
-            background-color: var(--bg-secondary);
-            padding: 1.5rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
+            animation: fadeIn 0.4s ease;
         }
 
         .tab-content.active {
             display: block;
-            animation: fadeIn 0.3s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Dashboard Cards */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .dashboard-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .dashboard-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .date-selector {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            background: var(--bg-secondary);
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--info-color));
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px var(--shadow-dark);
+        }
+
+        .stat-card.debt-card::before {
+            background: linear-gradient(90deg, var(--danger-color), #c0392b);
+        }
+
+        .stat-card.success-card::before {
+            background: linear-gradient(90deg, var(--success-color), #229954);
+        }
+
+        .stat-card.warning-card::before {
+            background: linear-gradient(90deg, var(--warning-color), #d68910);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: var(--success-color);
+        }
+
+        .stat-change.negative {
+            color: var(--danger-color);
+        }
+
+        /* Forms */
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -314,9 +376,9 @@
 
         input, select, textarea {
             width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
+            padding: 0.875rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
             background-color: var(--bg-primary);
             color: var(--text-primary);
             font-size: 1rem;
@@ -324,16 +386,15 @@
         }
 
         input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--text-primary);
-            box-shadow: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
         }
 
         .btn {
             width: 100%;
-            padding: 0.875rem;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 1rem;
             font-weight: 600;
@@ -342,31 +403,33 @@
             letter-spacing: 0.5px;
             margin-bottom: 0.5rem;
             position: relative;
-            z-index: 2;
+            overflow: hidden;
         }
 
         .btn-primary {
-            background-color: var(--text-primary);
-            color: var(--bg-primary);
-            border-color: var(--text-primary);
+            background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+            color: white;
         }
 
         .btn-secondary {
-            background-color: var(--bg-primary);
+            background: var(--bg-secondary);
             color: var(--text-primary);
-            border-color: var(--text-primary);
+            border: 2px solid var(--border-color);
         }
 
         .btn-danger {
-            background-color: var(--danger-color);
+            background: linear-gradient(135deg, var(--danger-color), #c0392b);
             color: white;
-            border-color: var(--danger-color);
         }
 
         .btn-warning {
-            background-color: var(--warning-color);
-            color: var(--text-primary);
-            border-color: var(--warning-color);
+            background: linear-gradient(135deg, var(--warning-color), #d68910);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-color), #229954);
+            color: white;
         }
 
         .btn-small {
@@ -377,61 +440,58 @@
         }
 
         .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 8px var(--shadow-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--shadow-dark);
         }
 
         .btn:active {
             transform: translateY(0);
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background-color: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
+        /* Customer Autocomplete */
+        .customer-autocomplete {
             position: relative;
-            z-index: 2;
         }
 
-        .stat-card:hover {
-            box-shadow: 0 4px 12px var(--shadow-dark);
-            transform: translateY(-2px);
+        .customer-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
         }
 
-        .stat-card.debt-card {
-            border-color: var(--danger-color);
+        .customer-suggestion {
+            padding: 0.75rem;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s ease;
         }
 
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
+        .customer-suggestion:hover,
+        .customer-suggestion.selected {
+            background-color: var(--bg-secondary);
         }
 
-        .stat-label {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            font-weight: 500;
+        .customer-suggestion:last-child {
+            border-bottom: none;
         }
 
+        /* Tables */
         .table-container {
-            background-color: var(--bg-primary);
-            border-radius: 8px;
+            background: var(--bg-primary);
+            border-radius: 12px;
             overflow: hidden;
             border: 1px solid var(--border-color);
             margin-top: 1rem;
+            box-shadow: 0 4px 20px var(--shadow);
         }
 
         table {
@@ -440,54 +500,53 @@
         }
 
         th, td {
-            padding: 0.75rem 0.5rem;
+            padding: 1rem;
             text-align: left;
             border-bottom: 1px solid var(--border-color);
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
 
         th {
-            background-color: var(--bg-tertiary);
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
             font-weight: 600;
             color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.8rem;
         }
 
         tr:hover {
             background-color: var(--bg-secondary);
         }
 
-        .customer-item {
-            background-color: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 1rem;
-            margin-bottom: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 2;
-        }
-
-        .customer-item:hover {
-            background-color: var(--bg-secondary);
-            transform: translateY(-1px);
-        }
-
-        .customer-name {
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .customer-info {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        .search-box {
+        /* Payment Options */
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
             margin-bottom: 1rem;
         }
 
+        .payment-option {
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: var(--bg-primary);
+        }
+
+        .payment-option.selected {
+            border-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+            color: white;
+            transform: scale(1.02);
+        }
+
+        /* Modals */
         .modal {
             display: none;
             position: fixed;
@@ -495,9 +554,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 1000;
+            background-color: rgba(0,0,0,0.6);
+            z-index: 2000;
             padding: 1rem;
+            backdrop-filter: blur(5px);
         }
 
         .modal-content {
@@ -505,14 +565,15 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: var(--bg-primary);
+            background: var(--bg-primary);
             padding: 2rem;
-            border-radius: 8px;
+            border-radius: 16px;
             border: 1px solid var(--border-color);
             width: 100%;
-            max-width: 500px;
-            max-height: 80vh;
+            max-width: 600px;
+            max-height: 90vh;
             overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
 
         .close {
@@ -522,232 +583,131 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--text-secondary);
-            z-index: 2;
-        }
-
-        .alert {
-            padding: 1rem;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            font-weight: 500;
-            border: 1px solid var(--border-color);
-        }
-
-        .alert-success {
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
-        }
-
-        .alert-error {
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
-            border-color: var(--text-primary);
-        }
-
-        .file-input-wrapper {
-            position: relative;
-            display: block;
-            cursor: pointer;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            padding: 0.875rem;
-            border: 1px solid var(--text-primary);
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            text-align: center;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            z-index: 2;
-        }
-
-        .file-input-wrapper:hover {
-            background-color: var(--text-primary);
-            color: var(--bg-primary);
-        }
-
-        .file-input-wrapper input[type=file] {
-            position: absolute;
-            left: -9999px;
-        }
-
-        .section-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 0.5rem;
-        }
-
-        .info-text {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-top: 0.5rem;
-            line-height: 1.4;
-        }
-
-        .button-group {
+            width: 30px;
+            height: 30px;
             display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .payment-options {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .payment-option {
-            padding: 0.75rem;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            text-align: center;
-            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
-            position: relative;
-            z-index: 2;
         }
 
-        .payment-option.selected {
-            background-color: var(--text-primary);
-            color: var(--bg-primary);
-        }
-
-        .debt-amount {
-            color: var(--danger-color);
-            font-weight: 600;
-        }
-
-        .payment-type-badge {
-            display: inline-block;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            margin-left: 0.5rem;
-        }
-
-        .payment-cash {
-            background-color: var(--bg-tertiary);
+        .close:hover {
+            background: var(--bg-secondary);
             color: var(--text-primary);
         }
 
-        .payment-card {
-            background-color: var(--bg-tertiary);
-            color: var(--text-primary);
+        /* Admin Panel Styles */
+        .admin-page {
+            display: none;
+            min-height: calc(100vh - var(--navbar-height));
+            background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
         }
 
-        .payment-debt {
-            background-color: var(--danger-color);
+        .admin-page.active {
+            display: block;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, var(--danger-color), #c0392b);
             color: white;
-        }
-
-        .admin-panel {
-            background-color: var(--bg-secondary);
-            border: 2px solid var(--danger-color);
-            border-radius: 8px;
-            padding: 1.5rem;
+            padding: 2rem;
+            text-align: center;
             margin-bottom: 2rem;
         }
 
         .admin-title {
-            color: var(--danger-color);
-            font-size: 1.3rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 1rem;
-            text-align: center;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
-        .admin-tabs {
+        .admin-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .admin-nav {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
 
-        .admin-tab {
-            padding: 0.75rem;
-            text-align: center;
+        .admin-nav-btn {
+            padding: 1rem;
             background: var(--bg-primary);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
             cursor: pointer;
-            border-radius: 6px;
             transition: all 0.3s ease;
-            font-weight: 500;
-            position: relative;
-            z-index: 2;
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .admin-tab.active {
-            background-color: var(--danger-color);
-            color: white;
+        .admin-nav-btn.active {
             border-color: var(--danger-color);
+            background: linear-gradient(135deg, var(--danger-color), #c0392b);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
         }
 
         .admin-content {
             display: none;
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 20px var(--shadow);
         }
 
         .admin-content.active {
             display: block;
         }
 
-        .action-buttons {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
+        /* Employee Management */
+        .employee-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
 
-        .action-buttons .btn {
-            width: auto;
-            padding: 0.5rem 1rem;
-            font-size: 0.8rem;
-            margin: 0;
+        .employee-card {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: all 0.3s ease;
         }
 
-        /* PWA Status Indicator */
-        .pwa-status {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            background: var(--success-color);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.7rem;
+        .employee-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px var(--shadow-dark);
+        }
+
+        .employee-name {
+            font-size: 1.2rem;
             font-weight: 600;
-            z-index: 1001;
-            display: none;
+            margin-bottom: 0.5rem;
         }
 
-        .pwa-status.offline {
-            background: var(--danger-color);
+        .employee-code {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
-        /* Desktop Styles */
+        /* Responsive Design */
         @media (min-width: 768px) {
-            .container {
-                padding: 2rem;
-            }
-
-            .tabs {
-                grid-template-columns: repeat(6, 1fr);
-            }
-
             .form-row {
-                flex-direction: row;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-
-            .button-group {
                 flex-direction: row;
             }
 
@@ -756,110 +716,589 @@
                 min-width: 150px;
             }
 
-            th, td {
-                padding: 1rem;
-                font-size: 0.9rem;
-            }
-
-            .admin-tabs {
-                grid-template-columns: repeat(2, 1fr);
+            .dashboard-controls {
+                flex-wrap: nowrap;
             }
         }
 
-        /* Large Desktop */
-        @media (min-width: 1024px) {
+        @media (max-width: 768px) {
             .navbar {
-                padding: 1.5rem 2rem;
+                padding: 0 1rem;
             }
 
             .nav-title {
-                font-size: 1.8rem;
+                font-size: 1.2rem;
             }
 
-            .theme-toggle {
-                width: 45px;
-                height: 45px;
-                font-size: 1.3rem;
-            }
-        }
-
-        /* Small Mobile */
-        @media (max-width: 480px) {
             .container {
-                padding: 0.75rem;
+                padding: 1rem;
             }
 
-            .tabs {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.25rem;
-            }
-
-            .tab {
-                padding: 0.5rem 0.25rem;
-                font-size: 0.8rem;
-            }
-
-            .stat-value {
+            .dashboard-title {
                 font-size: 1.5rem;
             }
 
-            .stat-label {
-                font-size: 0.75rem;
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
 
-            th, td {
-                padding: 0.5rem 0.25rem;
-                font-size: 0.8rem;
+            .stat-card {
+                padding: 1.5rem;
+            }
+
+            .stat-value {
+                font-size: 1.8rem;
             }
 
             .payment-options {
                 grid-template-columns: 1fr;
             }
 
-            .admin-tabs {
-                grid-template-columns: 1fr;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-
-            .action-buttons .btn {
-                width: 100%;
+            .tabs {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
+
+        /* Icons */
+        .icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.125em;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+        }
+
+        .alert-success {
+            background-color: rgba(39, 174, 96, 0.1);
+            color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .alert-error {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--danger-color);
+            border-color: var(--danger-color);
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .p-1 { padding: 0.5rem; }
+        .p-2 { padding: 1rem; }
+        .p-3 { padding: 1.5rem; }
+        .d-flex { display: flex; }
+        .align-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-1 { gap: 0.5rem; }
+        .gap-2 { gap: 1rem; }
+        .w-full { width: 100%; }
+        .h-full { height: 100%; }
     </style>
 </head>
 <body>
-    <!-- PWA Status Indicator -->
-    <div id="pwaStatus" class="pwa-status">PWA Aktif</div>
-    
     <!-- File System Status -->
     <div id="fileStatus" class="file-status">Dosya Sistemi Hazır</div>
-    
-    <!-- PWA Install Button -->
-    <button id="pwaInstallBtn" class="pwa-install-btn">📱 Uygulamayı Yükle</button>
 
+    <!-- Modern Navbar -->
     <nav class="navbar">
         <div class="nav-left">
             <img src="ert1.png" alt="ERT HALI Logo" class="nav-logo">
             <div class="nav-title">ERT HALI</div>
-            <button class="admin-btn ripple" onclick="showAdminLogin()">👤 Yönetici</button>
         </div>
-        <button class="theme-toggle ripple" onclick="toggleTheme()" id="themeToggle">🌙</button>
+        <div class="nav-right">
+            <button class="nav-btn" onclick="showAdminLogin()">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                Yönetici
+            </button>
+            <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+            </button>
+        </div>
     </nav>
 
-    <div class="container">
-        <!-- Admin Panel -->
-        <div id="adminPanel" class="admin-panel" style="display: none;">
-            <div class="admin-title">🔐 YÖNETİCİ PANELİ</div>
-            <div class="admin-tabs">
-                <button class="admin-tab active ripple" onclick="showAdminTab('sales')">Satış Yönetimi</button>
-                <button class="admin-tab ripple" onclick="showAdminTab('expenses')">Gider Yönetimi</button>
+    <!-- Main App -->
+    <div id="mainApp" class="main-app">
+        <div class="container">
+            <!-- Modern Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('dashboard')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                    </svg>
+                    Panel
+                </button>
+                <button class="tab" onclick="showTab('sales')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                    </svg>
+                    Satış
+                </button>
+                <button class="tab" onclick="showTab('expenses')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                    </svg>
+                    Gider
+                </button>
+                <button class="tab" onclick="showTab('customers')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 8H17c-.8 0-1.54.37-2.01.99l-2.54 3.38c-.36.48-.85.63-1.45.63s-1.09-.15-1.45-.63L7.01 8.99C6.54 8.37 5.8 8 5 8H3.46c-.81 0-1.42.68-1.42 1.37L4.5 16H7v6h2v-6h2v6h2zm-6.5-10.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5S12 9.17 12 10.5s.67 1.5 1.5 1.5z"/>
+                    </svg>
+                    Müşteri
+                </button>
+                <button class="tab" onclick="showTab('reports')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                    </svg>
+                    Rapor
+                </button>
+                <button class="tab" onclick="showTab('data')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                    </svg>
+                    Veri
+                </button>
             </div>
-            
-            <div id="adminSales" class="admin-content active">
+
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-content active">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-title">Genel Durum</h1>
+                    <div class="dashboard-controls">
+                        <div class="date-selector">
+                            <label for="dashboardPeriod">Dönem:</label>
+                            <select id="dashboardPeriod" onchange="updateDashboardPeriod()">
+                                <option value="today">Bugün</option>
+                                <option value="yesterday">Dün</option>
+                                <option value="week">Bu Hafta</option>
+                                <option value="month">Bu Ay</option>
+                                <option value="custom">Özel Tarih</option>
+                            </select>
+                            <input type="date" id="customDate" style="display: none;" onchange="updateDashboardPeriod()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card success-card">
+                        <div class="stat-icon">
+                            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="font-size: 2.5rem; color: var(--success-color);">
+                                <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-value" id="totalSales">0</div>
+                        <div class="stat-label">Toplam Gelir</div>
+                        <div class="stat-change positive" id="salesChange">+0%</div>
+                    </div>
+
+                    <div class="stat-card warning-card">
+                        <div class="stat-icon">
+                            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="font-size: 2.5rem; color: var(--warning-color);">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-value" id="totalExpenses">0</div>
+                        <div class="stat-label">Toplam Gider</div>
+                        <div class="stat-change negative" id="expensesChange">+0%</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="font-size: 2.5rem; color: var(--info-color);">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-value" id="netProfit">0</div>
+                        <div class="stat-label">Net Kar</div>
+                        <div class="stat-change" id="profitChange">0%</div>
+                    </div>
+
+                    <div class="stat-card debt-card" onclick="showPendingPayments()">
+                        <div class="stat-icon">
+                            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="font-size: 2.5rem; color: var(--danger-color);">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-value" id="totalDebt">0</div>
+                        <div class="stat-label">Toplam Borç</div>
+                        <div class="stat-change" style="color: var(--text-secondary);">Tüm Zamanlar</div>
+                    </div>
+                </div>
+
+                <div class="section-title">Son İşlemler</div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tarih</th>
+                                <th>Tür</th>
+                                <th>Açıklama</th>
+                                <th>Tutar</th>
+                                <th>Ödeme</th>
+                                <th>Çalışan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentTransactions">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Sales Tab -->
+            <div id="sales" class="tab-content">
+                <div class="section-title">Satış Girişi</div>
+                <form id="salesForm">
+                    <div class="form-row">
+                        <div class="form-group customer-autocomplete">
+                            <label for="customerName">Müşteri Adı: <small>(F1 ile seç)</small></label>
+                            <input type="text" id="customerName" required>
+                            <div class="customer-suggestions" id="customerSuggestions"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerSurname">Müşteri Soyadı:</label>
+                            <input type="text" id="customerSurname" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customerPhone">Telefon Numarası:</label>
+                            <input type="tel" id="customerPhone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="carpetArea">Halı m²:</label>
+                            <input type="number" id="carpetArea" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="salePrice">Satış Fiyatı (₺):</label>
+                            <input type="number" id="salePrice" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="employeeCode">Çalışan Kodu:</label>
+                            <input type="password" id="employeeCode" maxlength="3" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Ödeme Türü:</label>
+                        <div class="payment-options">
+                            <div class="payment-option selected" onclick="selectPaymentType('cash')">
+                                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                                </svg>
+                                Nakit
+                            </div>
+                            <div class="payment-option" onclick="selectPaymentType('card')">
+                                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4M20,18H4V12H20V18M20,8H4V6H20V8Z"/>
+                                </svg>
+                                Kart
+                            </div>
+                            <div class="payment-option" onclick="selectPaymentType('debt')">
+                                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                                </svg>
+                                Borç
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="debtOptions" style="display: none;">
+                        <div class="form-group">
+                            <label for="paidAmount">Ödenen Tutar (₺):</label>
+                            <input type="number" id="paidAmount" step="0.01" value="0">
+                        </div>
+                        <div class="form-group" id="paidPaymentTypeGroup">
+                            <label>Ödenen Kısmın Türü:</label>
+                            <div class="payment-options">
+                                <div class="payment-option selected" onclick="selectPaidPaymentType('cash')">
+                                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                                    </svg>
+                                    Nakit
+                                </div>
+                                <div class="payment-option" onclick="selectPaidPaymentType('card')">
+                                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4M20,18H4V12H20V18M20,8H4V6H20V8Z"/>
+                                    </svg>
+                                    Kart
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
+                        Satış Kaydet
+                    </button>
+                </form>
+            </div>
+
+            <!-- Expenses Tab -->
+            <div id="expenses" class="tab-content">
+                <div class="section-title">Gider Girişi</div>
+                <form id="expensesForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expenseDescription">Gider Açıklaması:</label>
+                            <input type="text" id="expenseDescription" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="expenseAmount">Gider Tutarı (₺):</label>
+                            <input type="number" id="expenseAmount" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expenseCategory">Kategori:</label>
+                            <select id="expenseCategory" required>
+                                <option value="">Kategori Seçin</option>
+                                <option value="kira">Kira</option>
+                                <option value="elektrik">Elektrik</option>
+                                <option value="su">Su</option>
+                                <option value="telefon">Telefon</option>
+                                <option value="malzeme">Malzeme</option>
+                                <option value="personel">Personel</option>
+                                <option value="diger">Diğer</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="expenseEmployeeCode">Çalışan Kodu:</label>
+                            <input type="password" id="expenseEmployeeCode" maxlength="3" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
+                        Gider Kaydet
+                    </button>
+                </form>
+            </div>
+
+            <!-- Customers Tab -->
+            <div id="customers" class="tab-content">
+                <div class="section-title">Müşteri Listesi</div>
+                <div class="form-group">
+                    <input type="text" id="customerSearch" placeholder="Müşteri ara..." onkeyup="searchCustomers()">
+                </div>
+                <div id="customersList"></div>
+            </div>
+
+            <!-- Reports Tab -->
+            <div id="reports" class="tab-content">
+                <div class="section-title">Raporlar</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="reportType">Rapor Türü:</label>
+                        <select id="reportType">
+                            <option value="daily">Günlük</option>
+                            <option value="monthly">Aylık</option>
+                            <option value="yearly">Yıllık</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reportDate">Tarih:</label>
+                        <input type="date" id="reportDate">
+                    </div>
+                </div>
+                <div class="d-flex gap-2 mb-3">
+                    <button class="btn btn-primary" onclick="generateReport()">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                        </svg>
+                        Rapor Oluştur
+                    </button>
+                    <button class="btn btn-secondary" onclick="downloadReport()">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                        </svg>
+                        Rapor İndir
+                    </button>
+                </div>
+                
+                <div id="reportContent"></div>
+            </div>
+
+            <!-- Data Management Tab -->
+            <div id="data" class="tab-content">
+                <div class="section-title">Veri Yönetimi</div>
+                
+                <div class="form-group">
+                    <button class="btn btn-primary" onclick="selectDataFile()">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
+                        </svg>
+                        Veri Dosyası Seç
+                    </button>
+                    <div class="info-text">Bilgisayarınızdan bir JSON veri dosyası seçin. Dosya otomatik olarak okunacak ve güncellenecektir.</div>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-success" onclick="saveDataToFile()">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z"/>
+                        </svg>
+                        Verileri Kaydet
+                    </button>
+                    <div class="info-text">Mevcut verileri seçili dosyaya kaydeder</div>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-warning" onclick="createNewDataFile()">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                        </svg>
+                        Yeni Dosya Oluştur
+                    </button>
+                    <div class="info-text">Yeni bir veri dosyası oluşturur ve seçer</div>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-danger" onclick="clearAllData()">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>
+                        </svg>
+                        Tüm Verileri Temizle
+                    </button>
+                    <div class="info-text">⚠️ Bu işlem geri alınamaz!</div>
+                </div>
+
+                <div id="fileInfo" style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border-color); display: none;">
+                    <h3 style="margin-bottom: 1rem; color: var(--text-primary);">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z"/>
+                        </svg>
+                        Dosya Bilgileri
+                    </h3>
+                    <p><strong>Seçili Dosya:</strong> <span id="selectedFileName">-</span></p>
+                    <p><strong>Son Güncelleme:</strong> <span id="lastUpdate">-</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel Page -->
+    <div id="adminPage" class="admin-page">
+        <div class="admin-header">
+            <h1 class="admin-title">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="font-size: 2.5rem;">
+                    <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.1,7 14,7.9 14,9C14,10.1 13.1,11 12,11C10.9,11 10,10.1 10,9C10,7.9 10.9,7 12,7M12,14.5C14.67,14.5 16.94,15.69 17.5,17H6.5C7.06,15.69 9.33,14.5 12,14.5Z"/>
+                </svg>
+                YÖNETİCİ PANELİ
+            </h1>
+            <p class="admin-subtitle">Gelişmiş İşlem ve Analiz Merkezi</p>
+        </div>
+
+        <div class="container">
+            <div class="admin-nav">
+                <button class="admin-nav-btn active" onclick="showAdminSection('overview')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                    </svg>
+                    Genel Bakış
+                </button>
+                <button class="admin-nav-btn" onclick="showAdminSection('sales')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                    </svg>
+                    Satış Yönetimi
+                </button>
+                <button class="admin-nav-btn" onclick="showAdminSection('expenses')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                    </svg>
+                    Gider Yönetimi
+                </button>
+                <button class="admin-nav-btn" onclick="showAdminSection('employees')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 8H17c-.8 0-1.54.37-2.01.99l-2.54 3.38c-.36.48-.85.63-1.45.63s-1.09-.15-1.45-.63L7.01 8.99C6.54 8.37 5.8 8 5 8H3.46c-.81 0-1.42.68-1.42 1.37L4.5 16H7v6h2v-6h2v6h2zm-6.5-10.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5S12 9.17 12 10.5s.67 1.5 1.5 1.5z"/>
+                    </svg>
+                    Çalışan Yönetimi
+                </button>
+                <button class="admin-nav-btn" onclick="showAdminSection('analytics')">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                    </svg>
+                    Analitik
+                </button>
+                <button class="admin-nav-btn" onclick="goBackToMain()">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                    </svg>
+                    Ana Sayfaya Dön
+                </button>
+            </div>
+
+            <!-- Admin Overview -->
+            <div id="adminOverview" class="admin-content active">
+                <div class="section-title">Genel Bakış</div>
+                <div class="form-group">
+                    <label for="adminDateFilter">Tarih Filtresi:</label>
+                    <input type="date" id="adminDateFilter" onchange="filterAdminData()">
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card success-card">
+                        <div class="stat-value" id="adminTotalSales">0</div>
+                        <div class="stat-label">Günlük Satış</div>
+                    </div>
+                    <div class="stat-card warning-card">
+                        <div class="stat-value" id="adminTotalExpenses">0</div>
+                        <div class="stat-label">Günlük Gider</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="adminNetProfit">0</div>
+                        <div class="stat-label">Günlük Kar</div>
+                    </div>
+                    <div class="stat-card debt-card">
+                        <div class="stat-value" id="adminTotalTransactions">0</div>
+                        <div class="stat-label">İşlem Sayısı</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Sales Management -->
+            <div id="adminSales" class="admin-content">
                 <div class="section-title">Satış İşlemleri</div>
+                <div class="form-group">
+                    <label for="salesDateFilter">Tarih Seç:</label>
+                    <input type="date" id="salesDateFilter" onchange="loadAdminSales()">
+                </div>
                 <div class="table-container">
                     <table>
                         <thead>
@@ -878,8 +1317,13 @@
                 </div>
             </div>
 
+            <!-- Admin Expenses Management -->
             <div id="adminExpenses" class="admin-content">
                 <div class="section-title">Gider İşlemleri</div>
+                <div class="form-group">
+                    <label for="expensesDateFilter">Tarih Seç:</label>
+                    <input type="date" id="expensesDateFilter" onchange="loadAdminExpenses()">
+                </div>
                 <div class="table-container">
                     <table>
                         <thead>
@@ -897,238 +1341,98 @@
                     </table>
                 </div>
             </div>
-        </div>
 
-        <div class="tabs">
-            <button class="tab active ripple" onclick="showTab('dashboard')">📊 Panel</button>
-            <button class="tab ripple" onclick="showTab('sales')">💰 Satış</button>
-            <button class="tab ripple" onclick="showTab('expenses')">📝 Gider</button>
-            <button class="tab ripple" onclick="showTab('customers')">👥 Müşteri</button>
-            <button class="tab ripple" onclick="showTab('reports')">📈 Rapor</button>
-            <button class="tab ripple" onclick="showTab('data')">💾 Veri</button>
-        </div>
-
-        <!-- Dashboard Tab -->
-        <div id="dashboard" class="tab-content active">
-            <div class="section-title">Genel Durum</div>
-            <div class="stats-grid">
-                <div class="stat-card ripple">
-                    <div class="stat-value" id="totalSales">0</div>
-                    <div class="stat-label">Toplam Satış (₺)</div>
-                </div>
-                <div class="stat-card ripple">
-                    <div class="stat-value" id="totalExpenses">0</div>
-                    <div class="stat-label">Toplam Gider (₺)</div>
-                </div>
-                <div class="stat-card ripple">
-                    <div class="stat-value" id="netProfit">0</div>
-                    <div class="stat-label">Net Kar (₺)</div>
-                </div>
-                <div class="stat-card debt-card ripple" onclick="showPendingPayments()">
-                    <div class="stat-value debt-amount" id="totalDebt">0</div>
-                    <div class="stat-label">Bekleyen Borç (₺)</div>
-                </div>
-            </div>
-
-            <div class="section-title">Son İşlemler</div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Tarih</th>
-                            <th>Tür</th>
-                            <th>Tutar</th>
-                            <th>Ödeme</th>
-                            <th>Çalışan</th>
-                        </tr>
-                    </thead>
-                    <tbody id="recentTransactions">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Sales Tab -->
-        <div id="sales" class="tab-content">
-            <div class="section-title">Satış Girişi</div>
-            <form id="salesForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="customerName">Müşteri Adı:</label>
-                        <input type="text" id="customerName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="customerSurname">Müşteri Soyadı:</label>
-                        <input type="text" id="customerSurname" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="customerPhone">Telefon Numarası:</label>
-                        <input type="tel" id="customerPhone" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="carpetArea">Halı m²:</label>
-                        <input type="number" id="carpetArea" step="0.01" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="salePrice">Satış Fiyatı (₺):</label>
-                        <input type="number" id="salePrice" step="0.01" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="employeeCode">Çalışan Kodu:</label>
-                        <input type="password" id="employeeCode" maxlength="3" required>
-                    </div>
-                </div>
+            <!-- Employee Management -->
+            <div id="adminEmployees" class="admin-content">
+                <div class="section-title">Çalışan Yönetimi</div>
                 
                 <div class="form-group">
-                    <label>Ödeme Türü:</label>
-                    <div class="payment-options">
-                        <div class="payment-option selected ripple" onclick="selectPaymentType('cash')">💵 Nakit</div>
-                        <div class="payment-option ripple" onclick="selectPaymentType('card')">💳 Kart</div>
-                        <div class="payment-option ripple" onclick="selectPaymentType('debt')">📋 Borç</div>
-                    </div>
+                    <button class="btn btn-primary" onclick="showAddEmployeeModal()">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
+                        </svg>
+                        Yeni Çalışan Ekle
+                    </button>
                 </div>
 
-                <div id="debtOptions" style="display: none;">
-                    <div class="form-group">
-                        <label for="paidAmount">Ödenen Tutar (₺):</label>
-                        <input type="number" id="paidAmount" step="0.01" value="0">
-                    </div>
-                    <div class="form-group" id="paidPaymentTypeGroup">
-                        <label>Ödenen Kısmın Türü:</label>
-                        <div class="payment-options">
-                            <div class="payment-option selected ripple" onclick="selectPaidPaymentType('cash')">💵 Nakit</div>
-                            <div class="payment-option ripple" onclick="selectPaidPaymentType('card')">💳 Kart</div>
-                        </div>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary ripple">Satış Kaydet</button>
-            </form>
-        </div>
-
-        <!-- Expenses Tab -->
-        <div id="expenses" class="tab-content">
-            <div class="section-title">Gider Girişi</div>
-            <form id="expensesForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="expenseDescription">Gider Açıklaması:</label>
-                        <input type="text" id="expenseDescription" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="expenseAmount">Gider Tutarı (₺):</label>
-                        <input type="number" id="expenseAmount" step="0.01" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="expenseCategory">Kategori:</label>
-                        <select id="expenseCategory" required>
-                            <option value="">Kategori Seçin</option>
-                            <option value="kira">Kira</option>
-                            <option value="elektrik">Elektrik</option>
-                            <option value="su">Su</option>
-                            <option value="telefon">Telefon</option>
-                            <option value="malzeme">Malzeme</option>
-                            <option value="personel">Personel</option>
-                            <option value="diger">Diğer</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="expenseEmployeeCode">Çalışan Kodu:</label>
-                        <input type="password" id="expenseEmployeeCode" maxlength="3" required>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary ripple">Gider Kaydet</button>
-            </form>
-        </div>
-
-        <!-- Customers Tab -->
-        <div id="customers" class="tab-content">
-            <div class="section-title">Müşteri Listesi</div>
-            <div class="search-box">
-                <input type="text" id="customerSearch" placeholder="Müşteri ara..." onkeyup="searchCustomers()">
-            </div>
-            <div id="customersList"></div>
-        </div>
-
-        <!-- Reports Tab -->
-        <div id="reports" class="tab-content">
-            <div class="section-title">Raporlar</div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="reportType">Rapor Türü:</label>
-                    <select id="reportType">
-                        <option value="daily">Günlük</option>
-                        <option value="monthly">Aylık</option>
-                        <option value="yearly">Yıllık</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="reportDate">Tarih:</label>
-                    <input type="date" id="reportDate">
+                <div class="employee-grid" id="employeeGrid">
+                    <!-- Employees will be loaded here -->
                 </div>
             </div>
-            <div class="button-group">
-                <button class="btn btn-primary ripple" onclick="generateReport()">Rapor Oluştur</button>
-                <button class="btn btn-secondary ripple" onclick="downloadReport()">Rapor İndir</button>
-            </div>
-            
-            <div id="reportContent"></div>
-        </div>
 
-        <!-- Data Management Tab -->
-        <div id="data" class="tab-content">
-            <div class="section-title">Veri Yönetimi</div>
-            
-            <div class="form-group">
-                <button class="btn btn-primary ripple" onclick="selectDataFile()">📁 Veri Dosyası Seç</button>
-                <div class="info-text">Bilgisayarınızdan bir JSON veri dosyası seçin. Dosya otomatik olarak okunacak ve güncellenecektir.</div>
-            </div>
-            
-            <div class="form-group">
-                <button class="btn btn-secondary ripple" onclick="saveDataToFile()">💾 Verileri Kaydet</button>
-                <div class="info-text">Mevcut verileri seçili dosyaya kaydeder</div>
-            </div>
-            
-            <div class="form-group">
-                <button class="btn btn-warning ripple" onclick="createNewDataFile()">📄 Yeni Dosya Oluştur</button>
-                <div class="info-text">Yeni bir veri dosyası oluşturur ve seçer</div>
-            </div>
-            
-            <div class="form-group">
-                <button class="btn btn-danger ripple" onclick="clearAllData()">🗑️ Tüm Verileri Temizle</button>
-                <div class="info-text">⚠️ Bu işlem geri alınamaz!</div>
-            </div>
-
-            <div id="fileInfo" style="margin-top: 1rem; padding: 1rem; background: var(--bg-tertiary); border-radius: 6px; display: none;">
-                <strong>Seçili Dosya:</strong> <span id="selectedFileName">-</span><br>
-                <strong>Son Güncelleme:</strong> <span id="lastUpdate">-</span>
+            <!-- Analytics -->
+            <div id="adminAnalytics" class="admin-content">
+                <div class="section-title">Analitik ve İstatistikler</div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="analyticsAvgSale">0</div>
+                        <div class="stat-label">Ortalama Satış</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="analyticsTopEmployee">-</div>
+                        <div class="stat-label">En Aktif Çalışan</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="analyticsMonthlyGrowth">0%</div>
+                        <div class="stat-label">Aylık Büyüme</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="analyticsCustomerCount">0</div>
+                        <div class="stat-label">Toplam Müşteri</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Modals -->
+    
     <!-- Admin Login Modal -->
     <div id="adminLoginModal" class="modal">
         <div class="modal-content">
-            <span class="close ripple" onclick="closeAdminLogin()">&times;</span>
+            <span class="close" onclick="closeAdminLogin()">&times;</span>
             <div class="section-title">Yönetici Girişi</div>
             <div class="form-group">
                 <label for="adminCode">Yönetici Kodu:</label>
                 <input type="password" id="adminCode" maxlength="3" placeholder="Kodu girin">
             </div>
-            <button class="btn btn-danger ripple" onclick="verifyAdmin()">Giriş Yap</button>
+            <button class="btn btn-danger" onclick="verifyAdmin()">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10,17V14H3V10H10V7L15,12L10,17M10,2H19A2,2 0 0,1 21,4V20A2,2 0 0,1 19,22H10A2,2 0 0,1 8,20V18H10V20H19V4H10V6H8V4A2,2 0 0,1 10,2Z"/>
+                </svg>
+                Giriş Yap
+            </button>
+        </div>
+    </div>
+
+    <!-- Add Employee Modal -->
+    <div id="addEmployeeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddEmployeeModal()">&times;</span>
+            <div class="section-title">Yeni Çalışan Ekle</div>
+            <form id="addEmployeeForm">
+                <div class="form-group">
+                    <label for="employeeName">Çalışan Adı:</label>
+                    <input type="text" id="employeeName" required>
+                </div>
+                <div class="form-group">
+                    <label for="employeeCodeNew">Çalışan Kodu (3 haneli):</label>
+                    <input type="text" id="employeeCodeNew" maxlength="3" required>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
+                    </svg>
+                    Çalışan Ekle
+                </button>
+            </form>
         </div>
     </div>
 
     <!-- Edit Sale Modal -->
     <div id="editSaleModal" class="modal">
         <div class="modal-content">
-            <span class="close ripple" onclick="closeEditSale()">&times;</span>
+            <span class="close" onclick="closeEditSale()">&times;</span>
             <div class="section-title">Satış Düzenle</div>
             <form id="editSaleForm">
                 <div class="form-row">
@@ -1161,7 +1465,12 @@
                         <input type="number" id="editPaidAmount" step="0.01" required>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary ripple">Güncelle</button>
+                <button type="submit" class="btn btn-primary">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                    Güncelle
+                </button>
             </form>
         </div>
     </div>
@@ -1169,7 +1478,7 @@
     <!-- Edit Expense Modal -->
     <div id="editExpenseModal" class="modal">
         <div class="modal-content">
-            <span class="close ripple" onclick="closeEditExpense()">&times;</span>
+            <span class="close" onclick="closeEditExpense()">&times;</span>
             <div class="section-title">Gider Düzenle</div>
             <form id="editExpenseForm">
                 <div class="form-group">
@@ -1194,7 +1503,12 @@
                         </select>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary ripple">Güncelle</button>
+                <button type="submit" class="btn btn-primary">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                    Güncelle
+                </button>
             </form>
         </div>
     </div>
@@ -1202,7 +1516,7 @@
     <!-- Customer Details Modal -->
     <div id="customerModal" class="modal">
         <div class="modal-content">
-            <span class="close ripple" onclick="closeCustomerModal()">&times;</span>
+            <span class="close" onclick="closeCustomerModal()">&times;</span>
             <div id="customerDetails"></div>
         </div>
     </div>
@@ -1210,7 +1524,7 @@
     <!-- Pending Payments Modal -->
     <div id="paymentsModal" class="modal">
         <div class="modal-content">
-            <span class="close ripple" onclick="closePaymentsModal()">&times;</span>
+            <span class="close" onclick="closePaymentsModal()">&times;</span>
             <div class="section-title">Bekleyen Ödemeler</div>
             <div id="pendingPaymentsList"></div>
         </div>
@@ -1219,7 +1533,7 @@
     <!-- Payment Modal -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
-            <span class="close ripple" onclick="closePaymentModal()">&times;</span>
+            <span class="close" onclick="closePaymentModal()">&times;</span>
             <div class="section-title">Ödeme Al</div>
             <div id="paymentForm">
                 <div class="form-group">
@@ -1228,7 +1542,7 @@
                 </div>
                 <div class="form-group">
                     <label>Toplam Borç:</label>
-                    <div id="paymentTotalDebt" class="debt-amount"></div>
+                    <div id="paymentTotalDebt" style="color: var(--danger-color); font-weight: 600;"></div>
                 </div>
                 <div class="form-group">
                     <label for="paymentAmount">Ödeme Tutarı (₺):</label>
@@ -1237,15 +1551,30 @@
                 <div class="form-group">
                     <label>Ödeme Türü:</label>
                     <div class="payment-options">
-                        <div class="payment-option selected ripple" onclick="selectDebtPaymentType('cash')">💵 Nakit</div>
-                        <div class="payment-option ripple" onclick="selectDebtPaymentType('card')">💳 Kart</div>
+                        <div class="payment-option selected" onclick="selectDebtPaymentType('cash')">
+                            <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                            </svg>
+                            Nakit
+                        </div>
+                        <div class="payment-option" onclick="selectDebtPaymentType('card')">
+                            <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4M20,18H4V12H20V18M20,8H4V6H20V8Z"/>
+                            </svg>
+                            Kart
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="paymentEmployeeCode">Çalışan Kodu:</label>
                     <input type="password" id="paymentEmployeeCode" maxlength="3" required>
                 </div>
-                <button class="btn btn-primary ripple" onclick="processPayment()">Ödeme Al</button>
+                <button class="btn btn-primary" onclick="processPayment()">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                    Ödeme Al
+                </button>
             </div>
         </div>
     </div>
@@ -1259,8 +1588,8 @@
         let fileHandle = null;
         let isFileSystemSupported = 'showOpenFilePicker' in window;
 
-        // Employee codes
-        const employees = {
+        // Employee codes - Default employees
+        let employees = {
             '222': 'YUSUF',
             '333': 'YUNUS'
         };
@@ -1282,6 +1611,12 @@
         let isAdminLoggedIn = false;
         let currentEditSaleId = null;
         let currentEditExpenseId = null;
+        let currentDashboardPeriod = 'today';
+        let selectedCustomerIndex = -1;
+
+        // Customer autocomplete variables
+        let customerSuggestions = [];
+        let isShowingSuggestions = false;
 
         // File System Access API Functions
         async function selectDataFile() {
@@ -1302,6 +1637,12 @@
                     multiple: false
                 });
 
+                // Save file handle to localStorage for persistence
+                localStorage.setItem('ertHaliFileHandle', JSON.stringify({
+                    name: fileHandle.name,
+                    kind: fileHandle.kind
+                }));
+
                 await loadDataFromFile();
                 updateFileInfo();
                 showFileStatus('Dosya seçildi ve yüklendi', 'success');
@@ -1321,7 +1662,6 @@
                 const contents = await file.text();
                 
                 if (contents.trim() === '') {
-                    // Empty file, initialize with empty data
                     initializeEmptyData();
                 } else {
                     const data = JSON.parse(contents);
@@ -1331,10 +1671,18 @@
                     customersData = data.customers || [];
                     debtsData = data.debts || [];
                     paymentsData = data.payments || [];
+                    
+                    // Load employees if exists
+                    if (data.employees) {
+                        employees = { ...employees, ...data.employees };
+                    }
                 }
 
                 updateDashboard();
-                if (isAdminLoggedIn) loadAdminData();
+                if (isAdminLoggedIn) {
+                    loadAdminData();
+                    loadEmployees();
+                }
                 showAlert('Veriler dosyadan yüklendi!', 'success');
             } catch (error) {
                 console.error('Dosya okuma hatası:', error);
@@ -1355,6 +1703,7 @@
                     customers: customersData,
                     debts: debtsData,
                     payments: paymentsData,
+                    employees: employees,
                     lastUpdate: new Date().toISOString()
                 };
 
@@ -1364,7 +1713,6 @@
 
                 updateFileInfo();
                 showFileStatus('Veriler kaydedildi', 'success');
-                showAlert('Veriler dosyaya kaydedildi!', 'success');
             } catch (error) {
                 console.error('Dosya yazma hatası:', error);
                 showAlert('Dosya yazma hatası: ' + error.message, 'error');
@@ -1389,7 +1737,12 @@
                     suggestedName: `ert-hali-data-${new Date().toISOString().split('T')[0]}.json`
                 });
 
-                // Initialize with current data or empty data
+                // Save file handle to localStorage for persistence
+                localStorage.setItem('ertHaliFileHandle', JSON.stringify({
+                    name: fileHandle.name,
+                    kind: fileHandle.kind
+                }));
+
                 await saveDataToFile();
                 updateFileInfo();
                 showFileStatus('Yeni dosya oluşturuldu', 'success');
@@ -1428,7 +1781,7 @@
             }, 3000);
         }
 
-        // Auto-save function - saves data after each operation
+        // Auto-save function
         async function autoSave() {
             if (fileHandle) {
                 try {
@@ -1440,87 +1793,33 @@
             }
         }
 
-        // PWA Functions
-        function initPWA() {
-            // Register Service Worker
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('service-worker.js')
-                    .then(registration => {
-                        console.log('Service Worker registered successfully:', registration);
-                        updatePWAStatus(true);
-                    })
-                    .catch(error => {
-                        console.log('Service Worker registration failed:', error);
-                        updatePWAStatus(false);
-                    });
-            }
-
-            // Handle install prompt
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                showInstallButton();
-            });
-
-            // Handle app installed
-            window.addEventListener('appinstalled', () => {
-                hideInstallButton();
-                showAlert('Uygulama başarıyla yüklendi!', 'success');
-            });
-
-            // Handle online/offline status
-            window.addEventListener('online', () => {
-                isOnline = true;
-                updatePWAStatus(true);
-            });
-
-            window.addEventListener('offline', () => {
-                isOnline = false;
-                updatePWAStatus(false);
-            });
-
-            // Install button click handler
-            document.getElementById('pwaInstallBtn').addEventListener('click', async () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    if (outcome === 'accepted') {
-                        hideInstallButton();
-                    }
-                    deferredPrompt = null;
-                }
-            });
-
+        // Initialize PWA and load saved file handle
+        async function initApp() {
             // Check File System Access API support
             if (!isFileSystemSupported) {
                 showFileStatus('File System API desteklenmiyor', 'warning');
             } else {
                 showFileStatus('File System API hazır', 'success');
+                
+                // Try to restore file handle from localStorage
+                const savedHandle = localStorage.getItem('ertHaliFileHandle');
+                if (savedHandle && isFileSystemSupported) {
+                    try {
+                        // Note: We can't directly restore file handles from localStorage
+                        // This is a limitation of the File System Access API for security reasons
+                        showFileStatus('Önceki dosyayı tekrar seçin', 'warning');
+                    } catch (error) {
+                        console.log('Could not restore file handle:', error);
+                    }
+                }
             }
-        }
 
-        function showInstallButton() {
-            document.getElementById('pwaInstallBtn').style.display = 'block';
-        }
-
-        function hideInstallButton() {
-            document.getElementById('pwaInstallBtn').style.display = 'none';
-        }
-
-        function updatePWAStatus(online) {
-            const statusEl = document.getElementById('pwaStatus');
-            if (online) {
-                statusEl.textContent = 'PWA Aktif';
-                statusEl.classList.remove('offline');
-                statusEl.style.display = 'block';
-                setTimeout(() => {
-                    statusEl.style.display = 'none';
-                }, 3000);
-            } else {
-                statusEl.textContent = 'Çevrimdışı';
-                statusEl.classList.add('offline');
-                statusEl.style.display = 'block';
-            }
+            loadTheme();
+            updateDashboard();
+            document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('adminDateFilter').value = new Date().toISOString().split('T')[0];
+            document.getElementById('salesDateFilter').value = new Date().toISOString().split('T')[0];
+            document.getElementById('expensesDateFilter').value = new Date().toISOString().split('T')[0];
         }
 
         // Theme management
@@ -1530,21 +1829,32 @@
             
             if (body.getAttribute('data-theme') === 'dark') {
                 body.removeAttribute('data-theme');
-                themeToggle.textContent = '🌙';
+                themeToggle.innerHTML = `
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                `;
                 localStorage.setItem('ertHaliTheme', 'light');
             } else {
                 body.setAttribute('data-theme', 'dark');
-                themeToggle.textContent = '☀️';
+                themeToggle.innerHTML = `
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 17q-2.075 0-3.537-1.463Q7 14.075 7 12t1.463-3.538Q9.925 7 12 7t3.538 1.462Q17 9.925 17 12q0 2.075-1.462 3.537Q14.075 17 12 17ZM2 13q-.425 0-.712-.288Q1 12.425 1 12t.288-.713Q1.575 11 2 11h2q.425 0 .713.287Q5 11.575 5 12t-.287.712Q4.425 13 4 13Zm18 0q-.425 0-.712-.288Q19 12.425 19 12t.288-.713Q19.575 11 20 11h2q.425 0 .712.287Q23 11.575 23 12t-.287.712Q22.425 13 22 13Zm-8-8q-.425 0-.712-.288Q11 4.425 11 4V2q0-.425.288-.713Q11.575 1 12 1t.713.287Q13 1.575 13 2v2q0 .425-.287.712Q12.425 5 12 5Zm0 18q-.425 0-.712-.288Q11 22.425 11 22v-2q0-.425.288-.712Q11.575 19 12 19t.713.288Q13 19.575 13 20v2q0 .425-.287.712Q12.425 23 12 23ZM5.65 7.05 4.575 6q-.3-.275-.288-.7q.013-.425.288-.725q.3-.3.725-.3t.7.3L7.05 5.65q.275.3.275.7q0 .4-.275.7q-.275.3-.687.287q-.413-.012-.713-.287ZM18 19.425l-1.05-1.075q-.275-.3-.275-.712q0-.413.275-.688q.275-.3.688-.287q.412.012.712.287L19.425 18q.3.275.288.7q-.013.425-.288.725q-.3.3-.725.3t-.7-.3ZM16.95 7.05q-.3-.275-.287-.688q.012-.412.287-.712L18 4.575q.275-.3.7-.288q.425.013.725.288q.3.3.3.725t-.3.7L18.35 7.05q-.3.275-.7.275q-.4 0-.7-.275ZM4.575 19.425q-.3-.3-.3-.725t.3-.7l1.075-1.05q.3-.275.713-.275q.412 0 .687.275q.3.275.288.688q-.013.412-.288.712L6 19.425q-.275.3-.7.287q-.425-.012-.725-.287Z"/>
+                    </svg>
+                `;
                 localStorage.setItem('ertHaliTheme', 'dark');
             }
         }
 
-        // Load saved theme
         function loadTheme() {
             const savedTheme = localStorage.getItem('ertHaliTheme');
             if (savedTheme === 'dark') {
                 document.body.setAttribute('data-theme', 'dark');
-                document.getElementById('themeToggle').textContent = '☀️';
+                document.getElementById('themeToggle').innerHTML = `
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 17q-2.075 0-3.537-1.463Q7 14.075 7 12t1.463-3.538Q9.925 7 12 7t3.538 1.462Q17 9.925 17 12q0 2.075-1.462 3.537Q14.075 17 12 17ZM2 13q-.425 0-.712-.288Q1 12.425 1 12t.288-.713Q1.575 11 2 11h2q.425 0 .713.287Q5 11.575 5 12t-.287.712Q4.425 13 4 13Zm18 0q-.425 0-.712-.288Q19 12.425 19 12t.288-.713Q19.575 11 20 11h2q.425 0 .712.287Q23 11.575 23 12t-.287.712Q22.425 13 22 13Zm-8-8q-.425 0-.712-.288Q11 4.425 11 4V2q0-.425.288-.713Q11.575 1 12 1t.713.287Q13 1.575 13 2v2q0 .425-.287.712Q12.425 5 12 5Zm0 18q-.425 0-.712-.288Q11 22.425 11 22v-2q0-.425.288-.712Q11.575 19 12 19t.713.288Q13 19.575 13 20v2q0 .425-.287.712Q12.425 23 12 23ZM5.65 7.05 4.575 6q-.3-.275-.288-.7q.013-.425.288-.725q.3-.3.725-.3t.7.3L7.05 5.65q.275.3.275.7q0 .4-.275.7q-.275.3-.687.287q-.413-.012-.713-.287ZM18 19.425l-1.05-1.075q-.275-.3-.275-.712q0-.413.275-.688q.275-.3.688-.287q.412.012.712.287L19.425 18q.3.275.288.7q-.013.425-.288.725q-.3.3-.725.3t-.7-.3ZM16.95 7.05q-.3-.275-.287-.688q.012-.412.287-.712L18 4.575q.275-.3.7-.288q.425.013.725.288q.3.3.3.725t-.3.7L18.35 7.05q-.3.275-.7.275q-.4 0-.7-.275ZM4.575 19.425q-.3-.3-.3-.725t.3-.7l1.075-1.05q.3-.275.713-.275q.412 0 .687.275q.3.275.288.688q-.013.412-.288.712L6 19.425q-.275.3-.7.287q-.425-.012-.725-.287Z"/>
+                    </svg>
+                `;
             }
         }
 
@@ -1562,51 +1872,118 @@
             const code = document.getElementById('adminCode').value;
             if (code === ADMIN_CODE) {
                 isAdminLoggedIn = true;
-                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('mainApp').style.display = 'none';
+                document.getElementById('adminPage').classList.add('active');
                 closeAdminLogin();
                 loadAdminData();
+                loadEmployees();
                 showAlert('Yönetici paneline giriş yapıldı!', 'success');
             } else {
                 showAlert('Geçersiz yönetici kodu!', 'error');
             }
         }
 
-        function showAdminTab(tabName) {
-            document.querySelectorAll('.admin-tab').forEach(tab => {
-                tab.classList.remove('active');
+        function goBackToMain() {
+            document.getElementById('adminPage').classList.remove('active');
+            document.getElementById('mainApp').style.display = 'block';
+            updateDashboard();
+        }
+
+        function showAdminSection(sectionName) {
+            // Update navigation
+            document.querySelectorAll('.admin-nav-btn').forEach(btn => {
+                btn.classList.remove('active');
             });
+            event.target.classList.add('active');
+
+            // Show content
             document.querySelectorAll('.admin-content').forEach(content => {
                 content.classList.remove('active');
             });
-
-            event.target.classList.add('active');
-            document.getElementById('admin' + tabName.charAt(0).toUpperCase() + tabName.slice(1)).classList.add('active');
             
-            loadAdminData();
+            const targetSection = document.getElementById('admin' + sectionName.charAt(0).toUpperCase() + sectionName.slice(1));
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // Load specific data
+            if (sectionName === 'sales') {
+                loadAdminSales();
+            } else if (sectionName === 'expenses') {
+                loadAdminExpenses();
+            } else if (sectionName === 'employees') {
+                loadEmployees();
+            } else if (sectionName === 'analytics') {
+                loadAnalytics();
+            } else if (sectionName === 'overview') {
+                filterAdminData();
+            }
         }
 
         function loadAdminData() {
+            filterAdminData();
             loadAdminSales();
             loadAdminExpenses();
+            loadAnalytics();
+        }
+
+        function filterAdminData() {
+            const selectedDate = document.getElementById('adminDateFilter').value;
+            const targetDate = new Date(selectedDate);
+            
+            const filteredSales = salesData.filter(sale => {
+                const saleDate = new Date(sale.date);
+                return saleDate.toDateString() === targetDate.toDateString();
+            });
+            
+            const filteredExpenses = expensesData.filter(expense => {
+                const expenseDate = new Date(expense.date);
+                return expenseDate.toDateString() === targetDate.toDateString();
+            });
+            
+            const filteredPayments = paymentsData.filter(payment => {
+                const paymentDate = new Date(payment.date);
+                return paymentDate.toDateString() === targetDate.toDateString();
+            });
+
+            const totalSales = filteredSales.reduce((sum, sale) => sum + sale.paidAmount, 0);
+            const totalPayments = filteredPayments.reduce((sum, payment) => sum + payment.amount, 0);
+            const totalIncome = totalSales + totalPayments;
+            const totalExpenses = filteredExpenses.reduce((sum, expense) => sum + expense.amount, 0);
+            const netProfit = totalIncome - totalExpenses;
+            const totalTransactions = filteredSales.length + filteredExpenses.length + filteredPayments.length;
+
+            document.getElementById('adminTotalSales').textContent = totalIncome.toLocaleString('tr-TR');
+            document.getElementById('adminTotalExpenses').textContent = totalExpenses.toLocaleString('tr-TR');
+            document.getElementById('adminNetProfit').textContent = netProfit.toLocaleString('tr-TR');
+            document.getElementById('adminTotalTransactions').textContent = totalTransactions;
         }
 
         function loadAdminSales() {
+            const selectedDate = document.getElementById('salesDateFilter').value;
+            const targetDate = new Date(selectedDate);
+            
+            const filteredSales = salesData.filter(sale => {
+                const saleDate = new Date(sale.date);
+                return saleDate.toDateString() === targetDate.toDateString();
+            });
+
             const tbody = document.getElementById('adminSalesTable');
-            tbody.innerHTML = salesData.map(sale => `
+            tbody.innerHTML = filteredSales.map(sale => `
                 <tr>
                     <td>${new Date(sale.date).toLocaleDateString('tr-TR')}</td>
                     <td>${sale.customerName} ${sale.customerSurname}</td>
                     <td>${sale.salePrice.toLocaleString('tr-TR')} ₺</td>
                     <td>
-                        <span class="payment-type-badge payment-${sale.paidPaymentType}">
+                        <span style="background: var(--bg-tertiary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">
                             ${getPaymentTypeDisplay(sale.paidPaymentType)}
                         </span>
                     </td>
                     <td>${sale.employee}</td>
                     <td>
-                        <div class="action-buttons">
-                            <button class="btn btn-warning btn-small ripple" onclick="editSale(${sale.id})">Düzenle</button>
-                            <button class="btn btn-danger btn-small ripple" onclick="deleteSale(${sale.id})">Sil</button>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-warning btn-small" onclick="editSale(${sale.id})">Düzenle</button>
+                            <button class="btn btn-danger btn-small" onclick="deleteSale(${sale.id})">Sil</button>
                         </div>
                     </td>
                 </tr>
@@ -1614,8 +1991,16 @@
         }
 
         function loadAdminExpenses() {
+            const selectedDate = document.getElementById('expensesDateFilter').value;
+            const targetDate = new Date(selectedDate);
+            
+            const filteredExpenses = expensesData.filter(expense => {
+                const expenseDate = new Date(expense.date);
+                return expenseDate.toDateString() === targetDate.toDateString();
+            });
+
             const tbody = document.getElementById('adminExpensesTable');
-            tbody.innerHTML = expensesData.map(expense => `
+            tbody.innerHTML = filteredExpenses.map(expense => `
                 <tr>
                     <td>${new Date(expense.date).toLocaleDateString('tr-TR')}</td>
                     <td>${expense.description}</td>
@@ -1623,232 +2008,105 @@
                     <td>${expense.amount.toLocaleString('tr-TR')} ₺</td>
                     <td>${expense.employee}</td>
                     <td>
-                        <div class="action-buttons">
-                            <button class="btn btn-warning btn-small ripple" onclick="editExpense(${expense.id})">Düzenle</button>
-                            <button class="btn btn-danger btn-small ripple" onclick="deleteExpense(${expense.id})">Sil</button>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-warning btn-small" onclick="editExpense(${expense.id})">Düzenle</button>
+                            <button class="btn btn-danger btn-small" onclick="deleteExpense(${expense.id})">Sil</button>
                         </div>
                     </td>
                 </tr>
             `).join('');
         }
 
-        function editSale(saleId) {
-            const sale = salesData.find(s => s.id === saleId);
-            if (!sale) return;
-
-            currentEditSaleId = saleId;
-            document.getElementById('editCustomerName').value = sale.customerName;
-            document.getElementById('editCustomerSurname').value = sale.customerSurname;
-            document.getElementById('editCustomerPhone').value = sale.customerPhone;
-            document.getElementById('editCarpetArea').value = sale.carpetArea;
-            document.getElementById('editSalePrice').value = sale.salePrice;
-            document.getElementById('editPaidAmount').value = sale.paidAmount;
-            
-            document.getElementById('editSaleModal').style.display = 'block';
+        // Employee Management
+        function loadEmployees() {
+            const employeeGrid = document.getElementById('employeeGrid');
+            employeeGrid.innerHTML = Object.entries(employees).map(([code, name]) => `
+                <div class="employee-card">
+                    <div class="employee-name">${name}</div>
+                    <div class="employee-code">${code}</div>
+                    <button class="btn btn-danger btn-small mt-2" onclick="removeEmployee('${code}')">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>
+                        </svg>
+                        Sil
+                    </button>
+                </div>
+            `).join('');
         }
 
-        function closeEditSale() {
-            document.getElementById('editSaleModal').style.display = 'none';
-            currentEditSaleId = null;
+        function showAddEmployeeModal() {
+            document.getElementById('addEmployeeModal').style.display = 'block';
         }
 
-        function editExpense(expenseId) {
-            const expense = expensesData.find(e => e.id === expenseId);
-            if (!expense) return;
-
-            currentEditExpenseId = expenseId;
-            document.getElementById('editExpenseDescription').value = expense.description;
-            document.getElementById('editExpenseAmount').value = expense.amount;
-            document.getElementById('editExpenseCategory').value = expense.category;
-            
-            document.getElementById('editExpenseModal').style.display = 'block';
+        function closeAddEmployeeModal() {
+            document.getElementById('addEmployeeModal').style.display = 'none';
+            document.getElementById('addEmployeeForm').reset();
         }
 
-        function closeEditExpense() {
-            document.getElementById('editExpenseModal').style.display = 'none';
-            currentEditExpenseId = null;
-        }
-
-        async function deleteSale(saleId) {
-            if (confirm('Bu satışı silmek istediğinizden emin misiniz?')) {
-                const saleIndex = salesData.findIndex(s => s.id === saleId);
-                if (saleIndex !== -1) {
-                    const sale = salesData[saleIndex];
-                    
-                    // Remove from sales
-                    salesData.splice(saleIndex, 1);
-                    
-                    // Remove related debt if exists
-                    const debtIndex = debtsData.findIndex(d => d.saleId === saleId);
-                    if (debtIndex !== -1) {
-                        debtsData.splice(debtIndex, 1);
-                    }
-                    
-                    // Update customer data
-                    updateCustomerAfterSaleDelete(sale);
-                    
-                    await autoSave();
-                    loadAdminData();
-                    updateDashboard();
-                    showAlert('Satış silindi!', 'success');
-                }
-            }
-        }
-
-        async function deleteExpense(expenseId) {
-            if (confirm('Bu gideri silmek istediğinizden emin misiniz?')) {
-                const expenseIndex = expensesData.findIndex(e => e.id === expenseId);
-                if (expenseIndex !== -1) {
-                    expensesData.splice(expenseIndex, 1);
-                    
-                    await autoSave();
-                    loadAdminData();
-                    updateDashboard();
-                    showAlert('Gider silindi!', 'success');
-                }
-            }
-        }
-
-        function updateCustomerAfterSaleDelete(deletedSale) {
-            const customerIndex = customersData.findIndex(c => c.phone === deletedSale.customerPhone);
-            if (customerIndex !== -1) {
-                const customer = customersData[customerIndex];
-                customer.sales = customer.sales.filter(s => s.id !== deletedSale.id);
-                customer.totalPurchases -= deletedSale.salePrice;
-                
-                if (customer.sales.length === 0) {
-                    customersData.splice(customerIndex, 1);
-                } else {
-                    customer.lastPurchase = customer.sales[customer.sales.length - 1].date;
-                }
-            }
-        }
-
-        // Edit forms
-        document.getElementById('editSaleForm').addEventListener('submit', async function(e) {
+        document.getElementById('addEmployeeForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const saleIndex = salesData.findIndex(s => s.id === currentEditSaleId);
-            if (saleIndex !== -1) {
-                const oldSale = {...salesData[saleIndex]};
-                
-                const newSalePrice = parseFloat(document.getElementById('editSalePrice').value);
-                const newPaidAmount = parseFloat(document.getElementById('editPaidAmount').value);
-                
-                salesData[saleIndex].customerName = document.getElementById('editCustomerName').value;
-                salesData[saleIndex].customerSurname = document.getElementById('editCustomerSurname').value;
-                salesData[saleIndex].customerPhone = document.getElementById('editCustomerPhone').value;
-                salesData[saleIndex].carpetArea = parseFloat(document.getElementById('editCarpetArea').value);
-                salesData[saleIndex].salePrice = newSalePrice;
-                salesData[saleIndex].paidAmount = newPaidAmount;
-                
-                // Update payment type based on amounts
-                if (newPaidAmount < newSalePrice) {
-                    salesData[saleIndex].paymentType = 'debt';
-                } else {
-                    salesData[saleIndex].paymentType = salesData[saleIndex].paidPaymentType;
-                }
-                
-                // Handle debt logic
-                const existingDebtIndex = debtsData.findIndex(d => d.saleId === currentEditSaleId);
-                const remainingAmount = newSalePrice - newPaidAmount;
-                
-                if (remainingAmount > 0) {
-                    // There should be a debt
-                    if (existingDebtIndex !== -1) {
-                        // Update existing debt
-                        debtsData[existingDebtIndex].customerName = salesData[saleIndex].customerName;
-                        debtsData[existingDebtIndex].customerSurname = salesData[saleIndex].customerSurname;
-                        debtsData[existingDebtIndex].customerPhone = salesData[saleIndex].customerPhone;
-                        debtsData[existingDebtIndex].totalAmount = newSalePrice;
-                        debtsData[existingDebtIndex].paidAmount = newPaidAmount;
-                        debtsData[existingDebtIndex].remainingAmount = remainingAmount;
-                    } else {
-                        // Create new debt
-                        const newDebt = {
-                            id: Date.now(),
-                            saleId: currentEditSaleId,
-                            customerName: salesData[saleIndex].customerName,
-                            customerSurname: salesData[saleIndex].customerSurname,
-                            customerPhone: salesData[saleIndex].customerPhone,
-                            totalAmount: newSalePrice,
-                            paidAmount: newPaidAmount,
-                            remainingAmount: remainingAmount,
-                            date: salesData[saleIndex].date,
-                            employee: salesData[saleIndex].employee
-                        };
-                        debtsData.push(newDebt);
-                    }
-                } else {
-                    // No debt needed, remove if exists
-                    if (existingDebtIndex !== -1) {
-                        debtsData.splice(existingDebtIndex, 1);
-                    }
-                }
-                
-                // Update customer data
-                updateCustomerAfterSaleEdit(oldSale, salesData[saleIndex]);
-                
-                await autoSave();
-                loadAdminData();
-                updateDashboard();
-                closeEditSale();
-                showAlert('Satış güncellendi ve borç durumu ayarlandı!', 'success');
+            const name = document.getElementById('employeeName').value;
+            const code = document.getElementById('employeeCodeNew').value;
+            
+            if (employees[code]) {
+                showAlert('Bu kod zaten kullanılıyor!', 'error');
+                return;
             }
+            
+            employees[code] = name;
+            await autoSave();
+            loadEmployees();
+            closeAddEmployeeModal();
+            showAlert('Yeni çalışan eklendi!', 'success');
         });
 
-        function updateCustomerAfterSaleEdit(oldSale, newSale) {
-            const customerIndex = customersData.findIndex(c => c.phone === oldSale.customerPhone);
-            if (customerIndex !== -1) {
-                const customer = customersData[customerIndex];
-                
-                // Find and update the sale in customer's sales array
-                const saleIndex = customer.sales.findIndex(s => s.id === newSale.id);
-                if (saleIndex !== -1) {
-                    // Update total purchases (subtract old, add new)
-                    customer.totalPurchases = customer.totalPurchases - oldSale.salePrice + newSale.salePrice;
-                    
-                    // Update the sale data
-                    customer.sales[saleIndex] = {...newSale};
-                    
-                    // If phone number changed, move customer
-                    if (oldSale.customerPhone !== newSale.customerPhone) {
-                        // Remove sale from old customer
-                        customer.sales.splice(saleIndex, 1);
-                        customer.totalPurchases -= newSale.salePrice;
-                        
-                        if (customer.sales.length === 0) {
-                            customersData.splice(customerIndex, 1);
-                        }
-                        
-                        // Add to new customer or create new customer
-                        updateCustomer(newSale.customerName, newSale.customerSurname, newSale.customerPhone, newSale);
-                    }
-                }
+        async function removeEmployee(code) {
+            if (confirm('Bu çalışanı silmek istediğinizden emin misiniz?')) {
+                delete employees[code];
+                await autoSave();
+                loadEmployees();
+                showAlert('Çalışan silindi!', 'success');
             }
         }
 
-        // Edit forms
-        document.getElementById('editExpenseForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
+        function loadAnalytics() {
+            // Calculate average sale
+            const avgSale = salesData.length > 0 ? 
+                salesData.reduce((sum, sale) => sum + sale.salePrice, 0) / salesData.length : 0;
             
-            const expenseIndex = expensesData.findIndex(e => e.id === currentEditExpenseId);
-            if (expenseIndex !== -1) {
-                expensesData[expenseIndex].description = document.getElementById('editExpenseDescription').value;
-                expensesData[expenseIndex].amount = parseFloat(document.getElementById('editExpenseAmount').value);
-                expensesData[expenseIndex].category = document.getElementById('editExpenseCategory').value;
-                
-                await autoSave();
-                loadAdminData();
-                updateDashboard();
-                closeEditExpense();
-                showAlert('Gider güncellendi!', 'success');
-            }
-        });
+            // Find top employee
+            const employeeStats = {};
+            salesData.forEach(sale => {
+                employeeStats[sale.employee] = (employeeStats[sale.employee] || 0) + 1;
+            });
+            const topEmployee = Object.keys(employeeStats).reduce((a, b) => 
+                employeeStats[a] > employeeStats[b] ? a : b, '-');
+            
+            // Calculate monthly growth (simplified)
+            const thisMonth = new Date().getMonth();
+            const thisYear = new Date().getFullYear();
+            const thisMonthSales = salesData.filter(sale => {
+                const saleDate = new Date(sale.date);
+                return saleDate.getMonth() === thisMonth && saleDate.getFullYear() === thisYear;
+            });
+            const lastMonthSales = salesData.filter(sale => {
+                const saleDate = new Date(sale.date);
+                return saleDate.getMonth() === (thisMonth - 1) && saleDate.getFullYear() === thisYear;
+            });
+            
+            const thisMonthTotal = thisMonthSales.reduce((sum, sale) => sum + sale.salePrice, 0);
+            const lastMonthTotal = lastMonthSales.reduce((sum, sale) => sum + sale.salePrice, 0);
+            const growth = lastMonthTotal > 0 ? ((thisMonthTotal - lastMonthTotal) / lastMonthTotal * 100) : 0;
+            
+            document.getElementById('analyticsAvgSale').textContent = avgSale.toLocaleString('tr-TR');
+            document.getElementById('analyticsTopEmployee').textContent = topEmployee;
+            document.getElementById('analyticsMonthlyGrowth').textContent = growth.toFixed(1) + '%';
+            document.getElementById('analyticsCustomerCount').textContent = customersData.length;
+        }
 
         // Tab management
         function showTab(tabName) {
-            // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
@@ -1856,7 +2114,6 @@
                 tab.classList.remove('active');
             });
 
-            // Show selected tab
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
 
@@ -1865,6 +2122,154 @@
             } else if (tabName === 'customers') {
                 loadCustomers();
             }
+        }
+
+        // Dashboard period management
+        function updateDashboardPeriod() {
+            const period = document.getElementById('dashboardPeriod').value;
+            const customDate = document.getElementById('customDate');
+            
+            currentDashboardPeriod = period;
+            
+            if (period === 'custom') {
+                customDate.style.display = 'block';
+                customDate.value = new Date().toISOString().split('T')[0];
+            } else {
+                customDate.style.display = 'none';
+            }
+            
+            updateDashboard();
+        }
+
+        function getDateRange(period, customDate = null) {
+            const now = new Date();
+            let startDate, endDate;
+            
+            switch (period) {
+                case 'today':
+                    startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                    endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+                    break;
+                case 'yesterday':
+                    startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+                    endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                    break;
+                case 'week':
+                    const weekStart = now.getDate() - now.getDay();
+                    startDate = new Date(now.getFullYear(), now.getMonth(), weekStart);
+                    endDate = new Date(now.getFullYear(), now.getMonth(), weekStart + 7);
+                    break;
+                case 'month':
+                    startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                    endDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+                    break;
+                case 'custom':
+                    if (customDate) {
+                        const custom = new Date(customDate);
+                        startDate = new Date(custom.getFullYear(), custom.getMonth(), custom.getDate());
+                        endDate = new Date(custom.getFullYear(), custom.getMonth(), custom.getDate() + 1);
+                    } else {
+                        return getDateRange('today');
+                    }
+                    break;
+                default:
+                    return getDateRange('today');
+            }
+            
+            return { startDate, endDate };
+        }
+
+        // Customer autocomplete functionality
+        function setupCustomerAutocomplete() {
+            const customerNameInput = document.getElementById('customerName');
+            const suggestionsDiv = document.getElementById('customerSuggestions');
+            
+            customerNameInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                if (query.length < 2) {
+                    hideSuggestions();
+                    return;
+                }
+                
+                customerSuggestions = customersData.filter(customer => 
+                    customer.name.toLowerCase().includes(query) ||
+                    customer.surname.toLowerCase().includes(query) ||
+                    customer.phone.includes(query)
+                ).slice(0, 5);
+                
+                showSuggestions();
+            });
+            
+            customerNameInput.addEventListener('keydown', function(e) {
+                if (e.key === 'F1') {
+                    e.preventDefault();
+                    if (customersData.length > 0) {
+                        customerSuggestions = customersData.slice(0, 10);
+                        showSuggestions();
+                    }
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (isShowingSuggestions) {
+                        selectedCustomerIndex = Math.min(selectedCustomerIndex + 1, customerSuggestions.length - 1);
+                        updateSuggestionSelection();
+                    }
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (isShowingSuggestions) {
+                        selectedCustomerIndex = Math.max(selectedCustomerIndex - 1, -1);
+                        updateSuggestionSelection();
+                    }
+                } else if (e.key === 'Enter') {
+                    if (isShowingSuggestions && selectedCustomerIndex >= 0) {
+                        e.preventDefault();
+                        selectCustomer(customerSuggestions[selectedCustomerIndex]);
+                    }
+                } else if (e.key === 'Escape') {
+                    hideSuggestions();
+                }
+            });
+            
+            // Hide suggestions when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!customerNameInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+                    hideSuggestions();
+                }
+            });
+        }
+
+        function showSuggestions() {
+            const suggestionsDiv = document.getElementById('customerSuggestions');
+            suggestionsDiv.innerHTML = customerSuggestions.map((customer, index) => `
+                <div class="customer-suggestion ${index === selectedCustomerIndex ? 'selected' : ''}" 
+                     onclick="selectCustomer(${JSON.stringify(customer).replace(/"/g, '&quot;')})">
+                    <strong>${customer.name} ${customer.surname}</strong><br>
+                    <small>${customer.phone} - ${customer.totalPurchases.toLocaleString('tr-TR')} ₺</small>
+                </div>
+            `).join('');
+            
+            suggestionsDiv.style.display = 'block';
+            isShowingSuggestions = true;
+            selectedCustomerIndex = -1;
+        }
+
+        function hideSuggestions() {
+            document.getElementById('customerSuggestions').style.display = 'none';
+            isShowingSuggestions = false;
+            selectedCustomerIndex = -1;
+        }
+
+        function updateSuggestionSelection() {
+            const suggestions = document.querySelectorAll('.customer-suggestion');
+            suggestions.forEach((suggestion, index) => {
+                suggestion.classList.toggle('selected', index === selectedCustomerIndex);
+            });
+        }
+
+        function selectCustomer(customer) {
+            document.getElementById('customerName').value = customer.name;
+            document.getElementById('customerSurname').value = customer.surname;
+            document.getElementById('customerPhone').value = customer.phone;
+            hideSuggestions();
         }
 
         // Payment type selection
@@ -1948,11 +2353,8 @@
             };
 
             salesData.push(saleData);
-
-            // Update or create customer
             updateCustomer(customerName, customerSurname, customerPhone, saleData);
 
-            // Handle debt if payment type is debt and not fully paid
             if (selectedPaymentType === 'debt' && paidAmount < salePrice) {
                 const debtAmount = salePrice - paidAmount;
                 const debtData = {
@@ -1986,12 +2388,10 @@
             );
 
             if (existingCustomerIndex !== -1) {
-                // Update existing customer
                 customersData[existingCustomerIndex].sales.push(saleData);
                 customersData[existingCustomerIndex].totalPurchases += saleData.salePrice;
                 customersData[existingCustomerIndex].lastPurchase = saleData.date;
             } else {
-                // Create new customer
                 const newCustomer = {
                     id: Date.now(),
                     name: name,
@@ -2038,17 +2438,49 @@
 
         // Update dashboard
         function updateDashboard() {
-            const totalSales = salesData.reduce((sum, sale) => sum + sale.paidAmount, 0);
-            const totalPayments = paymentsData.reduce((sum, payment) => sum + payment.amount, 0);
+            const customDate = document.getElementById('customDate').value;
+            const { startDate, endDate } = getDateRange(currentDashboardPeriod, customDate);
+            
+            // Filter data by selected period (except debt which is always total)
+            const filteredSales = salesData.filter(sale => {
+                const saleDate = new Date(sale.date);
+                return saleDate >= startDate && saleDate < endDate;
+            });
+            
+            const filteredExpenses = expensesData.filter(expense => {
+                const expenseDate = new Date(expense.date);
+                return expenseDate >= startDate && expenseDate < endDate;
+            });
+            
+            const filteredPayments = paymentsData.filter(payment => {
+                const paymentDate = new Date(payment.date);
+                return paymentDate >= startDate && paymentDate < endDate;
+            });
+
+            const totalSales = filteredSales.reduce((sum, sale) => sum + sale.paidAmount, 0);
+            const totalPayments = filteredPayments.reduce((sum, payment) => sum + payment.amount, 0);
             const totalIncome = totalSales + totalPayments;
-            const totalExpenses = expensesData.reduce((sum, expense) => sum + expense.amount, 0);
-            const totalDebt = debtsData.reduce((sum, debt) => sum + debt.remainingAmount, 0);
+            const totalExpenses = filteredExpenses.reduce((sum, expense) => sum + expense.amount, 0);
+            const totalDebt = debtsData.reduce((sum, debt) => sum + debt.remainingAmount, 0); // Always total debt
             const netProfit = totalIncome - totalExpenses;
 
             document.getElementById('totalSales').textContent = totalIncome.toLocaleString('tr-TR');
             document.getElementById('totalExpenses').textContent = totalExpenses.toLocaleString('tr-TR');
             document.getElementById('netProfit').textContent = netProfit.toLocaleString('tr-TR');
             document.getElementById('totalDebt').textContent = totalDebt.toLocaleString('tr-TR');
+
+            // Update profit change indicator
+            const profitChangeEl = document.getElementById('profitChange');
+            if (netProfit > 0) {
+                profitChangeEl.className = 'stat-change positive';
+                profitChangeEl.textContent = '+' + ((netProfit / (totalIncome || 1)) * 100).toFixed(1) + '%';
+            } else if (netProfit < 0) {
+                profitChangeEl.className = 'stat-change negative';
+                profitChangeEl.textContent = ((netProfit / (totalIncome || 1)) * 100).toFixed(1) + '%';
+            } else {
+                profitChangeEl.className = 'stat-change';
+                profitChangeEl.textContent = '0%';
+            }
 
             updateRecentTransactions();
         }
@@ -2084,31 +2516,45 @@
 
             const tbody = document.getElementById('recentTransactions');
             tbody.innerHTML = allTransactions.map(transaction => `
-    <tr>
-        <td>${new Date(transaction.date).toLocaleDateString('tr-TR')}</td>
-        <td>${transaction.type}</td>
-        <td>${transaction.amount >= 0 ? '+' : ''}${transaction.amount.toLocaleString('tr-TR')} ₺</td>
-        <td>
-            ${transaction.paymentType !== '-' ? 
-                `<span class="payment-type-badge payment-${transaction.paymentType}">${getPaymentTypeDisplay(transaction.paymentType)}</span>` : 
-                '-'
-            }
-        </td>
-        <td>${transaction.employee}</td>
-    </tr>
-`).join('');
+                <tr>
+                    <td>${new Date(transaction.date).toLocaleDateString('tr-TR')}</td>
+                    <td>${transaction.type}</td>
+                    <td>${transaction.description}</td>
+                    <td style="color: ${transaction.amount >= 0 ? 'var(--success-color)' : 'var(--danger-color)'}">
+                        ${transaction.amount >= 0 ? '+' : ''}${transaction.amount.toLocaleString('tr-TR')} ₺
+                    </td>
+                    <td>
+                        ${transaction.paymentType !== '-' ? 
+                            `<span style="background: var(--bg-tertiary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">
+                                ${getPaymentTypeDisplay(transaction.paymentType)}
+                            </span>` : 
+                            '-'
+                        }
+                    </td>
+                    <td>${transaction.employee}</td>
+                </tr>
+            `).join('');
         }
 
         // Load customers
         function loadCustomers() {
             const customersList = document.getElementById('customersList');
             customersList.innerHTML = customersData.map(customer => `
-                <div class="customer-item ripple" onclick="showCustomerDetails('${customer.id}')">
+                <div class="customer-item" onclick="showCustomerDetails('${customer.id}')" style="cursor: pointer; transition: all 0.3s ease;">
                     <div class="customer-name">${customer.name} ${customer.surname}</div>
                     <div class="customer-info">
-                        📞 ${customer.phone} | 
-                        💰 ${customer.totalPurchases.toLocaleString('tr-TR')} ₺ | 
-                        📅 ${new Date(customer.lastPurchase).toLocaleDateString('tr-TR')}
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="color: var(--info-color);">
+                            <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
+                        </svg>
+                        ${customer.phone} | 
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="color: var(--success-color);">
+                            <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                        </svg>
+                        ${customer.totalPurchases.toLocaleString('tr-TR')} ₺ | 
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="color: var(--text-secondary);">
+                            <path d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z"/>
+                        </svg>
+                        ${new Date(customer.lastPurchase).toLocaleDateString('tr-TR')}
                     </div>
                 </div>
             `).join('');
@@ -2125,12 +2571,21 @@
 
             const customersList = document.getElementById('customersList');
             customersList.innerHTML = filteredCustomers.map(customer => `
-                <div class="customer-item ripple" onclick="showCustomerDetails('${customer.id}')">
+                <div class="customer-item" onclick="showCustomerDetails('${customer.id}')" style="cursor: pointer; transition: all 0.3s ease;">
                     <div class="customer-name">${customer.name} ${customer.surname}</div>
                     <div class="customer-info">
-                        📞 ${customer.phone} | 
-                        💰 ${customer.totalPurchases.toLocaleString('tr-TR')} ₺ | 
-                        📅 ${new Date(customer.lastPurchase).toLocaleDateString('tr-TR')}
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="color: var(--info-color);">
+                            <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
+                        </svg>
+                        ${customer.phone} | 
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="color: var(--success-color);">
+                            <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+                        </svg>
+                        ${customer.totalPurchases.toLocaleString('tr-TR')} ₺ | 
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="color: var(--text-secondary);">
+                            <path d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z"/>
+                        </svg>
+                        ${new Date(customer.lastPurchase).toLocaleDateString('tr-TR')}
                     </div>
                 </div>
             `).join('');
@@ -2145,12 +2600,33 @@
             const customerPayments = paymentsData.filter(payment => payment.customerPhone === customer.phone);
             
             document.getElementById('customerDetails').innerHTML = `
-                <div class="section-title">${customer.name} ${customer.surname}</div>
-                <div style="margin-bottom: 1rem;">
-                    <strong>Telefon:</strong> ${customer.phone}<br>
-                    <strong>Toplam Alışveriş:</strong> ${customer.totalPurchases.toLocaleString('tr-TR')} ₺<br>
-                    <strong>Son Alışveriş:</strong> ${new Date(customer.lastPurchase).toLocaleDateString('tr-TR')}<br>
-                    ${customerDebt ? `<strong>Kalan Borç:</strong> <span class="debt-amount">${customerDebt.remainingAmount.toLocaleString('tr-TR')} ₺</span>` : ''}
+                <div class="section-title">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                    ${customer.name} ${customer.surname}
+                </div>
+                <div style="margin-bottom: 2rem; background: var(--bg-secondary); padding: 1.5rem; border-radius: 12px;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <div>
+                            <strong>Telefon:</strong><br>
+                            <span style="color: var(--info-color);">${customer.phone}</span>
+                        </div>
+                        <div>
+                            <strong>Toplam Alışveriş:</strong><br>
+                            <span style="color: var(--success-color); font-size: 1.2rem; font-weight: 600;">${customer.totalPurchases.toLocaleString('tr-TR')} ₺</span>
+                        </div>
+                        <div>
+                            <strong>Son Alışveriş:</strong><br>
+                            <span style="color: var(--text-secondary);">${new Date(customer.lastPurchase).toLocaleDateString('tr-TR')}</span>
+                        </div>
+                        ${customerDebt ? `
+                        <div>
+                            <strong>Kalan Borç:</strong><br>
+                            <span style="color: var(--danger-color); font-size: 1.2rem; font-weight: 600;">${customerDebt.remainingAmount.toLocaleString('tr-TR')} ₺</span>
+                        </div>
+                        ` : ''}
+                    </div>
                 </div>
                 
                 <div class="section-title">Alışveriş Geçmişi</div>
@@ -2172,10 +2648,10 @@
                                     <td>${sale.carpetArea}</td>
                                     <td>${sale.salePrice.toLocaleString('tr-TR')} ₺</td>
                                     <td>
-                                        <span class="payment-type-badge payment-${sale.paidPaymentType}">
+                                        <span style="background: var(--bg-tertiary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">
                                             ${getPaymentTypeDisplay(sale.paidPaymentType)}
                                         </span>
-                                        ${sale.paymentType === 'debt' ? ' (Borç)' : ''}
+                                        ${sale.paymentType === 'debt' ? ' <span style="color: var(--danger-color);">(Borç)</span>' : ''}
                                     </td>
                                     <td>${sale.employee}</td>
                                 </tr>
@@ -2200,9 +2676,9 @@
                                 ${customerPayments.map(payment => `
                                     <tr>
                                         <td>${new Date(payment.date).toLocaleDateString('tr-TR')}</td>
-                                        <td>${payment.amount.toLocaleString('tr-TR')} ₺</td>
+                                        <td style="color: var(--success-color);">${payment.amount.toLocaleString('tr-TR')} ₺</td>
                                         <td>
-                                            <span class="payment-type-badge payment-${payment.paymentType}">
+                                            <span style="background: var(--bg-tertiary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">
                                                 ${getPaymentTypeDisplay(payment.paymentType)}
                                             </span>
                                         </td>
@@ -2222,13 +2698,16 @@
         function showPendingPayments() {
             const pendingPaymentsList = document.getElementById('pendingPaymentsList');
             pendingPaymentsList.innerHTML = debtsData.map(debt => `
-                <div class="customer-item ripple" onclick="showPaymentModal('${debt.customerPhone}')">
+                <div class="customer-item" onclick="showPaymentModal('${debt.customerPhone}')" style="cursor: pointer; border-left: 4px solid var(--danger-color);">
                     <div class="customer-name">${debt.customerName} ${debt.customerSurname}</div>
                     <div class="customer-info">
-                        📞 ${debt.customerPhone} | 
-                        💰 Toplam: ${debt.totalAmount.toLocaleString('tr-TR')} ₺ | 
-                        💸 Ödenen: ${debt.paidAmount.toLocaleString('tr-TR')} ₺ | 
-                        <span class="debt-amount">Kalan: ${debt.remainingAmount.toLocaleString('tr-TR')} ₺</span>
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="color: var(--info-color);">
+                            <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
+                        </svg>
+                        ${debt.customerPhone} | 
+                        Toplam: ${debt.totalAmount.toLocaleString('tr-TR')} ₺ | 
+                        Ödenen: ${debt.paidAmount.toLocaleString('tr-TR')} ₺ | 
+                        <span style="color: var(--danger-color); font-weight: 600;">Kalan: ${debt.remainingAmount.toLocaleString('tr-TR')} ₺</span>
                     </div>
                 </div>
             `).join('');
@@ -2309,19 +2788,192 @@
             updateDashboard();
         }
 
-        // Modal functions
-        function closeCustomerModal() {
-            document.getElementById('customerModal').style.display = 'none';
+        // Edit functions
+        function editSale(saleId) {
+            const sale = salesData.find(s => s.id === saleId);
+            if (!sale) return;
+
+            currentEditSaleId = saleId;
+            document.getElementById('editCustomerName').value = sale.customerName;
+            document.getElementById('editCustomerSurname').value = sale.customerSurname;
+            document.getElementById('editCustomerPhone').value = sale.customerPhone;
+            document.getElementById('editCarpetArea').value = sale.carpetArea;
+            document.getElementById('editSalePrice').value = sale.salePrice;
+            document.getElementById('editPaidAmount').value = sale.paidAmount;
+            
+            document.getElementById('editSaleModal').style.display = 'block';
         }
 
-        function closePaymentsModal() {
-            document.getElementById('paymentsModal').style.display = 'none';
+        function editExpense(expenseId) {
+            const expense = expensesData.find(e => e.id === expenseId);
+            if (!expense) return;
+
+            currentEditExpenseId = expenseId;
+            document.getElementById('editExpenseDescription').value = expense.description;
+            document.getElementById('editExpenseAmount').value = expense.amount;
+            document.getElementById('editExpenseCategory').value = expense.category;
+            
+            document.getElementById('editExpenseModal').style.display = 'block';
         }
 
-        function closePaymentModal() {
-            document.getElementById('paymentModal').style.display = 'none';
-            document.getElementById('paymentEmployeeCode').value = '';
-            currentPaymentCustomer = null;
+        async function deleteSale(saleId) {
+            if (confirm('Bu satışı silmek istediğinizden emin misiniz?')) {
+                const saleIndex = salesData.findIndex(s => s.id === saleId);
+                if (saleIndex !== -1) {
+                    const sale = salesData[saleIndex];
+                    
+                    salesData.splice(saleIndex, 1);
+                    
+                    const debtIndex = debtsData.findIndex(d => d.saleId === saleId);
+                    if (debtIndex !== -1) {
+                        debtsData.splice(debtIndex, 1);
+                    }
+                    
+                    updateCustomerAfterSaleDelete(sale);
+                    
+                    await autoSave();
+                    loadAdminData();
+                    updateDashboard();
+                    showAlert('Satış silindi!', 'success');
+                }
+            }
+        }
+
+        async function deleteExpense(expenseId) {
+            if (confirm('Bu gideri silmek istediğinizden emin misiniz?')) {
+                const expenseIndex = expensesData.findIndex(e => e.id === expenseId);
+                if (expenseIndex !== -1) {
+                    expensesData.splice(expenseIndex, 1);
+                    
+                    await autoSave();
+                    loadAdminData();
+                    updateDashboard();
+                    showAlert('Gider silindi!', 'success');
+                }
+            }
+        }
+
+        function updateCustomerAfterSaleDelete(deletedSale) {
+            const customerIndex = customersData.findIndex(c => c.phone === deletedSale.customerPhone);
+            if (customerIndex !== -1) {
+                const customer = customersData[customerIndex];
+                customer.sales = customer.sales.filter(s => s.id !== deletedSale.id);
+                customer.totalPurchases -= deletedSale.salePrice;
+                
+                if (customer.sales.length === 0) {
+                    customersData.splice(customerIndex, 1);
+                } else {
+                    customer.lastPurchase = customer.sales[customer.sales.length - 1].date;
+                }
+            }
+        }
+
+        // Edit form submissions
+        document.getElementById('editSaleForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const saleIndex = salesData.findIndex(s => s.id === currentEditSaleId);
+            if (saleIndex !== -1) {
+                const oldSale = {...salesData[saleIndex]};
+                
+                const newSalePrice = parseFloat(document.getElementById('editSalePrice').value);
+                const newPaidAmount = parseFloat(document.getElementById('editPaidAmount').value);
+                
+                salesData[saleIndex].customerName = document.getElementById('editCustomerName').value;
+                salesData[saleIndex].customerSurname = document.getElementById('editCustomerSurname').value;
+                salesData[saleIndex].customerPhone = document.getElementById('editCustomerPhone').value;
+                salesData[saleIndex].carpetArea = parseFloat(document.getElementById('editCarpetArea').value);
+                salesData[saleIndex].salePrice = newSalePrice;
+                salesData[saleIndex].paidAmount = newPaidAmount;
+                
+                if (newPaidAmount < newSalePrice) {
+                    salesData[saleIndex].paymentType = 'debt';
+                } else {
+                    salesData[saleIndex].paymentType = salesData[saleIndex].paidPaymentType;
+                }
+                
+                // Handle debt logic
+                const existingDebtIndex = debtsData.findIndex(d => d.saleId === currentEditSaleId);
+                const remainingAmount = newSalePrice - newPaidAmount;
+                
+                if (remainingAmount > 0) {
+                    if (existingDebtIndex !== -1) {
+                        debtsData[existingDebtIndex].customerName = salesData[saleIndex].customerName;
+                        debtsData[existingDebtIndex].customerSurname = salesData[saleIndex].customerSurname;
+                        debtsData[existingDebtIndex].customerPhone = salesData[saleIndex].customerPhone;
+                        debtsData[existingDebtIndex].totalAmount = newSalePrice;
+                        debtsData[existingDebtIndex].paidAmount = newPaidAmount;
+                        debtsData[existingDebtIndex].remainingAmount = remainingAmount;
+                    } else {
+                        const newDebt = {
+                            id: Date.now(),
+                            saleId: currentEditSaleId,
+                            customerName: salesData[saleIndex].customerName,
+                            customerSurname: salesData[saleIndex].customerSurname,
+                            customerPhone: salesData[saleIndex].customerPhone,
+                            totalAmount: newSalePrice,
+                            paidAmount: newPaidAmount,
+                            remainingAmount: remainingAmount,
+                            date: salesData[saleIndex].date,
+                            employee: salesData[saleIndex].employee
+                        };
+                        debtsData.push(newDebt);
+                    }
+                } else {
+                    if (existingDebtIndex !== -1) {
+                        debtsData.splice(existingDebtIndex, 1);
+                    }
+                }
+                
+                updateCustomerAfterSaleEdit(oldSale, salesData[saleIndex]);
+                
+                await autoSave();
+                loadAdminData();
+                updateDashboard();
+                closeEditSale();
+                showAlert('Satış güncellendi!', 'success');
+            }
+        });
+
+        document.getElementById('editExpenseForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const expenseIndex = expensesData.findIndex(e => e.id === currentEditExpenseId);
+            if (expenseIndex !== -1) {
+                expensesData[expenseIndex].description = document.getElementById('editExpenseDescription').value;
+                expensesData[expenseIndex].amount = parseFloat(document.getElementById('editExpenseAmount').value);
+                expensesData[expenseIndex].category = document.getElementById('editExpenseCategory').value;
+                
+                await autoSave();
+                loadAdminData();
+                updateDashboard();
+                closeEditExpense();
+                showAlert('Gider güncellendi!', 'success');
+            }
+        });
+
+        function updateCustomerAfterSaleEdit(oldSale, newSale) {
+            const customerIndex = customersData.findIndex(c => c.phone === oldSale.customerPhone);
+            if (customerIndex !== -1) {
+                const customer = customersData[customerIndex];
+                
+                const saleIndex = customer.sales.findIndex(s => s.id === newSale.id);
+                if (saleIndex !== -1) {
+                    customer.totalPurchases = customer.totalPurchases - oldSale.salePrice + newSale.salePrice;
+                    customer.sales[saleIndex] = {...newSale};
+                    
+                    if (oldSale.customerPhone !== newSale.customerPhone) {
+                        customer.sales.splice(saleIndex, 1);
+                        customer.totalPurchases -= newSale.salePrice;
+                        
+                        if (customer.sales.length === 0) {
+                            customersData.splice(customerIndex, 1);
+                        }
+                        
+                        updateCustomer(newSale.customerName, newSale.customerSurname, newSale.customerPhone, newSale);
+                    }
+                }
+            }
         }
 
         // Generate report
@@ -2397,14 +3049,19 @@
 
             const reportContent = document.getElementById('reportContent');
             reportContent.innerHTML = `
-                <div class="section-title">${reportType === 'daily' ? 'Günlük' : reportType === 'monthly' ? 'Aylık' : 'Yıllık'} Rapor</div>
+                <div class="section-title">
+                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                    </svg>
+                    ${reportType === 'daily' ? 'Günlük' : reportType === 'monthly' ? 'Aylık' : 'Yıllık'} Rapor
+                </div>
                 
-                <div class="stats-grid" style="margin: 1.5rem 0;">
-                    <div class="stat-card">
+                <div class="stats-grid" style="margin: 2rem 0;">
+                    <div class="stat-card success-card">
                         <div class="stat-value">${totalIncome.toLocaleString('tr-TR')}</div>
                         <div class="stat-label">Toplam Gelir (₺)</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card warning-card">
                         <div class="stat-value">${totalExpenses.toLocaleString('tr-TR')}</div>
                         <div class="stat-label">Gider (₺)</div>
                     </div>
@@ -2412,8 +3069,8 @@
                         <div class="stat-value">${(totalIncome - totalExpenses).toLocaleString('tr-TR')}</div>
                         <div class="stat-label">Kar (₺)</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-value debt-amount">${totalDebt.toLocaleString('tr-TR')}</div>
+                    <div class="stat-card debt-card">
+                        <div class="stat-value">${totalDebt.toLocaleString('tr-TR')}</div>
                         <div class="stat-label">Borç (₺)</div>
                     </div>
                 </div>
@@ -2461,7 +3118,9 @@
                                     <td>${new Date(item.date).toLocaleDateString('tr-TR')}</td>
                                     <td>${item.type}</td>
                                     <td>${item.description}</td>
-                                    <td>${item.amount >= 0 ? '+' : ''}${item.amount.toLocaleString('tr-TR')} ₺</td>
+                                    <td style="color: ${item.amount >= 0 ? 'var(--success-color)' : 'var(--danger-color)'}">
+                                        ${item.amount >= 0 ? '+' : ''}${item.amount.toLocaleString('tr-TR')} ₺
+                                    </td>
                                     <td>${item.payment}</td>
                                     <td>${item.employee}</td>
                                 </tr>
@@ -2490,7 +3149,7 @@
                                         <td>${debt.customerPhone}</td>
                                         <td>${debt.totalAmount.toLocaleString('tr-TR')} ₺</td>
                                         <td>${debt.paidAmount.toLocaleString('tr-TR')} ₺</td>
-                                        <td class="debt-amount">${debt.remainingAmount.toLocaleString('tr-TR')} ₺</td>
+                                        <td style="color: var(--danger-color); font-weight: 600;">${debt.remainingAmount.toLocaleString('tr-TR')} ₺</td>
                                     </tr>
                                 `).join('')}
                             </tbody>
@@ -2523,7 +3182,6 @@
                         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 20px 0; }
                         .stat-card { border: 1px solid #ddd; padding: 20px; text-align: center; }
                         .stat-value { font-size: 24px; font-weight: bold; }
-                        .debt-amount { color: #dc3545; font-weight: bold; }
                         h1, h3 { color: #333; }
                     </style>
                 </head>
@@ -2553,31 +3211,64 @@
             }
         }
 
+        // Modal functions
+        function closeEditSale() {
+            document.getElementById('editSaleModal').style.display = 'none';
+            currentEditSaleId = null;
+        }
+
+        function closeEditExpense() {
+            document.getElementById('editExpenseModal').style.display = 'none';
+            currentEditExpenseId = null;
+        }
+
+        function closeCustomerModal() {
+            document.getElementById('customerModal').style.display = 'none';
+        }
+
+        function closePaymentsModal() {
+            document.getElementById('paymentsModal').style.display = 'none';
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+            document.getElementById('paymentEmployeeCode').value = '';
+            currentPaymentCustomer = null;
+        }
+
         // Show alert
         function showAlert(message, type) {
             const alertDiv = document.createElement('div');
             alertDiv.className = `alert alert-${type}`;
-            alertDiv.textContent = message;
+            alertDiv.innerHTML = `
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
+                    ${type === 'success' ? 
+                        '<path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>' : 
+                        '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>'
+                    }
+                </svg>
+                ${message}
+            `;
             
             document.body.appendChild(alertDiv);
             alertDiv.style.position = 'fixed';
-            alertDiv.style.top = '20px';
+            alertDiv.style.top = '80px';
             alertDiv.style.left = '50%';
             alertDiv.style.transform = 'translateX(-50%)';
             alertDiv.style.zIndex = '9999';
             alertDiv.style.maxWidth = '90%';
+            alertDiv.style.display = 'flex';
+            alertDiv.style.alignItems = 'center';
             
             setTimeout(() => {
                 alertDiv.remove();
-            }, 3000);
+            }, 4000);
         }
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            initPWA();
-            loadTheme();
-            updateDashboard();
-            document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
+            initApp();
+            setupCustomerAutocomplete();
         });
 
         // Close modals when clicking outside
