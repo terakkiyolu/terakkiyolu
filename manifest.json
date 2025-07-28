@@ -1,6 +1,6 @@
 {
-  "name": "SADECE KURAN",
-  "short_name": "Sadece Kuran",
+  "name": "ERT HALI",
+  "short_name": "ERT",
   "start_url": "/ertek.html",
   "display": "standalone",
   "background_color": "#111111",
