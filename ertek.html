@@ -4,6 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ERT HALI - Yönetici Paneli</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="ERT HALI işletme yönetim sistemi - Satış, gider ve müşteri takibi">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ERT HALI">
+    
+    <!-- PWA Links -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="ert1.png">
+    <link rel="apple-touch-icon" href="ert1.png">
+    
     <style>
         * {
             margin: 0;
@@ -74,6 +87,39 @@
             line-height: 1.6;
         }
 
+        /* PWA Install Button */
+        .install-button {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .install-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+        }
+
+        .install-button.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
         /* Ripple Effect */
         .ripple {
             position: relative;
@@ -122,6 +168,13 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+        }
+
+        .nav-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
         }
 
         .nav-title {
@@ -360,11 +413,13 @@
             overflow: hidden;
             border: 1px solid var(--border-color);
             margin-top: 1rem;
+            overflow-x: auto;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 600px;
         }
 
         th, td {
@@ -638,6 +693,26 @@
             margin: 0;
         }
 
+        /* Offline indicator */
+        .offline-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--warning-color);
+            color: var(--text-primary);
+            text-align: center;
+            padding: 0.5rem;
+            font-weight: 600;
+            z-index: 1001;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .offline-indicator.show {
+            transform: translateY(0);
+        }
+
         /* Desktop Styles */
         @media (min-width: 768px) {
             .container {
@@ -740,8 +815,19 @@
     </style>
 </head>
 <body>
+    <!-- Offline Indicator -->
+    <div id="offlineIndicator" class="offline-indicator">
+        📡 Çevrimdışı - Veriler yerel olarak saklanıyor
+    </div>
+
+    <!-- PWA Install Button -->
+    <button id="installButton" class="install-button">
+        📱 Uygulamayı Yükle
+    </button>
+
     <nav class="navbar">
         <div class="nav-left">
+            <img src="ert1.png" alt="ERT HALI Logo" class="nav-logo">
             <div class="nav-title">ERT HALI</div>
             <button class="admin-btn ripple" onclick="showAdminLogin()">👤 Yönetici</button>
         </div>
@@ -1142,1175 +1228,6 @@
         </div>
     </div>
 
-    <script>
-        // Employee codes
-        const employees = {
-            '222': 'YUSUF',
-            '333': 'YUNUS'
-        };
-
-        // Admin code
-        const ADMIN_CODE = '666';
-
-        // Initialize data
-        let salesData = JSON.parse(localStorage.getItem('ertHaliSales')) || [];
-        let expensesData = JSON.parse(localStorage.getItem('ertHaliExpenses')) || [];
-        let customersData = JSON.parse(localStorage.getItem('ertHaliCustomers')) || [];
-        let debtsData = JSON.parse(localStorage.getItem('ertHaliDebts')) || [];
-        let paymentsData = JSON.parse(localStorage.getItem('ertHaliPayments')) || [];
-
-        let selectedPaymentType = 'cash';
-        let selectedPaidPaymentType = 'cash';
-        let selectedDebtPaymentType = 'cash';
-        let currentPaymentCustomer = null;
-        let isAdminLoggedIn = false;
-        let currentEditSaleId = null;
-        let currentEditExpenseId = null;
-
-        // Theme management
-        function toggleTheme() {
-            const body = document.body;
-            const themeToggle = document.getElementById('themeToggle');
-            
-            if (body.getAttribute('data-theme') === 'dark') {
-                body.removeAttribute('data-theme');
-                themeToggle.textContent = '🌙';
-                localStorage.setItem('ertHaliTheme', 'light');
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                themeToggle.textContent = '☀️';
-                localStorage.setItem('ertHaliTheme', 'dark');
-            }
-        }
-
-        // Load saved theme
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('ertHaliTheme');
-            if (savedTheme === 'dark') {
-                document.body.setAttribute('data-theme', 'dark');
-                document.getElementById('themeToggle').textContent = '☀️';
-            }
-        }
-
-        // Admin functions
-        function showAdminLogin() {
-            document.getElementById('adminLoginModal').style.display = 'block';
-        }
-
-        function closeAdminLogin() {
-            document.getElementById('adminLoginModal').style.display = 'none';
-            document.getElementById('adminCode').value = '';
-        }
-
-        function verifyAdmin() {
-            const code = document.getElementById('adminCode').value;
-            if (code === ADMIN_CODE) {
-                isAdminLoggedIn = true;
-                document.getElementById('adminPanel').style.display = 'block';
-                closeAdminLogin();
-                loadAdminData();
-                showAlert('Yönetici paneline giriş yapıldı!', 'success');
-            } else {
-                showAlert('Geçersiz yönetici kodu!', 'error');
-            }
-        }
-
-        function showAdminTab(tabName) {
-            document.querySelectorAll('.admin-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.admin-content').forEach(content => {
-                content.classList.remove('active');
-            });
-
-            event.target.classList.add('active');
-            document.getElementById('admin' + tabName.charAt(0).toUpperCase() + tabName.slice(1)).classList.add('active');
-            
-            loadAdminData();
-        }
-
-        function loadAdminData() {
-            loadAdminSales();
-            loadAdminExpenses();
-        }
-
-        function loadAdminSales() {
-            const tbody = document.getElementById('adminSalesTable');
-            tbody.innerHTML = salesData.map(sale => `
-                <tr>
-                    <td>${new Date(sale.date).toLocaleDateString('tr-TR')}</td>
-                    <td>${sale.customerName} ${sale.customerSurname}</td>
-                    <td>${sale.salePrice.toLocaleString('tr-TR')} ₺</td>
-                    <td>
-                        <span class="payment-type-badge payment-${sale.paidPaymentType}">
-                            ${getPaymentTypeDisplay(sale.paidPaymentType)}
-                        </span>
-                    </td>
-                    <td>${sale.employee}</td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="btn btn-warning btn-small ripple" onclick="editSale(${sale.id})">Düzenle</button>
-                            <button class="btn btn-danger btn-small ripple" onclick="deleteSale(${sale.id})">Sil</button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function loadAdminExpenses() {
-            const tbody = document.getElementById('adminExpensesTable');
-            tbody.innerHTML = expensesData.map(expense => `
-                <tr>
-                    <td>${new Date(expense.date).toLocaleDateString('tr-TR')}</td>
-                    <td>${expense.description}</td>
-                    <td>${expense.category}</td>
-                    <td>${expense.amount.toLocaleString('tr-TR')} ₺</td>
-                    <td>${expense.employee}</td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="btn btn-warning btn-small ripple" onclick="editExpense(${expense.id})">Düzenle</button>
-                            <button class="btn btn-danger btn-small ripple" onclick="deleteExpense(${expense.id})">Sil</button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function editSale(saleId) {
-            const sale = salesData.find(s => s.id === saleId);
-            if (!sale) return;
-
-            currentEditSaleId = saleId;
-            document.getElementById('editCustomerName').value = sale.customerName;
-            document.getElementById('editCustomerSurname').value = sale.customerSurname;
-            document.getElementById('editCustomerPhone').value = sale.customerPhone;
-            document.getElementById('editCarpetArea').value = sale.carpetArea;
-            document.getElementById('editSalePrice').value = sale.salePrice;
-            document.getElementById('editPaidAmount').value = sale.paidAmount;
-            
-            document.getElementById('editSaleModal').style.display = 'block';
-        }
-
-        function closeEditSale() {
-            document.getElementById('editSaleModal').style.display = 'none';
-            currentEditSaleId = null;
-        }
-
-        function editExpense(expenseId) {
-            const expense = expensesData.find(e => e.id === expenseId);
-            if (!expense) return;
-
-            currentEditExpenseId = expenseId;
-            document.getElementById('editExpenseDescription').value = expense.description;
-            document.getElementById('editExpenseAmount').value = expense.amount;
-            document.getElementById('editExpenseCategory').value = expense.category;
-            
-            document.getElementById('editExpenseModal').style.display = 'block';
-        }
-
-        function closeEditExpense() {
-            document.getElementById('editExpenseModal').style.display = 'none';
-            currentEditExpenseId = null;
-        }
-
-        function deleteSale(saleId) {
-            if (confirm('Bu satışı silmek istediğinizden emin misiniz?')) {
-                const saleIndex = salesData.findIndex(s => s.id === saleId);
-                if (saleIndex !== -1) {
-                    const sale = salesData[saleIndex];
-                    
-                    // Remove from sales
-                    salesData.splice(saleIndex, 1);
-                    localStorage.setItem('ertHaliSales', JSON.stringify(salesData));
-                    
-                    // Remove related debt if exists
-                    const debtIndex = debtsData.findIndex(d => d.saleId === saleId);
-                    if (debtIndex !== -1) {
-                        debtsData.splice(debtIndex, 1);
-                        localStorage.setItem('ertHaliDebts', JSON.stringify(debtsData));
-                    }
-                    
-                    // Update customer data
-                    updateCustomerAfterSaleDelete(sale);
-                    
-                    loadAdminData();
-                    updateDashboard();
-                    showAlert('Satış silindi!', 'success');
-                }
-            }
-        }
-
-        function deleteExpense(expenseId) {
-            if (confirm('Bu gideri silmek istediğinizden emin misiniz?')) {
-                const expenseIndex = expensesData.findIndex(e => e.id === expenseId);
-                if (expenseIndex !== -1) {
-                    expensesData.splice(expenseIndex, 1);
-                    localStorage.setItem('ertHaliExpenses', JSON.stringify(expensesData));
-                    
-                    loadAdminData();
-                    updateDashboard();
-                    showAlert('Gider silindi!', 'success');
-                }
-            }
-        }
-
-        function updateCustomerAfterSaleDelete(deletedSale) {
-            const customerIndex = customersData.findIndex(c => c.phone === deletedSale.customerPhone);
-            if (customerIndex !== -1) {
-                const customer = customersData[customerIndex];
-                customer.sales = customer.sales.filter(s => s.id !== deletedSale.id);
-                customer.totalPurchases -= deletedSale.salePrice;
-                
-                if (customer.sales.length === 0) {
-                    customersData.splice(customerIndex, 1);
-                } else {
-                    customer.lastPurchase = customer.sales[customer.sales.length - 1].date;
-                }
-                
-                localStorage.setItem('ertHaliCustomers', JSON.stringify(customersData));
-            }
-        }
-
-        // Edit forms
-        document.getElementById('editSaleForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const saleIndex = salesData.findIndex(s => s.id === currentEditSaleId);
-            if (saleIndex !== -1) {
-                const oldSale = {...salesData[saleIndex]};
-                
-                const newSalePrice = parseFloat(document.getElementById('editSalePrice').value);
-                const newPaidAmount = parseFloat(document.getElementById('editPaidAmount').value);
-                
-                salesData[saleIndex].customerName = document.getElementById('editCustomerName').value;
-                salesData[saleIndex].customerSurname = document.getElementById('editCustomerSurname').value;
-                salesData[saleIndex].customerPhone = document.getElementById('editCustomerPhone').value;
-                salesData[saleIndex].carpetArea = parseFloat(document.getElementById('editCarpetArea').value);
-                salesData[saleIndex].salePrice = newSalePrice;
-                salesData[saleIndex].paidAmount = newPaidAmount;
-                
-                // Update payment type based on amounts
-                if (newPaidAmount < newSalePrice) {
-                    salesData[saleIndex].paymentType = 'debt';
-                } else {
-                    salesData[saleIndex].paymentType = salesData[saleIndex].paidPaymentType;
-                }
-                
-                localStorage.setItem('ertHaliSales', JSON.stringify(salesData));
-                
-                // Handle debt logic
-                const existingDebtIndex = debtsData.findIndex(d => d.saleId === currentEditSaleId);
-                const remainingAmount = newSalePrice - newPaidAmount;
-                
-                if (remainingAmount > 0) {
-                    // There should be a debt
-                    if (existingDebtIndex !== -1) {
-                        // Update existing debt
-                        debtsData[existingDebtIndex].customerName = salesData[saleIndex].customerName;
-                        debtsData[existingDebtIndex].customerSurname = salesData[saleIndex].customerSurname;
-                        debtsData[existingDebtIndex].customerPhone = salesData[saleIndex].customerPhone;
-                        debtsData[existingDebtIndex].totalAmount = newSalePrice;
-                        debtsData[existingDebtIndex].paidAmount = newPaidAmount;
-                        debtsData[existingDebtIndex].remainingAmount = remainingAmount;
-                    } else {
-                        // Create new debt
-                        const newDebt = {
-                            id: Date.now(),
-                            saleId: currentEditSaleId,
-                            customerName: salesData[saleIndex].customerName,
-                            customerSurname: salesData[saleIndex].customerSurname,
-                            customerPhone: salesData[saleIndex].customerPhone,
-                            totalAmount: newSalePrice,
-                            paidAmount: newPaidAmount,
-                            remainingAmount: remainingAmount,
-                            date: salesData[saleIndex].date,
-                            employee: salesData[saleIndex].employee
-                        };
-                        debtsData.push(newDebt);
-                    }
-                } else {
-                    // No debt needed, remove if exists
-                    if (existingDebtIndex !== -1) {
-                        debtsData.splice(existingDebtIndex, 1);
-                    }
-                }
-                
-                localStorage.setItem('ertHaliDebts', JSON.stringify(debtsData));
-                
-                // Update customer data
-                updateCustomerAfterSaleEdit(oldSale, salesData[saleIndex]);
-                
-                loadAdminData();
-                updateDashboard();
-                closeEditSale();
-                showAlert('Satış güncellendi ve borç durumu ayarlandı!', 'success');
-            }
-        });
-
-        function updateCustomerAfterSaleEdit(oldSale, newSale) {
-            const customerIndex = customersData.findIndex(c => c.phone === oldSale.customerPhone);
-            if (customerIndex !== -1) {
-                const customer = customersData[customerIndex];
-                
-                // Find and update the sale in customer's sales array
-                const saleIndex = customer.sales.findIndex(s => s.id === newSale.id);
-                if (saleIndex !== -1) {
-                    // Update total purchases (subtract old, add new)
-                    customer.totalPurchases = customer.totalPurchases - oldSale.salePrice + newSale.salePrice;
-                    
-                    // Update the sale data
-                    customer.sales[saleIndex] = {...newSale};
-                    
-                    // If phone number changed, move customer
-                    if (oldSale.customerPhone !== newSale.customerPhone) {
-                        // Remove sale from old customer
-                        customer.sales.splice(saleIndex, 1);
-                        customer.totalPurchases -= newSale.salePrice;
-                        
-                        if (customer.sales.length === 0) {
-                            customersData.splice(customerIndex, 1);
-                        }
-                        
-                        // Add to new customer or create new customer
-                        updateCustomer(newSale.customerName, newSale.customerSurname, newSale.customerPhone, newSale);
-                    }
-                }
-                
-                localStorage.setItem('ertHaliCustomers', JSON.stringify(customersData));
-            }
-        }
-
-        // Edit forms
-        document.getElementById('editExpenseForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const expenseIndex = expensesData.findIndex(e => e.id === currentEditExpenseId);
-            if (expenseIndex !== -1) {
-                expensesData[expenseIndex].description = document.getElementById('editExpenseDescription').value;
-                expensesData[expenseIndex].amount = parseFloat(document.getElementById('editExpenseAmount').value);
-                expensesData[expenseIndex].category = document.getElementById('editExpenseCategory').value;
-                
-                localStorage.setItem('ertHaliExpenses', JSON.stringify(expensesData));
-                
-                loadAdminData();
-                updateDashboard();
-                closeEditExpense();
-                showAlert('Gider güncellendi!', 'success');
-            }
-        });
-
-        // Tab management
-        function showTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-
-            // Show selected tab
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
-
-            if (tabName === 'dashboard') {
-                updateDashboard();
-            } else if (tabName === 'customers') {
-                loadCustomers();
-            }
-        }
-
-        // Payment type selection
-        function selectPaymentType(type) {
-            selectedPaymentType = type;
-            document.querySelectorAll('#sales .payment-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            event.target.classList.add('selected');
-
-            const debtOptions = document.getElementById('debtOptions');
-            if (type === 'debt') {
-                debtOptions.style.display = 'block';
-            } else {
-                debtOptions.style.display = 'none';
-            }
-        }
-
-        function selectPaidPaymentType(type) {
-            selectedPaidPaymentType = type;
-            document.querySelectorAll('#paidPaymentTypeGroup .payment-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            event.target.classList.add('selected');
-        }
-
-        function selectDebtPaymentType(type) {
-            selectedDebtPaymentType = type;
-            document.querySelectorAll('#paymentModal .payment-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            event.target.classList.add('selected');
-        }
-
-        // Employee verification
-        function verifyEmployeeCode(code) {
-            return employees[code] || null;
-        }
-
-        // Get payment type display
-        function getPaymentTypeDisplay(type) {
-            switch(type) {
-                case 'cash': return 'Nakit';
-                case 'card': return 'Kart';
-                case 'debt': return 'Borç';
-                default: return type;
-            }
-        }
-
-        // Sales form submission
-        document.getElementById('salesForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const employeeCode = document.getElementById('employeeCode').value;
-            const employeeName = verifyEmployeeCode(employeeCode);
-            
-            if (!employeeName) {
-                showAlert('Geçersiz çalışan kodu!', 'error');
-                return;
-            }
-
-            const customerName = document.getElementById('customerName').value;
-            const customerSurname = document.getElementById('customerSurname').value;
-            const customerPhone = document.getElementById('customerPhone').value;
-            const salePrice = parseFloat(document.getElementById('salePrice').value);
-            const paidAmount = selectedPaymentType === 'debt' ? parseFloat(document.getElementById('paidAmount').value) || 0 : salePrice;
-
-            const saleData = {
-                id: Date.now(),
-                date: new Date().toISOString(),
-                customerName: customerName,
-                customerSurname: customerSurname,
-                customerPhone: customerPhone,
-                carpetArea: parseFloat(document.getElementById('carpetArea').value),
-                salePrice: salePrice,
-                paymentType: selectedPaymentType,
-                paidAmount: paidAmount,
-                paidPaymentType: selectedPaymentType === 'debt' ? selectedPaidPaymentType : selectedPaymentType,
-                employee: employeeName,
-                employeeCode: employeeCode
-            };
-
-            salesData.push(saleData);
-            localStorage.setItem('ertHaliSales', JSON.stringify(salesData));
-
-            // Update or create customer
-            updateCustomer(customerName, customerSurname, customerPhone, saleData);
-
-            // Handle debt if payment type is debt and not fully paid
-            if (selectedPaymentType === 'debt' && paidAmount < salePrice) {
-                const debtAmount = salePrice - paidAmount;
-                const debtData = {
-                    id: Date.now(),
-                    saleId: saleData.id,
-                    customerName: customerName,
-                    customerSurname: customerSurname,
-                    customerPhone: customerPhone,
-                    totalAmount: salePrice,
-                    paidAmount: paidAmount,
-                    remainingAmount: debtAmount,
-                    date: new Date().toISOString(),
-                    employee: employeeName
-                };
-                debtsData.push(debtData);
-                localStorage.setItem('ertHaliDebts', JSON.stringify(debtsData));
-            }
-            
-            showAlert('Satış başarıyla kaydedildi!', 'success');
-            document.getElementById('salesForm').reset();
-            selectPaymentType('cash');
-            selectPaidPaymentType('cash');
-            updateDashboard();
-            if (isAdminLoggedIn) loadAdminData();
-        });
-
-        // Update customer data
-        function updateCustomer(name, surname, phone, saleData) {
-            const existingCustomerIndex = customersData.findIndex(customer => 
-                customer.phone === phone
-            );
-
-            if (existingCustomerIndex !== -1) {
-                // Update existing customer
-                customersData[existingCustomerIndex].sales.push(saleData);
-                customersData[existingCustomerIndex].totalPurchases += saleData.salePrice;
-                customersData[existingCustomerIndex].lastPurchase = saleData.date;
-            } else {
-                // Create new customer
-                const newCustomer = {
-                    id: Date.now(),
-                    name: name,
-                    surname: surname,
-                    phone: phone,
-                    totalPurchases: saleData.salePrice,
-                    lastPurchase: saleData.date,
-                    sales: [saleData]
-                };
-                customersData.push(newCustomer);
-            }
-
-            localStorage.setItem('ertHaliCustomers', JSON.stringify(customersData));
-        }
-
-        // Expenses form submission
-        document.getElementById('expensesForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const employeeCode = document.getElementById('expenseEmployeeCode').value;
-            const employeeName = verifyEmployeeCode(employeeCode);
-            
-            if (!employeeName) {
-                showAlert('Geçersiz çalışan kodu!', 'error');
-                return;
-            }
-
-            const expenseData = {
-                id: Date.now(),
-                date: new Date().toISOString(),
-                description: document.getElementById('expenseDescription').value,
-                amount: parseFloat(document.getElementById('expenseAmount').value),
-                category: document.getElementById('expenseCategory').value,
-                employee: employeeName,
-                employeeCode: employeeCode
-            };
-
-            expensesData.push(expenseData);
-            localStorage.setItem('ertHaliExpenses', JSON.stringify(expensesData));
-            
-            showAlert('Gider başarıyla kaydedildi!', 'success');
-            document.getElementById('expensesForm').reset();
-            updateDashboard();
-            if (isAdminLoggedIn) loadAdminData();
-        });
-
-        // Update dashboard
-        function updateDashboard() {
-            const totalSales = salesData.reduce((sum, sale) => sum + sale.paidAmount, 0);
-            const totalPayments = paymentsData.reduce((sum, payment) => sum + payment.amount, 0);
-            const totalIncome = totalSales + totalPayments;
-            const totalExpenses = expensesData.reduce((sum, expense) => sum + expense.amount, 0);
-            const totalDebt = debtsData.reduce((sum, debt) => sum + debt.remainingAmount, 0);
-            const netProfit = totalIncome - totalExpenses;
-
-            document.getElementById('totalSales').textContent = totalIncome.toLocaleString('tr-TR');
-            document.getElementById('totalExpenses').textContent = totalExpenses.toLocaleString('tr-TR');
-            document.getElementById('netProfit').textContent = netProfit.toLocaleString('tr-TR');
-            document.getElementById('totalDebt').textContent = totalDebt.toLocaleString('tr-TR');
-
-            updateRecentTransactions();
-        }
-
-        // Update recent transactions
-        function updateRecentTransactions() {
-            const allTransactions = [
-                ...salesData.map(sale => ({
-                    date: sale.date,
-                    type: 'Satış',
-                    description: `${sale.customerName} ${sale.customerSurname}`,
-                    amount: sale.paidAmount,
-                    paymentType: sale.paidPaymentType,
-                    employee: sale.employee
-                })),
-                ...paymentsData.map(payment => ({
-                    date: payment.date,
-                    type: 'Ödeme',
-                    description: `${payment.customerName} ${payment.customerSurname}`,
-                    amount: payment.amount,
-                    paymentType: payment.paymentType,
-                    employee: payment.employee
-                })),
-                ...expensesData.map(expense => ({
-                    date: expense.date,
-                    type: 'Gider',
-                    description: expense.description,
-                    amount: -expense.amount,
-                    paymentType: '-',
-                    employee: expense.employee
-                }))
-            ].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 10);
-
-            const tbody = document.getElementById('recentTransactions');
-            tbody.innerHTML = allTransactions.map(transaction => `
-    <tr>
-        <td>${new Date(transaction.date).toLocaleDateString('tr-TR')}</td>
-        <td>${transaction.type}</td>
-        <td>${transaction.amount >= 0 ? '+' : ''}${transaction.amount.toLocaleString('tr-TR')} ₺</td>
-        <td>
-            ${transaction.paymentType !== '-' ? 
-                `<span class="payment-type-badge payment-${transaction.paymentType}">${getPaymentTypeDisplay(transaction.paymentType)}</span>` : 
-                '-'
-            }
-        </td>
-        <td>${transaction.employee}</td>
-    </tr>
-`).join('');
-        }
-
-        // Load customers
-        function loadCustomers() {
-            const customersList = document.getElementById('customersList');
-            customersList.innerHTML = customersData.map(customer => `
-                <div class="customer-item ripple" onclick="showCustomerDetails('${customer.id}')">
-                    <div class="customer-name">${customer.name} ${customer.surname}</div>
-                    <div class="customer-info">
-                        📞 ${customer.phone} | 
-                        💰 ${customer.totalPurchases.toLocaleString('tr-TR')} ₺ | 
-                        📅 ${new Date(customer.lastPurchase).toLocaleDateString('tr-TR')}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Search customers
-        function searchCustomers() {
-            const searchTerm = document.getElementById('customerSearch').value.toLowerCase();
-            const filteredCustomers = customersData.filter(customer => 
-                customer.name.toLowerCase().includes(searchTerm) ||
-                customer.surname.toLowerCase().includes(searchTerm) ||
-                customer.phone.includes(searchTerm)
-            );
-
-            const customersList = document.getElementById('customersList');
-            customersList.innerHTML = filteredCustomers.map(customer => `
-                <div class="customer-item ripple" onclick="showCustomerDetails('${customer.id}')">
-                    <div class="customer-name">${customer.name} ${customer.surname}</div>
-                    <div class="customer-info">
-                        📞 ${customer.phone} | 
-                        💰 ${customer.totalPurchases.toLocaleString('tr-TR')} ₺ | 
-                        📅 ${new Date(customer.lastPurchase).toLocaleDateString('tr-TR')}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Show customer details
-        function showCustomerDetails(customerId) {
-            const customer = customersData.find(c => c.id == customerId);
-            if (!customer) return;
-
-            const customerDebt = debtsData.find(debt => debt.customerPhone === customer.phone);
-            const customerPayments = paymentsData.filter(payment => payment.customerPhone === customer.phone);
-            
-            document.getElementById('customerDetails').innerHTML = `
-                <div class="section-title">${customer.name} ${customer.surname}</div>
-                <div style="margin-bottom: 1rem;">
-                    <strong>Telefon:</strong> ${customer.phone}<br>
-                    <strong>Toplam Alışveriş:</strong> ${customer.totalPurchases.toLocaleString('tr-TR')} ₺<br>
-                    <strong>Son Alışveriş:</strong> ${new Date(customer.lastPurchase).toLocaleDateString('tr-TR')}<br>
-                    ${customerDebt ? `<strong>Kalan Borç:</strong> <span class="debt-amount">${customerDebt.remainingAmount.toLocaleString('tr-TR')} ₺</span>` : ''}
-                </div>
-                
-                <div class="section-title">Alışveriş Geçmişi</div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tarih</th>
-                                <th>m²</th>
-                                <th>Fiyat</th>
-                                <th>Ödeme</th>
-                                <th>Çalışan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${customer.sales.map(sale => `
-                                <tr>
-                                    <td>${new Date(sale.date).toLocaleDateString('tr-TR')}</td>
-                                    <td>${sale.carpetArea}</td>
-                                    <td>${sale.salePrice.toLocaleString('tr-TR')} ₺</td>
-                                    <td>
-                                        <span class="payment-type-badge payment-${sale.paidPaymentType}">
-                                            ${getPaymentTypeDisplay(sale.paidPaymentType)}
-                                        </span>
-                                        ${sale.paymentType === 'debt' ? ' (Borç)' : ''}
-                                    </td>
-                                    <td>${sale.employee}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-
-                ${customerPayments.length > 0 ? `
-                    <div class="section-title">Ödeme Geçmişi</div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Tarih</th>
-                                    <th>Tutar</th>
-                                    <th>Ödeme Türü</th>
-                                    <th>Çalışan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${customerPayments.map(payment => `
-                                    <tr>
-                                        <td>${new Date(payment.date).toLocaleDateString('tr-TR')}</td>
-                                        <td>${payment.amount.toLocaleString('tr-TR')} ₺</td>
-                                        <td>
-                                            <span class="payment-type-badge payment-${payment.paymentType}">
-                                                ${getPaymentTypeDisplay(payment.paymentType)}
-                                            </span>
-                                        </td>
-                                        <td>${payment.employee}</td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                ` : ''}
-            `;
-            
-            document.getElementById('customerModal').style.display = 'block';
-        }
-
-        // Show pending payments
-        function showPendingPayments() {
-            const pendingPaymentsList = document.getElementById('pendingPaymentsList');
-            pendingPaymentsList.innerHTML = debtsData.map(debt => `
-                <div class="customer-item ripple" onclick="showPaymentModal('${debt.customerPhone}')">
-                    <div class="customer-name">${debt.customerName} ${debt.customerSurname}</div>
-                    <div class="customer-info">
-                        📞 ${debt.customerPhone} | 
-                        💰 Toplam: ${debt.totalAmount.toLocaleString('tr-TR')} ₺ | 
-                        💸 Ödenen: ${debt.paidAmount.toLocaleString('tr-TR')} ₺ | 
-                        <span class="debt-amount">Kalan: ${debt.remainingAmount.toLocaleString('tr-TR')} ₺</span>
-                    </div>
-                </div>
-            `).join('');
-            
-            document.getElementById('paymentsModal').style.display = 'block';
-        }
-
-        // Show payment modal
-        function showPaymentModal(customerPhone) {
-            const debt = debtsData.find(d => d.customerPhone === customerPhone);
-            if (!debt) return;
-
-            currentPaymentCustomer = debt;
-            
-            document.getElementById('paymentCustomerInfo').textContent = `${debt.customerName} ${debt.customerSurname} (${debt.customerPhone})`;
-            document.getElementById('paymentTotalDebt').textContent = `${debt.remainingAmount.toLocaleString('tr-TR')} ₺`;
-            document.getElementById('paymentAmount').value = debt.remainingAmount;
-            
-            // Reset payment type selection
-            selectedDebtPaymentType = 'cash';
-            document.querySelectorAll('#paymentModal .payment-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            document.querySelector('#paymentModal .payment-option').classList.add('selected');
-            
-            document.getElementById('paymentsModal').style.display = 'none';
-            document.getElementById('paymentModal').style.display = 'block';
-        }
-
-        // Process payment
-        function processPayment() {
-            const employeeCode = document.getElementById('paymentEmployeeCode').value;
-            const employeeName = verifyEmployeeCode(employeeCode);
-            
-            if (!employeeName) {
-                showAlert('Geçersiz çalışan kodu!', 'error');
-                return;
-            }
-
-            const paymentAmount = parseFloat(document.getElementById('paymentAmount').value);
-            
-            if (paymentAmount <= 0 || paymentAmount > currentPaymentCustomer.remainingAmount) {
-                showAlert('Geçersiz ödeme tutarı!', 'error');
-                return;
-            }
-
-            // Update debt
-            const debtIndex = debtsData.findIndex(d => d.id === currentPaymentCustomer.id);
-            if (debtIndex !== -1) {
-                debtsData[debtIndex].paidAmount += paymentAmount;
-                debtsData[debtIndex].remainingAmount -= paymentAmount;
-                
-                // If fully paid, remove from debts
-                if (debtsData[debtIndex].remainingAmount <= 0) {
-                    debtsData.splice(debtIndex, 1);
-                }
-                
-                localStorage.setItem('ertHaliDebts', JSON.stringify(debtsData));
-            }
-
-            // Add payment record
-            const paymentRecord = {
-                id: Date.now(),
-                date: new Date().toISOString(),
-                customerName: currentPaymentCustomer.customerName,
-                customerSurname: currentPaymentCustomer.customerSurname,
-                customerPhone: currentPaymentCustomer.customerPhone,
-                amount: paymentAmount,
-                paymentType: selectedDebtPaymentType,
-                type: 'debt_payment',
-                employee: employeeName,
-                debtId: currentPaymentCustomer.id
-            };
-
-            paymentsData.push(paymentRecord);
-            localStorage.setItem('ertHaliPayments', JSON.stringify(paymentsData));
-            
-            showAlert('Ödeme başarıyla alındı!', 'success');
-            closePaymentModal();
-            updateDashboard();
-        }
-
-        // Modal functions
-        function closeCustomerModal() {
-            document.getElementById('customerModal').style.display = 'none';
-        }
-
-        function closePaymentsModal() {
-            document.getElementById('paymentsModal').style.display = 'none';
-        }
-
-        function closePaymentModal() {
-            document.getElementById('paymentModal').style.display = 'none';
-            document.getElementById('paymentEmployeeCode').value = '';
-            currentPaymentCustomer = null;
-        }
-
-        // Generate report
-        function generateReport() {
-            const reportType = document.getElementById('reportType').value;
-            const reportDate = document.getElementById('reportDate').value || new Date().toISOString().split('T')[0];
-            
-            let filteredSales, filteredExpenses, filteredDebts, filteredPayments;
-            const targetDate = new Date(reportDate);
-
-            if (reportType === 'daily') {
-                filteredSales = salesData.filter(sale => {
-                    const saleDate = new Date(sale.date);
-                    return saleDate.toDateString() === targetDate.toDateString();
-                });
-                filteredExpenses = expensesData.filter(expense => {
-                    const expenseDate = new Date(expense.date);
-                    return expenseDate.toDateString() === targetDate.toDateString();
-                });
-                filteredDebts = debtsData.filter(debt => {
-                    const debtDate = new Date(debt.date);
-                    return debtDate.toDateString() === targetDate.toDateString();
-                });
-                filteredPayments = paymentsData.filter(payment => {
-                    const paymentDate = new Date(payment.date);
-                    return paymentDate.toDateString() === targetDate.toDateString();
-                });
-            } else if (reportType === 'monthly') {
-                filteredSales = salesData.filter(sale => {
-                    const saleDate = new Date(sale.date);
-                    return saleDate.getMonth() === targetDate.getMonth() && 
-                           saleDate.getFullYear() === targetDate.getFullYear();
-                });
-                filteredExpenses = expensesData.filter(expense => {
-                    const expenseDate = new Date(expense.date);
-                    return expenseDate.getMonth() === targetDate.getMonth() && 
-                           expenseDate.getFullYear() === targetDate.getFullYear();
-                });
-                filteredDebts = debtsData.filter(debt => {
-                    const debtDate = new Date(debt.date);
-                    return debtDate.getMonth() === targetDate.getMonth() && 
-                           debtDate.getFullYear() === targetDate.getFullYear();
-                });
-                filteredPayments = paymentsData.filter(payment => {
-                    const paymentDate = new Date(payment.date);
-                    return paymentDate.getMonth() === targetDate.getMonth() && 
-                           paymentDate.getFullYear() === targetDate.getFullYear();
-                });
-            } else {
-                filteredSales = salesData.filter(sale => {
-                    const saleDate = new Date(sale.date);
-                    return saleDate.getFullYear() === targetDate.getFullYear();
-                });
-                filteredExpenses = expensesData.filter(expense => {
-                    const expenseDate = new Date(expense.date);
-                    return expenseDate.getFullYear() === targetDate.getFullYear();
-                });
-                filteredDebts = debtsData.filter(debt => {
-                    const debtDate = new Date(debt.date);
-                    return debtDate.getFullYear() === targetDate.getFullYear();
-                });
-                filteredPayments = paymentsData.filter(payment => {
-                    const paymentDate = new Date(payment.date);
-                    return paymentDate.getFullYear() === targetDate.getFullYear();
-                });
-            }
-
-            const totalSales = filteredSales.reduce((sum, sale) => sum + sale.paidAmount, 0);
-            const totalPayments = filteredPayments.reduce((sum, payment) => sum + payment.amount, 0);
-            const totalIncome = totalSales + totalPayments;
-            const totalExpenses = filteredExpenses.reduce((sum, expense) => sum + expense.amount, 0);
-            const totalDebt = filteredDebts.reduce((sum, debt) => sum + debt.remainingAmount, 0);
-
-            const reportContent = document.getElementById('reportContent');
-            reportContent.innerHTML = `
-                <div class="section-title">${reportType === 'daily' ? 'Günlük' : reportType === 'monthly' ? 'Aylık' : 'Yıllık'} Rapor</div>
-                
-                <div class="stats-grid" style="margin: 1.5rem 0;">
-                    <div class="stat-card">
-                        <div class="stat-value">${totalIncome.toLocaleString('tr-TR')}</div>
-                        <div class="stat-label">Toplam Gelir (₺)</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">${totalExpenses.toLocaleString('tr-TR')}</div>
-                        <div class="stat-label">Gider (₺)</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">${(totalIncome - totalExpenses).toLocaleString('tr-TR')}</div>
-                        <div class="stat-label">Kar (₺)</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value debt-amount">${totalDebt.toLocaleString('tr-TR')}</div>
-                        <div class="stat-label">Borç (₺)</div>
-                    </div>
-                </div>
-
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tarih</th>
-                                <th>Tür</th>
-                                <th>Açıklama</th>
-                                <th>Tutar</th>
-                                <th>Ödeme</th>
-                                <th>Çalışan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${[
-                                ...filteredSales.map(sale => ({
-                                    date: sale.date,
-                                    type: 'Satış',
-                                    description: `${sale.customerName} ${sale.customerSurname}`,
-                                    amount: sale.paidAmount,
-                                    payment: getPaymentTypeDisplay(sale.paidPaymentType),
-                                    employee: sale.employee
-                                })),
-                                ...filteredPayments.map(payment => ({
-                                    date: payment.date,
-                                    type: 'Ödeme',
-                                    description: `${payment.customerName} ${payment.customerSurname}`,
-                                    amount: payment.amount,
-                                    payment: getPaymentTypeDisplay(payment.paymentType),
-                                    employee: payment.employee
-                                })),
-                                ...filteredExpenses.map(expense => ({
-                                    date: expense.date,
-                                    type: 'Gider',
-                                    description: expense.description,
-                                    amount: -expense.amount,
-                                    payment: '-',
-                                    employee: expense.employee
-                                }))
-                            ].sort((a, b) => new Date(b.date) - new Date(a.date)).map(item => `
-                                <tr>
-                                    <td>${new Date(item.date).toLocaleDateString('tr-TR')}</td>
-                                    <td>${item.type}</td>
-                                    <td>${item.description}</td>
-                                    <td>${item.amount >= 0 ? '+' : ''}${item.amount.toLocaleString('tr-TR')} ₺</td>
-                                    <td>${item.payment}</td>
-                                    <td>${item.employee}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-
-                ${filteredDebts.length > 0 ? `
-                    <div class="section-title">Bekleyen Borçlar</div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Müşteri</th>
-                                    <th>Telefon</th>
-                                    <th>Toplam</th>
-                                    <th>Ödenen</th>
-                                    <th>Kalan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${filteredDebts.map(debt => `
-                                    <tr>
-                                        <td>${debt.customerName} ${debt.customerSurname}</td>
-                                        <td>${debt.customerPhone}</td>
-                                        <td>${debt.totalAmount.toLocaleString('tr-TR')} ₺</td>
-                                        <td>${debt.paidAmount.toLocaleString('tr-TR')} ₺</td>
-                                        <td class="debt-amount">${debt.remainingAmount.toLocaleString('tr-TR')} ₺</td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                ` : ''}
-            `;
-        }
-
-        // Download report
-        function downloadReport() {
-            const reportContent = document.getElementById('reportContent');
-            if (!reportContent.innerHTML) {
-                showAlert('Önce rapor oluşturun!', 'error');
-                return;
-            }
-
-            const reportType = document.getElementById('reportType').value;
-            
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-                <html>
-                <head>
-                    <title>ERT HALI - ${reportType} Rapor</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; margin: 20px; color: #000; }
-                        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                        th { background-color: #f2f2f2; }
-                        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 20px 0; }
-                        .stat-card { border: 1px solid #ddd; padding: 20px; text-align: center; }
-                        .stat-value { font-size: 24px; font-weight: bold; }
-                        .debt-amount { color: #dc3545; font-weight: bold; }
-                        h1, h3 { color: #333; }
-                    </style>
-                </head>
-                <body>
-                    <h1>ERT HALI</h1>
-                    ${reportContent.innerHTML}
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.print();
-        }
-
-        // Export data
-        function exportData() {
-            const data = {
-                sales: salesData,
-                expenses: expensesData,
-                customers: customersData,
-                debts: debtsData,
-                payments: paymentsData,
-                exportDate: new Date().toISOString()
-            };
-
-            const dataStr = JSON.stringify(data, null, 2);
-            const dataBlob = new Blob([dataStr], {type: 'application/json'});
-            
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(dataBlob);
-            link.download = `ert-hali-backup-${new Date().toISOString().split('T')[0]}.json`;
-            link.click();
-            
-            showAlert('Veriler başarıyla dışa aktarıldı!', 'success');
-        }
-
-        // Import data
-        document.getElementById('importFile').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    
-                    if (data.sales && data.expenses) {
-                        if (confirm('Mevcut veriler silinecek ve yeni veriler yüklenecek. Devam etmek istiyor musunuz?')) {
-                            salesData = data.sales || [];
-                            expensesData = data.expenses || [];
-                            customersData = data.customers || [];
-                            debtsData = data.debts || [];
-                            paymentsData = data.payments || [];
-                            
-                            localStorage.setItem('ertHaliSales', JSON.stringify(salesData));
-                            localStorage.setItem('ertHaliExpenses', JSON.stringify(expensesData));
-                            localStorage.setItem('ertHaliCustomers', JSON.stringify(customersData));
-                            localStorage.setItem('ertHaliDebts', JSON.stringify(debtsData));
-                            localStorage.setItem('ertHaliPayments', JSON.stringify(paymentsData));
-                            
-                            updateDashboard();
-                            if (isAdminLoggedIn) loadAdminData();
-                            showAlert('Veriler başarıyla yüklendi!', 'success');
-                            
-                            event.target.value = '';
-                        }
-                    } else {
-                        showAlert('Geçersiz dosya formatı!', 'error');
-                    }
-                } catch (error) {
-                    showAlert('Dosya okuma hatası!', 'error');
-                }
-            };
-            reader.readAsText(file);
-        });
-
-        // Clear all data
-        function clearAllData() {
-            if (confirm('Tüm verileri silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!')) {
-                localStorage.removeItem('ertHaliSales');
-                localStorage.removeItem('ertHaliExpenses');
-                localStorage.removeItem('ertHaliCustomers');
-                localStorage.removeItem('ertHaliDebts');
-                localStorage.removeItem('ertHaliPayments');
-                salesData = [];
-                expensesData = [];
-                customersData = [];
-                debtsData = [];
-                paymentsData = [];
-                updateDashboard();
-                if (isAdminLoggedIn) loadAdminData();
-                showAlert('Tüm veriler temizlendi!', 'success');
-            }
-        }
-
-        // Show alert
-        function showAlert(message, type) {
-            const alertDiv = document.createElement('div');
-            alertDiv.className = `alert alert-${type}`;
-            alertDiv.textContent = message;
-            
-            document.body.appendChild(alertDiv);
-            alertDiv.style.position = 'fixed';
-            alertDiv.style.top = '20px';
-            alertDiv.style.left = '50%';
-            alertDiv.style.transform = 'translateX(-50%)';
-            alertDiv.style.zIndex = '9999';
-            alertDiv.style.maxWidth = '90%';
-            
-            setTimeout(() => {
-                alertDiv.remove();
-            }, 3000);
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            loadTheme();
-            updateDashboard();
-            document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
-        });
-
-        // Close modals when clicking outside
-        window.onclick = function(event) {
-            const modals = document.querySelectorAll('.modal');
-            modals.forEach(modal => {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-        }
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
