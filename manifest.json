@@ -1,7 +1,7 @@
 {
   "name": "SADECE KURAN",
   "short_name": "Sadece Kuran",
-  "start_url": "/index.html",
+  "start_url": "/ertek.html",
   "display": "standalone",
   "background_color": "#111111",
   "theme_color": "#111111",
