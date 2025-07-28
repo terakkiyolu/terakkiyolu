@@ -3,44 +3,41 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/app.js',
   '/ert1.png'
 ];
 
 // Install event - cache resources
 self.addEventListener('install', event => {
-  console.log('Service Worker: Installing...');
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('Service Worker: Caching files');
+        console.log('Cache opened');
         return cache.addAll(urlsToCache);
       })
       .then(() => {
-        console.log('Service Worker: Installation complete');
+        console.log('All resources cached');
         return self.skipWaiting();
       })
       .catch(error => {
-        console.error('Service Worker: Installation failed', error);
+        console.error('Cache installation failed:', error);
       })
   );
 });
 
 // Activate event - clean up old caches
 self.addEventListener('activate', event => {
-  console.log('Service Worker: Activating...');
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
           if (cacheName !== CACHE_NAME) {
-            console.log('Service Worker: Deleting old cache', cacheName);
+            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
     }).then(() => {
-      console.log('Service Worker: Activation complete');
+      console.log('Service worker activated');
       return self.clients.claim();
     })
   );
@@ -63,11 +60,11 @@ self.addEventListener('fetch', event => {
       .then(response => {
         // Return cached version or fetch from network
         if (response) {
-          console.log('Service Worker: Serving from cache', event.request.url);
+          console.log('Serving from cache:', event.request.url);
           return response;
         }
 
-        console.log('Service Worker: Fetching from network', event.request.url);
+        console.log('Fetching from network:', event.request.url);
         return fetch(event.request).then(response => {
           // Don't cache non-successful responses
           if (!response || response.status !== 200 || response.type !== 'basic') {
@@ -77,7 +74,6 @@ self.addEventListener('fetch', event => {
           // Clone the response
           const responseToCache = response.clone();
 
-          // Add to cache
           caches.open(CACHE_NAME)
             .then(cache => {
               cache.put(event.request, responseToCache);
@@ -87,33 +83,59 @@ self.addEventListener('fetch', event => {
         });
       })
       .catch(error => {
-        console.error('Service Worker: Fetch failed', error);
+        console.error('Fetch failed:', error);
         
         // Return offline page for navigation requests
         if (event.request.destination === 'document') {
           return caches.match('/index.html');
         }
         
-        throw error;
+        // For other requests, you might want to return a default response
+        return new Response('Çevrimdışı - İnternet bağlantınızı kontrol edin', {
+          status: 503,
+          statusText: 'Service Unavailable',
+          headers: new Headers({
+            'Content-Type': 'text/plain; charset=utf-8'
+          })
+        });
       })
   );
 });
 
 // Background sync for offline data
 self.addEventListener('sync', event => {
-  console.log('Service Worker: Background sync', event.tag);
-  
   if (event.tag === 'background-sync') {
-    event.waitUntil(
-      // Handle background sync logic here
-      Promise.resolve()
-    );
+    console.log('Background sync triggered');
+    event.waitUntil(doBackgroundSync());
   }
 });
 
+async function doBackgroundSync() {
+  try {
+    // Here you can implement background sync logic
+    // For example, sync offline data when connection is restored
+    console.log('Performing background sync...');
+    
+    // Send any pending data to server
+    const pendingData = await getStoredPendingData();
+    if (pendingData && pendingData.length > 0) {
+      // Process pending data
+      console.log('Processing pending data:', pendingData);
+    }
+  } catch (error) {
+    console.error('Background sync failed:', error);
+  }
+}
+
+async function getStoredPendingData() {
+  // This would get any data stored for offline sync
+  // For now, return empty array
+  return [];
+}
+
 // Push notification handling
 self.addEventListener('push', event => {
-  console.log('Service Worker: Push received');
+  console.log('Push message received');
   
   const options = {
     body: event.data ? event.data.text() : 'ERT HALI bildirim',
@@ -145,11 +167,19 @@ self.addEventListener('push', event => {
 
 // Notification click handling
 self.addEventListener('notificationclick', event => {
-  console.log('Service Worker: Notification clicked');
-  
+  console.log('Notification clicked');
   event.notification.close();
 
   if (event.action === 'explore') {
+    // Open the app
+    event.waitUntil(
+      clients.openWindow('/')
+    );
+  } else if (event.action === 'close') {
+    // Just close the notification
+    event.notification.close();
+  } else {
+    // Default action - open the app
     event.waitUntil(
       clients.openWindow('/')
     );
@@ -158,9 +188,24 @@ self.addEventListener('notificationclick', event => {
 
 // Message handling from main thread
 self.addEventListener('message', event => {
-  console.log('Service Worker: Message received', event.data);
+  console.log('Service worker received message:', event.data);
   
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
+  
+  if (event.data && event.data.type === 'GET_VERSION') {
+    event.ports[0].postMessage({ version: CACHE_NAME });
+  }
 });
+
+// Error handling
+self.addEventListener('error', event => {
+  console.error('Service worker error:', event.error);
+});
+
+self.addEventListener('unhandledrejection', event => {
+  console.error('Service worker unhandled rejection:', event.reason);
+});
+
+console.log('Service worker loaded successfully');
