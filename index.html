@@ -3,3283 +3,1268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ERT HALI - Yönetici Paneli</title>
-    
-    <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#000000">
-    <meta name="description" content="ERT HALI Yönetici Paneli - Satış, Gider ve Müşteri Yönetimi">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="ERT HALI">
-    
-    <!-- PWA Icons -->
-    <link rel="icon" type="image/png" sizes="192x192" href="ert1.png">
-    <link rel="apple-touch-icon" href="ert1.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="ert1.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="ert1.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="ert1.png">
-    
-    <!-- Manifest -->
-    <link rel="manifest" href="manifest.json">
-    
+    <title>TechVision Digital - İDDİA EDİYORUZ EN İYİSİYİZ</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            outline: none;
-        }
-
-        *:focus {
-            outline: none !important;
-            box-shadow: none !important;
-        }
-
-        :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
-            --bg-tertiary: #e9ecef;
-            --text-primary: #2c3e50;
-            --text-secondary: #6c757d;
-            --border-color: #dee2e6;
-            --shadow: rgba(0, 0, 0, 0.08);
-            --shadow-dark: rgba(0, 0, 0, 0.15);
-            --danger-color: #e74c3c;
-            --warning-color: #f39c12;
-            --success-color: #27ae60;
-            --info-color: #3498db;
-            --primary-color: #2980b9;
-            --navbar-height: 60px;
-        }
-
-        [data-theme="dark"] {
-            --bg-primary: #1a1a1a;
-            --bg-secondary: #2d2d2d;
-            --bg-tertiary: #404040;
-            --text-primary: #ffffff;
-            --text-secondary: #adb5bd;
-            --border-color: #495057;
-            --shadow: rgba(255, 255, 255, 0.08);
-            --shadow-dark: rgba(255, 255, 255, 0.15);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            transition: all 0.3s ease;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            padding-top: var(--navbar-height);
+            color: #333;
+            overflow-x: hidden;
         }
 
-        /* Modern Navbar */
-        .navbar {
-            background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(248, 248, 248, 0.95);
             backdrop-filter: blur(10px);
-            height: var(--navbar-height);
-            padding: 0 1.5rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 20px var(--shadow-dark);
-        }
-
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .nav-logo {
-            width: 35px;
-            height: 35px;
-            border-radius: 8px;
-            object-fit: cover;
-            border: 2px solid rgba(255,255,255,0.2);
-        }
-
-        .nav-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: white;
-            letter-spacing: 1px;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .nav-btn {
-            background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .nav-btn:hover {
-            background: rgba(255,255,255,0.25);
-            transform: translateY(-1px);
-        }
-
-        .theme-toggle {
-            background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.2);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            color: white;
-            backdrop-filter: blur(10px);
-        }
-
-        .theme-toggle:hover {
-            background: rgba(255,255,255,0.25);
-            transform: scale(1.05);
-        }
-
-        /* File System Status */
-        .file-status {
-            position: fixed;
-            top: 70px;
-            right: 20px;
-            background: var(--success-color);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            z-index: 999;
-            display: none;
-            box-shadow: 0 4px 12px var(--shadow-dark);
-        }
-
-        .file-status.error {
-            background: var(--danger-color);
-        }
-
-        .file-status.warning {
-            background: var(--warning-color);
-            color: var(--text-primary);
-        }
-
-        .container {
-            padding: 1.5rem;
-            max-width: 1400px;
+            padding: 1rem 2rem;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* Modern Tabs */
-        .tabs {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        .logo {
+            display: flex;
+            align-items: center;
             gap: 0.5rem;
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            padding: 0.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 2px 8px var(--shadow);
+            font-weight: bold;
+            font-size: 1.2rem;
         }
 
-        .tab {
-            padding: 0.75rem 1rem;
-            text-align: center;
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.3s ease;
+        .logo-dots {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #000;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
             font-weight: 500;
-            font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .menu-line {
+            width: 24px;
+            height: 2px;
+            background: #000;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: #f8f8f8;
+            padding: 6rem 2rem 2rem;
             position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .gradient-blob {
+            position: absolute;
+            right: -10%;
+            top: 10%;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb);
+            border-radius: 50%;
+            opacity: 0.7;
+            filter: blur(60px);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 300;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            letter-spacing: -2px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            background: transparent;
+            border: 2px solid #000;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #000;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            background: #000;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { width: 0; height: 0; opacity: 1; }
+            100% { width: 100px; height: 100px; opacity: 0; }
+        }
+
+        /* Services Section */
+        .services {
+            padding: 6rem 2rem;
+            background: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .tab.active {
-            background: linear-gradient(135deg, var(--primary-color), var(--info-color));
-            color: white;
-            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
-        }
-
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Dashboard Cards */
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .dashboard-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin: 0;
-        }
-
-        .dashboard-controls {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .date-selector {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-            background: var(--bg-secondary);
-            padding: 0.5rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
-            border: 1px solid var(--border-color);
-            padding: 2rem;
-            border-radius: 16px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 20px var(--shadow);
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-color), var(--info-color));
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px var(--shadow-dark);
-        }
-
-        .stat-card.debt-card::before {
-            background: linear-gradient(90deg, var(--danger-color), #c0392b);
-        }
-
-        .stat-card.success-card::before {
-            background: linear-gradient(90deg, var(--success-color), #229954);
-        }
-
-        .stat-card.warning-card::before {
-            background: linear-gradient(90deg, var(--warning-color), #d68910);
-        }
-
-        .stat-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            opacity: 0.8;
-        }
-
-        .stat-value {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .stat-change {
-            font-size: 0.8rem;
-            margin-top: 0.5rem;
-            font-weight: 600;
-        }
-
-        .stat-change.positive {
-            color: var(--success-color);
-        }
-
-        .stat-change.negative {
-            color: var(--danger-color);
-        }
-
-        /* Forms */
-        .form-group {
             margin-bottom: 1.5rem;
         }
 
-        .form-row {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
+        .service-title {
+            font-size: 1.5rem;
             font-weight: 600;
-            color: var(--text-primary);
-            font-size: 0.9rem;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 0.875rem;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 1rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color), var(--info-color));
-            color: white;
-        }
-
-        .btn-secondary {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            border: 2px solid var(--border-color);
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, var(--danger-color), #c0392b);
-            color: white;
-        }
-
-        .btn-warning {
-            background: linear-gradient(135deg, var(--warning-color), #d68910);
-            color: white;
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, var(--success-color), #229954);
-            color: white;
-        }
-
-        .btn-small {
-            width: auto;
-            padding: 0.5rem 1rem;
-            font-size: 0.8rem;
-            margin: 0;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px var(--shadow-dark);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        /* Customer Autocomplete */
-        .customer-autocomplete {
-            position: relative;
-        }
-
-        .customer-suggestions {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: var(--bg-primary);
-            border: 2px solid var(--border-color);
-            border-top: none;
-            border-radius: 0 0 8px 8px;
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 100;
-            display: none;
-        }
-
-        .customer-suggestion {
-            padding: 0.75rem;
-            cursor: pointer;
-            border-bottom: 1px solid var(--border-color);
-            transition: background-color 0.2s ease;
-        }
-
-        .customer-suggestion:hover,
-        .customer-suggestion.selected {
-            background-color: var(--bg-secondary);
-        }
-
-        .customer-suggestion:last-child {
-            border-bottom: none;
-        }
-
-        /* Tables */
-        .table-container {
-            background: var(--bg-primary);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            margin-top: 1rem;
-            box-shadow: 0 4px 20px var(--shadow);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 0.9rem;
-        }
-
-        th {
-            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
-            font-weight: 600;
-            color: var(--text-primary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 0.8rem;
-        }
-
-        tr:hover {
-            background-color: var(--bg-secondary);
-        }
-
-        /* Payment Options */
-        .payment-options {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.75rem;
             margin-bottom: 1rem;
         }
 
-        .payment-option {
-            padding: 1rem;
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-            font-weight: 500;
-            background: var(--bg-primary);
+        .service-description {
+            color: #666;
+            line-height: 1.6;
         }
 
-        .payment-option.selected {
-            border-color: var(--primary-color);
-            background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+        /* Client Cards Section */
+        .clients {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            transform: scale(1.02);
         }
 
-        /* Modals */
-        .modal {
-            display: none;
-            position: fixed;
+        .clients-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        .clients-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 4rem;
+        }
+
+        .card-stack {
+            position: relative;
+            height: 500px;
+            max-width: 400px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+
+        .client-card {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.6);
-            z-index: 2000;
-            padding: 1rem;
-            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: grab;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
-        .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--bg-primary);
-            padding: 2rem;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            width: 100%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        .client-card:active {
+            cursor: grabbing;
         }
 
-        .close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-secondary);
-            width: 30px;
-            height: 30px;
+        .client-card.dragging {
+            transform: scale(1.05) !important;
+            z-index: 1000 !important;
+        }
+
+        .client-card.removing {
+            opacity: 0;
+            transform: translateX(100%) rotate(20deg) scale(0.8);
+            transition: all 0.3s ease-out;
+        }
+
+        .card-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            color: white;
+            position: relative;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            z-index: 2;
+        }
+
+        .company-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
+            backdrop-filter: blur(10px);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .card-title-section {
+            padding: 0 1.5rem;
+            z-index: 2;
+        }
+
+        .company-name {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .company-industry {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .card-stats {
+            margin: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            z-index: 2;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .card-footer {
+            margin-top: auto;
+            padding: 1.5rem;
+            z-index: 2;
+        }
+
+        .card-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            margin-bottom: 1rem;
+        }
+
+        .company-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .drag-indicator {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 3;
+        }
+
+        .drag-bar {
+            width: 40px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 2px;
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 6rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
 
-        .close:hover {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
         }
 
-        /* Admin Panel Styles */
-        .admin-page {
-            display: none;
-            min-height: calc(100vh - var(--navbar-height));
-            background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
-        }
-
-        .admin-page.active {
-            display: block;
-        }
-
-        .admin-header {
-            background: linear-gradient(135deg, var(--danger-color), #c0392b);
+        .project-image {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
+            font-size: 3rem;
+        }
+
+        .project-info {
             padding: 2rem;
-            text-align: center;
-            margin-bottom: 2rem;
         }
 
-        .admin-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
         }
 
-        .admin-subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
+        .project-description {
+            color: #666;
+            margin-bottom: 1.5rem;
         }
 
-        .admin-nav {
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tech-tag {
+            padding: 0.25rem 0.75rem;
+            background: #e9ecef;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: #495057;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 6rem 2rem;
+            background: #000;
+            color: white;
+        }
+
+        .contact-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .contact-info h2 {
+            font-size: 3rem;
+            font-weight: 300;
             margin-bottom: 2rem;
         }
 
-        .admin-nav-btn {
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
             padding: 1rem;
-            background: var(--bg-primary);
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
+            border: 1px solid #333;
+            border-radius: 10px;
+            background: #111;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-align: center;
-            font-weight: 600;
-            color: var(--text-primary);
         }
 
-        .admin-nav-btn.active {
-            border-color: var(--danger-color);
-            background: linear-gradient(135deg, var(--danger-color), #c0392b);
-            color: white;
+        .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
 
-        .admin-content {
-            display: none;
-            background: var(--bg-primary);
-            border-radius: 12px;
+        /* Footer */
+        .footer {
             padding: 2rem;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 20px var(--shadow);
-        }
-
-        .admin-content.active {
-            display: block;
-        }
-
-        /* Employee Management */
-        .employee-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .employee-card {
-            background: var(--bg-secondary);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .employee-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px var(--shadow-dark);
-        }
-
-        .employee-name {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .employee-code {
-            background: var(--primary-color);
+            background: #111;
             color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
+            text-align: center;
         }
 
-        /* Responsive Design */
-        @media (min-width: 768px) {
-            .form-row {
-                flex-direction: row;
-            }
-
-            .btn {
-                width: auto;
-                min-width: 150px;
-            }
-
-            .dashboard-controls {
-                flex-wrap: nowrap;
-            }
-        }
-
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .navbar {
-                padding: 0 1rem;
+            .nav-links {
+                display: none;
             }
 
-            .nav-title {
-                font-size: 1.2rem;
+            .menu-toggle {
+                display: flex;
             }
 
-            .container {
-                padding: 1rem;
+            .hero-title {
+                font-size: 3rem;
             }
 
-            .dashboard-title {
-                font-size: 1.5rem;
-            }
-
-            .stats-grid {
+            .services-grid {
                 grid-template-columns: 1fr;
             }
 
-            .stat-card {
-                padding: 1.5rem;
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
             }
 
-            .stat-value {
-                font-size: 1.8rem;
-            }
-
-            .payment-options {
+            .projects-grid {
                 grid-template-columns: 1fr;
             }
 
-            .tabs {
-                grid-template-columns: repeat(2, 1fr);
+            .card-stack {
+                height: 450px;
             }
         }
 
-        /* Icons */
-        .icon {
-            display: inline-block;
-            width: 1em;
-            height: 1em;
-            vertical-align: -0.125em;
-        }
-
-        /* Alerts */
-        .alert {
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            font-weight: 500;
-            border: 1px solid var(--border-color);
-        }
-
-        .alert-success {
-            background-color: rgba(39, 174, 96, 0.1);
-            color: var(--success-color);
-            border-color: var(--success-color);
-        }
-
-        .alert-error {
-            background-color: rgba(231, 76, 60, 0.1);
-            color: var(--danger-color);
-            border-color: var(--danger-color);
-        }
-
-        /* Loading Spinner */
+        /* Loading Animation */
         .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 500px;
+            font-size: 1.1rem;
+            color: #64748b;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
             border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
+            animation: spin 1s linear infinite;
+            margin-right: 1rem;
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-
-        /* Utility Classes */
-        .text-center { text-align: center; }
-        .text-right { text-align: right; }
-        .mb-1 { margin-bottom: 0.5rem; }
-        .mb-2 { margin-bottom: 1rem; }
-        .mb-3 { margin-bottom: 1.5rem; }
-        .mt-1 { margin-top: 0.5rem; }
-        .mt-2 { margin-top: 1rem; }
-        .mt-3 { margin-top: 1.5rem; }
-        .p-1 { padding: 0.5rem; }
-        .p-2 { padding: 1rem; }
-        .p-3 { padding: 1.5rem; }
-        .d-flex { display: flex; }
-        .align-center { align-items: center; }
-        .justify-between { justify-content: space-between; }
-        .gap-1 { gap: 0.5rem; }
-        .gap-2 { gap: 1rem; }
-        .w-full { width: 100%; }
-        .h-full { height: 100%; }
     </style>
 </head>
 <body>
-    <!-- File System Status -->
-    <div id="fileStatus" class="file-status">Dosya Sistemi Hazır</div>
-
-    <!-- Modern Navbar -->
-    <nav class="navbar">
-        <div class="nav-left">
-            <img src="ert1.png" alt="ERT HALI Logo" class="nav-logo">
-            <div class="nav-title">ERT HALI</div>
-        </div>
-        <div class="nav-right">
-            <button class="nav-btn" onclick="showAdminLogin()">
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                </svg>
-                Yönetici
-            </button>
-            <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                </svg>
-            </button>
-        </div>
-    </nav>
-
-    <!-- Main App -->
-    <div id="mainApp" class="main-app">
-        <div class="container">
-            <!-- Modern Tabs -->
-            <div class="tabs">
-                <button class="tab active" onclick="showTab('dashboard')">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
-                    </svg>
-                    Panel
-                </button>
-                <button class="tab" onclick="showTab('sales')">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
-                    </svg>
-                    Satış
-                </button>
-                <button class="tab" onclick="showTab('expenses')">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                    </svg>
-                    Gider
-                </button>
-                <button class="tab" onclick="showTab('customers')">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 8H17c-.8 0-1.54.37-2.01.99l-2.54 3.38c-.36.48-.85.63-1.45.63s-1.09-.15-1.45-.63L7.01 8.99C6.54 8.37 5.8 8 5 8H3.46c-.81 0-1.42.68-1.42 1.37L4.5 16H7v6h2v-6h2v6h2zm-6.5-10.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5S12 9.17 12 10.5s.67 1.5 1.5 1.5z"/>
-                    </svg>
-                    Müşteri
-                </button>
-                <button class="tab" onclick="showTab('reports')">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
-                    </svg>
-                    Rapor
-                </button>
-                <button class="tab" onclick="showTab('data')">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
-                    </svg>
-                    Veri
-                </button>
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="nav">
+            <div class="logo">
+                <div class="logo-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                TechVision Digital
             </div>
-
-            <!-- Dashboard Tab -->
-            <div id="dashboard" class="tab-content active">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-title">Genel Durum</h1>
-                    <div class="dashboard-controls">
-                        <div class="date-selector">
-                            <label for="dashboardPeriod">Dönem:</label>
-                            <select id="dashboardPeriod" onchange="updateDashboardPeriod()">
-                                <option value="today">Bugün</option>
-                                <option value="yesterday">Dün</option>
-                                <option value="week">Bu Hafta</option>
-                                <option value="month">Bu Ay</option>
-                                <option value="custom">Özel Tarih</option>
-                            </select>
-                            <input type="date" id="customDate" style="display: none;" onchange="updateDashboardPeriod()">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="stats-grid">
-                    <div class="stat-card success-card">
-                        <div class="stat-icon">
-                            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="font-size: 2.5rem; color: var(--success-color);">
-                                <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
-                            </svg>
-                        </div>
-                        <div class="stat-value" id="totalSales">0</div>
-                        <div class="stat-label">Toplam Gelir</div>
-                        <div class="stat-change positive" id="salesChange">+0%</div>
-                    </div>
-
-                    <div class="stat-card warning-card">
-                        <div class="stat-icon">
-                            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="font-size: 2.5rem; color: var(--warning-color);">
-                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                            </svg>
-                        </div>
-                        <div class="stat-value" id="totalExpenses">0</div>
-                        <div class="stat-label">Toplam Gider</div>
-                        <div class="stat-change negative" id="expensesChange">+0%</div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="font-size: 2.5rem; color: var(--info-color);">
-                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
-                            </svg>
-                        </div>
-                        <div class="stat-value" id="netProfit">0</div>
-                        <div class="stat-label">Net Kar</div>
-                        <div class="stat-change" id="profitChange">0%</div>
-                    </div>
-
-                    <div class="stat-card debt-card" onclick="showPendingPayments()">
-                        <div class="stat-icon">
-                            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="font-size: 2.5rem; color: var(--danger-color);">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                            </svg>
-                        </div>
-                        <div class="stat-value" id="totalDebt">0</div>
-                        <div class="stat-label">Toplam Borç</div>
-                        <div class="stat-change" style="color: var(--text-secondary);">Tüm Zamanlar</div>
-                    </div>
-                </div>
-
-                <div class="section-title">Son İşlemler</div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tarih</th>
-                                <th>Tür</th>
-                                <th>Açıklama</th>
-                                <th>Tutar</th>
-                                <th>Ödeme</th>
-                                <th>Çalışan</th>
-                            </tr>
-                        </thead>
-                        <tbody id="recentTransactions">
-                        </tbody>
-                    </table>
-                </div>
+            <ul class="nav-links">
+                <li><a href="#home">Ana Sayfa</a></li>
+                <li><a href="#services">Hizmetler</a></li>
+                <li><a href="#clients">Müşteriler</a></li>
+                <li><a href="#projects">Projeler</a></li>
+                <li><a href="#contact">İletişim</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <div class="menu-line"></div>
+                <div class="menu-line"></div>
+                <div class="menu-line"></div>
             </div>
+        </nav>
+    </header>
 
-            <!-- Sales Tab -->
-            <div id="sales" class="tab-content">
-                <div class="section-title">Satış Girişi</div>
-                <form id="salesForm">
-                    <div class="form-row">
-                        <div class="form-group customer-autocomplete">
-                            <label for="customerName">Müşteri Adı: <small>(F1 ile seç)</small></label>
-                            <input type="text" id="customerName" required>
-                            <div class="customer-suggestions" id="customerSuggestions"></div>
-                        </div>
-                        <div class="form-group">
-                            <label for="customerSurname">Müşteri Soyadı:</label>
-                            <input type="text" id="customerSurname" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="customerPhone">Telefon Numarası:</label>
-                            <input type="tel" id="customerPhone" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="carpetArea">Halı m²:</label>
-                            <input type="number" id="carpetArea" step="0.01" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="salePrice">Satış Fiyatı (₺):</label>
-                            <input type="number" id="salePrice" step="0.01" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="employeeCode">Çalışan Kodu:</label>
-                            <input type="password" id="employeeCode" maxlength="3" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Ödeme Türü:</label>
-                        <div class="payment-options">
-                            <div class="payment-option selected" onclick="selectPaymentType('cash')">
-                                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
-                                </svg>
-                                Nakit
-                            </div>
-                            <div class="payment-option" onclick="selectPaymentType('card')">
-                                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4M20,18H4V12H20V18M20,8H4V6H20V8Z"/>
-                                </svg>
-                                Kart
-                            </div>
-                            <div class="payment-option" onclick="selectPaymentType('debt')">
-                                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                                </svg>
-                                Borç
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="debtOptions" style="display: none;">
-                        <div class="form-group">
-                            <label for="paidAmount">Ödenen Tutar (₺):</label>
-                            <input type="number" id="paidAmount" step="0.01" value="0">
-                        </div>
-                        <div class="form-group" id="paidPaymentTypeGroup">
-                            <label>Ödenen Kısmın Türü:</label>
-                            <div class="payment-options">
-                                <div class="payment-option selected" onclick="selectPaidPaymentType('cash')">
-                                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
-                                    </svg>
-                                    Nakit
-                                </div>
-                                <div class="payment-option" onclick="selectPaidPaymentType('card')">
-                                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4M20,18H4V12H20V18M20,8H4V6H20V8Z"/>
-                                    </svg>
-                                    Kart
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                        </svg>
-                        Satış Kaydet
-                    </button>
-                </form>
-            </div>
-
-            <!-- Expenses Tab -->
-            <div id="expenses" class="tab-content">
-                <div class="section-title">Gider Girişi</div>
-                <form id="expensesForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="expenseDescription">Gider Açıklaması:</label>
-                            <input type="text" id="expenseDescription" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="expenseAmount">Gider Tutarı (₺):</label>
-                            <input type="number" id="expenseAmount" step="0.01" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="expenseCategory">Kategori:</label>
-                            <select id="expenseCategory" required>
-                                <option value="">Kategori Seçin</option>
-                                <option value="kira">Kira</option>
-                                <option value="elektrik">Elektrik</option>
-                                <option value="su">Su</option>
-                                <option value="telefon">Telefon</option>
-                                <option value="malzeme">Malzeme</option>
-                                <option value="personel">Personel</option>
-                                <option value="diger">Diğer</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="expenseEmployeeCode">Çalışan Kodu:</label>
-                            <input type="password" id="expenseEmployeeCode" maxlength="3" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                        </svg>
-                        Gider Kaydet
-                    </button>
-                </form>
-            </div>
-
-            <!-- Customers Tab -->
-            <div id="customers" class="tab-content">
-                <div class="section-title">Müşteri Listesi</div>
-                <div class="form-group">
-                    <input type="text" id="customerSearch" placeholder="Müşteri ara..." onkeyup="searchCustomers()">
-                </div>
-                <div id="customersList"></div>
-            </div>
-
-            <!-- Reports Tab -->
-            <div id="reports" class="tab-content">
-                <div class="section-title">Raporlar</div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="reportType">Rapor Türü:</label>
-                        <select id="reportType">
-                            <option value="daily">Günlük</option>
-                            <option value="monthly">Aylık</option>
-                            <option value="yearly">Yıllık</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="reportDate">Tarih:</label>
-                        <input type="date" id="reportDate">
-                    </div>
-                </div>
-                <div class="d-flex gap-2 mb-3">
-                    <button class="btn btn-primary" onclick="generateReport()">
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
-                        </svg>
-                        Rapor Oluştur
-                    </button>
-                    <button class="btn btn-secondary" onclick="downloadReport()">
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
-                        </svg>
-                        Rapor İndir
-                    </button>
-                </div>
-                
-                <div id="reportContent"></div>
-            </div>
-
-            <!-- Data Management Tab -->
-            <div id="data" class="tab-content">
-                <div class="section-title">Veri Yönetimi</div>
-                
-                <div class="form-group">
-                    <button class="btn btn-primary" onclick="selectDataFile()">
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z"/>
-                        </svg>
-                        Veri Dosyası Seç
-                    </button>
-                    <div class="info-text">Bilgisayarınızdan bir JSON veri dosyası seçin. Dosya otomatik olarak okunacak ve güncellenecektir.</div>
-                </div>
-                
-                <div class="form-group">
-                    <button class="btn btn-success" onclick="saveDataToFile()">
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z"/>
-                        </svg>
-                        Verileri Kaydet
-                    </button>
-                    <div class="info-text">Mevcut verileri seçili dosyaya kaydeder</div>
-                </div>
-                
-                <div class="form-group">
-                    <button class="btn btn-warning" onclick="createNewDataFile()">
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
-                        </svg>
-                        Yeni Dosya Oluştur
-                    </button>
-                    <div class="info-text">Yeni bir veri dosyası oluşturur ve seçer</div>
-                </div>
-                
-                <div class="form-group">
-                    <button class="btn btn-danger" onclick="clearAllData()">
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>
-                        </svg>
-                        Tüm Verileri Temizle
-                    </button>
-                    <div class="info-text">⚠️ Bu işlem geri alınamaz!</div>
-                </div>
-
-                <div id="fileInfo" style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-secondary); border-radius: 12px; border: 1px solid var(--border-color); display: none;">
-                    <h3 style="margin-bottom: 1rem; color: var(--text-primary);">
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z"/>
-                        </svg>
-                        Dosya Bilgileri
-                    </h3>
-                    <p><strong>Seçili Dosya:</strong> <span id="selectedFileName">-</span></p>
-                    <p><strong>Son Güncelleme:</strong> <span id="lastUpdate">-</span></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Admin Panel Page -->
-    <div id="adminPage" class="admin-page">
-        <div class="admin-header">
-            <h1 class="admin-title">
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="font-size: 2.5rem;">
-                    <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.1,7 14,7.9 14,9C14,10.1 13.1,11 12,11C10.9,11 10,10.1 10,9C10,7.9 10.9,7 12,7M12,14.5C14.67,14.5 16.94,15.69 17.5,17H6.5C7.06,15.69 9.33,14.5 12,14.5Z"/>
-                </svg>
-                YÖNETİCİ PANELİ
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="gradient-blob"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                İDDİA EDİYORUZ<br>
+                EN İYİSİYİZ.
             </h1>
-            <p class="admin-subtitle">Gelişmiş İşlem ve Analiz Merkezi</p>
-        </div>
-
-        <div class="container">
-            <div class="admin-nav">
-                <button class="admin-nav-btn active" onclick="showAdminSection('overview')">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
-                    </svg>
-                    Genel Bakış
-                </button>
-                <button class="admin-nav-btn" onclick="showAdminSection('sales')">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
-                    </svg>
-                    Satış Yönetimi
-                </button>
-                <button class="admin-nav-btn" onclick="showAdminSection('expenses')">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                    </svg>
-                    Gider Yönetimi
-                </button>
-                <button class="admin-nav-btn" onclick="showAdminSection('employees')">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 8H17c-.8 0-1.54.37-2.01.99l-2.54 3.38c-.36.48-.85.63-1.45.63s-1.09-.15-1.45-.63L7.01 8.99C6.54 8.37 5.8 8 5 8H3.46c-.81 0-1.42.68-1.42 1.37L4.5 16H7v6h2v-6h2v6h2zm-6.5-10.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5S12 9.17 12 10.5s.67 1.5 1.5 1.5z"/>
-                    </svg>
-                    Çalışan Yönetimi
-                </button>
-                <button class="admin-nav-btn" onclick="showAdminSection('analytics')">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
-                    </svg>
-                    Analitik
-                </button>
-                <button class="admin-nav-btn" onclick="goBackToMain()">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-                    </svg>
-                    Ana Sayfaya Dön
-                </button>
-            </div>
-
-            <!-- Admin Overview -->
-            <div id="adminOverview" class="admin-content active">
-                <div class="section-title">Genel Bakış</div>
-                <div class="form-group">
-                    <label for="adminDateFilter">Tarih Filtresi:</label>
-                    <input type="date" id="adminDateFilter" onchange="filterAdminData()">
-                </div>
-                <div class="stats-grid">
-                    <div class="stat-card success-card">
-                        <div class="stat-value" id="adminTotalSales">0</div>
-                        <div class="stat-label">Günlük Satış</div>
-                    </div>
-                    <div class="stat-card warning-card">
-                        <div class="stat-value" id="adminTotalExpenses">0</div>
-                        <div class="stat-label">Günlük Gider</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="adminNetProfit">0</div>
-                        <div class="stat-label">Günlük Kar</div>
-                    </div>
-                    <div class="stat-card debt-card">
-                        <div class="stat-value" id="adminTotalTransactions">0</div>
-                        <div class="stat-label">İşlem Sayısı</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Admin Sales Management -->
-            <div id="adminSales" class="admin-content">
-                <div class="section-title">Satış İşlemleri</div>
-                <div class="form-group">
-                    <label for="salesDateFilter">Tarih Seç:</label>
-                    <input type="date" id="salesDateFilter" onchange="loadAdminSales()">
-                </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tarih</th>
-                                <th>Müşteri</th>
-                                <th>Tutar</th>
-                                <th>Ödeme</th>
-                                <th>Çalışan</th>
-                                <th>İşlemler</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminSalesTable">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Admin Expenses Management -->
-            <div id="adminExpenses" class="admin-content">
-                <div class="section-title">Gider İşlemleri</div>
-                <div class="form-group">
-                    <label for="expensesDateFilter">Tarih Seç:</label>
-                    <input type="date" id="expensesDateFilter" onchange="loadAdminExpenses()">
-                </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tarih</th>
-                                <th>Açıklama</th>
-                                <th>Kategori</th>
-                                <th>Tutar</th>
-                                <th>Çalışan</th>
-                                <th>İşlemler</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminExpensesTable">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Employee Management -->
-            <div id="adminEmployees" class="admin-content">
-                <div class="section-title">Çalışan Yönetimi</div>
-                
-                <div class="form-group">
-                    <button class="btn btn-primary" onclick="showAddEmployeeModal()">
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
-                        </svg>
-                        Yeni Çalışan Ekle
-                    </button>
-                </div>
-
-                <div class="employee-grid" id="employeeGrid">
-                    <!-- Employees will be loaded here -->
-                </div>
-            </div>
-
-            <!-- Analytics -->
-            <div id="adminAnalytics" class="admin-content">
-                <div class="section-title">Analitik ve İstatistikler</div>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value" id="analyticsAvgSale">0</div>
-                        <div class="stat-label">Ortalama Satış</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="analyticsTopEmployee">-</div>
-                        <div class="stat-label">En Aktif Çalışan</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="analyticsMonthlyGrowth">0%</div>
-                        <div class="stat-label">Aylık Büyüme</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="analyticsCustomerCount">0</div>
-                        <div class="stat-label">Toplam Müşteri</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modals -->
-    
-    <!-- Admin Login Modal -->
-    <div id="adminLoginModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeAdminLogin()">&times;</span>
-            <div class="section-title">Yönetici Girişi</div>
-            <div class="form-group">
-                <label for="adminCode">Yönetici Kodu:</label>
-                <input type="password" id="adminCode" maxlength="3" placeholder="Kodu girin">
-            </div>
-            <button class="btn btn-danger" onclick="verifyAdmin()">
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M10,17V14H3V10H10V7L15,12L10,17M10,2H19A2,2 0 0,1 21,4V20A2,2 0 0,1 19,22H10A2,2 0 0,1 8,20V18H10V20H19V4H10V6H8V4A2,2 0 0,1 10,2Z"/>
+            <p class="hero-subtitle">
+                Türkiye'nin en büyük işletmelerine yazılım çözümleri sunuyoruz. 
+                Web uygulamaları, mobil uygulamalar, e-ticaret sistemleri ve daha fazlası.
+            </p>
+            <a href="#contact" class="cta-button">
+                PROJENİZİ KONUŞALIM
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m9 18 6-6-6-6"/>
                 </svg>
-                Giriş Yap
-            </button>
+            </a>
         </div>
-    </div>
+    </section>
 
-    <!-- Add Employee Modal -->
-    <div id="addEmployeeModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeAddEmployeeModal()">&times;</span>
-            <div class="section-title">Yeni Çalışan Ekle</div>
-            <form id="addEmployeeForm">
-                <div class="form-group">
-                    <label for="employeeName">Çalışan Adı:</label>
-                    <input type="text" id="employeeName" required>
-                </div>
-                <div class="form-group">
-                    <label for="employeeCodeNew">Çalışan Kodu (3 haneli):</label>
-                    <input type="text" id="employeeCodeNew" maxlength="3" required>
-                </div>
-                <button type="submit" class="btn btn-primary">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
-                    </svg>
-                    Çalışan Ekle
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Edit Sale Modal -->
-    <div id="editSaleModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeEditSale()">&times;</span>
-            <div class="section-title">Satış Düzenle</div>
-            <form id="editSaleForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="editCustomerName">Müşteri Adı:</label>
-                        <input type="text" id="editCustomerName" required>
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title">Hizmetlerimiz</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                            <line x1="8" y1="21" x2="16" y2="21"/>
+                            <line x1="12" y1="17" x2="12" y2="21"/>
+                        </svg>
                     </div>
-                    <div class="form-group">
-                        <label for="editCustomerSurname">Müşteri Soyadı:</label>
-                        <input type="text" id="editCustomerSurname" required>
+                    <h3 class="service-title">Web Uygulamaları</h3>
+                    <p class="service-description">
+                        Modern, hızlı ve güvenli web uygulamaları geliştiriyoruz. 
+                        React, Next.js, Node.js teknolojileri ile enterprise seviyede çözümler.
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                            <line x1="12" y1="18" x2="12.01" y2="18"/>
+                        </svg>
                     </div>
+                    <h3 class="service-title">Mobil Uygulamalar</h3>
+                    <p class="service-description">
+                        iOS ve Android platformları için native ve cross-platform mobil uygulamalar. 
+                        React Native ve Flutter ile hızlı geliştirme.
+                    </p>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="editCustomerPhone">Telefon:</label>
-                        <input type="tel" id="editCustomerPhone" required>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                        </svg>
                     </div>
-                    <div class="form-group">
-                        <label for="editCarpetArea">m²:</label>
-                        <input type="number" id="editCarpetArea" step="0.01" required>
+                    <h3 class="service-title">Sistem Entegrasyonu</h3>
+                    <p class="service-description">
+                        Mevcut sistemlerinizi modern teknolojilerle entegre ediyoruz. 
+                        API geliştirme, veri migrasyonu ve sistem optimizasyonu.
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+                            <line x1="12" y1="22.08" x2="12" y2="12"/>
+                        </svg>
                     </div>
+                    <h3 class="service-title">E-Ticaret Çözümleri</h3>
+                    <p class="service-description">
+                        Kapsamlı e-ticaret platformları ve ödeme sistemleri. 
+                        Shopify, WooCommerce ve özel e-ticaret çözümleri.
+                    </p>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="editSalePrice">Fiyat (₺):</label>
-                        <input type="number" id="editSalePrice" step="0.01" required>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
                     </div>
-                    <div class="form-group">
-                        <label for="editPaidAmount">Ödenen (₺):</label>
-                        <input type="number" id="editPaidAmount" step="0.01" required>
+                    <h3 class="service-title">Bulut Çözümleri</h3>
+                    <p class="service-description">
+                        AWS, Azure ve Google Cloud platformlarında altyapı kurulumu, 
+                        DevOps süreçleri ve bulut migrasyonu hizmetleri.
+                    </p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M9 12l2 2 4-4"/>
+                            <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
+                            <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/>
+                            <path d="M13 12h3"/>
+                            <path d="M8 12H5"/>
+                        </svg>
                     </div>
+                    <h3 class="service-title">Yapay Zeka & ML</h3>
+                    <p class="service-description">
+                        Makine öğrenmesi modelleri, chatbot geliştirme, 
+                        veri analizi ve yapay zeka entegrasyonu hizmetleri.
+                    </p>
                 </div>
-                <button type="submit" class="btn btn-primary">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                    </svg>
-                    Güncelle
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Edit Expense Modal -->
-    <div id="editExpenseModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeEditExpense()">&times;</span>
-            <div class="section-title">Gider Düzenle</div>
-            <form id="editExpenseForm">
-                <div class="form-group">
-                    <label for="editExpenseDescription">Açıklama:</label>
-                    <input type="text" id="editExpenseDescription" required>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="editExpenseAmount">Tutar (₺):</label>
-                        <input type="number" id="editExpenseAmount" step="0.01" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editExpenseCategory">Kategori:</label>
-                        <select id="editExpenseCategory" required>
-                            <option value="kira">Kira</option>
-                            <option value="elektrik">Elektrik</option>
-                            <option value="su">Su</option>
-                            <option value="telefon">Telefon</option>
-                            <option value="malzeme">Malzeme</option>
-                            <option value="personel">Personel</option>
-                            <option value="diger">Diğer</option>
-                        </select>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                    </svg>
-                    Güncelle
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Customer Details Modal -->
-    <div id="customerModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeCustomerModal()">&times;</span>
-            <div id="customerDetails"></div>
-        </div>
-    </div>
-
-    <!-- Pending Payments Modal -->
-    <div id="paymentsModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closePaymentsModal()">&times;</span>
-            <div class="section-title">Bekleyen Ödemeler</div>
-            <div id="pendingPaymentsList"></div>
-        </div>
-    </div>
-
-    <!-- Payment Modal -->
-    <div id="paymentModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closePaymentModal()">&times;</span>
-            <div class="section-title">Ödeme Al</div>
-            <div id="paymentForm">
-                <div class="form-group">
-                    <label>Müşteri:</label>
-                    <div id="paymentCustomerInfo"></div>
-                </div>
-                <div class="form-group">
-                    <label>Toplam Borç:</label>
-                    <div id="paymentTotalDebt" style="color: var(--danger-color); font-weight: 600;"></div>
-                </div>
-                <div class="form-group">
-                    <label for="paymentAmount">Ödeme Tutarı (₺):</label>
-                    <input type="number" id="paymentAmount" step="0.01" required>
-                </div>
-                <div class="form-group">
-                    <label>Ödeme Türü:</label>
-                    <div class="payment-options">
-                        <div class="payment-option selected" onclick="selectDebtPaymentType('cash')">
-                            <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
-                            </svg>
-                            Nakit
-                        </div>
-                        <div class="payment-option" onclick="selectDebtPaymentType('card')">
-                            <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4M20,18H4V12H20V18M20,8H4V6H20V8Z"/>
-                            </svg>
-                            Kart
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="paymentEmployeeCode">Çalışan Kodu:</label>
-                    <input type="password" id="paymentEmployeeCode" maxlength="3" required>
-                </div>
-                <button class="btn btn-primary" onclick="processPayment()">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                    </svg>
-                    Ödeme Al
-                </button>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Clients Section -->
+    <section class="clients" id="clients">
+        <div class="container">
+            <h2 class="clients-title">Referans Şirketlerimiz</h2>
+            <p class="clients-subtitle">
+                Yazılımlarımızı kullanan ve başarılarını artıran şirketlerimiz
+            </p>
+            <div id="cardStack" class="card-stack">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    Müşteri kartları yükleniyor...
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <h2 class="section-title">Örnek Projelerimiz</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">🏪</div>
+                    <div class="project-info">
+                        <h3 class="project-title">E-Ticaret Platformu</h3>
+                        <p class="project-description">
+                            Büyük bir perakende zinciri için geliştirdiğimiz kapsamlı e-ticaret platformu. 
+                            Günde 50,000+ sipariş işleme kapasitesi.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">AWS</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">📱</div>
+                    <div class="project-info">
+                        <h3 class="project-title">Mobil Bankacılık Uygulaması</h3>
+                        <p class="project-description">
+                            Bir özel banka için geliştirdiğimiz güvenli mobil bankacılık uygulaması. 
+                            Biyometrik kimlik doğrulama ve real-time işlemler.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">React Native</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Firebase</span>
+                            <span class="tech-tag">Blockchain</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">🏭</div>
+                    <div class="project-info">
+                        <h3 class="project-title">Endüstriyel IoT Sistemi</h3>
+                        <p class="project-description">
+                            Üretim tesisleri için IoT sensörlerden veri toplayan ve analiz eden 
+                            gerçek zamanlı izleme sistemi.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Django</span>
+                            <span class="tech-tag">InfluxDB</span>
+                            <span class="tech-tag">Docker</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">🎓</div>
+                    <div class="project-info">
+                        <h3 class="project-title">Eğitim Yönetim Sistemi</h3>
+                        <p class="project-description">
+                            Üniversiteler için öğrenci, öğretmen ve ders yönetimi yapan 
+                            kapsamlı eğitim platformu.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Vue.js</span>
+                            <span class="tech-tag">Laravel</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">Redis</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">🚛</div>
+                    <div class="project-info">
+                        <h3 class="project-title">Lojistik Takip Sistemi</h3>
+                        <p class="project-description">
+                            Kargo şirketleri için GPS tabanlı araç takibi ve 
+                            rota optimizasyonu yapan akıllı lojistik sistemi.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Angular</span>
+                            <span class="tech-tag">Spring Boot</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">Google Maps API</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">🤖</div>
+                    <div class="project-info">
+                        <h3 class="project-title">AI Chatbot Platformu</h3>
+                        <p class="project-description">
+                            Müşteri hizmetleri için doğal dil işleme teknolojisi kullanan 
+                            akıllı chatbot sistemi.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">TensorFlow</span>
+                            <span class="tech-tag">FastAPI</span>
+                            <span class="tech-tag">OpenAI</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h2>Projenizi Konuşalım</h2>
+                    <p>
+                        Hayalinizdeki yazılım projesini gerçeğe dönüştürmek için 
+                        bizimle iletişime geçin. Ücretsiz danışmanlık hizmeti sunuyoruz.
+                    </p>
+                    <div style="margin-top: 2rem;">
+                        <p><strong>📧 Email:</strong> info@techvision.com.tr</p>
+                        <p><strong>📞 Telefon:</strong> +90 212 555 0123</p>
+                        <p><strong>📍 Adres:</strong> Maslak, İstanbul</p>
+                    </div>
+                </div>
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Ad Soyad</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-posta</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="company">Şirket</label>
+                        <input type="text" id="company" name="company">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Proje Detayları</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Gönder</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 TechVision Digital. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
 
     <script>
-        // PWA Variables
-        let deferredPrompt;
-        let isOnline = navigator.onLine;
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
 
-        // File System Access API Variables
-        let fileHandle = null;
-        let isFileSystemSupported = 'showOpenFilePicker' in window;
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
 
-        // Employee codes - Default employees
-        let employees = {
-            '222': 'YUSUF',
-            '333': 'YUNUS'
+        // Contact form handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Mesajınız alındı! En kısa sürede size dönüş yapacağız.');
+            this.reset();
+        });
+
+        // Client Cards Stack Implementation
+        class ClientCardStack {
+            constructor() {
+                this.clients = [
+                    {
+                        id: 1,
+                        name: "TechCorp A.Ş.",
+                        industry: "Teknoloji",
+                        logo: "TC",
+                        description: "Kurumsal yazılım çözümleri ile dijital dönüşümünü tamamlayan teknoloji şirketi.",
+                        stats: {
+                            "Kullanıcı Sayısı": "50,000+",
+                            "Sistem Uptime": "%99.9",
+                            "Performans Artışı": "%300"
+                        },
+                        colors: {
+                            primary: "#1e3c72",
+                            secondary: "#2a5298"
+                        }
+                    },
+                    {
+                        id: 2,
+                        name: "RetailMax Ltd.",
+                        industry: "E-Ticaret",
+                        logo: "RM",
+                        description: "E-ticaret platformumuz ile günlük 10,000+ sipariş işleyen perakende devi.",
+                        stats: {
+                            "Günlük Sipariş": "10,000+",
+                            "Müşteri Memnuniyeti": "%98",
+                            "Satış Artışı": "%250"
+                        },
+                        colors: {
+                            primary: "#2d4a22",
+                            secondary: "#4a7a38"
+                        }
+                    },
+                    {
+                        id: 3,
+                        name: "FinanceBank",
+                        industry: "Bankacılık",
+                        logo: "FB",
+                        description: "Mobil bankacılık uygulaması ile müşteri deneyimini yeniden tanımlayan banka.",
+                        stats: {
+                            "Aktif Kullanıcı": "1M+",
+                            "İşlem Hacmi": "₺5B",
+                            "Güvenlik Skoru": "%100"
+                        },
+                        colors: {
+                            primary: "#5a3a31",
+                            secondary: "#8c5b4a"
+                        }
+                    },
+                    {
+                        id: 4,
+                        name: "LogiFlow A.Ş.",
+                        industry: "Lojistik",
+                        logo: "LF",
+                        description: "IoT tabanlı takip sistemi ile lojistik süreçlerini optimize eden şirket.",
+                        stats: {
+                            "Araç Filosu": "5,000+",
+                            "Yakıt Tasarrufu": "%40",
+                            "Teslimat Hızı": "%60 artış"
+                        },
+                        colors: {
+                            primary: "#1a3a5f",
+                            secondary: "#2d5f8a"
+                        }
+                    },
+                    {
+                        id: 5,
+                        name: "EduTech Pro",
+                        industry: "Eğitim",
+                        logo: "EP",
+                        description: "Eğitim yönetim sistemi ile 100+ okula hizmet veren eğitim teknolojisi şirketi.",
+                        stats: {
+                            "Öğrenci Sayısı": "250,000+",
+                            "Okul Sayısı": "100+",
+                            "Başarı Oranı": "%95"
+                        },
+                        colors: {
+                            primary: "#4a1a5f",
+                            secondary: "#7a2d8a"
+                        }
+                    },
+                    {
+                        id: 6,
+                        name: "HealthCare+",
+                        industry: "Sağlık",
+                        logo: "HC",
+                        description: "Hasta yönetim sistemi ile sağlık hizmetlerini dijitalleştiren hastane grubu.",
+                        stats: {
+                            "Hasta Kayıtları": "500,000+",
+                            "Hastane Sayısı": "25",
+                            "Randevu Verimliliği": "%80 artış"
+                        },
+                        colors: {
+                            primary: "#1a5f3a",
+                            secondary: "#2d8a5f"
+                        }
+                    }
+                ];
+                
+                this.container = document.getElementById('cardStack');
+                this.currentCards = [...this.clients];
+                this.init();
+            }
+
+            init() {
+                setTimeout(() => {
+                    this.render();
+                }, 1000);
+            }
+
+            render() {
+                this.container.innerHTML = '';
+                
+                const visibleCards = this.currentCards.slice(0, 3);
+                
+                visibleCards.forEach((client, index) => {
+                    const cardElement = this.createCardElement(client, index);
+                    this.container.appendChild(cardElement);
+                });
+            }
+
+            createCardElement(client, index) {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'client-card';
+                cardDiv.dataset.cardId = client.id;
+                
+                const zIndex = 3 - index;
+                const yOffset = index * 20;
+                const xOffset = index * 3;
+                const scale = 1 - index * 0.03;
+                const rotation = index * -2;
+                
+                cardDiv.style.cssText = `
+                    z-index: ${zIndex};
+                    transform: translateY(${yOffset}px) translateX(${xOffset}px) scale(${scale}) rotate(${rotation}deg);
+                    box-shadow: 0 ${10 + index * 5}px ${30 + index * 10}px rgba(0, 0, 0, 0.3);
+                `;
+
+                cardDiv.innerHTML = `
+                    <div class="card-content" style="background: linear-gradient(135deg, ${client.colors.primary}, ${client.colors.secondary})">
+                        <div class="card-header">
+                            <div class="company-logo">${client.logo}</div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 11H1l8-8 8 8"/>
+                                    <path d="M9 11v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V11"/>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <div class="card-title-section">
+                            <h2 class="company-name">${client.name}</h2>
+                            <h3 class="company-industry">${client.industry}</h3>
+                        </div>
+                        
+                        <div class="card-stats">
+                            ${Object.entries(client.stats).map(([key, value]) => `
+                                <div class="stat-item">
+                                    <span>${key}:</span>
+                                    <strong>${value}</strong>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="card-footer">
+                            <div class="card-badge">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                                </svg>
+                                Başarı Hikayesi
+                            </div>
+                            <p class="company-description">${client.description}</p>
+                        </div>
+                        
+                        ${index === 0 ? '<div class="drag-indicator"><div class="drag-bar"></div></div>' : ''}
+                    </div>
+                `;
+
+                if (index === 0) {
+                    this.addDragListeners(cardDiv);
+                }
+
+                return cardDiv;
+            }
+
+            addDragListeners(cardElement) {
+                let startX = 0;
+                let startY = 0;
+                let currentX = 0;
+                let currentY = 0;
+                let isDragging = false;
+
+                const handleStart = (e) => {
+                    isDragging = true;
+                    cardElement.classList.add('dragging');
+                    
+                    const clientX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+                    const clientY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY;
+                    
+                    startX = clientX;
+                    startY = clientY;
+                };
+
+                const handleMove = (e) => {
+                    if (!isDragging) return;
+                    
+                    e.preventDefault();
+                    
+                    const clientX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+                    const clientY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY;
+                    
+                    currentX = clientX - startX;
+                    currentY = clientY - startY;
+                    
+                    const rotation = currentX * 0.1;
+                    cardElement.style.transform = `translateX(${currentX}px) translateY(${currentY}px) rotate(${rotation}deg) scale(1.05)`;
+                };
+
+                const handleEnd = () => {
+                    if (!isDragging) return;
+                    
+                    isDragging = false;
+                    cardElement.classList.remove('dragging');
+                    
+                    const distance = Math.sqrt(currentX * currentX + currentY * currentY);
+                    
+                    if (distance > 100) {
+                        this.removeCard(parseInt(cardElement.dataset.cardId));
+                    } else {
+                        cardElement.style.transform = '';
+                    }
+                    
+                    currentX = 0;
+                    currentY = 0;
+                };
+
+                // Mouse events
+                cardElement.addEventListener('mousedown', handleStart);
+                document.addEventListener('mousemove', handleMove);
+                document.addEventListener('mouseup', handleEnd);
+
+                // Touch events
+                cardElement.addEventListener('touchstart', handleStart, { passive: false });
+                document.addEventListener('touchmove', handleMove, { passive: false });
+                document.addEventListener('touchend', handleEnd);
+            }
+
+            removeCard(cardId) {
+                const cardElement = document.querySelector(`[data-card-id="${cardId}"]`);
+                if (cardElement) {
+                    cardElement.classList.add('removing');
+                    
+                    setTimeout(() => {
+                        this.currentCards = this.currentCards.filter(client => client.id !== cardId);
+                        
+                        // Add a new card to the end if we have more clients
+                        if (this.currentCards.length < 3 && this.clients.length > this.currentCards.length) {
+                            const availableClients = this.clients.filter(client => 
+                                !this.currentCards.some(current => current.id === client.id)
+                            );
+                            
+                            if (availableClients.length > 0) {
+                                const randomClient = availableClients[Math.floor(Math.random() * availableClients.length)];
+                                this.currentCards.push(randomClient);
+                            }
+                        }
+                        
+                        this.render();
+                    }, 300);
+                }
+            }
+        }
+
+        // Initialize the client card stack when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new ClientCardStack();
+        });
+
+        // Service card hover effects
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Project card animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
         };
 
-        // Admin code
-        const ADMIN_CODE = '666';
-
-        // Initialize data
-        let salesData = [];
-        let expensesData = [];
-        let customersData = [];
-        let debtsData = [];
-        let paymentsData = [];
-
-        let selectedPaymentType = 'cash';
-        let selectedPaidPaymentType = 'cash';
-        let selectedDebtPaymentType = 'cash';
-        let currentPaymentCustomer = null;
-        let isAdminLoggedIn = false;
-        let currentEditSaleId = null;
-        let currentEditExpenseId = null;
-        let currentDashboardPeriod = 'today';
-        let selectedCustomerIndex = -1;
-
-        // Customer autocomplete variables
-        let customerSuggestions = [];
-        let isShowingSuggestions = false;
-
-        // File System Access API Functions
-        async function selectDataFile() {
-            if (!isFileSystemSupported) {
-                showAlert('File System Access API bu tarayıcıda desteklenmiyor!', 'error');
-                return;
-            }
-
-            try {
-                [fileHandle] = await window.showOpenFilePicker({
-                    types: [{
-                        description: 'JSON files',
-                        accept: {
-                            'application/json': ['.json']
-                        }
-                    }],
-                    excludeAcceptAllOption: true,
-                    multiple: false
-                });
-
-                // Save file handle to localStorage for persistence
-                localStorage.setItem('ertHaliFileHandle', JSON.stringify({
-                    name: fileHandle.name,
-                    kind: fileHandle.kind
-                }));
-
-                await loadDataFromFile();
-                updateFileInfo();
-                showFileStatus('Dosya seçildi ve yüklendi', 'success');
-            } catch (error) {
-                if (error.name !== 'AbortError') {
-                    console.error('Dosya seçme hatası:', error);
-                    showAlert('Dosya seçme hatası: ' + error.message, 'error');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
                 }
-            }
-        }
-
-        async function loadDataFromFile() {
-            if (!fileHandle) return;
-
-            try {
-                const file = await fileHandle.getFile();
-                const contents = await file.text();
-                
-                if (contents.trim() === '') {
-                    initializeEmptyData();
-                } else {
-                    const data = JSON.parse(contents);
-                    
-                    salesData = data.sales || [];
-                    expensesData = data.expenses || [];
-                    customersData = data.customers || [];
-                    debtsData = data.debts || [];
-                    paymentsData = data.payments || [];
-                    
-                    // Load employees if exists
-                    if (data.employees) {
-                        employees = { ...employees, ...data.employees };
-                    }
-                }
-
-                updateDashboard();
-                if (isAdminLoggedIn) {
-                    loadAdminData();
-                    loadEmployees();
-                }
-                showAlert('Veriler dosyadan yüklendi!', 'success');
-            } catch (error) {
-                console.error('Dosya okuma hatası:', error);
-                showAlert('Dosya okuma hatası: ' + error.message, 'error');
-            }
-        }
-
-        async function saveDataToFile() {
-            if (!fileHandle) {
-                showAlert('Önce bir dosya seçin!', 'error');
-                return;
-            }
-
-            try {
-                const data = {
-                    sales: salesData,
-                    expenses: expensesData,
-                    customers: customersData,
-                    debts: debtsData,
-                    payments: paymentsData,
-                    employees: employees,
-                    lastUpdate: new Date().toISOString()
-                };
-
-                const writable = await fileHandle.createWritable();
-                await writable.write(JSON.stringify(data, null, 2));
-                await writable.close();
-
-                updateFileInfo();
-                showFileStatus('Veriler kaydedildi', 'success');
-            } catch (error) {
-                console.error('Dosya yazma hatası:', error);
-                showAlert('Dosya yazma hatası: ' + error.message, 'error');
-                showFileStatus('Kaydetme hatası', 'error');
-            }
-        }
-
-        async function createNewDataFile() {
-            if (!isFileSystemSupported) {
-                showAlert('File System Access API bu tarayıcıda desteklenmiyor!', 'error');
-                return;
-            }
-
-            try {
-                fileHandle = await window.showSaveFilePicker({
-                    types: [{
-                        description: 'JSON files',
-                        accept: {
-                            'application/json': ['.json']
-                        }
-                    }],
-                    suggestedName: `ert-hali-data-${new Date().toISOString().split('T')[0]}.json`
-                });
-
-                // Save file handle to localStorage for persistence
-                localStorage.setItem('ertHaliFileHandle', JSON.stringify({
-                    name: fileHandle.name,
-                    kind: fileHandle.kind
-                }));
-
-                await saveDataToFile();
-                updateFileInfo();
-                showFileStatus('Yeni dosya oluşturuldu', 'success');
-            } catch (error) {
-                if (error.name !== 'AbortError') {
-                    console.error('Dosya oluşturma hatası:', error);
-                    showAlert('Dosya oluşturma hatası: ' + error.message, 'error');
-                }
-            }
-        }
-
-        function initializeEmptyData() {
-            salesData = [];
-            expensesData = [];
-            customersData = [];
-            debtsData = [];
-            paymentsData = [];
-        }
-
-        function updateFileInfo() {
-            if (fileHandle) {
-                document.getElementById('selectedFileName').textContent = fileHandle.name;
-                document.getElementById('lastUpdate').textContent = new Date().toLocaleString('tr-TR');
-                document.getElementById('fileInfo').style.display = 'block';
-            }
-        }
-
-        function showFileStatus(message, type) {
-            const statusEl = document.getElementById('fileStatus');
-            statusEl.textContent = message;
-            statusEl.className = `file-status ${type}`;
-            statusEl.style.display = 'block';
-            
-            setTimeout(() => {
-                statusEl.style.display = 'none';
-            }, 3000);
-        }
-
-        // Auto-save function
-        async function autoSave() {
-            if (fileHandle) {
-                try {
-                    await saveDataToFile();
-                } catch (error) {
-                    console.error('Auto-save failed:', error);
-                    showFileStatus('Otomatik kaydetme hatası', 'error');
-                }
-            }
-        }
-
-        // Initialize PWA and load saved file handle
-        async function initApp() {
-            // Check File System Access API support
-            if (!isFileSystemSupported) {
-                showFileStatus('File System API desteklenmiyor', 'warning');
-            } else {
-                showFileStatus('File System API hazır', 'success');
-                
-                // Try to restore file handle from localStorage
-                const savedHandle = localStorage.getItem('ertHaliFileHandle');
-                if (savedHandle && isFileSystemSupported) {
-                    try {
-                        // Note: We can't directly restore file handles from localStorage
-                        // This is a limitation of the File System Access API for security reasons
-                        showFileStatus('Önceki dosyayı tekrar seçin', 'warning');
-                    } catch (error) {
-                        console.log('Could not restore file handle:', error);
-                    }
-                }
-            }
-
-            loadTheme();
-            updateDashboard();
-            document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
-            document.getElementById('adminDateFilter').value = new Date().toISOString().split('T')[0];
-            document.getElementById('salesDateFilter').value = new Date().toISOString().split('T')[0];
-            document.getElementById('expensesDateFilter').value = new Date().toISOString().split('T')[0];
-        }
-
-        // Theme management
-        function toggleTheme() {
-            const body = document.body;
-            const themeToggle = document.getElementById('themeToggle');
-            
-            if (body.getAttribute('data-theme') === 'dark') {
-                body.removeAttribute('data-theme');
-                themeToggle.innerHTML = `
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                    </svg>
-                `;
-                localStorage.setItem('ertHaliTheme', 'light');
-            } else {
-                body.setAttribute('data-theme', 'dark');
-                themeToggle.innerHTML = `
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 17q-2.075 0-3.537-1.463Q7 14.075 7 12t1.463-3.538Q9.925 7 12 7t3.538 1.462Q17 9.925 17 12q0 2.075-1.462 3.537Q14.075 17 12 17ZM2 13q-.425 0-.712-.288Q1 12.425 1 12t.288-.713Q1.575 11 2 11h2q.425 0 .713.287Q5 11.575 5 12t-.287.712Q4.425 13 4 13Zm18 0q-.425 0-.712-.288Q19 12.425 19 12t.288-.713Q19.575 11 20 11h2q.425 0 .712.287Q23 11.575 23 12t-.287.712Q22.425 13 22 13Zm-8-8q-.425 0-.712-.288Q11 4.425 11 4V2q0-.425.288-.713Q11.575 1 12 1t.713.287Q13 1.575 13 2v2q0 .425-.287.712Q12.425 5 12 5Zm0 18q-.425 0-.712-.288Q11 22.425 11 22v-2q0-.425.288-.712Q11.575 19 12 19t.713.288Q13 19.575 13 20v2q0 .425-.287.712Q12.425 23 12 23ZM5.65 7.05 4.575 6q-.3-.275-.288-.7q.013-.425.288-.725q.3-.3.725-.3t.7.3L7.05 5.65q.275.3.275.7q0 .4-.275.7q-.275.3-.687.287q-.413-.012-.713-.287ZM18 19.425l-1.05-1.075q-.275-.3-.275-.712q0-.413.275-.688q.275-.3.688-.287q.412.012.712.287L19.425 18q.3.275.288.7q-.013.425-.288.725q-.3.3-.725.3t-.7-.3ZM16.95 7.05q-.3-.275-.287-.688q.012-.412.287-.712L18 4.575q.275-.3.7-.288q.425.013.725.288q.3.3.3.725t-.3.7L18.35 7.05q-.3.275-.7.275q-.4 0-.7-.275ZM4.575 19.425q-.3-.3-.3-.725t.3-.7l1.075-1.05q.3-.275.713-.275q.412 0 .687.275q.3.275.288.688q-.013.412-.288.712L6 19.425q-.275.3-.7.287q-.425-.012-.725-.287Z"/>
-                    </svg>
-                `;
-                localStorage.setItem('ertHaliTheme', 'dark');
-            }
-        }
-
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('ertHaliTheme');
-            if (savedTheme === 'dark') {
-                document.body.setAttribute('data-theme', 'dark');
-                document.getElementById('themeToggle').innerHTML = `
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 17q-2.075 0-3.537-1.463Q7 14.075 7 12t1.463-3.538Q9.925 7 12 7t3.538 1.462Q17 9.925 17 12q0 2.075-1.462 3.537Q14.075 17 12 17ZM2 13q-.425 0-.712-.288Q1 12.425 1 12t.288-.713Q1.575 11 2 11h2q.425 0 .713.287Q5 11.575 5 12t-.287.712Q4.425 13 4 13Zm18 0q-.425 0-.712-.288Q19 12.425 19 12t.288-.713Q19.575 11 20 11h2q.425 0 .712.287Q23 11.575 23 12t-.287.712Q22.425 13 22 13Zm-8-8q-.425 0-.712-.288Q11 4.425 11 4V2q0-.425.288-.713Q11.575 1 12 1t.713.287Q13 1.575 13 2v2q0 .425-.287.712Q12.425 5 12 5Zm0 18q-.425 0-.712-.288Q11 22.425 11 22v-2q0-.425.288-.712Q11.575 19 12 19t.713.288Q13 19.575 13 20v2q0 .425-.287.712Q12.425 23 12 23ZM5.65 7.05 4.575 6q-.3-.275-.288-.7q.013-.425.288-.725q.3-.3.725-.3t.7.3L7.05 5.65q.275.3.275.7q0 .4-.275.7q-.275.3-.687.287q-.413-.012-.713-.287ZM18 19.425l-1.05-1.075q-.275-.3-.275-.712q0-.413.275-.688q.275-.3.688-.287q.412.012.712.287L19.425 18q.3.275.288.7q-.013.425-.288.725q-.3.3-.725.3t-.7-.3ZM16.95 7.05q-.3-.275-.287-.688q.012-.412.287-.712L18 4.575q.275-.3.7-.288q.425.013.725.288q.3.3.3.725t-.3.7L18.35 7.05q-.3.275-.7.275q-.4 0-.7-.275ZM4.575 19.425q-.3-.3-.3-.725t.3-.7l1.075-1.05q.3-.275.713-.275q.412 0 .687.275q.3.275.288.688q-.013.412-.288.712L6 19.425q-.275.3-.7.287q-.425-.012-.725-.287Z"/>
-                    </svg>
-                `;
-            }
-        }
-
-        // Admin functions
-        function showAdminLogin() {
-            document.getElementById('adminLoginModal').style.display = 'block';
-        }
-
-        function closeAdminLogin() {
-            document.getElementById('adminLoginModal').style.display = 'none';
-            document.getElementById('adminCode').value = '';
-        }
-
-        function verifyAdmin() {
-            const code = document.getElementById('adminCode').value;
-            if (code === ADMIN_CODE) {
-                isAdminLoggedIn = true;
-                document.getElementById('mainApp').style.display = 'none';
-                document.getElementById('adminPage').classList.add('active');
-                closeAdminLogin();
-                loadAdminData();
-                loadEmployees();
-                showAlert('Yönetici paneline giriş yapıldı!', 'success');
-            } else {
-                showAlert('Geçersiz yönetici kodu!', 'error');
-            }
-        }
-
-        function goBackToMain() {
-            document.getElementById('adminPage').classList.remove('active');
-            document.getElementById('mainApp').style.display = 'block';
-            updateDashboard();
-        }
-
-        function showAdminSection(sectionName) {
-            // Update navigation
-            document.querySelectorAll('.admin-nav-btn').forEach(btn => {
-                btn.classList.remove('active');
             });
-            event.target.classList.add('active');
+        }, observerOptions);
 
-            // Show content
-            document.querySelectorAll('.admin-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            const targetSection = document.getElementById('admin' + sectionName.charAt(0).toUpperCase() + sectionName.slice(1));
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
-
-            // Load specific data
-            if (sectionName === 'sales') {
-                loadAdminSales();
-            } else if (sectionName === 'expenses') {
-                loadAdminExpenses();
-            } else if (sectionName === 'employees') {
-                loadEmployees();
-            } else if (sectionName === 'analytics') {
-                loadAnalytics();
-            } else if (sectionName === 'overview') {
-                filterAdminData();
-            }
-        }
-
-        function loadAdminData() {
-            filterAdminData();
-            loadAdminSales();
-            loadAdminExpenses();
-            loadAnalytics();
-        }
-
-        function filterAdminData() {
-            const selectedDate = document.getElementById('adminDateFilter').value;
-            const targetDate = new Date(selectedDate);
-            
-            const filteredSales = salesData.filter(sale => {
-                const saleDate = new Date(sale.date);
-                return saleDate.toDateString() === targetDate.toDateString();
-            });
-            
-            const filteredExpenses = expensesData.filter(expense => {
-                const expenseDate = new Date(expense.date);
-                return expenseDate.toDateString() === targetDate.toDateString();
-            });
-            
-            const filteredPayments = paymentsData.filter(payment => {
-                const paymentDate = new Date(payment.date);
-                return paymentDate.toDateString() === targetDate.toDateString();
-            });
-
-            const totalSales = filteredSales.reduce((sum, sale) => sum + sale.paidAmount, 0);
-            const totalPayments = filteredPayments.reduce((sum, payment) => sum + payment.amount, 0);
-            const totalIncome = totalSales + totalPayments;
-            const totalExpenses = filteredExpenses.reduce((sum, expense) => sum + expense.amount, 0);
-            const netProfit = totalIncome - totalExpenses;
-            const totalTransactions = filteredSales.length + filteredExpenses.length + filteredPayments.length;
-
-            document.getElementById('adminTotalSales').textContent = totalIncome.toLocaleString('tr-TR');
-            document.getElementById('adminTotalExpenses').textContent = totalExpenses.toLocaleString('tr-TR');
-            document.getElementById('adminNetProfit').textContent = netProfit.toLocaleString('tr-TR');
-            document.getElementById('adminTotalTransactions').textContent = totalTransactions;
-        }
-
-        function loadAdminSales() {
-            const selectedDate = document.getElementById('salesDateFilter').value;
-            const targetDate = new Date(selectedDate);
-            
-            const filteredSales = salesData.filter(sale => {
-                const saleDate = new Date(sale.date);
-                return saleDate.toDateString() === targetDate.toDateString();
-            });
-
-            const tbody = document.getElementById('adminSalesTable');
-            tbody.innerHTML = filteredSales.map(sale => `
-                <tr>
-                    <td>${new Date(sale.date).toLocaleDateString('tr-TR')}</td>
-                    <td>${sale.customerName} ${sale.customerSurname}</td>
-                    <td>${sale.salePrice.toLocaleString('tr-TR')} ₺</td>
-                    <td>
-                        <span style="background: var(--bg-tertiary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">
-                            ${getPaymentTypeDisplay(sale.paidPaymentType)}
-                        </span>
-                    </td>
-                    <td>${sale.employee}</td>
-                    <td>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button class="btn btn-warning btn-small" onclick="editSale(${sale.id})">Düzenle</button>
-                            <button class="btn btn-danger btn-small" onclick="deleteSale(${sale.id})">Sil</button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function loadAdminExpenses() {
-            const selectedDate = document.getElementById('expensesDateFilter').value;
-            const targetDate = new Date(selectedDate);
-            
-            const filteredExpenses = expensesData.filter(expense => {
-                const expenseDate = new Date(expense.date);
-                return expenseDate.toDateString() === targetDate.toDateString();
-            });
-
-            const tbody = document.getElementById('adminExpensesTable');
-            tbody.innerHTML = filteredExpenses.map(expense => `
-                <tr>
-                    <td>${new Date(expense.date).toLocaleDateString('tr-TR')}</td>
-                    <td>${expense.description}</td>
-                    <td>${expense.category}</td>
-                    <td>${expense.amount.toLocaleString('tr-TR')} ₺</td>
-                    <td>${expense.employee}</td>
-                    <td>
-                        <div style="display: flex; gap: 0.5rem;">
-                            <button class="btn btn-warning btn-small" onclick="editExpense(${expense.id})">Düzenle</button>
-                            <button class="btn btn-danger btn-small" onclick="deleteExpense(${expense.id})">Sil</button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        // Employee Management
-        function loadEmployees() {
-            const employeeGrid = document.getElementById('employeeGrid');
-            employeeGrid.innerHTML = Object.entries(employees).map(([code, name]) => `
-                <div class="employee-card">
-                    <div class="employee-name">${name}</div>
-                    <div class="employee-code">${code}</div>
-                    <button class="btn btn-danger btn-small mt-2" onclick="removeEmployee('${code}')">
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>
-                        </svg>
-                        Sil
-                    </button>
-                </div>
-            `).join('');
-        }
-
-        function showAddEmployeeModal() {
-            document.getElementById('addEmployeeModal').style.display = 'block';
-        }
-
-        function closeAddEmployeeModal() {
-            document.getElementById('addEmployeeModal').style.display = 'none';
-            document.getElementById('addEmployeeForm').reset();
-        }
-
-        document.getElementById('addEmployeeForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('employeeName').value;
-            const code = document.getElementById('employeeCodeNew').value;
-            
-            if (employees[code]) {
-                showAlert('Bu kod zaten kullanılıyor!', 'error');
-                return;
-            }
-            
-            employees[code] = name;
-            await autoSave();
-            loadEmployees();
-            closeAddEmployeeModal();
-            showAlert('Yeni çalışan eklendi!', 'success');
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
         });
-
-        async function removeEmployee(code) {
-            if (confirm('Bu çalışanı silmek istediğinizden emin misiniz?')) {
-                delete employees[code];
-                await autoSave();
-                loadEmployees();
-                showAlert('Çalışan silindi!', 'success');
-            }
-        }
-
-        function loadAnalytics() {
-            // Calculate average sale
-            const avgSale = salesData.length > 0 ? 
-                salesData.reduce((sum, sale) => sum + sale.salePrice, 0) / salesData.length : 0;
-            
-            // Find top employee
-            const employeeStats = {};
-            salesData.forEach(sale => {
-                employeeStats[sale.employee] = (employeeStats[sale.employee] || 0) + 1;
-            });
-            const topEmployee = Object.keys(employeeStats).reduce((a, b) => 
-                employeeStats[a] > employeeStats[b] ? a : b, '-');
-            
-            // Calculate monthly growth (simplified)
-            const thisMonth = new Date().getMonth();
-            const thisYear = new Date().getFullYear();
-            const thisMonthSales = salesData.filter(sale => {
-                const saleDate = new Date(sale.date);
-                return saleDate.getMonth() === thisMonth && saleDate.getFullYear() === thisYear;
-            });
-            const lastMonthSales = salesData.filter(sale => {
-                const saleDate = new Date(sale.date);
-                return saleDate.getMonth() === (thisMonth - 1) && saleDate.getFullYear() === thisYear;
-            });
-            
-            const thisMonthTotal = thisMonthSales.reduce((sum, sale) => sum + sale.salePrice, 0);
-            const lastMonthTotal = lastMonthSales.reduce((sum, sale) => sum + sale.salePrice, 0);
-            const growth = lastMonthTotal > 0 ? ((thisMonthTotal - lastMonthTotal) / lastMonthTotal * 100) : 0;
-            
-            document.getElementById('analyticsAvgSale').textContent = avgSale.toLocaleString('tr-TR');
-            document.getElementById('analyticsTopEmployee').textContent = topEmployee;
-            document.getElementById('analyticsMonthlyGrowth').textContent = growth.toFixed(1) + '%';
-            document.getElementById('analyticsCustomerCount').textContent = customersData.length;
-        }
-
-        // Tab management
-        function showTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-
-            document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
-
-            if (tabName === 'dashboard') {
-                updateDashboard();
-            } else if (tabName === 'customers') {
-                loadCustomers();
-            }
-        }
-
-        // Dashboard period management
-        function updateDashboardPeriod() {
-            const period = document.getElementById('dashboardPeriod').value;
-            const customDate = document.getElementById('customDate');
-            
-            currentDashboardPeriod = period;
-            
-            if (period === 'custom') {
-                customDate.style.display = 'block';
-                customDate.value = new Date().toISOString().split('T')[0];
-            } else {
-                customDate.style.display = 'none';
-            }
-            
-            updateDashboard();
-        }
-
-        function getDateRange(period, customDate = null) {
-            const now = new Date();
-            let startDate, endDate;
-            
-            switch (period) {
-                case 'today':
-                    startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-                    endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-                    break;
-                case 'yesterday':
-                    startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
-                    endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-                    break;
-                case 'week':
-                    const weekStart = now.getDate() - now.getDay();
-                    startDate = new Date(now.getFullYear(), now.getMonth(), weekStart);
-                    endDate = new Date(now.getFullYear(), now.getMonth(), weekStart + 7);
-                    break;
-                case 'month':
-                    startDate = new Date(now.getFullYear(), now.getMonth(), 1);
-                    endDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-                    break;
-                case 'custom':
-                    if (customDate) {
-                        const custom = new Date(customDate);
-                        startDate = new Date(custom.getFullYear(), custom.getMonth(), custom.getDate());
-                        endDate = new Date(custom.getFullYear(), custom.getMonth(), custom.getDate() + 1);
-                    } else {
-                        return getDateRange('today');
-                    }
-                    break;
-                default:
-                    return getDateRange('today');
-            }
-            
-            return { startDate, endDate };
-        }
-
-        // Customer autocomplete functionality
-        function setupCustomerAutocomplete() {
-            const customerNameInput = document.getElementById('customerName');
-            const suggestionsDiv = document.getElementById('customerSuggestions');
-            
-            customerNameInput.addEventListener('input', function() {
-                const query = this.value.toLowerCase();
-                if (query.length < 2) {
-                    hideSuggestions();
-                    return;
-                }
-                
-                customerSuggestions = customersData.filter(customer => 
-                    customer.name.toLowerCase().includes(query) ||
-                    customer.surname.toLowerCase().includes(query) ||
-                    customer.phone.includes(query)
-                ).slice(0, 5);
-                
-                showSuggestions();
-            });
-            
-            customerNameInput.addEventListener('keydown', function(e) {
-                if (e.key === 'F1') {
-                    e.preventDefault();
-                    if (customersData.length > 0) {
-                        customerSuggestions = customersData.slice(0, 10);
-                        showSuggestions();
-                    }
-                } else if (e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    if (isShowingSuggestions) {
-                        selectedCustomerIndex = Math.min(selectedCustomerIndex + 1, customerSuggestions.length - 1);
-                        updateSuggestionSelection();
-                    }
-                } else if (e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    if (isShowingSuggestions) {
-                        selectedCustomerIndex = Math.max(selectedCustomerIndex - 1, -1);
-                        updateSuggestionSelection();
-                    }
-                } else if (e.key === 'Enter') {
-                    if (isShowingSuggestions && selectedCustomerIndex >= 0) {
-                        e.preventDefault();
-                        selectCustomer(customerSuggestions[selectedCustomerIndex]);
-                    }
-                } else if (e.key === 'Escape') {
-                    hideSuggestions();
-                }
-            });
-            
-            // Hide suggestions when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!customerNameInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
-                    hideSuggestions();
-                }
-            });
-        }
-
-        function showSuggestions() {
-            const suggestionsDiv = document.getElementById('customerSuggestions');
-            suggestionsDiv.innerHTML = customerSuggestions.map((customer, index) => `
-                <div class="customer-suggestion ${index === selectedCustomerIndex ? 'selected' : ''}" 
-                     onclick="selectCustomer(${JSON.stringify(customer).replace(/"/g, '&quot;')})">
-                    <strong>${customer.name} ${customer.surname}</strong><br>
-                    <small>${customer.phone} - ${customer.totalPurchases.toLocaleString('tr-TR')} ₺</small>
-                </div>
-            `).join('');
-            
-            suggestionsDiv.style.display = 'block';
-            isShowingSuggestions = true;
-            selectedCustomerIndex = -1;
-        }
-
-        function hideSuggestions() {
-            document.getElementById('customerSuggestions').style.display = 'none';
-            isShowingSuggestions = false;
-            selectedCustomerIndex = -1;
-        }
-
-        function updateSuggestionSelection() {
-            const suggestions = document.querySelectorAll('.customer-suggestion');
-            suggestions.forEach((suggestion, index) => {
-                suggestion.classList.toggle('selected', index === selectedCustomerIndex);
-            });
-        }
-
-        function selectCustomer(customer) {
-            document.getElementById('customerName').value = customer.name;
-            document.getElementById('customerSurname').value = customer.surname;
-            document.getElementById('customerPhone').value = customer.phone;
-            hideSuggestions();
-        }
-
-        // Payment type selection
-        function selectPaymentType(type) {
-            selectedPaymentType = type;
-            document.querySelectorAll('#sales .payment-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            event.target.classList.add('selected');
-
-            const debtOptions = document.getElementById('debtOptions');
-            if (type === 'debt') {
-                debtOptions.style.display = 'block';
-            } else {
-                debtOptions.style.display = 'none';
-            }
-        }
-
-        function selectPaidPaymentType(type) {
-            selectedPaidPaymentType = type;
-            document.querySelectorAll('#paidPaymentTypeGroup .payment-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            event.target.classList.add('selected');
-        }
-
-        function selectDebtPaymentType(type) {
-            selectedDebtPaymentType = type;
-            document.querySelectorAll('#paymentModal .payment-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            event.target.classList.add('selected');
-        }
-
-        // Employee verification
-        function verifyEmployeeCode(code) {
-            return employees[code] || null;
-        }
-
-        // Get payment type display
-        function getPaymentTypeDisplay(type) {
-            switch(type) {
-                case 'cash': return 'Nakit';
-                case 'card': return 'Kart';
-                case 'debt': return 'Borç';
-                default: return type;
-            }
-        }
-
-        // Sales form submission
-        document.getElementById('salesForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const employeeCode = document.getElementById('employeeCode').value;
-            const employeeName = verifyEmployeeCode(employeeCode);
-            
-            if (!employeeName) {
-                showAlert('Geçersiz çalışan kodu!', 'error');
-                return;
-            }
-
-            const customerName = document.getElementById('customerName').value;
-            const customerSurname = document.getElementById('customerSurname').value;
-            const customerPhone = document.getElementById('customerPhone').value;
-            const salePrice = parseFloat(document.getElementById('salePrice').value);
-            const paidAmount = selectedPaymentType === 'debt' ? parseFloat(document.getElementById('paidAmount').value) || 0 : salePrice;
-
-            const saleData = {
-                id: Date.now(),
-                date: new Date().toISOString(),
-                customerName: customerName,
-                customerSurname: customerSurname,
-                customerPhone: customerPhone,
-                carpetArea: parseFloat(document.getElementById('carpetArea').value),
-                salePrice: salePrice,
-                paymentType: selectedPaymentType,
-                paidAmount: paidAmount,
-                paidPaymentType: selectedPaymentType === 'debt' ? selectedPaidPaymentType : selectedPaymentType,
-                employee: employeeName,
-                employeeCode: employeeCode
-            };
-
-            salesData.push(saleData);
-            updateCustomer(customerName, customerSurname, customerPhone, saleData);
-
-            if (selectedPaymentType === 'debt' && paidAmount < salePrice) {
-                const debtAmount = salePrice - paidAmount;
-                const debtData = {
-                    id: Date.now(),
-                    saleId: saleData.id,
-                    customerName: customerName,
-                    customerSurname: customerSurname,
-                    customerPhone: customerPhone,
-                    totalAmount: salePrice,
-                    paidAmount: paidAmount,
-                    remainingAmount: debtAmount,
-                    date: new Date().toISOString(),
-                    employee: employeeName
-                };
-                debtsData.push(debtData);
-            }
-            
-            await autoSave();
-            showAlert('Satış başarıyla kaydedildi!', 'success');
-            document.getElementById('salesForm').reset();
-            selectPaymentType('cash');
-            selectPaidPaymentType('cash');
-            updateDashboard();
-            if (isAdminLoggedIn) loadAdminData();
-        });
-
-        // Update customer data
-        function updateCustomer(name, surname, phone, saleData) {
-            const existingCustomerIndex = customersData.findIndex(customer => 
-                customer.phone === phone
-            );
-
-            if (existingCustomerIndex !== -1) {
-                customersData[existingCustomerIndex].sales.push(saleData);
-                customersData[existingCustomerIndex].totalPurchases += saleData.salePrice;
-                customersData[existingCustomerIndex].lastPurchase = saleData.date;
-            } else {
-                const newCustomer = {
-                    id: Date.now(),
-                    name: name,
-                    surname: surname,
-                    phone: phone,
-                    totalPurchases: saleData.salePrice,
-                    lastPurchase: saleData.date,
-                    sales: [saleData]
-                };
-                customersData.push(newCustomer);
-            }
-        }
-
-        // Expenses form submission
-        document.getElementById('expensesForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const employeeCode = document.getElementById('expenseEmployeeCode').value;
-            const employeeName = verifyEmployeeCode(employeeCode);
-            
-            if (!employeeName) {
-                showAlert('Geçersiz çalışan kodu!', 'error');
-                return;
-            }
-
-            const expenseData = {
-                id: Date.now(),
-                date: new Date().toISOString(),
-                description: document.getElementById('expenseDescription').value,
-                amount: parseFloat(document.getElementById('expenseAmount').value),
-                category: document.getElementById('expenseCategory').value,
-                employee: employeeName,
-                employeeCode: employeeCode
-            };
-
-            expensesData.push(expenseData);
-            
-            await autoSave();
-            showAlert('Gider başarıyla kaydedildi!', 'success');
-            document.getElementById('expensesForm').reset();
-            updateDashboard();
-            if (isAdminLoggedIn) loadAdminData();
-        });
-
-        // Update dashboard
-        function updateDashboard() {
-            const customDate = document.getElementById('customDate').value;
-            const { startDate, endDate } = getDateRange(currentDashboardPeriod, customDate);
-            
-            // Filter data by selected period (except debt which is always total)
-            const filteredSales = salesData.filter(sale => {
-                const saleDate = new Date(sale.date);
-                return saleDate >= startDate && saleDate < endDate;
-            });
-            
-            const filteredExpenses = expensesData.filter(expense => {
-                const expenseDate = new Date(expense.date);
-                return expenseDate >= startDate && expenseDate < endDate;
-            });
-            
-            const filteredPayments = paymentsData.filter(payment => {
-                const paymentDate = new Date(payment.date);
-                return paymentDate >= startDate && paymentDate < endDate;
-            });
-
-            const totalSales = filteredSales.reduce((sum, sale) => sum + sale.paidAmount, 0);
-            const totalPayments = filteredPayments.reduce((sum, payment) => sum + payment.amount, 0);
-            const totalIncome = totalSales + totalPayments;
-            const totalExpenses = filteredExpenses.reduce((sum, expense) => sum + expense.amount, 0);
-            const totalDebt = debtsData.reduce((sum, debt) => sum + debt.remainingAmount, 0); // Always total debt
-            const netProfit = totalIncome - totalExpenses;
-
-            document.getElementById('totalSales').textContent = totalIncome.toLocaleString('tr-TR');
-            document.getElementById('totalExpenses').textContent = totalExpenses.toLocaleString('tr-TR');
-            document.getElementById('netProfit').textContent = netProfit.toLocaleString('tr-TR');
-            document.getElementById('totalDebt').textContent = totalDebt.toLocaleString('tr-TR');
-
-            // Update profit change indicator
-            const profitChangeEl = document.getElementById('profitChange');
-            if (netProfit > 0) {
-                profitChangeEl.className = 'stat-change positive';
-                profitChangeEl.textContent = '+' + ((netProfit / (totalIncome || 1)) * 100).toFixed(1) + '%';
-            } else if (netProfit < 0) {
-                profitChangeEl.className = 'stat-change negative';
-                profitChangeEl.textContent = ((netProfit / (totalIncome || 1)) * 100).toFixed(1) + '%';
-            } else {
-                profitChangeEl.className = 'stat-change';
-                profitChangeEl.textContent = '0%';
-            }
-
-            updateRecentTransactions();
-        }
-
-        // Update recent transactions
-        function updateRecentTransactions() {
-            const allTransactions = [
-                ...salesData.map(sale => ({
-                    date: sale.date,
-                    type: 'Satış',
-                    description: `${sale.customerName} ${sale.customerSurname}`,
-                    amount: sale.paidAmount,
-                    paymentType: sale.paidPaymentType,
-                    employee: sale.employee
-                })),
-                ...paymentsData.map(payment => ({
-                    date: payment.date,
-                    type: 'Ödeme',
-                    description: `${payment.customerName} ${payment.customerSurname}`,
-                    amount: payment.amount,
-                    paymentType: payment.paymentType,
-                    employee: payment.employee
-                })),
-                ...expensesData.map(expense => ({
-                    date: expense.date,
-                    type: 'Gider',
-                    description: expense.description,
-                    amount: -expense.amount,
-                    paymentType: '-',
-                    employee: expense.employee
-                }))
-            ].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 10);
-
-            const tbody = document.getElementById('recentTransactions');
-            tbody.innerHTML = allTransactions.map(transaction => `
-                <tr>
-                    <td>${new Date(transaction.date).toLocaleDateString('tr-TR')}</td>
-                    <td>${transaction.type}</td>
-                    <td>${transaction.description}</td>
-                    <td style="color: ${transaction.amount >= 0 ? 'var(--success-color)' : 'var(--danger-color)'}">
-                        ${transaction.amount >= 0 ? '+' : ''}${transaction.amount.toLocaleString('tr-TR')} ₺
-                    </td>
-                    <td>
-                        ${transaction.paymentType !== '-' ? 
-                            `<span style="background: var(--bg-tertiary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">
-                                ${getPaymentTypeDisplay(transaction.paymentType)}
-                            </span>` : 
-                            '-'
-                        }
-                    </td>
-                    <td>${transaction.employee}</td>
-                </tr>
-            `).join('');
-        }
-
-        // Load customers
-        function loadCustomers() {
-            const customersList = document.getElementById('customersList');
-            customersList.innerHTML = customersData.map(customer => `
-                <div class="customer-item" onclick="showCustomerDetails('${customer.id}')" style="cursor: pointer; transition: all 0.3s ease;">
-                    <div class="customer-name">${customer.name} ${customer.surname}</div>
-                    <div class="customer-info">
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="color: var(--info-color);">
-                            <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
-                        </svg>
-                        ${customer.phone} | 
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="color: var(--success-color);">
-                            <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
-                        </svg>
-                        ${customer.totalPurchases.toLocaleString('tr-TR')} ₺ | 
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="color: var(--text-secondary);">
-                            <path d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z"/>
-                        </svg>
-                        ${new Date(customer.lastPurchase).toLocaleDateString('tr-TR')}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Search customers
-        function searchCustomers() {
-            const searchTerm = document.getElementById('customerSearch').value.toLowerCase();
-            const filteredCustomers = customersData.filter(customer => 
-                customer.name.toLowerCase().includes(searchTerm) ||
-                customer.surname.toLowerCase().includes(searchTerm) ||
-                customer.phone.includes(searchTerm)
-            );
-
-            const customersList = document.getElementById('customersList');
-            customersList.innerHTML = filteredCustomers.map(customer => `
-                <div class="customer-item" onclick="showCustomerDetails('${customer.id}')" style="cursor: pointer; transition: all 0.3s ease;">
-                    <div class="customer-name">${customer.name} ${customer.surname}</div>
-                    <div class="customer-info">
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="color: var(--info-color);">
-                            <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
-                        </svg>
-                        ${customer.phone} | 
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="color: var(--success-color);">
-                            <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
-                        </svg>
-                        ${customer.totalPurchases.toLocaleString('tr-TR')} ₺ | 
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="color: var(--text-secondary);">
-                            <path d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z"/>
-                        </svg>
-                        ${new Date(customer.lastPurchase).toLocaleDateString('tr-TR')}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Show customer details
-        function showCustomerDetails(customerId) {
-            const customer = customersData.find(c => c.id == customerId);
-            if (!customer) return;
-
-            const customerDebt = debtsData.find(debt => debt.customerPhone === customer.phone);
-            const customerPayments = paymentsData.filter(payment => payment.customerPhone === customer.phone);
-            
-            document.getElementById('customerDetails').innerHTML = `
-                <div class="section-title">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                    </svg>
-                    ${customer.name} ${customer.surname}
-                </div>
-                <div style="margin-bottom: 2rem; background: var(--bg-secondary); padding: 1.5rem; border-radius: 12px;">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                        <div>
-                            <strong>Telefon:</strong><br>
-                            <span style="color: var(--info-color);">${customer.phone}</span>
-                        </div>
-                        <div>
-                            <strong>Toplam Alışveriş:</strong><br>
-                            <span style="color: var(--success-color); font-size: 1.2rem; font-weight: 600;">${customer.totalPurchases.toLocaleString('tr-TR')} ₺</span>
-                        </div>
-                        <div>
-                            <strong>Son Alışveriş:</strong><br>
-                            <span style="color: var(--text-secondary);">${new Date(customer.lastPurchase).toLocaleDateString('tr-TR')}</span>
-                        </div>
-                        ${customerDebt ? `
-                        <div>
-                            <strong>Kalan Borç:</strong><br>
-                            <span style="color: var(--danger-color); font-size: 1.2rem; font-weight: 600;">${customerDebt.remainingAmount.toLocaleString('tr-TR')} ₺</span>
-                        </div>
-                        ` : ''}
-                    </div>
-                </div>
-                
-                <div class="section-title">Alışveriş Geçmişi</div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tarih</th>
-                                <th>m²</th>
-                                <th>Fiyat</th>
-                                <th>Ödeme</th>
-                                <th>Çalışan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${customer.sales.map(sale => `
-                                <tr>
-                                    <td>${new Date(sale.date).toLocaleDateString('tr-TR')}</td>
-                                    <td>${sale.carpetArea}</td>
-                                    <td>${sale.salePrice.toLocaleString('tr-TR')} ₺</td>
-                                    <td>
-                                        <span style="background: var(--bg-tertiary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">
-                                            ${getPaymentTypeDisplay(sale.paidPaymentType)}
-                                        </span>
-                                        ${sale.paymentType === 'debt' ? ' <span style="color: var(--danger-color);">(Borç)</span>' : ''}
-                                    </td>
-                                    <td>${sale.employee}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-
-                ${customerPayments.length > 0 ? `
-                    <div class="section-title">Ödeme Geçmişi</div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Tarih</th>
-                                    <th>Tutar</th>
-                                    <th>Ödeme Türü</th>
-                                    <th>Çalışan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${customerPayments.map(payment => `
-                                    <tr>
-                                        <td>${new Date(payment.date).toLocaleDateString('tr-TR')}</td>
-                                        <td style="color: var(--success-color);">${payment.amount.toLocaleString('tr-TR')} ₺</td>
-                                        <td>
-                                            <span style="background: var(--bg-tertiary); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">
-                                                ${getPaymentTypeDisplay(payment.paymentType)}
-                                            </span>
-                                        </td>
-                                        <td>${payment.employee}</td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                ` : ''}
-            `;
-            
-            document.getElementById('customerModal').style.display = 'block';
-        }
-
-        // Show pending payments
-        function showPendingPayments() {
-            const pendingPaymentsList = document.getElementById('pendingPaymentsList');
-            pendingPaymentsList.innerHTML = debtsData.map(debt => `
-                <div class="customer-item" onclick="showPaymentModal('${debt.customerPhone}')" style="cursor: pointer; border-left: 4px solid var(--danger-color);">
-                    <div class="customer-name">${debt.customerName} ${debt.customerSurname}</div>
-                    <div class="customer-info">
-                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="color: var(--info-color);">
-                            <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
-                        </svg>
-                        ${debt.customerPhone} | 
-                        Toplam: ${debt.totalAmount.toLocaleString('tr-TR')} ₺ | 
-                        Ödenen: ${debt.paidAmount.toLocaleString('tr-TR')} ₺ | 
-                        <span style="color: var(--danger-color); font-weight: 600;">Kalan: ${debt.remainingAmount.toLocaleString('tr-TR')} ₺</span>
-                    </div>
-                </div>
-            `).join('');
-            
-            document.getElementById('paymentsModal').style.display = 'block';
-        }
-
-        // Show payment modal
-        function showPaymentModal(customerPhone) {
-            const debt = debtsData.find(d => d.customerPhone === customerPhone);
-            if (!debt) return;
-
-            currentPaymentCustomer = debt;
-            
-            document.getElementById('paymentCustomerInfo').textContent = `${debt.customerName} ${debt.customerSurname} (${debt.customerPhone})`;
-            document.getElementById('paymentTotalDebt').textContent = `${debt.remainingAmount.toLocaleString('tr-TR')} ₺`;
-            document.getElementById('paymentAmount').value = debt.remainingAmount;
-            
-            // Reset payment type selection
-            selectedDebtPaymentType = 'cash';
-            document.querySelectorAll('#paymentModal .payment-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            document.querySelector('#paymentModal .payment-option').classList.add('selected');
-            
-            document.getElementById('paymentsModal').style.display = 'none';
-            document.getElementById('paymentModal').style.display = 'block';
-        }
-
-        // Process payment
-        async function processPayment() {
-            const employeeCode = document.getElementById('paymentEmployeeCode').value;
-            const employeeName = verifyEmployeeCode(employeeCode);
-            
-            if (!employeeName) {
-                showAlert('Geçersiz çalışan kodu!', 'error');
-                return;
-            }
-
-            const paymentAmount = parseFloat(document.getElementById('paymentAmount').value);
-            
-            if (paymentAmount <= 0 || paymentAmount > currentPaymentCustomer.remainingAmount) {
-                showAlert('Geçersiz ödeme tutarı!', 'error');
-                return;
-            }
-
-            // Update debt
-            const debtIndex = debtsData.findIndex(d => d.id === currentPaymentCustomer.id);
-            if (debtIndex !== -1) {
-                debtsData[debtIndex].paidAmount += paymentAmount;
-                debtsData[debtIndex].remainingAmount -= paymentAmount;
-                
-                // If fully paid, remove from debts
-                if (debtsData[debtIndex].remainingAmount <= 0) {
-                    debtsData.splice(debtIndex, 1);
-                }
-            }
-
-            // Add payment record
-            const paymentRecord = {
-                id: Date.now(),
-                date: new Date().toISOString(),
-                customerName: currentPaymentCustomer.customerName,
-                customerSurname: currentPaymentCustomer.customerSurname,
-                customerPhone: currentPaymentCustomer.customerPhone,
-                amount: paymentAmount,
-                paymentType: selectedDebtPaymentType,
-                type: 'debt_payment',
-                employee: employeeName,
-                debtId: currentPaymentCustomer.id
-            };
-
-            paymentsData.push(paymentRecord);
-            
-            await autoSave();
-            showAlert('Ödeme başarıyla alındı!', 'success');
-            closePaymentModal();
-            updateDashboard();
-        }
-
-        // Edit functions
-        function editSale(saleId) {
-            const sale = salesData.find(s => s.id === saleId);
-            if (!sale) return;
-
-            currentEditSaleId = saleId;
-            document.getElementById('editCustomerName').value = sale.customerName;
-            document.getElementById('editCustomerSurname').value = sale.customerSurname;
-            document.getElementById('editCustomerPhone').value = sale.customerPhone;
-            document.getElementById('editCarpetArea').value = sale.carpetArea;
-            document.getElementById('editSalePrice').value = sale.salePrice;
-            document.getElementById('editPaidAmount').value = sale.paidAmount;
-            
-            document.getElementById('editSaleModal').style.display = 'block';
-        }
-
-        function editExpense(expenseId) {
-            const expense = expensesData.find(e => e.id === expenseId);
-            if (!expense) return;
-
-            currentEditExpenseId = expenseId;
-            document.getElementById('editExpenseDescription').value = expense.description;
-            document.getElementById('editExpenseAmount').value = expense.amount;
-            document.getElementById('editExpenseCategory').value = expense.category;
-            
-            document.getElementById('editExpenseModal').style.display = 'block';
-        }
-
-        async function deleteSale(saleId) {
-            if (confirm('Bu satışı silmek istediğinizden emin misiniz?')) {
-                const saleIndex = salesData.findIndex(s => s.id === saleId);
-                if (saleIndex !== -1) {
-                    const sale = salesData[saleIndex];
-                    
-                    salesData.splice(saleIndex, 1);
-                    
-                    const debtIndex = debtsData.findIndex(d => d.saleId === saleId);
-                    if (debtIndex !== -1) {
-                        debtsData.splice(debtIndex, 1);
-                    }
-                    
-                    updateCustomerAfterSaleDelete(sale);
-                    
-                    await autoSave();
-                    loadAdminData();
-                    updateDashboard();
-                    showAlert('Satış silindi!', 'success');
-                }
-            }
-        }
-
-        async function deleteExpense(expenseId) {
-            if (confirm('Bu gideri silmek istediğinizden emin misiniz?')) {
-                const expenseIndex = expensesData.findIndex(e => e.id === expenseId);
-                if (expenseIndex !== -1) {
-                    expensesData.splice(expenseIndex, 1);
-                    
-                    await autoSave();
-                    loadAdminData();
-                    updateDashboard();
-                    showAlert('Gider silindi!', 'success');
-                }
-            }
-        }
-
-        function updateCustomerAfterSaleDelete(deletedSale) {
-            const customerIndex = customersData.findIndex(c => c.phone === deletedSale.customerPhone);
-            if (customerIndex !== -1) {
-                const customer = customersData[customerIndex];
-                customer.sales = customer.sales.filter(s => s.id !== deletedSale.id);
-                customer.totalPurchases -= deletedSale.salePrice;
-                
-                if (customer.sales.length === 0) {
-                    customersData.splice(customerIndex, 1);
-                } else {
-                    customer.lastPurchase = customer.sales[customer.sales.length - 1].date;
-                }
-            }
-        }
-
-        // Edit form submissions
-        document.getElementById('editSaleForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const saleIndex = salesData.findIndex(s => s.id === currentEditSaleId);
-            if (saleIndex !== -1) {
-                const oldSale = {...salesData[saleIndex]};
-                
-                const newSalePrice = parseFloat(document.getElementById('editSalePrice').value);
-                const newPaidAmount = parseFloat(document.getElementById('editPaidAmount').value);
-                
-                salesData[saleIndex].customerName = document.getElementById('editCustomerName').value;
-                salesData[saleIndex].customerSurname = document.getElementById('editCustomerSurname').value;
-                salesData[saleIndex].customerPhone = document.getElementById('editCustomerPhone').value;
-                salesData[saleIndex].carpetArea = parseFloat(document.getElementById('editCarpetArea').value);
-                salesData[saleIndex].salePrice = newSalePrice;
-                salesData[saleIndex].paidAmount = newPaidAmount;
-                
-                if (newPaidAmount < newSalePrice) {
-                    salesData[saleIndex].paymentType = 'debt';
-                } else {
-                    salesData[saleIndex].paymentType = salesData[saleIndex].paidPaymentType;
-                }
-                
-                // Handle debt logic
-                const existingDebtIndex = debtsData.findIndex(d => d.saleId === currentEditSaleId);
-                const remainingAmount = newSalePrice - newPaidAmount;
-                
-                if (remainingAmount > 0) {
-                    if (existingDebtIndex !== -1) {
-                        debtsData[existingDebtIndex].customerName = salesData[saleIndex].customerName;
-                        debtsData[existingDebtIndex].customerSurname = salesData[saleIndex].customerSurname;
-                        debtsData[existingDebtIndex].customerPhone = salesData[saleIndex].customerPhone;
-                        debtsData[existingDebtIndex].totalAmount = newSalePrice;
-                        debtsData[existingDebtIndex].paidAmount = newPaidAmount;
-                        debtsData[existingDebtIndex].remainingAmount = remainingAmount;
-                    } else {
-                        const newDebt = {
-                            id: Date.now(),
-                            saleId: currentEditSaleId,
-                            customerName: salesData[saleIndex].customerName,
-                            customerSurname: salesData[saleIndex].customerSurname,
-                            customerPhone: salesData[saleIndex].customerPhone,
-                            totalAmount: newSalePrice,
-                            paidAmount: newPaidAmount,
-                            remainingAmount: remainingAmount,
-                            date: salesData[saleIndex].date,
-                            employee: salesData[saleIndex].employee
-                        };
-                        debtsData.push(newDebt);
-                    }
-                } else {
-                    if (existingDebtIndex !== -1) {
-                        debtsData.splice(existingDebtIndex, 1);
-                    }
-                }
-                
-                updateCustomerAfterSaleEdit(oldSale, salesData[saleIndex]);
-                
-                await autoSave();
-                loadAdminData();
-                updateDashboard();
-                closeEditSale();
-                showAlert('Satış güncellendi!', 'success');
-            }
-        });
-
-        document.getElementById('editExpenseForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const expenseIndex = expensesData.findIndex(e => e.id === currentEditExpenseId);
-            if (expenseIndex !== -1) {
-                expensesData[expenseIndex].description = document.getElementById('editExpenseDescription').value;
-                expensesData[expenseIndex].amount = parseFloat(document.getElementById('editExpenseAmount').value);
-                expensesData[expenseIndex].category = document.getElementById('editExpenseCategory').value;
-                
-                await autoSave();
-                loadAdminData();
-                updateDashboard();
-                closeEditExpense();
-                showAlert('Gider güncellendi!', 'success');
-            }
-        });
-
-        function updateCustomerAfterSaleEdit(oldSale, newSale) {
-            const customerIndex = customersData.findIndex(c => c.phone === oldSale.customerPhone);
-            if (customerIndex !== -1) {
-                const customer = customersData[customerIndex];
-                
-                const saleIndex = customer.sales.findIndex(s => s.id === newSale.id);
-                if (saleIndex !== -1) {
-                    customer.totalPurchases = customer.totalPurchases - oldSale.salePrice + newSale.salePrice;
-                    customer.sales[saleIndex] = {...newSale};
-                    
-                    if (oldSale.customerPhone !== newSale.customerPhone) {
-                        customer.sales.splice(saleIndex, 1);
-                        customer.totalPurchases -= newSale.salePrice;
-                        
-                        if (customer.sales.length === 0) {
-                            customersData.splice(customerIndex, 1);
-                        }
-                        
-                        updateCustomer(newSale.customerName, newSale.customerSurname, newSale.customerPhone, newSale);
-                    }
-                }
-            }
-        }
-
-        // Generate report
-        function generateReport() {
-            const reportType = document.getElementById('reportType').value;
-            const reportDate = document.getElementById('reportDate').value || new Date().toISOString().split('T')[0];
-            
-            let filteredSales, filteredExpenses, filteredDebts, filteredPayments;
-            const targetDate = new Date(reportDate);
-
-            if (reportType === 'daily') {
-                filteredSales = salesData.filter(sale => {
-                    const saleDate = new Date(sale.date);
-                    return saleDate.toDateString() === targetDate.toDateString();
-                });
-                filteredExpenses = expensesData.filter(expense => {
-                    const expenseDate = new Date(expense.date);
-                    return expenseDate.toDateString() === targetDate.toDateString();
-                });
-                filteredDebts = debtsData.filter(debt => {
-                    const debtDate = new Date(debt.date);
-                    return debtDate.toDateString() === targetDate.toDateString();
-                });
-                filteredPayments = paymentsData.filter(payment => {
-                    const paymentDate = new Date(payment.date);
-                    return paymentDate.toDateString() === targetDate.toDateString();
-                });
-            } else if (reportType === 'monthly') {
-                filteredSales = salesData.filter(sale => {
-                    const saleDate = new Date(sale.date);
-                    return saleDate.getMonth() === targetDate.getMonth() && 
-                           saleDate.getFullYear() === targetDate.getFullYear();
-                });
-                filteredExpenses = expensesData.filter(expense => {
-                    const expenseDate = new Date(expense.date);
-                    return expenseDate.getMonth() === targetDate.getMonth() && 
-                           expenseDate.getFullYear() === targetDate.getFullYear();
-                });
-                filteredDebts = debtsData.filter(debt => {
-                    const debtDate = new Date(debt.date);
-                    return debtDate.getMonth() === targetDate.getMonth() && 
-                           debtDate.getFullYear() === targetDate.getFullYear();
-                });
-                filteredPayments = paymentsData.filter(payment => {
-                    const paymentDate = new Date(payment.date);
-                    return paymentDate.getMonth() === targetDate.getMonth() && 
-                           paymentDate.getFullYear() === targetDate.getFullYear();
-                });
-            } else {
-                filteredSales = salesData.filter(sale => {
-                    const saleDate = new Date(sale.date);
-                    return saleDate.getFullYear() === targetDate.getFullYear();
-                });
-                filteredExpenses = expensesData.filter(expense => {
-                    const expenseDate = new Date(expense.date);
-                    return expenseDate.getFullYear() === targetDate.getFullYear();
-                });
-                filteredDebts = debtsData.filter(debt => {
-                    const debtDate = new Date(debt.date);
-                    return debtDate.getFullYear() === targetDate.getFullYear();
-                });
-                filteredPayments = paymentsData.filter(payment => {
-                    const paymentDate = new Date(payment.date);
-                    return paymentDate.getFullYear() === targetDate.getFullYear();
-                });
-            }
-
-            const totalSales = filteredSales.reduce((sum, sale) => sum + sale.paidAmount, 0);
-            const totalPayments = filteredPayments.reduce((sum, payment) => sum + payment.amount, 0);
-            const totalIncome = totalSales + totalPayments;
-            const totalExpenses = filteredExpenses.reduce((sum, expense) => sum + expense.amount, 0);
-            const totalDebt = filteredDebts.reduce((sum, debt) => sum + debt.remainingAmount, 0);
-
-            const reportContent = document.getElementById('reportContent');
-            reportContent.innerHTML = `
-                <div class="section-title">
-                    <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
-                    </svg>
-                    ${reportType === 'daily' ? 'Günlük' : reportType === 'monthly' ? 'Aylık' : 'Yıllık'} Rapor
-                </div>
-                
-                <div class="stats-grid" style="margin: 2rem 0;">
-                    <div class="stat-card success-card">
-                        <div class="stat-value">${totalIncome.toLocaleString('tr-TR')}</div>
-                        <div class="stat-label">Toplam Gelir (₺)</div>
-                    </div>
-                    <div class="stat-card warning-card">
-                        <div class="stat-value">${totalExpenses.toLocaleString('tr-TR')}</div>
-                        <div class="stat-label">Gider (₺)</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">${(totalIncome - totalExpenses).toLocaleString('tr-TR')}</div>
-                        <div class="stat-label">Kar (₺)</div>
-                    </div>
-                    <div class="stat-card debt-card">
-                        <div class="stat-value">${totalDebt.toLocaleString('tr-TR')}</div>
-                        <div class="stat-label">Borç (₺)</div>
-                    </div>
-                </div>
-
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tarih</th>
-                                <th>Tür</th>
-                                <th>Açıklama</th>
-                                <th>Tutar</th>
-                                <th>Ödeme</th>
-                                <th>Çalışan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${[
-                                ...filteredSales.map(sale => ({
-                                    date: sale.date,
-                                    type: 'Satış',
-                                    description: `${sale.customerName} ${sale.customerSurname}`,
-                                    amount: sale.paidAmount,
-                                    payment: getPaymentTypeDisplay(sale.paidPaymentType),
-                                    employee: sale.employee
-                                })),
-                                ...filteredPayments.map(payment => ({
-                                    date: payment.date,
-                                    type: 'Ödeme',
-                                    description: `${payment.customerName} ${payment.customerSurname}`,
-                                    amount: payment.amount,
-                                    payment: getPaymentTypeDisplay(payment.paymentType),
-                                    employee: payment.employee
-                                })),
-                                ...filteredExpenses.map(expense => ({
-                                    date: expense.date,
-                                    type: 'Gider',
-                                    description: expense.description,
-                                    amount: -expense.amount,
-                                    payment: '-',
-                                    employee: expense.employee
-                                }))
-                            ].sort((a, b) => new Date(b.date) - new Date(a.date)).map(item => `
-                                <tr>
-                                    <td>${new Date(item.date).toLocaleDateString('tr-TR')}</td>
-                                    <td>${item.type}</td>
-                                    <td>${item.description}</td>
-                                    <td style="color: ${item.amount >= 0 ? 'var(--success-color)' : 'var(--danger-color)'}">
-                                        ${item.amount >= 0 ? '+' : ''}${item.amount.toLocaleString('tr-TR')} ₺
-                                    </td>
-                                    <td>${item.payment}</td>
-                                    <td>${item.employee}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-
-                ${filteredDebts.length > 0 ? `
-                    <div class="section-title">Bekleyen Borçlar</div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Müşteri</th>
-                                    <th>Telefon</th>
-                                    <th>Toplam</th>
-                                    <th>Ödenen</th>
-                                    <th>Kalan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${filteredDebts.map(debt => `
-                                    <tr>
-                                        <td>${debt.customerName} ${debt.customerSurname}</td>
-                                        <td>${debt.customerPhone}</td>
-                                        <td>${debt.totalAmount.toLocaleString('tr-TR')} ₺</td>
-                                        <td>${debt.paidAmount.toLocaleString('tr-TR')} ₺</td>
-                                        <td style="color: var(--danger-color); font-weight: 600;">${debt.remainingAmount.toLocaleString('tr-TR')} ₺</td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                ` : ''}
-            `;
-        }
-
-        // Download report
-        function downloadReport() {
-            const reportContent = document.getElementById('reportContent');
-            if (!reportContent.innerHTML) {
-                showAlert('Önce rapor oluşturun!', 'error');
-                return;
-            }
-
-            const reportType = document.getElementById('reportType').value;
-            
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(`
-                <html>
-                <head>
-                    <title>ERT HALI - ${reportType} Rapor</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; margin: 20px; color: #000; }
-                        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                        th { background-color: #f2f2f2; }
-                        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 20px 0; }
-                        .stat-card { border: 1px solid #ddd; padding: 20px; text-align: center; }
-                        .stat-value { font-size: 24px; font-weight: bold; }
-                        h1, h3 { color: #333; }
-                    </style>
-                </head>
-                <body>
-                    <h1>ERT HALI</h1>
-                    ${reportContent.innerHTML}
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.print();
-        }
-
-        // Clear all data
-        async function clearAllData() {
-            if (confirm('Tüm verileri silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!')) {
-                salesData = [];
-                expensesData = [];
-                customersData = [];
-                debtsData = [];
-                paymentsData = [];
-                
-                await autoSave();
-                updateDashboard();
-                if (isAdminLoggedIn) loadAdminData();
-                showAlert('Tüm veriler temizlendi!', 'success');
-            }
-        }
-
-        // Modal functions
-        function closeEditSale() {
-            document.getElementById('editSaleModal').style.display = 'none';
-            currentEditSaleId = null;
-        }
-
-        function closeEditExpense() {
-            document.getElementById('editExpenseModal').style.display = 'none';
-            currentEditExpenseId = null;
-        }
-
-        function closeCustomerModal() {
-            document.getElementById('customerModal').style.display = 'none';
-        }
-
-        function closePaymentsModal() {
-            document.getElementById('paymentsModal').style.display = 'none';
-        }
-
-        function closePaymentModal() {
-            document.getElementById('paymentModal').style.display = 'none';
-            document.getElementById('paymentEmployeeCode').value = '';
-            currentPaymentCustomer = null;
-        }
-
-        // Show alert
-        function showAlert(message, type) {
-            const alertDiv = document.createElement('div');
-            alertDiv.className = `alert alert-${type}`;
-            alertDiv.innerHTML = `
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
-                    ${type === 'success' ? 
-                        '<path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>' : 
-                        '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>'
-                    }
-                </svg>
-                ${message}
-            `;
-            
-            document.body.appendChild(alertDiv);
-            alertDiv.style.position = 'fixed';
-            alertDiv.style.top = '80px';
-            alertDiv.style.left = '50%';
-            alertDiv.style.transform = 'translateX(-50%)';
-            alertDiv.style.zIndex = '9999';
-            alertDiv.style.maxWidth = '90%';
-            alertDiv.style.display = 'flex';
-            alertDiv.style.alignItems = 'center';
-            
-            setTimeout(() => {
-                alertDiv.remove();
-            }, 4000);
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            initApp();
-            setupCustomerAutocomplete();
-        });
-
-        // Close modals when clicking outside
-        window.onclick = function(event) {
-            const modals = document.querySelectorAll('.modal');
-            modals.forEach(modal => {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-        }
     </script>
 </body>
 </html>
