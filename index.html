@@ -12,6 +12,19 @@
     <link rel="manifest" href="/manifest.json">
 
     <style>
+        :root {
+            --primary-color: #000;
+            --secondary-color: #333;
+            --text-color: #666;
+            --background-color: #f8f8f8;
+            --header-bg: rgba(248, 248, 248, 0.95);
+            --header-scrolled-bg: rgba(255, 255, 255, 0.98);
+            --border-radius-sm: 10px;
+            --border-radius-md: 25px;
+            --border-radius-lg: 60px;
+            --transition-speed: 0.3s;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -21,8 +34,9 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            color: #333;
+            color: var(--secondary-color);
             overflow-x: hidden;
+            background-color: var(--background-color);
         }
 
         /* Header Styles */
@@ -30,14 +44,14 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(248, 248, 248, 0.95);
+            background: var(--header-bg);
             backdrop-filter: blur(10px);
             z-index: 1000;
-            transition: all 0.3s ease;
+            transition: all var(--transition-speed) ease;
         }
 
         .header.scrolled {
-            background: rgba(255, 255, 255, 0.98);
+            background: var(--header-scrolled-bg);
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
         }
 
@@ -55,8 +69,8 @@
             align-items: center;
             gap: 0.5rem;
             font-weight: bold;
-            font-size: 1.5rem;
-            color: #000;
+            font-size: clamp(1.2rem, 3vw, 1.5rem); /* Responsive font size */
+            color: var(--primary-color);
         }
 
         .logo-dots {
@@ -65,10 +79,10 @@
         }
 
         .dot {
-            width: 10px;
-            height: 10px;
+            width: clamp(8px, 2vw, 10px); /* Responsive dot size */
+            height: clamp(8px, 2vw, 10px);
             border-radius: 50%;
-            background: #000;
+            background: var(--primary-color);
         }
 
         .nav-right {
@@ -83,13 +97,19 @@
             gap: 0.5rem;
             padding: 0.5rem 1rem;
             background: rgba(0, 0, 0, 0.05);
-            border-radius: 25px;
-            font-size: 0.9rem;
+            border-radius: var(--border-radius-md);
+            font-size: clamp(0.8rem, 2vw, 0.9rem); /* Responsive font size */
+            cursor: pointer;
+            transition: background var(--transition-speed) ease;
+        }
+
+        .user-info:hover {
+            background: rgba(0, 0, 0, 0.1);
         }
 
         .user-avatar {
-            width: 32px;
-            height: 32px;
+            width: clamp(28px, 6vw, 32px); /* Responsive avatar size */
+            height: clamp(28px, 6vw, 32px);
             border-radius: 50%;
             background: linear-gradient(135deg, #667eea, #764ba2);
             display: flex;
@@ -97,47 +117,45 @@
             justify-content: center;
             color: white;
             font-weight: bold;
-            font-size: 0.8rem;
+            font-size: clamp(0.7rem, 1.5vw, 0.8rem); /* Responsive font size */
+            flex-shrink: 0; /* Prevent shrinking on small screens */
         }
 
         .google-signin {
-            background: #4285f4;
-            color: white;
-            border: none;
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
             padding: 0.75rem 1.5rem;
-            border-radius: 25px;
+            border-radius: var(--border-radius-md);
             font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
+            transition: all var(--transition-speed) ease;
+            font-size: clamp(0.8rem, 2vw, 0.9rem); /* Responsive font size */
         }
 
         .google-signin:hover {
-            background: #3367d6;
+            background: var(--primary-color);
+            color: white;
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
+        .google-signin svg {
+            fill: currentColor; /* Use current text color for SVG */
+        }
+
+        /* Remove menu toggle for all screen sizes */
         .menu-toggle {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 4px;
-        }
-
-        .menu-line {
-            width: 24px;
-            height: 2px;
-            background: #000;
-            transition: all 0.3s ease;
+            display: none !important; 
         }
 
         /* Hero Section */
         .hero {
             min-height: 100vh;
-            background: #f8f8f8;
+            background: var(--background-color);
             padding: 8rem 2rem 4rem;
             position: relative;
             overflow: hidden;
@@ -157,8 +175,8 @@
             position: absolute;
             right: -10%;
             top: 10%;
-            width: 500px;
-            height: 500px;
+            width: clamp(300px, 50vw, 500px); /* Responsive blob size */
+            height: clamp(300px, 50vw, 500px);
             background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb);
             border-radius: 50%;
             opacity: 0.7;
@@ -170,8 +188,8 @@
             position: absolute;
             left: -15%;
             bottom: 20%;
-            width: 300px;
-            height: 300px;
+            width: clamp(200px, 30vw, 300px); /* Responsive blob size */
+            height: clamp(200px, 30vw, 300px);
             background: linear-gradient(135deg, #a8edea, #fed6e3);
             border-radius: 50%;
             opacity: 0.5;
@@ -186,7 +204,7 @@
         }
 
         .hero-title {
-            font-size: clamp(4rem, 12vw, 8rem);
+            font-size: clamp(3rem, 10vw, 8rem); /* Adjusted for mobile */
             font-weight: 300;
             line-height: 0.9;
             margin-bottom: 3rem;
@@ -198,8 +216,8 @@
         }
 
         .hero-subtitle {
-            font-size: clamp(1.2rem, 4vw, 1.8rem);
-            color: #666;
+            font-size: clamp(1rem, 3vw, 1.8rem); /* Adjusted for mobile */
+            color: var(--text-color);
             margin-bottom: 4rem;
             max-width: 700px;
             line-height: 1.4;
@@ -208,7 +226,7 @@
         .hero-actions {
             display: flex;
             flex-wrap: wrap;
-            gap: 2rem;
+            gap: 1.5rem; /* Adjusted gap for mobile */
             align-items: center;
         }
 
@@ -216,22 +234,22 @@
             display: inline-flex;
             align-items: center;
             gap: 1rem;
-            padding: 1.5rem 3rem;
+            padding: 1.2rem 2.5rem; /* Adjusted padding for mobile */
             background: transparent;
-            border: 3px solid #000;
-            border-radius: 60px;
+            border: 2px solid var(--primary-color); /* Thinner border */
+            border-radius: var(--border-radius-lg);
             font-weight: 700;
             text-decoration: none;
-            color: #000;
-            transition: all 0.4s ease;
+            color: var(--primary-color);
+            transition: all var(--transition-speed) ease;
             position: relative;
             overflow: hidden;
-            font-size: clamp(1rem, 3vw, 1.2rem);
-            min-height: 70px;
+            font-size: clamp(0.9rem, 2.5vw, 1.2rem); /* Adjusted for mobile */
+            min-height: clamp(50px, 10vw, 70px); /* Responsive min-height */
         }
 
         .cta-button:hover {
-            background: #000;
+            background: var(--primary-color);
             color: #fff;
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
@@ -257,25 +275,27 @@
 
         .hero-stats {
             display: flex;
-            gap: 3rem;
+            gap: 2rem; /* Adjusted gap for mobile */
             margin-top: 4rem;
             flex-wrap: wrap;
         }
 
         .stat-item {
             text-align: center;
+            flex: 1; /* Allow items to grow/shrink */
+            min-width: 100px; /* Minimum width for stats */
         }
 
         .stat-number {
-            font-size: clamp(2rem, 6vw, 3rem);
+            font-size: clamp(1.8rem, 5vw, 3rem); /* Adjusted for mobile */
             font-weight: 700;
-            color: #000;
+            color: var(--primary-color);
             display: block;
         }
 
         .stat-label {
-            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-            color: #666;
+            font-size: clamp(0.8rem, 2vw, 1.1rem); /* Adjusted for mobile */
+            color: var(--text-color);
             margin-top: 0.5rem;
         }
 
@@ -297,24 +317,24 @@
         }
 
         .floating-element:nth-child(1) {
-            width: 20px;
-            height: 20px;
+            width: clamp(15px, 3vw, 20px);
+            height: clamp(15px, 3vw, 20px);
             top: 20%;
             left: 10%;
             animation-delay: 0s;
         }
 
         .floating-element:nth-child(2) {
-            width: 15px;
-            height: 15px;
+            width: clamp(10px, 2vw, 15px);
+            height: clamp(10px, 2vw, 15px);
             top: 60%;
             left: 80%;
             animation-delay: 2s;
         }
 
         .floating-element:nth-child(3) {
-            width: 25px;
-            height: 25px;
+            width: clamp(20px, 4vw, 25px);
+            height: clamp(20px, 4vw, 25px);
             top: 80%;
             left: 20%;
             animation-delay: 4s;
@@ -327,112 +347,101 @@
             75% { transform: translateY(-30px) translateX(5px) rotate(270deg); }
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .nav {
-                padding: 1.5rem;
-            }
-
-            .logo {
-                font-size: 1.8rem;
-            }
-
-            .dot {
-                width: 12px;
-                height: 12px;
-            }
-
-            .google-signin {
-                padding: 1rem 1.5rem;
-                font-size: 1rem;
-            }
-
-            .user-info {
-                padding: 0.75rem 1.25rem;
-                font-size: 1rem;
-            }
-
-            .user-avatar {
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
-            }
-
-            .hero {
-                padding: 10rem 1.5rem 4rem;
-                text-align: center;
-            }
-
-            .hero-title {
-                margin-bottom: 2rem;
-            }
-
-            .hero-subtitle {
-                margin-bottom: 3rem;
-            }
-
-            .cta-button {
-                padding: 2rem 3rem;
-                font-size: 1.3rem;
-                min-height: 80px;
-                width: 100%;
-                justify-content: center;
-            }
-
-            .hero-stats {
-                gap: 2rem;
-                justify-content: center;
-                margin-top: 3rem;
-            }
-
-            .stat-item {
-                flex: 1;
-                min-width: 120px;
-            }
-
-            .gradient-blob {
-                width: 300px;
-                height: 300px;
-                right: -20%;
-            }
-
-            .gradient-blob-2 {
-                width: 200px;
-                height: 200px;
-                left: -25%;
-            }
-
-            .menu-toggle {
-                display: flex;
-            }
-
-            .nav-right {
-                gap: 1.5rem;
-            }
+        /* Contact Panel Styles */
+        .contact-panel-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
         }
 
-        @media (max-width: 480px) {
-            .nav {
-                padding: 1rem;
-            }
+        .contact-panel-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
 
-            .hero {
-                padding: 8rem 1rem 3rem;
-            }
+        .contact-panel {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius-sm);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform var(--transition-speed) ease-out, opacity var(--transition-speed) ease-out;
+            position: relative;
+        }
 
-            .hero-actions {
-                gap: 1.5rem;
-            }
+        .contact-panel-overlay.active .contact-panel {
+            transform: translateY(0);
+            opacity: 1;
+        }
 
-            .hero-stats {
-                gap: 1.5rem;
-                margin-top: 2rem;
-            }
+        .contact-panel h2 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
 
-            .google-signin {
-                padding: 0.75rem 1.25rem;
-                font-size: 0.9rem;
-            }
+        .contact-panel p {
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .contact-panel .contact-info {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-panel .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color var(--transition-speed) ease;
+        }
+
+        .contact-panel .contact-item:hover {
+            color: #667eea; /* A subtle hover color */
+        }
+
+        .contact-panel .contact-item svg {
+            width: clamp(18px, 4vw, 20px);
+            height: clamp(18px, 4vw, 20px);
+            fill: currentColor;
+        }
+
+        .contact-panel .close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--secondary-color);
+            transition: color var(--transition-speed) ease;
+        }
+
+        .contact-panel .close-button:hover {
+            color: var(--primary-color);
         }
 
         /* Loading Animation */
@@ -442,7 +451,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #f8f8f8;
+            background: var(--background-color);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -459,7 +468,7 @@
             width: 50px;
             height: 50px;
             border: 4px solid #f3f3f3;
-            border-top: 4px solid #000;
+            border-top: 4px solid var(--primary-color);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -467,6 +476,45 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .nav {
+                padding: 1rem 1.5rem; /* Smaller padding */
+            }
+
+            .nav-right {
+                gap: 0.75rem; /* Smaller gap */
+            }
+
+            .hero {
+                padding: 8rem 1.5rem 3rem; /* Smaller padding */
+                text-align: center;
+            }
+
+            .hero-actions {
+                justify-content: center; /* Center buttons on mobile */
+            }
+
+            .cta-button {
+                width: 100%; /* Full width buttons */
+                max-width: 300px; /* Max width for buttons */
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav {
+                padding: 0.75rem 1rem;
+            }
+
+            .hero {
+                padding: 7rem 1rem 2rem;
+            }
         }
     </style>
 </head>
@@ -500,11 +548,7 @@
                     </svg>
                     Google ile Giriş
                 </button>
-                <div class="menu-toggle" id="menuToggle">
-                    <div class="menu-line"></div>
-                    <div class="menu-line"></div>
-                    <div class="menu-line"></div>
-                </div>
+                <!-- Menu toggle removed as requested -->
             </div>
         </nav>
     </header>
@@ -552,6 +596,33 @@
         </div>
     </section>
 
+    <!-- Contact Panel -->
+    <div class="contact-panel-overlay" id="contactPanelOverlay">
+        <div class="contact-panel">
+            <button class="close-button" id="closeContactPanel">&times;</button>
+            <h2>Müşteri Danışmanına Ulaşın</h2>
+            <p>Size yardımcı olmaktan mutluluk duyarız. Aşağıdaki iletişim kanallarından bize ulaşabilirsiniz:</p>
+            <div class="contact-info">
+                <a href="tel:+905551234567" class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    +90 555 123 45 67
+                </a>
+                <a href="mailto:info@theleng.com" class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    info@theleng.com
+                </a>
+                <a href="https://wa.me/905551234567" target="_blank" rel="noopener noreferrer" class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                    WhatsApp
+                </a>
+                <a href="https://twitter.com/theleng" target="_blank" rel="noopener noreferrer" class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17-18 11.6 2.2.1 4.4-.6 6-2 1.1-.9 1.8-2.2 2.1-3.7C3.2 15.2 2 13 2 12c2.1 1.2 4.4 1.8 6.7 1.7-1.1-3.9 1.5-7.5 5.4-8.5 3.6-.8 7.1 2 7.1 2z"/></svg>
+                    Twitter
+                </a>
+            </div>
+        </div>
+    </div>
+
     <script>
         // PWA Service Worker Registration
         if ('serviceWorker' in navigator) {
@@ -594,7 +665,7 @@
                 name: "Yusuf Ertek",
                 panelLink: "https://sadecekuran.com.tr",
                 welcomeTitle: "HOŞGELDİNİZ Yusuf Ertek BEY",
-                welcomeSubtitle: "PANELİNİZE BUTONA BASARAK GİREBİLİRSİNİZ."
+                welcomeSubtitle: "Aşağıdaki butonda panele giriş yapabilirsiniz."
             },
             // Add more user configurations here
             // "another.user@example.com": {
@@ -633,6 +704,7 @@
             const userInfo = document.getElementById('userInfo');
             const userName = document.getElementById('userName');
             const userAvatar = document.getElementById('userAvatar');
+            const heroActionsDiv = heroContentDiv.querySelector('.hero-actions');
 
             // Hide sign-in button
             signInButton.style.display = 'none';
@@ -664,6 +736,23 @@
                 showWelcomeMessage();
                 restoreDefaultHeroContent();
             }
+
+            // Add "Müşteri Danışmanına Ulaş" button
+            let contactButton = document.getElementById('contactAdvisorButton');
+            if (!contactButton) {
+                contactButton = document.createElement('button');
+                contactButton.id = 'contactAdvisorButton';
+                contactButton.className = 'cta-button'; // Use existing CTA button style
+                contactButton.innerHTML = `
+                    MÜŞTERİ DANIŞMANINA ULAŞ
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                `;
+                contactButton.addEventListener('click', showContactPanel);
+                heroActionsDiv.appendChild(contactButton);
+            }
+            contactButton.style.display = 'inline-flex'; // Ensure it's visible
         }
 
         function showWelcomeMessage() {
@@ -717,7 +806,24 @@
                 </div>
                 <div class="hero-stats" style="display: none;"></div> <!-- Hide stats for personalized view -->
             `;
-            // No need to re-attach event listeners for the new button as it's a direct link.
+            // Re-select heroActionsDiv after innerHTML change
+            const heroActionsDiv = heroContentDiv.querySelector('.hero-actions');
+            // Add "Müşteri Danışmanına Ulaş" button here as well
+            let contactButton = document.getElementById('contactAdvisorButton');
+            if (!contactButton) {
+                contactButton = document.createElement('button');
+                contactButton.id = 'contactAdvisorButton';
+                contactButton.className = 'cta-button'; // Use existing CTA button style
+                contactButton.innerHTML = `
+                    MÜŞTERİ DANIŞMANINA ULAŞ
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                `;
+                contactButton.addEventListener('click', showContactPanel);
+                heroActionsDiv.appendChild(contactButton);
+            }
+            contactButton.style.display = 'inline-flex';
         }
 
         function restoreDefaultHeroContent() {
@@ -727,6 +833,11 @@
             if (defaultCtaButton) {
                 defaultCtaButton.removeEventListener('click', defaultCtaButtonHandler); // Remove old listener
                 defaultCtaButton.addEventListener('click', defaultCtaButtonHandler); // Add new listener
+            }
+            // Hide contact advisor button if it exists
+            const contactButton = document.getElementById('contactAdvisorButton');
+            if (contactButton) {
+                contactButton.style.display = 'none';
             }
         }
 
@@ -830,10 +941,23 @@
             this.style.transform = 'translateY(-5px) scale(1)';
         });
 
-        // Mobile menu toggle (for future use)
-        document.getElementById('menuToggle').addEventListener('click', function() {
-            this.classList.toggle('active');
-            // Add mobile menu functionality here if needed
+        // Contact Panel Logic
+        const contactPanelOverlay = document.getElementById('contactPanelOverlay');
+        const closeContactPanelButton = document.getElementById('closeContactPanel');
+
+        function showContactPanel() {
+            contactPanelOverlay.classList.add('active');
+        }
+
+        function hideContactPanel() {
+            contactPanelOverlay.classList.remove('active');
+        }
+
+        closeContactPanelButton.addEventListener('click', hideContactPanel);
+        contactPanelOverlay.addEventListener('click', (e) => {
+            if (e.target === contactPanelOverlay) {
+                hideContactPanel();
+            }
         });
 
         // Add some random floating animations
