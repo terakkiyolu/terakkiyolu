@@ -4,7 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THE LENG - İDDİA EDİYORUZ EN İYİSİYİZ</title>
+    <!-- PWA Manifest ve Tema Rengi -->
+    <link rel="manifest" href="data:application/json;base64,eyJpY29ucyI6W3sicHVycG9zZSI6Im1hc2thYmxlIGFueSIsInNpemVzIjoiMTkyeDE5MiIsInNyYyI6Imljb24tMTkyeDE5Mi5wbmciLCJ0eXBlIjoiaW1hZ2UvcG5nIn0seyJwdXJwb3NlIjoibWFza2FibGUgYW55Iiwic2l6ZXMiOiI1MTJ4NTEyIiwic3JjIjoiaWNvbi01MTJ4NTEyLnBuZyIsInR5cGUiOiJpbWFnZS9wbmcifV0sIm5hbWUiOiJUSEUgTEVORyAtIMSwRERJQSBFRElZT1JVUyBFTiDEw1lJSlx1MDBlNlMiLCJzaG9ydF9uYW1lIjoiVEhFIExFTkciLCJzdGFydF91cmwiOiIvIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzBmMGYwZiIsInRoZW1lX2NvbG9yIjoiIzAwMDAwMCIsIm9yaWVudGF0aW9uIjoicG9ydHJhaXQtcHJpbWFyeSIsImNhdGVnb3JpZXMiOlsiYnVzaW5lc3MiLCJwcm9kdWN0aXZpdHkiLCJ0ZWNobm9sb2d5Il0sImxhbmciOiJ0ciIsImRpciI6Imx0ciIsImRlc2NyaXB0aW9uIjoiRGlqaXRhbCBkXHUwMGY1bnlhZGEgZmFyayB5YXJhdGFuIHRla25vbG9qaXkgxZ9pcmtldGkifQ==">
+    <meta name="theme-color" content="#000000">
+    <link rel="apple-touch-icon" href="icon-192x192.png"> <!-- Bu dosyanın ayrı olması gerekir -->
+
+    <!-- Google Sign-In Kütüphanesi -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <style>
         * {
             margin: 0;
@@ -24,15 +31,16 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(248, 248, 248, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
             z-index: 1000;
             transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .header.scrolled {
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.98);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
         }
 
         .nav {
@@ -47,22 +55,33 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-weight: bold;
+            gap: 0.75rem;
+            font-weight: 800;
             font-size: 1.5rem;
-            color: #000;
+            color: #fff;
+            letter-spacing: -1px;
         }
 
         .logo-dots {
             display: flex;
-            gap: 0.25rem;
+            gap: 0.3rem;
         }
 
         .dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background: #000;
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            animation: pulse 2s infinite alternate;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.2); }
         }
 
         .nav-right {
@@ -74,11 +93,21 @@
         .user-info {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: 25px;
+            gap: 0.75rem;
+            padding: 0.75rem 1.25rem;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
             font-size: 0.9rem;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .user-info:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1));
+            transform: translateY(-2px);
         }
 
         .user-avatar {
@@ -92,49 +121,139 @@
             color: white;
             font-weight: bold;
             font-size: 0.8rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .google-signin {
-            background: #4285f4;
+            background: linear-gradient(135deg, #000, #333);
             color: white;
-            border: none;
+            border: 2px solid rgba(255, 255, 255, 0.2);
             padding: 0.75rem 1.5rem;
-            border-radius: 25px;
+            border-radius: 50px;
             font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             transition: all 0.3s ease;
             font-size: 0.9rem;
+            backdrop-filter: blur(10px);
         }
 
         .google-signin:hover {
-            background: #3367d6;
+            background: linear-gradient(135deg, #333, #555);
             transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
 
-        .menu-toggle {
+        /* User Panel Modal */
+        .user-panel-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
             display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 4px;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        .menu-line {
-            width: 24px;
-            height: 2px;
-            background: #000;
+        .user-panel-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .user-panel {
+            background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 90%;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .user-panel-overlay.show .user-panel {
+            transform: scale(1);
+        }
+
+        .panel-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .panel-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 2rem;
+            margin: 0 auto 1rem;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .panel-welcome {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .panel-subtitle {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .panel-button {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
             transition: all 0.3s ease;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .panel-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .panel-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .panel-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
         }
 
         /* Hero Section */
         .hero {
             min-height: 100vh;
-            background: #f8f8f8;
+            background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
             padding: 8rem 2rem 4rem;
             position: relative;
-            overflow: hidden;
             display: flex;
             align-items: center;
         }
@@ -155,7 +274,7 @@
             height: 500px;
             background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb);
             border-radius: 50%;
-            opacity: 0.7;
+            opacity: 0.3;
             filter: blur(80px);
             animation: float 8s ease-in-out infinite;
         }
@@ -168,7 +287,7 @@
             height: 300px;
             background: linear-gradient(135deg, #a8edea, #fed6e3);
             border-radius: 50%;
-            opacity: 0.5;
+            opacity: 0.2;
             filter: blur(60px);
             animation: float 6s ease-in-out infinite reverse;
         }
@@ -180,22 +299,22 @@
         }
 
         .hero-title {
-            font-size: clamp(4rem, 12vw, 8rem);
+            font-size: clamp(3rem, 8vw, 6rem);
             font-weight: 300;
             line-height: 0.9;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             letter-spacing: -3px;
-            background: linear-gradient(135deg, #000, #333, #000);
+            background: linear-gradient(135deg, #fff, #ccc, #fff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .hero-subtitle {
-            font-size: clamp(1.2rem, 4vw, 1.8rem);
-            color: #666;
-            margin-bottom: 4rem;
-            max-width: 700px;
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            color: #ccc;
+            margin-bottom: 3rem;
+            max-width: 600px;
             line-height: 1.4;
         }
 
@@ -210,43 +329,22 @@
             display: inline-flex;
             align-items: center;
             gap: 1rem;
-            padding: 1.5rem 3rem;
-            background: transparent;
-            border: 3px solid #000;
-            border-radius: 60px;
+            padding: 1.25rem 2.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 50px;
             font-weight: 700;
             text-decoration: none;
-            color: #000;
+            color: #fff;
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
-            font-size: clamp(1rem, 3vw, 1.2rem);
-            min-height: 70px;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
         }
 
         .cta-button:hover {
-            background: #000;
-            color: #fff;
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border: 2px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            animation: pulse 3s infinite;
-        }
-
-        @keyframes pulse {
-            0% { width: 0; height: 0; opacity: 1; }
-            100% { width: 150px; height: 150px; opacity: 0; }
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
         }
 
         .hero-stats {
@@ -261,171 +359,62 @@
         }
 
         .stat-number {
-            font-size: clamp(2rem, 6vw, 3rem);
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
             font-weight: 700;
-            color: #000;
+            color: #fff;
             display: block;
         }
 
         .stat-label {
-            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-            color: #666;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            color: #ccc;
             margin-top: 0.5rem;
-        }
-
-        .floating-elements {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .floating-element {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: floatRandom 10s infinite linear;
-        }
-
-        .floating-element:nth-child(1) {
-            width: 20px;
-            height: 20px;
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .floating-element:nth-child(2) {
-            width: 15px;
-            height: 15px;
-            top: 60%;
-            left: 80%;
-            animation-delay: 2s;
-        }
-
-        .floating-element:nth-child(3) {
-            width: 25px;
-            height: 25px;
-            top: 80%;
-            left: 20%;
-            animation-delay: 4s;
-        }
-
-        @keyframes floatRandom {
-            0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
-            25% { transform: translateY(-20px) translateX(10px) rotate(90deg); }
-            50% { transform: translateY(-10px) translateX(-15px) rotate(180deg); }
-            75% { transform: translateY(-30px) translateX(5px) rotate(270deg); }
         }
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .nav {
-                padding: 1.5rem;
+                padding: 1rem 1.5rem;
             }
 
             .logo {
-                font-size: 1.8rem;
-            }
-
-            .dot {
-                width: 12px;
-                height: 12px;
+                font-size: 1.3rem;
             }
 
             .google-signin {
-                padding: 1rem 1.5rem;
-                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
             }
 
             .user-info {
-                padding: 0.75rem 1.25rem;
-                font-size: 1rem;
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
             }
 
             .user-avatar {
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
+                width: 28px;
+                height: 28px;
+                font-size: 0.7rem;
             }
 
             .hero {
-                padding: 10rem 1.5rem 4rem;
-                text-align: center;
-            }
-
-            .hero-title {
-                margin-bottom: 2rem;
-            }
-
-            .hero-subtitle {
-                margin-bottom: 3rem;
-            }
-
-            .cta-button {
-                padding: 2rem 3rem;
-                font-size: 1.3rem;
-                min-height: 80px;
-                width: 100%;
-                justify-content: center;
+                padding: 7rem 1.5rem 3rem;
             }
 
             .hero-stats {
                 gap: 2rem;
                 justify-content: center;
-                margin-top: 3rem;
             }
 
-            .stat-item {
-                flex: 1;
-                min-width: 120px;
+            .user-panel {
+                padding: 1.5rem;
+                margin: 1rem;
             }
 
-            .gradient-blob {
-                width: 300px;
-                height: 300px;
-                right: -20%;
-            }
-
-            .gradient-blob-2 {
-                width: 200px;
-                height: 200px;
-                left: -25%;
-            }
-
-            .menu-toggle {
-                display: flex;
-            }
-
-            .nav-right {
-                gap: 1.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .nav {
-                padding: 1rem;
-            }
-
-            .hero {
-                padding: 8rem 1rem 3rem;
-            }
-
-            .hero-actions {
-                gap: 1.5rem;
-            }
-
-            .hero-stats {
-                gap: 1.5rem;
-                margin-top: 2rem;
-            }
-
-            .google-signin {
-                padding: 0.75rem 1.25rem;
-                font-size: 0.9rem;
+            .panel-avatar {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
             }
         }
 
@@ -436,7 +425,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #f8f8f8;
+            background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -452,8 +441,8 @@
         .spinner {
             width: 50px;
             height: 50px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #000;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #667eea;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -461,6 +450,32 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+
+        /* PWA Install Button */
+        .pwa-install {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: none;
+        }
+
+        .pwa-install:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .pwa-install.show {
+            display: block;
         }
     </style>
 </head>
@@ -486,7 +501,7 @@
                     <span id="userName"></span>
                 </div>
                 <button id="googleSignIn" class="google-signin">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                         <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                         <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
@@ -494,24 +509,41 @@
                     </svg>
                     Google ile Giriş
                 </button>
-                <div class="menu-toggle" id="menuToggle">
-                    <div class="menu-line"></div>
-                    <div class="menu-line"></div>
-                    <div class="menu-line"></div>
-                </div>
             </div>
         </nav>
     </header>
+
+    <!-- User Panel Modal -->
+    <div class="user-panel-overlay" id="userPanelOverlay">
+        <div class="user-panel">
+            <div class="panel-header">
+                <div class="panel-avatar" id="panelAvatar"></div>
+                <div class="panel-welcome" id="panelWelcome"></div>
+                <div class="panel-subtitle" id="panelSubtitle"></div>
+            </div>
+            <a href="#" class="panel-button" id="panelActionButton" target="_blank">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                    <polyline points="15,3 21,3 21,9"/>
+                    <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+                Panele Giriş Yap
+            </a>
+            <button class="panel-button panel-close" onclick="closeUserPanel()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16,17 21,12 16,7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                Çıkış Yap
+            </button>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="gradient-blob"></div>
         <div class="gradient-blob-2"></div>
-        <div class="floating-elements">
-            <div class="floating-element"></div>
-            <div class="floating-element"></div>
-            <div class="floating-element"></div>
-        </div>
         <div class="hero-content">
             <h1 class="hero-title">
                 İDDİA EDİYORUZ<br>
@@ -524,7 +556,7 @@
             <div class="hero-actions">
                 <a href="#contact" class="cta-button">
                     BAŞLAYALIM
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="m9 18 6-6-6-6"/>
                     </svg>
                 </a>
@@ -546,7 +578,73 @@
         </div>
     </section>
 
+    <!-- PWA Install Button -->
+    <button class="pwa-install" id="pwaInstall" title="Uygulamayı Yükle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7,10 12,15 17,10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+    </button>
+
     <script>
+        // Service Worker (PWA için ayrı bir dosyada olması önerilir)
+        const CACHE_NAME = 'the-leng-v1';
+        const urlsToCache = [
+          '/',
+          '/index.html',
+          // '/manifest.json', // Bu dosya ayrı olmalı
+          // '/icon-192x192.png', // Bu dosyalar ayrı olmalı
+          // '/icon-512x512.png' // Bu dosyalar ayrı olmalı
+        ];
+
+        self.addEventListener('install', (event) => {
+          event.waitUntil(
+            caches.open(CACHE_NAME)
+              .then((cache) => cache.addAll(urlsToCache))
+          );
+        });
+
+        self.addEventListener('fetch', (event) => {
+          event.respondWith(
+            caches.match(event.request)
+              .then((response) => {
+                if (response) {
+                  return response;
+                }
+                return fetch(event.request);
+              })
+          );
+        });
+
+        // Client Database - JSON-like structure for easy management
+        const CLIENT_DATABASE = {
+            "m.yusufertek@gmail.com": {
+                name: "Yusuf Ertek",
+                title: "BEY",
+                url: "https://sadecekuran.com.tr",
+                buttonText: "Sadece Kuran'a Git"
+            },
+            "admin@theleng.com": {
+                name: "Admin",
+                title: "BEY",
+                url: "https://admin.theleng.com",
+                buttonText: "Admin Paneline Git"
+            },
+            "test@example.com": {
+                name: "Test Kullanıcı",
+                title: "HANIM",
+                url: "https://example.com",
+                buttonText: "Test Paneline Git"
+            },
+            "demo@theleng.com": {
+                name: "Demo User",
+                title: "BEY",
+                url: "https://demo.theleng.com",
+                buttonText: "Demo Paneline Git"
+            }
+        };
+
         // Loading screen
         window.addEventListener('load', () => {
             setTimeout(() => {
@@ -577,7 +675,6 @@
         }
 
         function handleCredentialResponse(response) {
-            // Decode JWT token to get user info
             const payload = JSON.parse(atob(response.credential.split('.')[1]));
             
             currentUser = {
@@ -610,33 +707,110 @@
                 userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
             }
 
-            // Add click event to user info for sign out
-            userInfo.addEventListener('click', signOut);
+            // Add click event to user info for panel
+            userInfo.addEventListener('click', showUserPanel);
             userInfo.style.cursor = 'pointer';
-            userInfo.title = 'Çıkış yapmak için tıklayın';
+            userInfo.title = 'Profil panelini açmak için tıklayın';
 
             // Show welcome message
             showWelcomeMessage();
         }
 
+        function showUserPanel() {
+            const overlay = document.getElementById('userPanelOverlay');
+            const panelAvatar = document.getElementById('panelAvatar');
+            const panelWelcome = document.getElementById('panelWelcome');
+            const panelSubtitle = document.getElementById('panelSubtitle');
+            const panelActionButton = document.getElementById('panelActionButton');
+
+            // Check if user is in client database
+            const clientData = CLIENT_DATABASE[currentUser.email];
+            
+            if (clientData) {
+                // User is a registered client
+                panelWelcome.textContent = `HOŞGELDİNİZ ${clientData.name.toUpperCase()} ${clientData.title}`;
+                panelSubtitle.textContent = "Aşağıdaki butonda panele giriş yapabilirsiniz.";
+                panelActionButton.href = clientData.url;
+                panelActionButton.innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                        <polyline points="15,3 21,3 21,9"/>
+                        <line x1="10" y1="14" x2="21" y2="3"/>
+                    </svg>
+                    ${clientData.buttonText}
+                `;
+            } else {
+                // Regular user
+                panelWelcome.textContent = `HOŞGELDİNİZ ${currentUser.name.toUpperCase()}`;
+                panelSubtitle.textContent = "Henüz kayıtlı bir müşteri değilsiniz. İletişime geçin.";
+                panelActionButton.href = "#contact"; // Placeholder for contact
+                panelActionButton.innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    İletişime Geç
+                `;
+            }
+
+            // Set avatar
+            if (currentUser.picture) {
+                panelAvatar.innerHTML = `<img src="${currentUser.picture}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+            } else {
+                panelAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
+            }
+
+            overlay.classList.add('show');
+        }
+
+        function closeUserPanel() {
+            const overlay = document.getElementById('userPanelOverlay');
+            overlay.classList.remove('show');
+        }
+
+        function signOut() {
+            google.accounts.id.disableAutoSelect();
+            currentUser = null;
+            
+            // Reset UI
+            document.getElementById('googleSignIn').style.display = 'flex';
+            document.getElementById('userInfo').style.display = 'none';
+            
+            // Close panel
+            closeUserPanel();
+            
+            // Show sign out message
+            showToast('Başarıyla çıkış yaptınız! 👋', '#dc3545');
+        }
+
         function showWelcomeMessage() {
-            // Create and show a welcome toast
+            const clientData = CLIENT_DATABASE[currentUser.email];
+            const message = clientData 
+                ? `Hoş geldin, ${clientData.name} ${clientData.title}! 🎉` 
+                : `Hoş geldin, ${currentUser.given_name || currentUser.name}! 🎉`;
+            
+            showToast(message, 'linear-gradient(135deg, #667eea, #764ba2)');
+        }
+
+        function showToast(message, background) {
             const toast = document.createElement('div');
             toast.style.cssText = `
                 position: fixed;
                 top: 100px;
                 right: 20px;
-                background: linear-gradient(135deg, #667eea, #764ba2);
+                background: ${background};
                 color: white;
                 padding: 1rem 1.5rem;
-                border-radius: 10px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                border-radius: 15px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
                 z-index: 10000;
                 font-weight: 600;
                 transform: translateX(100%);
                 transition: transform 0.3s ease;
+                max-width: 300px;
+                backdrop-filter: blur(10px);
             `;
-            toast.textContent = `Hoş geldin, ${currentUser.given_name || currentUser.name}! 🎉`;
+            toast.textContent = message;
             
             document.body.appendChild(toast);
             
@@ -649,49 +823,7 @@
                 setTimeout(() => {
                     document.body.removeChild(toast);
                 }, 300);
-            }, 3000);
-        }
-
-        function signOut() {
-            if (confirm('Çıkış yapmak istediğinizden emin misiniz?')) {
-                google.accounts.id.disableAutoSelect();
-                currentUser = null;
-                
-                // Reset UI
-                document.getElementById('googleSignIn').style.display = 'flex';
-                document.getElementById('userInfo').style.display = 'none';
-                
-                // Show sign out message
-                const toast = document.createElement('div');
-                toast.style.cssText = `
-                    position: fixed;
-                    top: 100px;
-                    right: 20px;
-                    background: #dc3545;
-                    color: white;
-                    padding: 1rem 1.5rem;
-                    border-radius: 10px;
-                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-                    z-index: 10000;
-                    font-weight: 600;
-                    transform: translateX(100%);
-                    transition: transform 0.3s ease;
-                `;
-                toast.textContent = 'Başarıyla çıkış yaptınız! 👋';
-                
-                document.body.appendChild(toast);
-                
-                setTimeout(() => {
-                    toast.style.transform = 'translateX(0)';
-                }, 100);
-                
-                setTimeout(() => {
-                    toast.style.transform = 'translateX(100%)';
-                    setTimeout(() => {
-                        document.body.removeChild(toast);
-                    }, 300);
-                }, 2000);
-            }
+            }, 4000);
         }
 
         // Sign-in button click handler
@@ -699,12 +831,18 @@
             google.accounts.id.prompt();
         });
 
+        // Close panel when clicking outside
+        document.getElementById('userPanelOverlay').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeUserPanel();
+            }
+        });
+
         // Initialize Google Sign-In when the script loads
         window.addEventListener('load', () => {
             if (typeof google !== 'undefined') {
                 initializeGoogleSignIn();
             } else {
-                // Retry if Google script hasn't loaded yet
                 setTimeout(() => {
                     if (typeof google !== 'undefined') {
                         initializeGoogleSignIn();
@@ -713,23 +851,34 @@
             }
         });
 
-        // Smooth scrolling for CTA button
-        document.querySelector('.cta-button').addEventListener('click', function(e) {
+        // PWA Installation
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
-            
-            // Create a contact section dynamically or scroll to bottom
-            window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: 'smooth'
-            });
-            
-            // Show a message
-            setTimeout(() => {
-                alert('İletişim bölümü yakında eklenecek! 🚀');
-            }, 500);
+            deferredPrompt = e;
+            document.getElementById('pwaInstall').classList.add('show');
         });
 
-        // Add some interactive effects
+        document.getElementById('pwaInstall').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    showToast('Uygulama başarıyla yüklendi! 📱', 'linear-gradient(135deg, #667eea, #764ba2)');
+                }
+                deferredPrompt = null;
+                document.getElementById('pwaInstall').classList.remove('show');
+            }
+        });
+
+        // CTA Button interaction
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            showToast('İletişim bölümü yakında eklenecek! 🚀', 'linear-gradient(135deg, #ff6b6b, #feca57)');
+        });
+
+        // Interactive mouse effects
         document.addEventListener('mousemove', (e) => {
             const blob = document.querySelector('.gradient-blob');
             const blob2 = document.querySelector('.gradient-blob-2');
@@ -741,58 +890,18 @@
             blob2.style.transform = `translate(${x * -15}px, ${y * -15}px)`;
         });
 
-        // Add click effect to CTA button
-        document.querySelector('.cta-button').addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-8px) scale(1.05)';
-        });
-
-        document.querySelector('.cta-button').addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(-5px) scale(1)';
-        });
-
-        // Mobile menu toggle (for future use)
-        document.getElementById('menuToggle').addEventListener('click', function() {
-            this.classList.toggle('active');
-            // Add mobile menu functionality here if needed
-        });
-
-        // Add some random floating animations
-        function createFloatingElement() {
-            const element = document.createElement('div');
-            element.style.cssText = `
-                position: fixed;
-                width: ${Math.random() * 10 + 5}px;
-                height: ${Math.random() * 10 + 5}px;
-                background: rgba(102, 126, 234, 0.3);
-                border-radius: 50%;
-                pointer-events: none;
-                z-index: 1;
-                left: ${Math.random() * 100}vw;
-                top: 100vh;
-                animation: floatUp ${Math.random() * 3 + 2}s linear forwards;
-            `;
-            
-            document.body.appendChild(element);
-            
-            setTimeout(() => {
-                document.body.removeChild(element);
-            }, 5000);
-        }
-
-        // Add CSS for floating animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes floatUp {
-                to {
-                    transform: translateY(-100vh) rotate(360deg);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Create floating elements periodically
-        setInterval(createFloatingElement, 2000);
+        // Service Worker Registration (Bu kısım ayrı bir sw.js dosyası gerektirir)
+        // if ('serviceWorker' in navigator) {
+        //     window.addEventListener('load', () => {
+        //         navigator.serviceWorker.register('/sw.js')
+        //             .then((registration) => {
+        //                 console.log('SW registered: ', registration);
+        //             })
+        //             .catch((registrationError) => {
+        //                 console.log('SW registration failed: ', registrationError);
+        //             });
+        //     });
+        // }
     </script>
 </body>
 </html>
