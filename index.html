@@ -28,7 +28,32 @@
             --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.08);
             --shadow-medium: 0 5px 20px rgba(0, 0, 0, 0.15);
             --accent-gradient: linear-gradient(135deg, #667eea, #764ba2);
+            --card-border-color: #e4e4e7;
+            --card-bg-light: #fafafa;
+            --card-bg-gradient-from: #f4f4f5;
+            --card-bg-gradient-to: white;
+            --card-text-dark: #18181b;
+            --card-text-medium: #666;
+            --card-accent-color: #ff8c00; /* Orange for card accents */
         }
+
+        /* Dark mode variables (if you implement dark mode later) */
+        /* @media (prefers-color-scheme: dark) {
+            :root {
+                --background-color: #1a1a1a;
+                --header-bg: rgba(26, 26, 26, 0.95);
+                --header-scrolled-bg: rgba(0, 0, 0, 0.98);
+                --primary-color: #fff;
+                --secondary-color: #ccc;
+                --text-color: #aaa;
+                --card-border-color: #333;
+                --card-bg-light: #1f1f1f;
+                --card-bg-gradient-from: #1f1f1f;
+                --card-bg-gradient-to: #000;
+                --card-text-dark: #fff;
+                --card-text-medium: #ccc;
+            }
+        } */
 
         * {
             margin: 0;
@@ -315,50 +340,227 @@
             stroke: currentColor;
         }
 
-        .hero-stats {
-            display: flex;
-            gap: 3rem;
-            margin-top: 4rem;
-            flex-wrap: wrap;
-        }
-
-        .stat-item {
+        /* Card Flip Section */
+        .company-cards-section {
+            padding: 6rem 2rem;
+            background-color: var(--background-color);
             text-align: center;
-            flex: 1;
-            min-width: 120px;
-            background: white;
-            padding: 1.5rem;
-            border-radius: var(--border-radius-md);
-            box-shadow: var(--shadow-light);
-            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
-            position: relative;
-            overflow: hidden;
-            opacity: 0; /* For scroll animation */
-            transform: translateY(30px); /* For scroll animation */
         }
 
-        .stat-item:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .stat-item.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .stat-number {
-            font-size: clamp(2rem, 6vw, 3rem);
-            font-weight: 700;
+        .company-cards-section h2 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
             color: var(--primary-color);
-            display: block;
+            margin-bottom: 4rem;
+            letter-spacing: -2px;
+        }
+
+        .company-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            justify-items: center;
+        }
+
+        /* Card Flip Styles (Adapted from CardFlip component) */
+        .card-flip-container {
+            position: relative;
+            width: 100%;
+            max-width: 280px;
+            height: 320px;
+            perspective: 2000px;
+            cursor: pointer;
+        }
+
+        .card-flip-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1); /* Spring-like transition */
+        }
+
+        .card-flip-container.flipped .card-flip-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-flip-front,
+        .card-flip-back {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            overflow: hidden;
+            border-radius: 16px; /* rounded-2xl */
+            border: 1px solid var(--card-border-color);
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); /* shadow-xs */
+            transition: all 0.7s;
+        }
+
+        .card-flip-front {
+            transform: rotateY(0deg);
+            background: var(--card-bg-light);
+            background: linear-gradient(to bottom, var(--card-bg-gradient-from), var(--card-bg-gradient-to));
+        }
+
+        .card-flip-container.flipped .card-flip-front {
+            opacity: 0;
+        }
+
+        .card-flip-back {
+            transform: rotateY(180deg);
+            padding: 24px; /* p-6 */
+            background: var(--card-bg-light);
+            background: linear-gradient(to bottom, var(--card-bg-gradient-from), var(--card-bg-gradient-to));
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-flip-container.flipped .card-flip-back {
+            opacity: 1;
+        }
+
+        /* Front Card Content */
+        .card-front-content {
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+        }
+
+        .card-front-logo {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px; /* Adjust as needed */
+            height: 100px; /* Adjust as needed */
+            object-fit: contain;
+            filter: grayscale(100%); /* Make logos grayscale */
+            opacity: 0.7;
+            transition: filter 0.3s, opacity 0.3s;
+        }
+
+        .card-flip-container:hover .card-front-logo {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+        .card-front-text {
+            text-align: center;
+            margin-top: auto; /* Push to bottom */
+        }
+
+        .card-front-title {
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 600; /* font-semibold */
+            color: var(--card-text-dark);
+            line-height: 1.375; /* leading-snug */
+            letter-spacing: -0.03em; /* tracking-tighter */
+            transition: transform 0.5s ease-out;
+        }
+
+        .card-flip-container:hover .card-front-title {
+            transform: translateY(-4px);
+        }
+
+        .card-front-subtitle {
+            font-size: 0.875rem; /* text-sm */
+            color: var(--card-text-medium);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            letter-spacing: -0.02em; /* tracking-tight */
+            transition: transform 0.5s ease-out 50ms;
+        }
+
+        .card-flip-container:hover .card-front-subtitle {
+            transform: translateY(-4px);
+        }
+
+        .card-front-icon-wrapper {
+            position: relative;
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .card-front-icon {
+            position: relative;
+            z-index: 10;
+            width: 16px; /* w-4 */
+            height: 16px; /* h-4 */
+            color: var(--card-accent-color);
+            transition: transform 0.3s, rotate 0.3s;
+        }
+
+        .card-flip-container:hover .card-front-icon {
+            transform: scale(1.1) rotate(-12deg);
+        }
+
+        /* Back Card Content */
+        .card-back-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-back-text-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .card-back-title {
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 600; /* font-semibold */
+            color: var(--card-text-dark);
+            line-height: 1.375; /* leading-snug */
+            letter-spacing: -0.02em; /* tracking-tight */
+            transition: transform 0.5s ease-out;
+        }
+
+        .card-flip-container.flipped .card-back-title {
+            transform: translateY(-2px);
+        }
+
+        .card-back-description {
+            font-size: 0.875rem; /* text-sm */
+            color: var(--card-text-medium);
+            letter-spacing: -0.02em; /* tracking-tight */
+            line-height: 1.5;
+            margin-top: 0.5rem;
+            transition: transform 0.5s ease-out;
+        }
+
+        .card-flip-container.flipped .card-back-description {
+            transform: translateY(-2px);
+        }
+
+        .card-back-features {
+            margin-top: 1rem;
+        }
+
+        .card-back-feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem; /* gap-2 */
+            font-size: 0.875rem; /* text-sm */
+            color: var(--card-text-medium);
+            transition: all 0.5s;
             margin-bottom: 0.5rem;
         }
 
-        .stat-label {
-            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-            color: var(--text-color);
-            margin-top: 0.5rem;
+        .card-back-feature-icon {
+            width: 12px; /* w-3 */
+            height: 12px; /* h-3 */
+            color: var(--card-accent-color);
         }
 
         /* Contact Panel Styles */
@@ -702,14 +904,8 @@
                 max-width: none;
             }
 
-            .hero-stats {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1.5rem;
-            }
-
-            .stat-item {
-                width: 100%;
+            .company-cards-grid {
+                grid-template-columns: 1fr; /* Single column on small screens */
             }
 
             .profile-drawer {
@@ -785,20 +981,15 @@
                     </svg>
                 </a>
             </div>
-            <div class="hero-stats">
-                <div class="stat-item" data-target="500">
-                    <span class="stat-number">0+</span>
-                    <span class="stat-label">Tamamlanan Proje</span>
-                </div>
-                <div class="stat-item" data-target="50">
-                    <span class="stat-number">0+</span>
-                    <span class="stat-label">Mutlu Müşteri</span>
-                </div>
-                <div class="stat-item" data-target="5">
-                    <span class="stat-number">0</span>
-                    <span class="stat-label">Yıllık Deneyim</span>
-                </div>
-            </div>
+            <!-- hero-stats section removed -->
+        </div>
+    </section>
+
+    <!-- Company Cards Section -->
+    <section class="company-cards-section" id="companies">
+        <h2 class="scroll-animate">Bizi Tercih Eden Şirketler</h2>
+        <div class="company-cards-grid" id="companyCardsGrid">
+            <!-- Cards will be dynamically inserted here -->
         </div>
     </section>
 
@@ -917,22 +1108,23 @@
 
         // Function to initialize Google Sign-In
         function initializeGoogleSignIn() {
-            // Check if google.accounts.id is defined and ready
+            // Ensure the GSI client library is fully loaded before initializing
             if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
                 google.accounts.id.initialize({
                     client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
                     callback: handleCredentialResponse,
-                    auto_select: false, // Do not auto-select an account
-                    cancel_on_tap_outside: true // Allow closing by tapping outside
+                    auto_select: false,
+                    cancel_on_tap_outside: true
                 });
-                // Render the Google One Tap prompt or button
-                // google.accounts.id.prompt(); // For One Tap
                 console.log('Google Sign-In initialized successfully.');
             } else {
                 console.warn('Google Sign-In script not yet loaded. Retrying initialization...');
                 setTimeout(initializeGoogleSignIn, 500); // Retry after 500ms
             }
         }
+
+        // Call initializeGoogleSignIn when the window loads
+        window.addEventListener('load', initializeGoogleSignIn);
 
         function handleCredentialResponse(response) {
             try {
@@ -1047,7 +1239,6 @@
                         </svg>
                     </a>
                 </div>
-                <div class="hero-stats" style="display: none;"></div>
             `;
             const heroActionsDiv = heroContentDiv.querySelector('.hero-actions');
             let contactButton = document.getElementById('contactAdvisorButton');
@@ -1067,8 +1258,7 @@
             }
             contactButton.style.display = 'inline-flex';
             addRippleEffect(heroActionsDiv.querySelector('.cta-button:not(.secondary)'));
-            // Re-apply shimmer to new content
-            applyShimmerToText();
+            applyShimmerToText(); // Re-apply shimmer to new content
         }
 
         function restoreDefaultHeroContent() {
@@ -1084,7 +1274,6 @@
                 contactButton.style.display = 'none';
             }
             initializeScrollAnimations();
-            initializeStatCounters();
             applyShimmerToText(); // Re-apply shimmer to default content
         }
 
@@ -1135,9 +1324,6 @@
         document.getElementById('googleSignIn').addEventListener('click', () => {
             google.accounts.id.prompt();
         });
-
-        // Initialize Google Sign-In when the script loads
-        window.addEventListener('load', initializeGoogleSignIn);
 
         // Default CTA button handler
         function defaultCtaButtonHandler(e) {
@@ -1288,44 +1474,6 @@
         }
         window.addEventListener('load', initializeScrollAnimations);
 
-        // Stat Counter Animation
-        function animateNumber(element, start, end, duration) {
-            let startTime = null;
-            const step = (currentTime) => {
-                if (!startTime) startTime = currentTime;
-                const progress = Math.min((currentTime - startTime) / duration, 1);
-                const value = Math.floor(progress * (end - start) + start);
-                element.textContent = value + (element.dataset.target === '5' ? '' : '+'); // Add '+' for 500 and 50
-                if (progress < 1) {
-                    requestAnimationFrame(step);
-                }
-            };
-            requestAnimationFrame(step);
-        }
-
-        function initializeStatCounters() {
-            const statItems = document.querySelectorAll('.stat-item');
-            const statObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
-                        const numberElement = entry.target.querySelector('.stat-number');
-                        const target = parseInt(entry.target.dataset.target);
-                        animateNumber(numberElement, 0, target, 1500); // 1.5 seconds animation
-                        entry.target.classList.add('visible', 'animated'); // Add 'animated' to prevent re-triggering
-                        statObserver.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.5 // Trigger when 50% of the item is visible
-            });
-
-            statItems.forEach(item => {
-                item.classList.remove('visible', 'animated'); // Reset for re-initialization
-                statObserver.observe(item);
-            });
-        }
-        window.addEventListener('load', initializeStatCounters);
-
         // Apply Shimmer to Hero Text
         function applyShimmerToText() {
             const heroTitle = document.querySelector('.hero-title');
@@ -1341,6 +1489,105 @@
             if (heroSubtitle) heroSubtitle.style.animation = ''; // Re-apply animation
         }
         window.addEventListener('load', applyShimmerToText);
+
+        // Company Data for Card Flip
+        const companies = [
+            {
+                logo: "/placeholder.svg?height=80&width=80",
+                name: "Tech Solutions A.Ş.",
+                industry: "Yazılım Geliştirme",
+                reason: "Yenilikçi ve ölçeklenebilir yazılım çözümleri sunarak iş süreçlerimizi optimize ettiler. Hızlı teslimat ve mükemmel destekleri sayesinde projelerimiz zamanında tamamlandı.",
+                benefits: ["Ölçeklenebilir Yazılım", "Hızlı Teslimat", "Mükemmel Destek", "İş Süreç Optimizasyonu"]
+            },
+            {
+                logo: "/placeholder.svg?height=80&width=80",
+                name: "Global Pazarlama Ltd.",
+                industry: "Dijital Pazarlama",
+                reason: "Dijital pazarlama stratejilerimizi baştan sona yenilediler. Hedef kitlemize ulaşmamızı sağlayan yaratıcı kampanyalar ve detaylı analizlerle satışlarımızı %40 artırdık.",
+                benefits: ["Yaratıcı Kampanyalar", "Detaylı Analiz", "Satış Artışı", "Hedef Kitleye Ulaşım"]
+            },
+            {
+                logo: "/placeholder.svg?height=80&width=80",
+                name: "E-Ticaret Devi",
+                industry: "Online Perakendecilik",
+                reason: "Kullanıcı dostu ve güvenli e-ticaret altyapısı sayesinde müşteri deneyimimizi üst seviyeye taşıdık. Entegrasyon süreçleri sorunsuzdu ve teknik ekip her zaman yanımızdaydı.",
+                benefits: ["Kullanıcı Dostu Arayüz", "Güvenli Altyapı", "Sorunsuz Entegrasyon", "Müşteri Deneyimi"]
+            },
+            {
+                logo: "/placeholder.svg?height=80&width=80",
+                name: "Finansal Çözümler A.Ş.",
+                industry: "Finans ve Danışmanlık",
+                reason: "Karmaşık finansal verilerimizi anlaşılır raporlara dönüştüren özel bir analiz platformu geliştirdiler. Bu sayede daha bilinçli kararlar alabiliyor ve riskleri minimize edebiliyoruz.",
+                benefits: ["Veri Analizi", "Özel Platform", "Bilinçli Kararlar", "Risk Yönetimi"]
+            }
+        ];
+
+        function createCardFlip(company) {
+            const cardContainer = document.createElement('div');
+            cardContainer.className = 'card-flip-container scroll-animate';
+
+            const cardInner = document.createElement('div');
+            cardInner.className = 'card-flip-inner';
+
+            // Front of the card
+            const cardFront = document.createElement('div');
+            cardFront.className = 'card-flip-front';
+            cardFront.innerHTML = `
+                <div class="card-front-content">
+                    <img src="${company.logo}" alt="${company.name} Logo" class="card-front-logo">
+                    <div class="card-front-text">
+                        <h3 class="card-front-title">${company.name}</h3>
+                        <p class="card-front-subtitle">${company.industry}</p>
+                    </div>
+                    <div class="card-front-icon-wrapper">
+                        <svg class="card-front-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 12Z"/><path d="M15 6v6h6"/></svg>
+                    </div>
+                </div>
+            `;
+
+            // Back of the card
+            const cardBack = document.createElement('div');
+            cardBack.className = 'card-flip-back';
+            cardBack.innerHTML = `
+                <div class="card-back-content">
+                    <div class="card-back-text-section">
+                        <h3 class="card-back-title">${company.name}</h3>
+                        <p class="card-back-description">${company.reason}</p>
+                    </div>
+                    <div class="card-back-features">
+                        ${company.benefits.map(benefit => `
+                            <div class="card-back-feature-item">
+                                <svg class="card-back-feature-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                                <span>${benefit}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            cardInner.appendChild(cardFront);
+            cardInner.appendChild(cardBack);
+            cardContainer.appendChild(cardInner);
+
+            // Add flip functionality
+            cardContainer.addEventListener('mouseenter', () => {
+                cardContainer.classList.add('flipped');
+            });
+            cardContainer.addEventListener('mouseleave', () => {
+                cardContainer.classList.remove('flipped');
+            });
+
+            return cardContainer;
+        }
+
+        // Populate company cards
+        window.addEventListener('load', () => {
+            const companyCardsGrid = document.getElementById('companyCardsGrid');
+            companies.forEach(company => {
+                companyCardsGrid.appendChild(createCardFlip(company));
+            });
+            initializeScrollAnimations(); // Re-initialize for new cards
+        });
     </script>
 </body>
 </html>
