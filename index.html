@@ -91,7 +91,7 @@
 
         .header.scrolled {
             background: transparent; /* Still transparent */
-            box-shadow: var(--shadow-light); /* Keep shadow for visual separation */
+            box-shadow: none; /* Remove shadow on scroll */
         }
 
         .nav {
@@ -876,6 +876,116 @@
             box-shadow: var(--shadow-light);
         }
 
+        /* Footer Styles */
+        .footer {
+            background: linear-gradient(135deg, #1a1a1a, #333333); /* Dark gradient background */
+            color: #f0f0f0;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: footer-bg-animation 15s ease-in-out infinite alternate; /* Subtle background animation */
+        }
+
+        @keyframes footer-bg-animation {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            text-align: left;
+        }
+
+        .footer-section {
+            padding: 1rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-gradient);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .footer-section:hover h3::after {
+            width: 80px;
+        }
+
+        .footer-section p, .footer-section a {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-social-icons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            justify-content: flex-start; /* Align left with text */
+        }
+
+        .footer-social-icons a {
+            color: #ccc;
+            transition: transform 0.3s ease, color 0.3s ease, filter 0.3s ease;
+            display: inline-flex; /* For proper scaling */
+        }
+
+        .footer-social-icons a:hover {
+            color: white;
+            transform: translateY(-5px) scale(1.1);
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.5));
+        }
+
+        .footer-social-icons svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .footer-bottom {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.85rem;
+            color: #aaa;
+            text-align: center;
+        }
+
         /* Responsive adjustments for smaller screens */
         @media (max-width: 768px) {
             .nav {
@@ -909,6 +1019,25 @@
                 width: 100%; /* Full width on mobile */
                 border-bottom-left-radius: 0;
                 border-bottom-right-radius: 0;
+            }
+
+            /* Footer Responsive */
+            .footer-content {
+                grid-template-columns: 1fr; /* Stack columns on mobile */
+                text-align: center; /* Center align content */
+            }
+
+            .footer-section h3 {
+                text-align: center;
+            }
+
+            .footer-section h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .footer-social-icons {
+                justify-content: center; /* Center social icons on mobile */
             }
         }
 
@@ -1045,6 +1174,58 @@
             </div>
         </div>
     </div>
+
+    <!-- Footer Section -->
+    <footer class="footer" id="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>THE LENG</h3>
+                <p>Dijital dünyada fark yaratan, sınırları zorlayan ve her projede mükemmelliği hedefleyen teknoloji şirketi. Hayallerinizi gerçeğe dönüştürüyoruz.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hızlı Bağlantılar</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Anasayfa</a></li>
+                    <li><a href="#companies">Şirketler</a></li>
+                    <li><a href="#">Hizmetlerimiz</a></li>
+                    <li><a href="#">Portföy</a></li>
+                    <li><a href="#">Kariyer</a></li>
+                    <li><a href="#contact">İletişim</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Yasal</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Gizlilik Politikası</a></li>
+                    <li><a href="#">Kullanım Koşulları</a></li>
+                    <li><a href="#">Çerez Politikası</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Bize Ulaşın</h3>
+                <p>Email: info@theleng.com</p>
+                <p>Telefon: +90 555 123 45 67</p>
+                <p>Adres: Örnek Mah. Örnek Cad. No:123, İstanbul, Türkiye</p>
+                <div class="footer-social-icons">
+                    <a href="https://twitter.com/theleng" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17-18 11.6 2.2.1 4.4-.6 6-2 1.1-.9 1.8-2.2 2.1-3.7C3.2 15.2 2 13 2 12c2.1 1.2 4.4 1.8 6.7 1.7-1.1-3.9 1.5-7.5 5.4-8.5 3.6-.8 7.1 2 7.1 2z"/></svg>
+                    </a>
+                    <a href="https://linkedin.com/company/theleng" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/></svg>
+                    </a>
+                    <a href="https://instagram.com/theleng" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 1 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                    </a>
+                    <a href="https://facebook.com/theleng" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 THE LENG. Tüm Hakları Saklıdır.</p>
+        </div>
+    </footer>
 
     <script>
         // PWA Service Worker Registration
@@ -1490,28 +1671,28 @@
         // Company Data for Card Flip
         const companies = [
             {
-                logo: "/placeholder.svg?height=80&width=80&text=CompanyA",
+                logo: "/placeholder.svg?height=80&width=80",
                 name: "Tech Solutions A.Ş.",
                 industry: "Yazılım Geliştirme",
                 reason: "Yenilikçi ve ölçeklenebilir yazılım çözümleri sunarak iş süreçlerimizi optimize ettiler. Hızlı teslimat ve mükemmel destekleri sayesinde projelerimiz zamanında tamamlandı.",
                 benefits: ["Ölçeklenebilir Yazılım", "Hızlı Teslimat", "Mükemmel Destek", "İş Süreç Optimizasyonu"]
             },
             {
-                logo: "/placeholder.svg?height=80&width=80&text=CompanyB",
+                logo: "/placeholder.svg?height=80&width=80",
                 name: "Global Pazarlama Ltd.",
                 industry: "Dijital Pazarlama",
                 reason: "Dijital pazarlama stratejilerimizi baştan sona yenilediler. Hedef kitlemize ulaşmamızı sağlayan yaratıcı kampanyalar ve detaylı analizlerle satışlarımızı %40 artırdık.",
                 benefits: ["Yaratıcı Kampanyalar", "Detaylı Analiz", "Satış Artışı", "Hedef Kitleye Ulaşım"]
             },
             {
-                logo: "/placeholder.svg?height=80&width=80&text=CompanyC",
+                logo: "/placeholder.svg?height=80&width=80",
                 name: "E-Ticaret Devi",
                 industry: "Online Perakendecilik",
                 reason: "Kullanıcı dostu ve güvenli e-commerce altyapısı sayesinde müşteri deneyimimizi üst seviyeye taşıdık. Entegrasyon süreçleri sorunsuzdu ve teknik ekip her zaman yanımızdaydı.",
                 benefits: ["Kullanıcı Dostu Arayüz", "Güvenli Altyapı", "Sorunsuz Entegrasyon", "Müşteri Deneyimi"]
             },
             {
-                logo: "/placeholder.svg?height=80&width=80&text=CompanyD",
+                logo: "/placeholder.svg?height=80&width=80",
                 name: "Finansal Çözümler A.Ş.",
                 industry: "Finans ve Danışmanlık",
                 reason: "Karmaşık finansal verilerimizi anlaşılır raporlara dönüştüren özel bir analiz platformu geliştirdiler. Bu sayede daha bilinçli kararlar alabiliyor ve riskleri minimize edebiliyoruz.",
