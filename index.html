@@ -13,30 +13,41 @@
 
     <style>
         :root {
-            --primary-color: #000;
-            --secondary-color: #333;
-            --text-color: #666;
-            --background-color: #f8f8f8;
-            --header-bg: rgba(248, 248, 248, 0.95);
+            --primary-dark: #1a1a1a;
+            --secondary-dark: #333;
+            --text-light: #666;
+            --background-light: #f8f8f8;
+            --accent-color: #667eea; /* A subtle purple-blue for accents */
+            --header-bg: rgba(255, 255, 255, 0.95);
             --header-scrolled-bg: rgba(255, 255, 255, 0.98);
-            --border-radius-sm: 10px;
-            --border-radius-md: 25px;
-            --border-radius-lg: 60px;
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 50px;
             --transition-speed: 0.3s;
+            --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent; /* Remove blue tap highlight on mobile */
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            color: var(--secondary-color);
+            color: var(--secondary-dark);
             overflow-x: hidden;
-            background-color: var(--background-color);
+            background-color: var(--background-light);
+            scroll-behavior: smooth;
+        }
+
+        /* Global Focus/Outline Reset */
+        *:focus {
+            outline: none;
+            box-shadow: none;
         }
 
         /* Header Styles */
@@ -48,11 +59,12 @@
             backdrop-filter: blur(10px);
             z-index: 1000;
             transition: all var(--transition-speed) ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .header.scrolled {
             background: var(--header-scrolled-bg);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-light);
         }
 
         .nav {
@@ -68,21 +80,22 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-weight: bold;
-            font-size: clamp(1.2rem, 3vw, 1.5rem); /* Responsive font size */
-            color: var(--primary-color);
+            font-weight: 700;
+            font-size: clamp(1.4rem, 3vw, 1.7rem);
+            color: var(--primary-dark);
+            letter-spacing: -0.5px;
         }
 
         .logo-dots {
             display: flex;
-            gap: 0.25rem;
+            gap: 0.2rem;
         }
 
         .dot {
-            width: clamp(8px, 2vw, 10px); /* Responsive dot size */
-            height: clamp(8px, 2vw, 10px);
+            width: clamp(7px, 1.5vw, 9px);
+            height: clamp(7px, 1.5vw, 9px);
             border-radius: 50%;
-            background: var(--primary-color);
+            background: var(--primary-dark);
         }
 
         .nav-right {
@@ -92,75 +105,119 @@
         }
 
         .user-info {
+            position: relative;
             display: flex;
             align-items: center;
             gap: 0.5rem;
             padding: 0.5rem 1rem;
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: var(--border-radius-md);
-            font-size: clamp(0.8rem, 2vw, 0.9rem); /* Responsive font size */
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: var(--border-radius-lg);
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
             cursor: pointer;
             transition: background var(--transition-speed) ease;
+            user-select: none;
         }
 
         .user-info:hover {
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.06);
         }
 
         .user-avatar {
-            width: clamp(28px, 6vw, 32px); /* Responsive avatar size */
-            height: clamp(28px, 6vw, 32px);
+            width: clamp(30px, 6vw, 36px);
+            height: clamp(30px, 6vw, 36px);
             border-radius: 50%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, var(--accent-color), #764ba2);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-weight: bold;
-            font-size: clamp(0.7rem, 1.5vw, 0.8rem); /* Responsive font size */
-            flex-shrink: 0; /* Prevent shrinking on small screens */
+            font-weight: 600;
+            font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .google-signin {
-            background: transparent;
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
+            background: var(--primary-dark);
+            color: white;
+            border: none;
             padding: 0.75rem 1.5rem;
-            border-radius: var(--border-radius-md);
+            border-radius: var(--border-radius-lg);
             font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 0.5rem;
             transition: all var(--transition-speed) ease;
-            font-size: clamp(0.8rem, 2vw, 0.9rem); /* Responsive font size */
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+            position: relative; /* For ripple effect */
+            overflow: hidden; /* For ripple effect */
         }
 
         .google-signin:hover {
-            background: var(--primary-color);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px); /* Subtle lift */
+            box-shadow: var(--shadow-light);
         }
 
         .google-signin svg {
-            fill: currentColor; /* Use current text color for SVG */
+            fill: currentColor;
         }
 
-        /* Remove menu toggle for all screen sizes */
-        .menu-toggle {
-            display: none !important; 
+        /* Dropdown Menu */
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: white;
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--shadow-medium);
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease, visibility var(--transition-speed) ease;
+            z-index: 100;
+            padding: 0.5rem 0;
+        }
+
+        .dropdown-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu-item {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.9rem;
+            color: var(--secondary-dark);
+            cursor: pointer;
+            transition: background var(--transition-speed) ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .dropdown-menu-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .dropdown-menu-item svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            stroke-width: 2;
         }
 
         /* Hero Section */
         .hero {
             min-height: 100vh;
-            background: var(--background-color);
+            background: var(--background-light);
             padding: 8rem 2rem 4rem;
             position: relative;
             overflow: hidden;
             display: flex;
             align-items: center;
+            text-align: left; /* Ensure left alignment */
         }
 
         .hero-content {
@@ -169,13 +226,14 @@
             position: relative;
             z-index: 2;
             width: 100%;
+            text-align: left; /* Ensure left alignment for children */
         }
 
         .gradient-blob {
             position: absolute;
             right: -10%;
             top: 10%;
-            width: clamp(300px, 50vw, 500px); /* Responsive blob size */
+            width: clamp(300px, 50vw, 500px);
             height: clamp(300px, 50vw, 500px);
             background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb);
             border-radius: 50%;
@@ -188,7 +246,7 @@
             position: absolute;
             left: -15%;
             bottom: 20%;
-            width: clamp(200px, 30vw, 300px); /* Responsive blob size */
+            width: clamp(200px, 30vw, 300px);
             height: clamp(200px, 30vw, 300px);
             background: linear-gradient(135deg, #a8edea, #fed6e3);
             border-radius: 50%;
@@ -204,21 +262,21 @@
         }
 
         .hero-title {
-            font-size: clamp(3rem, 10vw, 8rem); /* Adjusted for mobile */
+            font-size: clamp(3.5rem, 10vw, 8rem);
             font-weight: 300;
             line-height: 0.9;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             letter-spacing: -3px;
-            background: linear-gradient(135deg, #000, #333, #000);
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark), var(--primary-dark));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .hero-subtitle {
-            font-size: clamp(1rem, 3vw, 1.8rem); /* Adjusted for mobile */
-            color: var(--text-color);
-            margin-bottom: 4rem;
+            font-size: clamp(1.1rem, 3vw, 1.6rem);
+            color: var(--text-light);
+            margin-bottom: 3rem;
             max-width: 700px;
             line-height: 1.4;
         }
@@ -226,125 +284,76 @@
         .hero-actions {
             display: flex;
             flex-wrap: wrap;
-            gap: 1.5rem; /* Adjusted gap for mobile */
+            gap: 1.25rem;
             align-items: center;
         }
 
         .cta-button {
             display: inline-flex;
             align-items: center;
-            gap: 1rem;
-            padding: 1.2rem 2.5rem; /* Adjusted padding for mobile */
-            background: transparent;
-            border: 2px solid var(--primary-color); /* Thinner border */
+            justify-content: center; /* Center content for full width on mobile */
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: var(--primary-dark);
+            border: 2px solid var(--primary-dark);
             border-radius: var(--border-radius-lg);
-            font-weight: 700;
+            font-weight: 600;
             text-decoration: none;
-            color: var(--primary-color);
+            color: white;
             transition: all var(--transition-speed) ease;
-            position: relative;
-            overflow: hidden;
-            font-size: clamp(0.9rem, 2.5vw, 1.2rem); /* Adjusted for mobile */
-            min-height: clamp(50px, 10vw, 70px); /* Responsive min-height */
+            position: relative; /* For ripple effect */
+            overflow: hidden; /* For ripple effect */
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            min-height: clamp(50px, 10vw, 60px);
+            box-shadow: var(--shadow-light);
         }
 
         .cta-button:hover {
-            background: var(--primary-color);
-            color: #fff;
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            background: var(--secondary-dark);
+            border-color: var(--secondary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-medium);
         }
 
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border: 2px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            animation: pulse 3s infinite;
+        .cta-button.secondary {
+            background: transparent;
+            color: var(--primary-dark);
+            border-color: var(--primary-dark);
         }
 
-        @keyframes pulse {
-            0% { width: 0; height: 0; opacity: 1; }
-            100% { width: 150px; height: 150px; opacity: 0; }
+        .cta-button.secondary:hover {
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        .cta-button svg {
+            stroke: currentColor;
         }
 
         .hero-stats {
             display: flex;
-            gap: 2rem; /* Adjusted gap for mobile */
-            margin-top: 4rem;
+            gap: 2rem;
+            margin-top: 3rem;
             flex-wrap: wrap;
         }
 
         .stat-item {
-            text-align: center;
-            flex: 1; /* Allow items to grow/shrink */
-            min-width: 100px; /* Minimum width for stats */
+            text-align: left; /* Align stats left */
+            flex: 1;
+            min-width: 100px;
         }
 
         .stat-number {
-            font-size: clamp(1.8rem, 5vw, 3rem); /* Adjusted for mobile */
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
             font-weight: 700;
-            color: var(--primary-color);
+            color: var(--primary-dark);
             display: block;
         }
 
         .stat-label {
-            font-size: clamp(0.8rem, 2vw, 1.1rem); /* Adjusted for mobile */
-            color: var(--text-color);
-            margin-top: 0.5rem;
-        }
-
-        .floating-elements {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .floating-element {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: floatRandom 10s infinite linear;
-        }
-
-        .floating-element:nth-child(1) {
-            width: clamp(15px, 3vw, 20px);
-            height: clamp(15px, 3vw, 20px);
-            top: 20%;
-            left: 10%;
-            animation-delay: 0s;
-        }
-
-        .floating-element:nth-child(2) {
-            width: clamp(10px, 2vw, 15px);
-            height: clamp(10px, 2vw, 15px);
-            top: 60%;
-            left: 80%;
-            animation-delay: 2s;
-        }
-
-        .floating-element:nth-child(3) {
-            width: clamp(20px, 4vw, 25px);
-            height: clamp(20px, 4vw, 25px);
-            top: 80%;
-            left: 20%;
-            animation-delay: 4s;
-        }
-
-        @keyframes floatRandom {
-            0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
-            25% { transform: translateY(-20px) translateX(10px) rotate(90deg); }
-            50% { transform: translateY(-10px) translateX(-15px) rotate(180deg); }
-            75% { transform: translateY(-30px) translateX(5px) rotate(270deg); }
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            color: var(--text-light);
+            margin-top: 0.25rem;
         }
 
         /* Contact Panel Styles */
@@ -354,7 +363,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.7);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -372,9 +381,9 @@
         .contact-panel {
             background: white;
             padding: 2rem;
-            border-radius: var(--border-radius-sm);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-medium);
+            max-width: 450px;
             width: 90%;
             text-align: center;
             transform: translateY(20px);
@@ -389,15 +398,16 @@
         }
 
         .contact-panel h2 {
-            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
             margin-bottom: 1.5rem;
-            color: var(--primary-color);
+            color: var(--primary-dark);
+            font-weight: 700;
         }
 
         .contact-panel p {
             font-size: clamp(0.9rem, 2.5vw, 1rem);
-            margin-bottom: 1rem;
-            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            color: var(--secondary-dark);
         }
 
         .contact-panel .contact-info {
@@ -413,19 +423,26 @@
             justify-content: center;
             gap: 0.75rem;
             font-size: clamp(0.9rem, 2.5vw, 1rem);
-            color: var(--secondary-color);
+            color: var(--secondary-dark);
             text-decoration: none;
             transition: color var(--transition-speed) ease;
+            padding: 0.75rem;
+            border-radius: var(--border-radius-sm);
+            background: rgba(0, 0, 0, 0.02);
+            position: relative; /* For ripple */
+            overflow: hidden; /* For ripple */
         }
 
         .contact-panel .contact-item:hover {
-            color: #667eea; /* A subtle hover color */
+            color: var(--accent-color);
+            background: rgba(0, 0, 0, 0.05);
         }
 
         .contact-panel .contact-item svg {
             width: clamp(18px, 4vw, 20px);
             height: clamp(18px, 4vw, 20px);
-            fill: currentColor;
+            stroke: currentColor;
+            stroke-width: 2;
         }
 
         .contact-panel .close-button {
@@ -434,14 +451,18 @@
             right: 1rem;
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
-            color: var(--secondary-color);
+            color: var(--secondary-dark);
             transition: color var(--transition-speed) ease;
+            padding: 0.5rem;
+            border-radius: 50%;
+            line-height: 1;
         }
 
         .contact-panel .close-button:hover {
-            color: var(--primary-color);
+            color: var(--primary-dark);
+            background: rgba(0, 0, 0, 0.05);
         }
 
         /* Loading Animation */
@@ -451,7 +472,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--background-color);
+            background: var(--background-light);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -468,7 +489,7 @@
             width: 50px;
             height: 50px;
             border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--primary-color);
+            border-top: 4px solid var(--primary-dark);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -478,42 +499,84 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* Ripple Effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7); /* White ripple for dark buttons */
+            animation: ripple-animation 0.6s linear forwards;
+            transform: scale(0);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .cta-button.secondary .ripple,
+        .contact-panel .contact-item .ripple {
+            background: rgba(0, 0, 0, 0.1); /* Dark ripple for light buttons/items */
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+
+        /* Scroll Animation (Fade In Up) */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* Responsive adjustments for smaller screens */
         @media (max-width: 768px) {
             .nav {
-                padding: 1rem 1.5rem; /* Smaller padding */
+                padding: 0.75rem 1.25rem;
             }
 
             .nav-right {
-                gap: 0.75rem; /* Smaller gap */
+                gap: 0.5rem;
             }
 
             .hero {
-                padding: 8rem 1.5rem 3rem; /* Smaller padding */
-                text-align: center;
+                padding: 7rem 1.25rem 3rem;
             }
 
             .hero-actions {
-                justify-content: center; /* Center buttons on mobile */
+                flex-direction: column; /* Stack buttons vertically on mobile */
+                align-items: flex-start; /* Align buttons left on mobile */
+                width: 100%;
             }
 
             .cta-button {
-                width: 100%; /* Full width buttons */
-                max-width: 300px; /* Max width for buttons */
+                width: 100%;
+                max-width: none; /* Remove max-width constraint */
             }
 
             .hero-stats {
-                justify-content: center;
+                flex-direction: column; /* Stack stats vertically on mobile */
+                align-items: flex-start; /* Align stats left on mobile */
+                gap: 1rem;
+            }
+
+            .stat-item {
+                width: 100%;
             }
         }
 
         @media (max-width: 480px) {
             .nav {
-                padding: 0.75rem 1rem;
+                padding: 0.5rem 1rem;
             }
 
             .hero {
-                padding: 7rem 1rem 2rem;
+                padding: 6rem 1rem 2rem;
             }
         }
     </style>
@@ -538,6 +601,16 @@
                 <div id="userInfo" class="user-info" style="display: none;">
                     <div class="user-avatar" id="userAvatar"></div>
                     <span id="userName"></span>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <div class="dropdown-menu-item" id="editProfileButton">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-cog"><circle cx="18" cy="15" r="3"/><path d="M6 21v-2a4 4 0 0 1 4-4h4"/><path d="M19.07 4.93a10 10 0 0 0-16.28 6.86"/><path d="M22 17v.01"/><path d="M22 20v.01"/><path d="M22 14v.01"/><path d="M15 22v.01"/><path d="M18 22v.01"/><path d="M21 22v.01"/></svg>
+                            Profili Düzenle
+                        </div>
+                        <div class="dropdown-menu-item" id="signOutButton">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="17 16 22 12 17 8"/><line x1="22" x2="10" y1="12" y2="12"/></svg>
+                            Çıkış Yap
+                        </div>
+                    </div>
                 </div>
                 <button id="googleSignIn" class="google-signin">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -548,7 +621,6 @@
                     </svg>
                     Google ile Giriş
                 </button>
-                <!-- Menu toggle removed as requested -->
             </div>
         </nav>
     </header>
@@ -557,12 +629,7 @@
     <section class="hero" id="home">
         <div class="gradient-blob"></div>
         <div class="gradient-blob-2"></div>
-        <div class="floating-elements">
-            <div class="floating-element"></div>
-            <div class="floating-element"></div>
-            <div class="floating-element"></div>
-        </div>
-        <div class="hero-content" id="heroContent">
+        <div class="hero-content scroll-animate" id="heroContent">
             <h1 class="hero-title">
                 İDDİA EDİYORUZ<br>
                 EN İYİSİYİZ.
@@ -647,7 +714,7 @@
         // Header scroll effect
         window.addEventListener('scroll', () => {
             const header = document.getElementById('header');
-            if (window.scrollY > 100) {
+            if (window.scrollY > 50) { /* Reduced scroll threshold */
                 header.classList.add('scrolled');
             } else {
                 header.classList.remove('scrolled');
@@ -686,7 +753,6 @@
         }
 
         function handleCredentialResponse(response) {
-            // Decode JWT token to get user info
             const payload = JSON.parse(atob(response.credential.split('.')[1]));
             
             currentUser = {
@@ -704,36 +770,36 @@
             const userInfo = document.getElementById('userInfo');
             const userName = document.getElementById('userName');
             const userAvatar = document.getElementById('userAvatar');
+            const userDropdown = document.getElementById('userDropdown');
             const heroActionsDiv = heroContentDiv.querySelector('.hero-actions');
 
-            // Hide sign-in button
             signInButton.style.display = 'none';
-            
-            // Show user info
             userInfo.style.display = 'flex';
             userName.textContent = currentUser.given_name || currentUser.name;
             
-            // Set avatar
             if (currentUser.picture) {
                 userAvatar.innerHTML = `<img src="${currentUser.picture}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
             } else {
                 userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
             }
 
-            // Remove previous event listener to prevent multiple bindings
-            userInfo.removeEventListener('click', signOut);
-            // Add click event to user info for sign out
-            userInfo.addEventListener('click', signOut);
-            userInfo.style.cursor = 'pointer';
-            userInfo.title = 'Çıkış yapmak için tıklayın';
+            // Toggle dropdown on user info click
+            userInfo.removeEventListener('click', toggleUserDropdown); // Remove old listener
+            userInfo.addEventListener('click', toggleUserDropdown); // Add new listener
 
-            // Check for personalized content
+            // Sign out button in dropdown
+            document.getElementById('signOutButton').removeEventListener('click', signOut);
+            document.getElementById('signOutButton').addEventListener('click', signOut);
+
+            // Edit profile button (placeholder)
+            document.getElementById('editProfileButton').removeEventListener('click', editProfile);
+            document.getElementById('editProfileButton').addEventListener('click', editProfile);
+
             const userConfig = userConfigurations[currentUser.email];
             if (userConfig) {
                 displayPersonalizedContent(userConfig);
             } else {
-                // If no specific config, show default welcome toast and restore default hero content
-                showWelcomeMessage();
+                showWelcomeToast();
                 restoreDefaultHeroContent();
             }
 
@@ -742,7 +808,7 @@
             if (!contactButton) {
                 contactButton = document.createElement('button');
                 contactButton.id = 'contactAdvisorButton';
-                contactButton.className = 'cta-button'; // Use existing CTA button style
+                contactButton.className = 'cta-button secondary'; /* Use secondary style */
                 contactButton.innerHTML = `
                     MÜŞTERİ DANIŞMANINA ULAŞ
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -751,22 +817,33 @@
                 `;
                 contactButton.addEventListener('click', showContactPanel);
                 heroActionsDiv.appendChild(contactButton);
+                addRippleEffect(contactButton); /* Add ripple to new button */
             }
-            contactButton.style.display = 'inline-flex'; // Ensure it's visible
+            contactButton.style.display = 'inline-flex';
         }
 
-        function showWelcomeMessage() {
-            // Create and show a welcome toast
+        function toggleUserDropdown(event) {
+            event.stopPropagation(); // Prevent click from closing immediately
+            const userDropdown = document.getElementById('userDropdown');
+            userDropdown.classList.toggle('active');
+        }
+
+        function editProfile() {
+            alert('Profil düzenleme özelliği yakında eklenecek!');
+            document.getElementById('userDropdown').classList.remove('active');
+        }
+
+        function showWelcomeToast() {
             const toast = document.createElement('div');
             toast.style.cssText = `
                 position: fixed;
                 top: 100px;
                 right: 20px;
-                background: linear-gradient(135deg, #667eea, #764ba2);
+                background: linear-gradient(135deg, var(--accent-color), #764ba2);
                 color: white;
                 padding: 1rem 1.5rem;
-                border-radius: 10px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                border-radius: var(--border-radius-sm);
+                box-shadow: var(--shadow-medium);
                 z-index: 10000;
                 font-weight: 600;
                 transform: translateX(100%);
@@ -804,7 +881,7 @@
                         </svg>
                     </a>
                 </div>
-                <div class="hero-stats" style="display: none;"></div> <!-- Hide stats for personalized view -->
+                <div class="hero-stats" style="display: none;"></div>
             `;
             // Re-select heroActionsDiv after innerHTML change
             const heroActionsDiv = heroContentDiv.querySelector('.hero-actions');
@@ -813,7 +890,7 @@
             if (!contactButton) {
                 contactButton = document.createElement('button');
                 contactButton.id = 'contactAdvisorButton';
-                contactButton.className = 'cta-button'; // Use existing CTA button style
+                contactButton.className = 'cta-button secondary';
                 contactButton.innerHTML = `
                     MÜŞTERİ DANIŞMANINA ULAŞ
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -822,19 +899,20 @@
                 `;
                 contactButton.addEventListener('click', showContactPanel);
                 heroActionsDiv.appendChild(contactButton);
+                addRippleEffect(contactButton); /* Add ripple to new button */
             }
             contactButton.style.display = 'inline-flex';
+            addRippleEffect(heroActionsDiv.querySelector('.cta-button:not(.secondary)')); /* Add ripple to panel button */
         }
 
         function restoreDefaultHeroContent() {
             heroContentDiv.innerHTML = originalHeroContentHTML;
-            // Re-attach original event listener for the "BAŞLAYALIM" button
             const defaultCtaButton = document.getElementById('defaultCtaButton');
             if (defaultCtaButton) {
-                defaultCtaButton.removeEventListener('click', defaultCtaButtonHandler); // Remove old listener
-                defaultCtaButton.addEventListener('click', defaultCtaButtonHandler); // Add new listener
+                defaultCtaButton.removeEventListener('click', defaultCtaButtonHandler);
+                defaultCtaButton.addEventListener('click', defaultCtaButtonHandler);
+                addRippleEffect(defaultCtaButton); /* Re-add ripple */
             }
-            // Hide contact advisor button if it exists
             const contactButton = document.getElementById('contactAdvisorButton');
             if (contactButton) {
                 contactButton.style.display = 'none';
@@ -846,14 +924,12 @@
                 google.accounts.id.disableAutoSelect();
                 currentUser = null;
                 
-                // Reset UI
                 document.getElementById('googleSignIn').style.display = 'flex';
                 document.getElementById('userInfo').style.display = 'none';
+                document.getElementById('userDropdown').classList.remove('active');
                 
-                // Restore default hero content
                 restoreDefaultHeroContent();
 
-                // Show sign out message
                 const toast = document.createElement('div');
                 toast.style.cssText = `
                     position: fixed;
@@ -862,8 +938,8 @@
                     background: #dc3545;
                     color: white;
                     padding: 1rem 1.5rem;
-                    border-radius: 10px;
-                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                    border-radius: var(--border-radius-sm);
+                    box-shadow: var(--shadow-medium);
                     z-index: 10000;
                     font-weight: 600;
                     transform: translateX(100%);
@@ -896,7 +972,6 @@
             if (typeof google !== 'undefined') {
                 initializeGoogleSignIn();
             } else {
-                // Retry if Google script hasn't loaded yet
                 setTimeout(() => {
                     if (typeof google !== 'undefined') {
                         initializeGoogleSignIn();
@@ -920,27 +995,6 @@
         // Attach initial event listener for the default CTA button
         document.getElementById('defaultCtaButton').addEventListener('click', defaultCtaButtonHandler);
 
-        // Add some interactive effects
-        document.addEventListener('mousemove', (e) => {
-            const blob = document.querySelector('.gradient-blob');
-            const blob2 = document.querySelector('.gradient-blob-2');
-            
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            
-            blob.style.transform = `translate(${x * 20}px, ${y * 20}px)`;
-            blob2.style.transform = `translate(${x * -15}px, ${y * -15}px)`;
-        });
-
-        // Add click effect to CTA button (for default button)
-        document.getElementById('defaultCtaButton').addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-8px) scale(1.05)';
-        });
-
-        document.getElementById('defaultCtaButton').addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(-5px) scale(1)';
-        });
-
         // Contact Panel Logic
         const contactPanelOverlay = document.getElementById('contactPanelOverlay');
         const closeContactPanelButton = document.getElementById('closeContactPanel');
@@ -960,43 +1014,66 @@
             }
         });
 
-        // Add some random floating animations
-        function createFloatingElement() {
-            const element = document.createElement('div');
-            element.style.cssText = `
-                position: fixed;
-                width: ${Math.random() * 10 + 5}px;
-                height: ${Math.random() * 10 + 5}px;
-                background: rgba(102, 126, 234, 0.3);
-                border-radius: 50%;
-                pointer-events: none;
-                z-index: 1;
-                left: ${Math.random() * 100}vw;
-                top: 100vh;
-                animation: floatUp ${Math.random() * 3 + 2}s linear forwards;
-            `;
-            
-            document.body.appendChild(element);
-            
-            setTimeout(() => {
-                document.body.removeChild(element);
-            }, 5000);
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            const userDropdown = document.getElementById('userDropdown');
+            const userInfo = document.getElementById('userInfo');
+            if (userDropdown.classList.contains('active') && !userInfo.contains(event.target)) {
+                userDropdown.classList.remove('active');
+            }
+        });
+
+        // Ripple Effect Functionality
+        function createRipple(event) {
+            const button = event.currentTarget;
+            const circle = document.createElement('span');
+            const diameter = Math.max(button.clientWidth, button.clientHeight);
+            const radius = diameter / 2;
+
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
+            circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+            circle.classList.add('ripple');
+
+            const ripple = button.getElementsByClassName('ripple')[0];
+
+            if (ripple) {
+                ripple.remove();
+            }
+
+            button.appendChild(circle);
         }
 
-        // Add CSS for floating animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes floatUp {
-                to {
-                    transform: translateY(-100vh) rotate(360deg);
-                    opacity: 0;
-                }
+        function addRippleEffect(element) {
+            if (element) {
+                element.removeEventListener('click', createRipple); // Prevent duplicate listeners
+                element.addEventListener('click', createRipple);
             }
-        `;
-        document.head.appendChild(style);
+        }
 
-        // Create floating elements periodically
-        setInterval(createFloatingElement, 2000);
+        // Apply ripple effect to initial buttons
+        document.querySelectorAll('.google-signin, .cta-button, .dropdown-menu-item, .contact-panel .contact-item').forEach(button => {
+            addRippleEffect(button);
+        });
+
+        // Scroll Animation (Intersection Observer)
+        const animateOnScrollElements = document.querySelectorAll('.scroll-animate');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        }, {
+            threshold: 0.1, // Trigger when 10% of the element is visible
+            rootMargin: '0px 0px -50px 0px' // Adjust when element is 50px from bottom of viewport
+        });
+
+        animateOnScrollElements.forEach(element => {
+            observer.observe(element);
+        });
     </script>
 </body>
 </html>
