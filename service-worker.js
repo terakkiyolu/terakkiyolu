@@ -3,7 +3,7 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/ert1.png'
+  '/the.png'
 ];
 
 // Install event - cache resources
