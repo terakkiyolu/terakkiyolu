@@ -336,11 +336,13 @@
             stroke: currentColor;
         }
 
-        /* Card Flip Section */
+        /* Company Cards Section */
         .company-cards-section {
             padding: 6rem 2rem;
             background-color: var(--background-color);
             text-align: center;
+            position: relative; /* Needed for logo overlap */
+            z-index: 1; /* Ensure it's above blobs but below logo */
         }
 
         .company-cards-section h2 {
@@ -899,26 +901,46 @@
         }
 
         /* Footer Styles */
+        .footer-wrapper {
+            position: relative;
+            background-color: var(--background-color); /* Match body background */
+            padding-top: 100px; /* Space for the overlapping logo */
+            z-index: 0; /* Ensure it's below the logo */
+        }
+
+        .footer-wavy-top {
+            position: absolute;
+            top: -1px; /* Overlap slightly to hide potential gap */
+            left: 0;
+            width: 100%;
+            height: 150px; /* Height of the wave */
+            overflow: hidden;
+            z-index: 1; /* Above company cards, below logo */
+        }
+
+        .footer-wavy-top svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+            fill: #1a1a1a; /* Match footer background */
+            transform: translateY(1px); /* Adjust for perfect alignment */
+        }
+
         .footer {
-            background: linear-gradient(135deg, #1a1a1a, #333333); /* Dark gradient background */
+            background: #1a1a1a; /* Solid dark background for footer content */
             color: #f0f0f0;
-            padding: 6rem 2rem; /* Increased padding */
+            padding: 4rem 2rem; /* Adjusted padding */
             text-align: center;
             position: relative;
             overflow: hidden;
-            animation: footer-bg-animation 15s ease-in-out infinite alternate; /* Subtle background animation */
-        }
-
-        @keyframes footer-bg-animation {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
+            z-index: 2; /* Above wavy top */
         }
 
         .footer-content {
             max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Adjusted minmax */
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 3rem;
             text-align: left;
         }
@@ -930,14 +952,14 @@
         }
 
         .footer-section h3 {
-            font-size: 1.3rem; /* Slightly larger */
+            font-size: 1.3rem;
             font-weight: 700;
             margin-bottom: 1.5rem;
             color: white;
             position: relative;
             display: inline-block;
-            opacity: 0; /* For animation */
-            transform: translateY(20px); /* For animation */
+            opacity: 0;
+            transform: translateY(20px);
             animation: fade-in-up 0.6s ease-out forwards;
             animation-delay: var(--delay);
         }
@@ -964,8 +986,8 @@
             color: #ccc;
             text-decoration: none;
             transition: color 0.3s ease;
-            opacity: 0; /* For animation */
-            transform: translateY(20px); /* For animation */
+            opacity: 0;
+            transform: translateY(20px);
             animation: fade-in-up 0.6s ease-out forwards;
             animation-delay: var(--delay);
         }
@@ -989,9 +1011,9 @@
             display: flex;
             gap: 1.5rem;
             margin-top: 1.5rem;
-            justify-content: flex-start; /* Align left with text */
-            opacity: 0; /* For animation */
-            transform: translateY(20px); /* For animation */
+            justify-content: flex-start;
+            opacity: 0;
+            transform: translateY(20px);
             animation: fade-in-up 0.6s ease-out forwards;
             animation-delay: var(--delay);
         }
@@ -999,7 +1021,7 @@
         .footer-social-icons a {
             color: #ccc;
             transition: transform 0.3s ease, color 0.3s ease, filter 0.3s ease;
-            display: inline-flex; /* For proper scaling */
+            display: inline-flex;
         }
 
         .footer-social-icons a:hover {
@@ -1013,34 +1035,35 @@
             height: 24px;
         }
 
-        .footer-logo-container {
-            text-align: center;
-            margin-bottom: 2rem;
-            opacity: 0; /* For animation */
-            transform: scale(0.8); /* For animation */
-            animation: zoom-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-            animation-delay: 0.2s;
+        /* Overlapping Logo */
+        .overlapping-logo-container {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: clamp(150px, 25vw, 250px); /* Responsive size */
+            height: clamp(150px, 25vw, 250px);
+            top: calc(var(--footer-top-position) - clamp(75px, 12.5vw, 125px)); /* Half above, half below */
+            z-index: 10; /* Above everything except header */
+            pointer-events: none; /* Allow clicks through */
         }
 
-        .footer-logo {
-            width: clamp(120px, 20vw, 180px); /* Large and responsive */
-            height: auto;
-            filter: drop-shadow(0 0 15px rgba(255,255,255,0.3)); /* Glow effect */
-            transition: transform 0.5s ease-in-out;
+        .overlapping-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.4)); /* Stronger shadow */
+            animation: logo-float 6s ease-in-out infinite alternate; /* Floating animation */
         }
 
-        .footer-logo:hover {
-            transform: scale(1.05) rotate(3deg); /* Subtle rotate on hover */
+        @keyframes logo-float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
         }
 
         @keyframes fade-in-up {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes zoom-in {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
         }
 
         .footer-bottom {
@@ -1050,10 +1073,10 @@
             font-size: 0.85rem;
             color: #aaa;
             text-align: center;
-            opacity: 0; /* For animation */
-            transform: translateY(20px); /* For animation */
+            opacity: 0;
+            transform: translateY(20px);
             animation: fade-in-up 0.6s ease-out forwards;
-            animation-delay: 0.8s;
+            animation-delay: var(--delay);
         }
 
         /* Responsive adjustments for smaller screens */
@@ -1108,6 +1131,16 @@
 
             .footer-social-icons {
                 justify-content: center; /* Center social icons on mobile */
+            }
+
+            .footer-wavy-top {
+                height: 80px; /* Smaller wave on mobile */
+            }
+
+            .overlapping-logo-container {
+                width: clamp(100px, 25vw, 150px);
+                height: clamp(100px, 25vw, 150px);
+                top: calc(var(--footer-top-position) - clamp(50px, 12.5vw, 75px));
             }
         }
 
@@ -1185,6 +1218,73 @@
         </div>
     </section>
 
+    <!-- Footer Wrapper for Overlapping Logo and Wavy Top -->
+    <div class="footer-wrapper">
+        <!-- Wavy Top SVG -->
+        <div class="footer-wavy-top">
+            <svg viewBox="0 0 1440 150" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,100 C240,150 480,50 720,100 C960,150 1200,50 1440,100 L1440,150 L0,150 Z"></path>
+            </svg>
+        </div>
+
+        <!-- Overlapping Logo -->
+        <div class="overlapping-logo-container" id="overlappingLogoContainer">
+            <img src="/placeholder.svg?height=200&width=200" alt="THE LENG Logo" class="overlapping-logo">
+        </div>
+
+        <!-- Footer Section -->
+        <footer class="footer" id="footer">
+            <div class="footer-content">
+                <div class="footer-section" style="--delay: 0s;">
+                    <h3>THE LENG</h3>
+                    <p>Dijital dünyada fark yaratan, sınırları zorlayan ve her projede mükemmelliği hedefleyen teknoloji şirketi. Hayallerinizi gerçeğe dönüştürüyoruz.</p>
+                </div>
+                <div class="footer-section" style="--delay: 0.1s;">
+                    <h3>Hızlı Bağlantılar</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Anasayfa</a></li>
+                        <li><a href="#companies">Şirketler</a></li>
+                        <li><a href="#">Hizmetlerimiz</a></li>
+                        <li><a href="#">Portföy</a></li>
+                        <li><a href="#">Kariyer</a></li>
+                        <li><a href="#contact">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section" style="--delay: 0.2s;">
+                    <h3>Yasal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Gizlilik Politikası</a></li>
+                        <li><a href="#">Kullanım Koşulları</a></li>
+                        <li><a href="#">Çerez Politikası</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section" style="--delay: 0.3s;">
+                    <h3>Bize Ulaşın</h3>
+                    <p>Email: info@theleng.com</p>
+                    <p>Telefon: +90 555 123 45 67</p>
+                    <p>Adres: Örnek Mah. Örnek Cad. No:123, İstanbul, Türkiye</p>
+                    <div class="footer-social-icons">
+                        <a href="https://twitter.com/theleng" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17-18 11.6 2.2.1 4.4-.6 6-2 1.1-.9 1.8-2.2 2.1-3.7C3.2 15.2 2 13 2 12c2.1 1.2 4.4 1.8 6.7 1.7-1.1-3.9 1.5-7.5 5.4-8.5 3.6-.8 7.1 2 7.1 2z"/></svg>
+                        </a>
+                        <a href="https://linkedin.com/company/theleng" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/></svg>
+                        </a>
+                        <a href="https://instagram.com/theleng" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                        </a>
+                        <a href="https://facebook.com/theleng" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom" style="--delay: 0.4s;">
+                <p>&copy; 2023 THE LENG. Tüm Hakları Saklıdır.</p>
+            </div>
+        </footer>
+    </div>
+
     <!-- Contact Panel -->
     <div class="contact-panel-overlay" id="contactPanelOverlay">
         <div class="contact-panel">
@@ -1245,61 +1345,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Footer Section -->
-    <footer class="footer" id="footer">
-        <div class="footer-logo-container">
-            <img src="/placeholder.svg?height=150&width=150" alt="THE LENG Logo" class="footer-logo">
-        </div>
-        <div class="footer-content">
-            <div class="footer-section" style="--delay: 0s;">
-                <h3>THE LENG</h3>
-                <p>Dijital dünyada fark yaratan, sınırları zorlayan ve her projede mükemmelliği hedefleyen teknoloji şirketi. Hayallerinizi gerçeğe dönüştürüyoruz.</p>
-            </div>
-            <div class="footer-section" style="--delay: 0.1s;">
-                <h3>Hızlı Bağlantılar</h3>
-                <ul class="footer-links">
-                    <li><a href="#home">Anasayfa</a></li>
-                    <li><a href="#companies">Şirketler</a></li>
-                    <li><a href="#">Hizmetlerimiz</a></li>
-                    <li><a href="#">Portföy</a></li>
-                    <li><a href="#">Kariyer</a></li>
-                    <li><a href="#contact">İletişim</a></li>
-                </ul>
-            </div>
-            <div class="footer-section" style="--delay: 0.2s;">
-                <h3>Yasal</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Gizlilik Politikası</a></li>
-                    <li><a href="#">Kullanım Koşulları</a></li>
-                    <li><a href="#">Çerez Politikası</a></li>
-                </ul>
-            </div>
-            <div class="footer-section" style="--delay: 0.3s;">
-                <h3>Bize Ulaşın</h3>
-                <p>Email: info@theleng.com</p>
-                <p>Telefon: +90 555 123 45 67</p>
-                <p>Adres: Örnek Mah. Örnek Cad. No:123, İstanbul, Türkiye</p>
-                <div class="footer-social-icons">
-                    <a href="https://twitter.com/theleng" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17-18 11.6 2.2.1 4.4-.6 6-2 1.1-.9 1.8-2.2 2.1-3.7C3.2 15.2 2 13 2 12c2.1 1.2 4.4 1.8 6.7 1.7-1.1-3.9 1.5-7.5 5.4-8.5 3.6-.8 7.1 2 7.1 2z"/></svg>
-                    </a>
-                    <a href="https://linkedin.com/company/theleng" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/></svg>
-                    </a>
-                    <a href="https://instagram.com/theleng" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 1 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-                    </a>
-                    <a href="https://facebook.com/theleng" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom" style="--delay: 0.4s;">
-            <p>&copy; 2023 THE LENG. Tüm Hakları Saklıdır.</p>
-        </div>
-    </footer>
 
     <script>
         // PWA Service Worker Registration
@@ -1857,6 +1902,17 @@
             });
             initializeScrollAnimations(); // Re-initialize for new cards
         });
+
+        // Dynamic Footer Top Position for Overlapping Logo
+        function updateFooterTopPosition() {
+            const footerWrapper = document.querySelector('.footer-wrapper');
+            const footerTop = footerWrapper.offsetTop;
+            document.documentElement.style.setProperty('--footer-top-position', `${footerTop}px`);
+        }
+
+        window.addEventListener('load', updateFooterTopPosition);
+        window.addEventListener('resize', updateFooterTopPosition);
+        window.addEventListener('scroll', updateFooterTopPosition); // Update on scroll for dynamic content
     </script>
 </body>
 </html>
