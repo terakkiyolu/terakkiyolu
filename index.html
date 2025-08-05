@@ -12,18 +12,14 @@
     <link rel="manifest" href="/manifest.json">
 
     <style>
-        /* Font family kept as original: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; */
-
         :root {
             --primary-color: #000;
             --secondary-color: #333;
             --text-color: #666;
             --background-color: #f8f8f8;
-            --header-bg: rgba(248, 248, 248, 0.95); /* Kept for potential future use, but overridden */
-            --header-scrolled-bg: rgba(255, 255, 255, 0.98); /* Kept for potential future use, but overridden */
             --border-radius-sm: 10px;
             --border-radius-md: 25px;
-            --border-radius-lg: 60px; /* Increased for island shapes */
+            --border-radius-lg: 60px;
             --transition-speed: 0.3s;
             --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.08);
             --shadow-medium: 0 5px 20px rgba(0, 0, 0, 0.15);
@@ -35,32 +31,14 @@
             --card-bg-gradient-to: white;
             --card-text-dark: #18181b;
             --card-text-medium: #666;
-            --card-accent-color: #ff8c00; /* Orange for card accents */
+            --card-accent-color: #ff8c00;
         }
-
-        /* Dark mode variables (if you implement dark mode later) */
-        /* @media (prefers-color-scheme: dark) {
-            :root {
-                --background-color: #1a1a1a;
-                --header-bg: rgba(26, 26, 26, 0.95);
-                --header-scrolled-bg: rgba(0, 0, 0, 0.98);
-                --primary-color: #fff;
-                --secondary-color: #ccc;
-                --text-color: #aaa;
-                --card-border-color: #333;
-                --card-bg-light: #1f1f1f;
-                --card-bg-gradient-from: #1f1f1f;
-                --card-bg-gradient-to: #000;
-                --card-text-dark: #fff;
-                --card-text-medium: #ccc;
-            }
-        } */
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent; /* Remove blue tap highlight on mobile */
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -72,7 +50,6 @@
             scroll-behavior: smooth;
         }
 
-        /* Global Focus/Outline Reset */
         *:focus {
             outline: none;
             box-shadow: none;
@@ -83,15 +60,15 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: transparent; /* Make it transparent */
-            backdrop-filter: none; /* Remove blur */
+            background: transparent;
+            backdrop-filter: none;
             z-index: 1000;
             transition: all var(--transition-speed) ease;
         }
 
         .header.scrolled {
-            background: transparent; /* Still transparent */
-            box-shadow: none; /* Remove shadow on scroll */
+            background: transparent;
+            box-shadow: none;
         }
 
         .nav {
@@ -103,27 +80,26 @@
             margin: 0 auto;
         }
 
-        /* Logo Island Style */
         .logo {
-            display: inline-flex; /* Use inline-flex to wrap content */
+            display: inline-flex;
             align-items: center;
-            gap: 0.75rem; /* Increased gap for better spacing */
-            font-weight: 800; /* Bolder */
+            gap: 0.75rem;
+            font-weight: 800;
             font-size: clamp(1.5rem, 3.5vw, 1.8rem);
             color: var(--primary-color);
             letter-spacing: -0.8px;
             text-transform: uppercase;
-            background: white; /* Island background */
-            padding: 0.75rem 1.5rem; /* Island padding */
-            border-radius: var(--border-radius-lg); /* Rounded island */
-            box-shadow: var(--shadow-light); /* Subtle shadow */
+            background: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-light);
             transition: all var(--transition-speed) ease;
-            cursor: pointer; /* Indicate interactivity */
+            cursor: pointer;
         }
 
         .logo:hover {
-            transform: translateY(-3px) scale(1.01); /* Slight lift and scale */
-            box-shadow: var(--shadow-medium); /* More pronounced shadow */
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: var(--shadow-medium);
         }
 
         .logo-dots {
@@ -147,15 +123,14 @@
             gap: 1rem;
         }
 
-        /* User Info Island Style */
         .user-info {
             position: relative;
-            display: inline-flex; /* Use inline-flex */
+            display: inline-flex;
             align-items: center;
             gap: 0.6rem;
             padding: 0.6rem 1.2rem;
-            background: white; /* Island background */
-            border-radius: var(--border-radius-lg); /* Rounded island */
+            background: white;
+            border-radius: var(--border-radius-lg);
             font-size: clamp(0.88rem, 2vw, 0.98rem);
             font-weight: 600;
             color: var(--secondary-color);
@@ -166,8 +141,8 @@
         }
 
         .user-info:hover {
-            background: rgba(255, 255, 255, 0.8); /* Slightly darker on hover */
-            transform: translateY(-2px) scale(1.02); /* Added scale */
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px) scale(1.02);
             box-shadow: var(--shadow-medium);
         }
 
@@ -194,7 +169,7 @@
             overflow: hidden;
             display: flex;
             align-items: center;
-            text-align: left; /* Ensure left alignment */
+            text-align: left;
         }
 
         .hero-content {
@@ -203,7 +178,7 @@
             position: relative;
             z-index: 2;
             width: 100%;
-            text-align: left; /* Ensure left alignment for children */
+            text-align: left;
         }
 
         .gradient-blob {
@@ -281,7 +256,7 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 2.5s infinite linear 0.5s; /* Staggered */
+            animation: shimmer 2.5s infinite linear 0.5s;
         }
 
         @keyframes shimmer {
@@ -341,8 +316,8 @@
             padding: 6rem 2rem;
             background-color: var(--background-color);
             text-align: center;
-            position: relative; /* Needed for logo overlap */
-            z-index: 1; /* Ensure it's above blobs but below logo */
+            position: relative;
+            z-index: 1;
         }
 
         .company-cards-section h2 {
@@ -355,19 +330,19 @@
 
         .company-cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjusted minmax for larger cards */
-            gap: 1.5rem; /* Reduced gap */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
             max-width: 1200px;
             margin: 0 auto;
             justify-items: center;
         }
 
-        /* Card Flip Styles (Adapted from CardFlip component) */
+        /* Card Flip Styles */
         .card-flip-container {
             position: relative;
             width: 100%;
-            max-width: 320px; /* Increased size */
-            height: 360px; /* Adjusted height for new width */
+            max-width: 320px;
+            height: 360px;
             perspective: 2000px;
             cursor: pointer;
         }
@@ -377,7 +352,7 @@
             width: 100%;
             height: 100%;
             transform-style: preserve-3d;
-            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1); /* Spring-like transition */
+            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .card-flip-container.flipped .card-flip-inner {
@@ -392,9 +367,9 @@
             height: 100%;
             backface-visibility: hidden;
             overflow: hidden;
-            border-radius: 16px; /* rounded-2xl */
+            border-radius: 16px;
             border: 1px solid var(--card-border-color);
-            box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); /* shadow-xs */
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
             transition: all 0.7s;
         }
 
@@ -410,7 +385,7 @@
 
         .card-flip-back {
             transform: rotateY(180deg);
-            padding: 24px; /* p-6 */
+            padding: 24px;
             background: var(--card-bg-light);
             background: linear-gradient(to bottom, var(--card-bg-gradient-from), var(--card-bg-gradient-to));
             display: flex;
@@ -437,10 +412,10 @@
             top: 24px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px; /* Adjust as needed */
-            height: 100px; /* Adjust as needed */
+            width: 100px;
+            height: 100px;
             object-fit: contain;
-            filter: grayscale(100%); /* Make logos grayscale */
+            filter: grayscale(100%);
             opacity: 0.7;
             transition: filter 0.3s, opacity 0.3s;
         }
@@ -452,15 +427,15 @@
 
         .card-front-text {
             text-align: center;
-            margin-top: auto; /* Push to bottom */
+            margin-top: auto;
         }
 
         .card-front-title {
-            font-size: 1.125rem; /* text-lg */
-            font-weight: 600; /* font-semibold */
+            font-size: 1.125rem;
+            font-weight: 600;
             color: var(--card-text-dark);
-            line-height: 1.375; /* leading-snug */
-            letter-spacing: -0.03em; /* tracking-tighter */
+            line-height: 1.375;
+            letter-spacing: -0.03em;
             transition: transform 0.5s ease-out;
         }
 
@@ -469,13 +444,13 @@
         }
 
         .card-front-subtitle {
-            font-size: 0.875rem; /* text-sm */
+            font-size: 0.875rem;
             color: var(--card-text-medium);
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            letter-spacing: -0.02em; /* tracking-tight */
+            letter-spacing: -0.02em;
             transition: transform 0.5s ease-out 50ms;
         }
 
@@ -493,8 +468,8 @@
         .card-front-icon {
             position: relative;
             z-index: 10;
-            width: 16px; /* w-4 */
-            height: 16px; /* h-4 */
+            width: 16px;
+            height: 16px;
             color: var(--card-accent-color);
             transition: transform 0.3s, rotate 0.3s;
         }
@@ -516,11 +491,11 @@
         }
 
         .card-back-title {
-            font-size: 1.125rem; /* text-lg */
-            font-weight: 600; /* font-semibold */
+            font-size: 1.125rem;
+            font-weight: 600;
             color: var(--card-text-dark);
-            line-height: 1.375; /* leading-snug */
-            letter-spacing: -0.02em; /* tracking-tight */
+            line-height: 1.375;
+            letter-spacing: -0.02em;
             transition: transform 0.5s ease-out;
         }
 
@@ -529,9 +504,9 @@
         }
 
         .card-back-description {
-            font-size: 0.875rem; /* text-sm */
+            font-size: 0.875rem;
             color: var(--card-text-medium);
-            letter-spacing: -0.02em; /* tracking-tight */
+            letter-spacing: -0.02em;
             line-height: 1.5;
             margin-top: 0.5rem;
             transition: transform 0.5s ease-out;
@@ -548,34 +523,35 @@
         .card-back-feature-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem; /* gap-2 */
-            font-size: 0.875rem; /* text-sm */
+            gap: 0.5rem;
+            font-size: 0.875rem;
             color: var(--card-text-medium);
             transition: all 0.5s;
             margin-bottom: 0.5rem;
         }
 
         .card-back-feature-icon {
-            width: 12px; /* w-3 */
-            height: 12px; /* h-3 */
+            width: 12px;
+            height: 12px;
             color: var(--card-accent-color);
         }
 
-        /* Contact Panel Styles */
+        /* Enhanced Contact Panel Styles */
         .contact-panel-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7); /* Darker overlay */
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 2000;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            backdrop-filter: blur(10px);
         }
 
         .contact-panel-overlay.active {
@@ -584,111 +560,182 @@
         }
 
         .contact-panel {
-            background: white;
-            padding: 2.5rem; /* Increased padding */
-            border-radius: 16px; /* Slightly rounded rectangle */
-            box-shadow: var(--shadow-strong); /* Stronger shadow */
-            max-width: 450px; /* Wider */
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            max-width: 500px;
             width: 90%;
-            text-align: center;
-            transform: scale(0.8) translateY(50px); /* Initial state for animation */
+            text-align: left;
+            transform: scale(0.7) translateY(100px) rotateX(15deg);
             opacity: 0;
-            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s ease-out; /* Spring-like animation */
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
-            overflow: hidden; /* For internal animations */
-            border: 2px solid var(--accent-gradient); /* Accent border */
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: panel-shimmer 3s infinite;
+        }
+
+        @keyframes panel-shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
 
         .contact-panel-overlay.active .contact-panel {
-            transform: scale(1) translateY(0);
+            transform: scale(1) translateY(0) rotateX(0deg);
             opacity: 1;
         }
 
         .contact-panel-icon {
-            width: 80px; /* Large icon */
+            width: 80px;
             height: 80px;
-            color: var(--accent-gradient); /* Gradient color */
-            margin: 0 auto 1.5rem;
-            animation: pulse 2s infinite ease-in-out; /* Pulsing animation */
+            color: #667eea;
+            margin-bottom: 2rem;
+            animation: icon-pulse 2s infinite ease-in-out;
+            filter: drop-shadow(0 4px 8px rgba(102, 126, 234, 0.3));
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.9; }
-            100% { transform: scale(1); opacity: 1; }
+        @keyframes icon-pulse {
+            0%, 100% { 
+                transform: scale(1) rotate(0deg); 
+                filter: drop-shadow(0 4px 8px rgba(102, 126, 234, 0.3));
+            }
+            50% { 
+                transform: scale(1.1) rotate(5deg); 
+                filter: drop-shadow(0 8px 16px rgba(102, 126, 234, 0.5));
+            }
         }
 
         .contact-panel h2 {
-            font-size: clamp(1.8rem, 4.5vw, 2.5rem); /* Larger title */
+            font-size: clamp(2rem, 5vw, 2.8rem);
             margin-bottom: 1.5rem;
             color: var(--primary-color);
             letter-spacing: -1px;
+            font-weight: 700;
+            text-align: left;
+            background: linear-gradient(135deg, #000, #333);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .contact-panel p {
-            font-size: clamp(1rem, 2.8vw, 1.1rem);
-            margin-bottom: 2rem;
+            font-size: clamp(1.1rem, 3vw, 1.2rem);
+            margin-bottom: 2.5rem;
             color: var(--secondary-color);
-            line-height: 1.5;
+            line-height: 1.6;
+            text-align: left;
         }
 
         .contact-panel .contact-info {
-            margin-top: 1.5rem;
+            margin-top: 2rem;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.2rem;
         }
 
         .contact-panel .contact-item {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+            justify-content: flex-start;
+            gap: 1rem;
+            font-size: clamp(1rem, 2.8vw, 1.1rem);
             color: var(--secondary-color);
             text-decoration: none;
-            transition: all 0.3s ease;
-            padding: 1rem; /* Larger padding */
-            border-radius: var(--border-radius-sm);
-            background: rgba(0, 0, 0, 0.03);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 1.2rem 1.5rem;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.7);
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transform: translateX(-20px);
+            opacity: 0;
+            animation: slide-in-left 0.6s ease-out forwards;
+        }
+
+        .contact-panel .contact-item:nth-child(1) { animation-delay: 0.1s; }
+        .contact-panel .contact-item:nth-child(2) { animation-delay: 0.2s; }
+        .contact-panel .contact-item:nth-child(3) { animation-delay: 0.3s; }
+        .contact-panel .contact-item:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slide-in-left {
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .contact-panel .contact-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .contact-panel .contact-item:hover::before {
+            left: 100%;
         }
 
         .contact-panel .contact-item:hover {
             color: white;
-            background: var(--accent-gradient); /* Gradient background on hover */
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: var(--shadow-light);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transform: translateX(10px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            border-color: transparent;
         }
 
         .contact-panel .contact-item svg {
-            width: clamp(20px, 4vw, 24px); /* Larger icons */
-            height: clamp(20px, 4vw, 24px);
+            width: clamp(22px, 4.5vw, 26px);
+            height: clamp(22px, 4.5vw, 26px);
             stroke: currentColor;
             stroke-width: 2;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-panel .contact-item:hover svg {
+            transform: scale(1.2) rotate(10deg);
         }
 
         .contact-panel .close-button {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(0, 0, 0, 0.05);
             border: none;
-            font-size: 1.8rem; /* Larger close button */
+            font-size: 2rem;
             cursor: pointer;
             color: var(--secondary-color);
-            transition: color var(--transition-speed) ease, transform 0.3s ease;
+            transition: all 0.3s ease;
             padding: 0.5rem;
             border-radius: 50%;
             line-height: 1;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .contact-panel .close-button:hover {
-            color: var(--primary-color);
-            background: rgba(0, 0, 0, 0.05);
-            transform: rotate(90deg); /* Rotate on hover */
+            color: white;
+            background: #ff4757;
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
         }
 
         /* Loading Animation */
@@ -729,7 +776,7 @@
         .ripple {
             position: absolute;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.7); /* White ripple for dark buttons */
+            background: rgba(255, 255, 255, 0.7);
             animation: ripple-animation 0.6s linear forwards;
             transform: scale(0);
             pointer-events: none;
@@ -738,8 +785,8 @@
 
         .cta-button.secondary .ripple,
         .contact-panel .contact-item .ripple,
-        .profile-drawer-item .ripple { /* Added for drawer items */
-            background: rgba(0, 0, 0, 0.1); /* Dark ripple for light buttons/items */
+        .profile-drawer-item .ripple {
+            background: rgba(0, 0, 0, 0.1);
         }
 
         @keyframes ripple-animation {
@@ -749,7 +796,7 @@
             }
         }
 
-        /* Scroll Animation (Fade In Up) */
+        /* Scroll Animation */
         .scroll-animate {
             opacity: 0;
             transform: translateY(20px);
@@ -761,7 +808,7 @@
             transform: translateY(0);
         }
 
-        /* Profile Drawer Styles (SmoothDrawer inspired) */
+        /* Profile Drawer Styles */
         .profile-drawer-overlay {
             position: fixed;
             top: 0;
@@ -770,8 +817,8 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.6);
             display: flex;
-            justify-content: flex-end; /* Align to right for drawer */
-            align-items: flex-end; /* Align to bottom for drawer */
+            justify-content: flex-end;
+            align-items: flex-end;
             z-index: 2000;
             opacity: 0;
             visibility: hidden;
@@ -785,15 +832,14 @@
 
         .profile-drawer {
             background: white;
-            width: clamp(280px, 80vw, 380px); /* Responsive width */
+            width: clamp(280px, 80vw, 380px);
             height: auto;
             max-height: 90vh;
             border-top-left-radius: var(--border-radius-md);
             border-top-right-radius: var(--border-radius-md);
             box-shadow: var(--shadow-medium);
-            transform: translateY(100%); /* Start from bottom */
+            transform: translateY(100%);
             opacity: 0;
-            /* Smoother transition for drawer */
             transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease-out;
             position: relative;
             display: flex;
@@ -836,7 +882,7 @@
         .profile-drawer-content {
             flex-grow: 1;
             overflow-y: auto;
-            padding-right: 0.5rem; /* For scrollbar */
+            padding-right: 0.5rem;
         }
 
         .profile-drawer-item {
@@ -900,186 +946,7 @@
             box-shadow: var(--shadow-light);
         }
 
-        /* Footer Styles */
-        .footer-wrapper {
-            position: relative;
-            background-color: var(--background-color); /* Match body background */
-            padding-top: 100px; /* Space for the overlapping logo */
-            z-index: 0; /* Ensure it's below the logo */
-        }
-
-        .footer-wavy-top {
-            position: absolute;
-            top: -1px; /* Overlap slightly to hide potential gap */
-            left: 0;
-            width: 100%;
-            height: 150px; /* Height of the wave */
-            overflow: hidden;
-            z-index: 1; /* Above company cards, below logo */
-        }
-
-        .footer-wavy-top svg {
-            display: block;
-            width: 100%;
-            height: 100%;
-            fill: #1a1a1a; /* Match footer background */
-            transform: translateY(1px); /* Adjust for perfect alignment */
-        }
-
-        .footer {
-            background: #1a1a1a; /* Solid dark background for footer content */
-            color: #f0f0f0;
-            padding: 4rem 2rem; /* Adjusted padding */
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            z-index: 2; /* Above wavy top */
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 3rem;
-            text-align: left;
-        }
-
-        .footer-section {
-            padding: 1rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .footer-section h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: white;
-            position: relative;
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fade-in-up 0.6s ease-out forwards;
-            animation-delay: var(--delay);
-        }
-
-        .footer-section h3::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -5px;
-            width: 50px;
-            height: 3px;
-            background: var(--accent-gradient);
-            border-radius: 2px;
-            transition: width 0.3s ease;
-        }
-
-        .footer-section:hover h3::after {
-            width: 80px;
-        }
-
-        .footer-section p, .footer-section a {
-            font-size: 0.95rem;
-            line-height: 1.8;
-            color: #ccc;
-            text-decoration: none;
-            transition: color 0.3s ease;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fade-in-up 0.6s ease-out forwards;
-            animation-delay: var(--delay);
-        }
-
-        .footer-section a:hover {
-            color: white;
-            text-decoration: underline;
-        }
-
-        .footer-links {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-
-        .footer-social-icons {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-            justify-content: flex-start;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fade-in-up 0.6s ease-out forwards;
-            animation-delay: var(--delay);
-        }
-
-        .footer-social-icons a {
-            color: #ccc;
-            transition: transform 0.3s ease, color 0.3s ease, filter 0.3s ease;
-            display: inline-flex;
-        }
-
-        .footer-social-icons a:hover {
-            color: white;
-            transform: translateY(-5px) scale(1.1);
-            filter: drop-shadow(0 0 8px rgba(255,255,255,0.5));
-        }
-
-        .footer-social-icons svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        /* Overlapping Logo */
-        .overlapping-logo-container {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: clamp(150px, 25vw, 250px); /* Responsive size */
-            height: clamp(150px, 25vw, 250px);
-            top: calc(var(--footer-top-position) - clamp(75px, 12.5vw, 125px)); /* Half above, half below */
-            z-index: 10; /* Above everything except header */
-            pointer-events: none; /* Allow clicks through */
-        }
-
-        .overlapping-logo {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.4)); /* Stronger shadow */
-            animation: logo-float 6s ease-in-out infinite alternate; /* Floating animation */
-        }
-
-        @keyframes logo-float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
-        }
-
-        @keyframes fade-in-up {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .footer-bottom {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.85rem;
-            color: #aaa;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fade-in-up 0.6s ease-out forwards;
-            animation-delay: var(--delay);
-        }
-
-        /* Responsive adjustments for smaller screens */
+        /* Mobile Responsive Adjustments */
         @media (max-width: 768px) {
             .nav {
                 padding: 0.75rem 1.25rem;
@@ -1104,43 +971,31 @@
                 max-width: none;
             }
 
+            /* Mobile cards: 2 per row */
             .company-cards-grid {
-                grid-template-columns: 1fr; /* Single column on small screens */
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                max-width: 100%;
+            }
+
+            .card-flip-container {
+                max-width: 100%;
+                height: 300px;
             }
 
             .profile-drawer {
-                width: 100%; /* Full width on mobile */
+                width: 100%;
                 border-bottom-left-radius: 0;
                 border-bottom-right-radius: 0;
             }
 
-            /* Footer Responsive */
-            .footer-content {
-                grid-template-columns: 1fr; /* Stack columns on mobile */
-                text-align: center; /* Center align content */
+            .contact-panel {
+                padding: 2rem;
+                margin: 1rem;
             }
 
-            .footer-section h3 {
-                text-align: center;
-            }
-
-            .footer-section h3::after {
-                left: 50%;
-                transform: translateX(-50%);
-            }
-
-            .footer-social-icons {
-                justify-content: center; /* Center social icons on mobile */
-            }
-
-            .footer-wavy-top {
-                height: 80px; /* Smaller wave on mobile */
-            }
-
-            .overlapping-logo-container {
-                width: clamp(100px, 25vw, 150px);
-                height: clamp(100px, 25vw, 150px);
-                top: calc(var(--footer-top-position) - clamp(50px, 12.5vw, 75px));
+            .contact-panel h2 {
+                font-size: 2rem;
             }
         }
 
@@ -1151,6 +1006,25 @@
 
             .hero {
                 padding: 6rem 1rem 2rem;
+            }
+
+            .company-cards-grid {
+                gap: 0.8rem;
+            }
+
+            .card-flip-container {
+                height: 280px;
+            }
+
+            .contact-panel {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Very small screens - single column if needed */
+        @media (max-width: 360px) {
+            .company-cards-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1176,7 +1050,6 @@
                     <div class="user-avatar" id="userAvatar"></div>
                     <span id="userName"></span>
                 </div>
-                <!-- Google Sign-in button removed from here -->
             </div>
         </nav>
     </header>
@@ -1195,7 +1068,6 @@
                 teknoloji şirketi. Hayallerinizi gerçeğe dönüştürüyoruz.
             </p>
             <div class="hero-actions">
-                <!-- Google Sign-in button moved here, replacing the old "BAŞLAYALIM" button -->
                 <button id="googleSignInButton" class="cta-button google-signin">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -1205,7 +1077,6 @@
                     </svg>
                     Google ile Giriş Yap
                 </button>
-                <!-- Contact Advisor button will be added by JS if logged in -->
             </div>
         </div>
     </section>
@@ -1218,74 +1089,7 @@
         </div>
     </section>
 
-    <!-- Footer Wrapper for Overlapping Logo and Wavy Top -->
-    <div class="footer-wrapper">
-        <!-- Wavy Top SVG -->
-        <div class="footer-wavy-top">
-            <svg viewBox="0 0 1440 150" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0,100 C240,150 480,50 720,100 C960,150 1200,50 1440,100 L1440,150 L0,150 Z"></path>
-            </svg>
-        </div>
-
-        <!-- Overlapping Logo -->
-        <div class="overlapping-logo-container" id="overlappingLogoContainer">
-            <img src="/placeholder.svg?height=200&width=200" alt="THE LENG Logo" class="overlapping-logo">
-        </div>
-
-        <!-- Footer Section -->
-        <footer class="footer" id="footer">
-            <div class="footer-content">
-                <div class="footer-section" style="--delay: 0s;">
-                    <h3>THE LENG</h3>
-                    <p>Dijital dünyada fark yaratan, sınırları zorlayan ve her projede mükemmelliği hedefleyen teknoloji şirketi. Hayallerinizi gerçeğe dönüştürüyoruz.</p>
-                </div>
-                <div class="footer-section" style="--delay: 0.1s;">
-                    <h3>Hızlı Bağlantılar</h3>
-                    <ul class="footer-links">
-                        <li><a href="#home">Anasayfa</a></li>
-                        <li><a href="#companies">Şirketler</a></li>
-                        <li><a href="#">Hizmetlerimiz</a></li>
-                        <li><a href="#">Portföy</a></li>
-                        <li><a href="#">Kariyer</a></li>
-                        <li><a href="#contact">İletişim</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section" style="--delay: 0.2s;">
-                    <h3>Yasal</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Gizlilik Politikası</a></li>
-                        <li><a href="#">Kullanım Koşulları</a></li>
-                        <li><a href="#">Çerez Politikası</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section" style="--delay: 0.3s;">
-                    <h3>Bize Ulaşın</h3>
-                    <p>Email: info@theleng.com</p>
-                    <p>Telefon: +90 555 123 45 67</p>
-                    <p>Adres: Örnek Mah. Örnek Cad. No:123, İstanbul, Türkiye</p>
-                    <div class="footer-social-icons">
-                        <a href="https://twitter.com/theleng" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17-18 11.6 2.2.1 4.4-.6 6-2 1.1-.9 1.8-2.2 2.1-3.7C3.2 15.2 2 13 2 12c2.1 1.2 4.4 1.8 6.7 1.7-1.1-3.9 1.5-7.5 5.4-8.5 3.6-.8 7.1 2 7.1 2z"/></svg>
-                        </a>
-                        <a href="https://linkedin.com/company/theleng" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/></svg>
-                        </a>
-                        <a href="https://instagram.com/theleng" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-                        </a>
-                        <a href="https://facebook.com/theleng" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom" style="--delay: 0.4s;">
-                <p>&copy; 2023 THE LENG. Tüm Hakları Saklıdır.</p>
-            </div>
-        </footer>
-    </div>
-
-    <!-- Contact Panel -->
+    <!-- Enhanced Contact Panel -->
     <div class="contact-panel-overlay" id="contactPanelOverlay">
         <div class="contact-panel">
             <button class="close-button" id="closeContactPanel">&times;</button>
@@ -1336,7 +1140,6 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-cog"><circle cx="18" cy="15" r="3"/><path d="M6 21v-2a4 4 0 0 1 4-4h4"/><path d="M19.07 4.93a10 10 0 0 0-16.28 6.86"/><path d="M22 17v.01"/><path d="M22 20v.01"/><path d="M22 14v.01"/><path d="M15 22v.01"/><path d="M18 22v.01"/><path d="M21 22v.01"/></svg>
                     <span>Profili Düzenle</span>
                 </a>
-                <!-- Add more profile features here -->
             </div>
             <div class="profile-drawer-footer">
                 <button class="profile-drawer-close-button" id="drawerSignOutButton">
@@ -1381,42 +1184,23 @@
         let currentUser = null;
         const heroContentDiv = document.getElementById('heroContent');
         
-        // Get references to the buttons/elements
-        const googleSignInButton = document.getElementById('googleSignInButton'); // Now in hero section
-        const userInfoElement = document.getElementById('userInfoElement'); // In navbar
+        const googleSignInButton = document.getElementById('googleSignInButton');
+        const userInfoElement = document.getElementById('userInfoElement');
         const userName = document.getElementById('userName');
         const userAvatar = document.getElementById('userAvatar');
         
-        // Global variable for the contact button element
         let contactAdvisorButton = null;
 
-        // User-specific configurations (JSON-like structure)
         const userConfigurations = {
             "m.yusufertek@gmail.com": {
                 name: "Yusuf Ertek",
                 panelLink: "https://sadecekuran.com.tr",
                 welcomeTitle: "HOŞGELDİNİZ Yusuf BEY",
                 welcomeSubtitle: "Aşağıdaki butonda panele giriş yapabilirsiniz."
-            },
-            {
-            "ertek036@gmail.com": {
-                name: "Yusuf Ertek",
-                panelLink: "https://terakkiyolu.org/new1",
-                welcomeTitle: "HOŞGELDİNİZ Yusuf BEY",
-                welcomeSubtitle: "Aşağıdaki butonda panele giriş yapabilirsiniz."
             }
-            // Add more user configurations here
-            // "another.user@example.com": {
-            //     name: "Another User",
-            //     panelLink: "https://another-panel.com",
-            //     welcomeTitle: "Welcome Another User",
-            //     welcomeSubtitle: "Click the button below to enter your panel."
-            // }
         };
 
-        // Function to initialize Google Sign-In
         function initializeGoogleSignIn() {
-            // Ensure the GSI client library is fully loaded before initializing
             if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
                 google.accounts.id.initialize({
                     client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
@@ -1427,11 +1211,10 @@
                 console.log('Google Sign-In initialized successfully.');
             } else {
                 console.warn('Google Sign-In script not yet loaded. Retrying initialization...');
-                setTimeout(initializeGoogleSignIn, 500); // Retry after 500ms
+                setTimeout(initializeGoogleSignIn, 500);
             }
         }
 
-        // Call initializeGoogleSignIn when the window loads
         window.addEventListener('load', initializeGoogleSignIn);
 
         function handleCredentialResponse(response) {
@@ -1453,8 +1236,8 @@
         }
 
         function updateUIForSignedInUser() {
-            googleSignInButton.style.display = 'none'; // Hide hero sign-in button
-            userInfoElement.style.display = 'flex'; // Show navbar user info
+            googleSignInButton.style.display = 'none';
+            userInfoElement.style.display = 'flex';
             
             userName.textContent = currentUser.given_name || currentUser.name;
             
@@ -1464,7 +1247,6 @@
                 userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
             }
 
-            // Open profile drawer on user info click
             userInfoElement.removeEventListener('click', showProfileDrawer);
             userInfoElement.addEventListener('click', showProfileDrawer);
 
@@ -1472,42 +1254,9 @@
             if (userConfig) {
                 displayPersonalizedContent(userConfig);
             } else {
-                // New logic for unregistered users
                 displayUnregisteredUserContent();
             }
-            ensureContactButtonInHeroActions(); // Always ensure contact button is present if logged in
-        }
-
-        function showWelcomeToast() {
-            const toast = document.createElement('div');
-            toast.style.cssText = `
-                position: fixed;
-                top: 100px;
-                right: 20px;
-                background: linear-gradient(135deg, #667eea, #764ba2);
-                color: white;
-                padding: 1rem 1.5rem;
-                border-radius: 10px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-                z-index: 10000;
-                font-weight: 600;
-                transform: translateX(100%);
-                transition: transform 0.3s ease;
-            `;
-            toast.textContent = `Hoş geldin, ${currentUser.given_name || currentUser.name}! 🎉`;
-            
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.style.transform = 'translateX(0)';
-            }, 100);
-            
-            setTimeout(() => {
-                toast.style.transform = 'translateX(100%)';
-                setTimeout(() => {
-                    document.body.removeChild(toast);
-                }, 300);
-            }, 3000);
+            ensureContactButtonInHeroActions();
         }
 
         function displayPersonalizedContent(config) {
@@ -1527,9 +1276,7 @@
                     </a>
                 </div>
             `;
-            // Re-apply shimmer to new content
             applyShimmerToText();
-            // Ensure contact button is added after innerHTML change
             ensureContactButtonInHeroActions();
             addRippleEffect(heroContentDiv.querySelector('.cta-button:not(.secondary)'));
         }
@@ -1544,11 +1291,10 @@
                     Siz de dijital dönüşüm yolculuğunuzda bize katılın ve hayallerinizi gerçeğe dönüştürelim.
                 </p>
                 <div class="hero-actions">
-                    <!-- Contact Advisor button will be added here by ensureContactButtonInHeroActions -->
                 </div>
             `;
             applyShimmerToText();
-            ensureContactButtonInHeroActions(); // This will add the contact button
+            ensureContactButtonInHeroActions();
         }
 
         function restoreDefaultHeroContent() {
@@ -1562,23 +1308,22 @@
                     teknoloji şirketi. Hayallerinizi gerçeğe dönüştürüyoruz.
                 </p>
                 <div class="hero-actions">
-                    <!-- Buttons will be managed by JS -->
                 </div>
             `;
             const heroActionsDiv = heroContentDiv.querySelector('.hero-actions');
 
-            if (!currentUser) { // If user is logged out, show Google Sign-in button
+            if (!currentUser) {
                 googleSignInButton.style.display = 'flex';
                 heroActionsDiv.appendChild(googleSignInButton);
                 addRippleEffect(googleSignInButton);
-                removeContactButtonFromHeroActions(); // Ensure contact button is removed if logged out
-            } else { // If user is logged in, but no personalized content, show contact button
+                removeContactButtonFromHeroActions();
+            } else {
                 googleSignInButton.style.display = 'none';
                 ensureContactButtonInHeroActions();
             }
             
             initializeScrollAnimations();
-            applyShimmerToText(); // Re-apply shimmer to default content
+            applyShimmerToText();
         }
 
         function signOut() {
@@ -1586,12 +1331,12 @@
                 google.accounts.id.disableAutoSelect();
                 currentUser = null;
                 
-                googleSignInButton.style.display = 'flex'; // Show hero sign-in button
-                userInfoElement.style.display = 'none'; // Hide navbar user info
-                hideProfileDrawer(); // Hide drawer on sign out
+                googleSignInButton.style.display = 'flex';
+                userInfoElement.style.display = 'none';
+                hideProfileDrawer();
                 
-                removeContactButtonFromHeroActions(); // Remove contact button on sign out
-                restoreDefaultHeroContent(); // Restore default hero content
+                removeContactButtonFromHeroActions();
+                restoreDefaultHeroContent();
 
                 const toast = document.createElement('div');
                 toast.style.cssText = `
@@ -1625,7 +1370,6 @@
             }
         }
 
-        // Sign-in button click handler (now targets the button in hero section)
         googleSignInButton.addEventListener('click', () => {
             google.accounts.id.prompt();
         });
@@ -1661,9 +1405,8 @@
         const drawerSignOutButton = document.getElementById('drawerSignOutButton');
 
         function showProfileDrawer() {
-            if (!currentUser) return; // Don't open if not logged in
+            if (!currentUser) return;
 
-            // Populate drawer with user info
             if (currentUser.picture) {
                 drawerUserAvatar.innerHTML = `<img src="${currentUser.picture}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
             } else {
@@ -1675,9 +1418,9 @@
             const userConfig = userConfigurations[currentUser.email];
             if (userConfig && userConfig.panelLink) {
                 drawerPanelLink.href = userConfig.panelLink;
-                drawerPanelLink.style.display = 'flex'; // Show panel link
+                drawerPanelLink.style.display = 'flex';
             } else {
-                drawerPanelLink.style.display = 'none'; // Hide if no specific link
+                drawerPanelLink.style.display = 'none';
             }
 
             profileDrawerOverlay.classList.add('active');
@@ -1687,14 +1430,12 @@
             profileDrawerOverlay.classList.remove('active');
         }
 
-        // Close drawer when clicking outside
         profileDrawerOverlay.addEventListener('click', (e) => {
             if (e.target === profileDrawerOverlay) {
                 hideProfileDrawer();
             }
         });
 
-        // Drawer item click handlers
         drawerMakePayment.addEventListener('click', (e) => {
             e.preventDefault();
             alert('Ödeme sayfası yakında eklenecek!');
@@ -1737,12 +1478,10 @@
             }
         }
 
-        // Apply ripple effect to all relevant elements
         document.querySelectorAll('.google-signin, .cta-button, .contact-panel .contact-item, .close-button, .profile-drawer-item, .profile-drawer-close-button, .logo').forEach(element => {
             addRippleEffect(element);
         });
 
-        // Helper functions for contact button management
         function ensureContactButtonInHeroActions() {
             const heroActionsDiv = heroContentDiv.querySelector('.hero-actions');
             if (!contactAdvisorButton) {
@@ -1789,7 +1528,7 @@
             });
 
             animateOnScrollElements.forEach(element => {
-                element.classList.remove('visible'); // Reset for re-initialization
+                element.classList.remove('visible');
                 observer.observe(element);
             });
         }
@@ -1799,15 +1538,14 @@
         function applyShimmerToText() {
             const heroTitle = document.querySelector('.hero-title');
             const heroSubtitle = document.querySelector('.hero-subtitle');
-            if (heroTitle) heroTitle.style.animation = 'none'; // Reset animation
-            if (heroSubtitle) heroSubtitle.style.animation = 'none'; // Reset animation
+            if (heroTitle) heroTitle.style.animation = 'none';
+            if (heroSubtitle) heroSubtitle.style.animation = 'none';
             
-            // Force reflow to restart animation
             void heroTitle.offsetWidth; 
             void heroSubtitle.offsetWidth;
 
-            if (heroTitle) heroTitle.style.animation = ''; // Re-apply animation
-            if (heroSubtitle) heroSubtitle.style.animation = ''; // Re-apply animation
+            if (heroTitle) heroTitle.style.animation = '';
+            if (heroSubtitle) heroSubtitle.style.animation = '';
         }
         window.addEventListener('load', applyShimmerToText);
 
@@ -1907,19 +1645,8 @@
             companies.forEach(company => {
                 companyCardsGrid.appendChild(createCardFlip(company));
             });
-            initializeScrollAnimations(); // Re-initialize for new cards
+            initializeScrollAnimations();
         });
-
-        // Dynamic Footer Top Position for Overlapping Logo
-        function updateFooterTopPosition() {
-            const footerWrapper = document.querySelector('.footer-wrapper');
-            const footerTop = footerWrapper.offsetTop;
-            document.documentElement.style.setProperty('--footer-top-position', `${footerTop}px`);
-        }
-
-        window.addEventListener('load', updateFooterTopPosition);
-        window.addEventListener('resize', updateFooterTopPosition);
-        window.addEventListener('scroll', updateFooterTopPosition); // Update on scroll for dynamic content
     </script>
 </body>
 </html>
