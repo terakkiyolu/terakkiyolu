@@ -13,8 +13,8 @@
     <meta name="apple-mobile-web-app-title" content="THE LENG">
     
     <!-- PWA Icons -->
-    <link rel="icon" type="image/png" sizes="192x192" href="the1.png">
-    <link rel="apple-touch-icon" href="the1.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==">
+    <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==">
     
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -45,6 +45,46 @@
             --sidebar-width: 280px;
             --header-height: 64px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-tertiary: #404040;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --border-color: #404040;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --primary-color: #ffffff;
+        }
+
+        /* Blue Theme */
+        [data-theme="blue"] {
+            --primary-color: #007bff;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
+        }
+
+        /* Green Theme */
+        [data-theme="green"] {
+            --primary-color: #28a745;
+            --success-color: #20c997;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
+        }
+
+        /* Purple Theme */
+        [data-theme="purple"] {
+            --primary-color: #6f42c1;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
         }
 
         body {
@@ -87,29 +127,43 @@
             100% { transform: scale(1) rotate(45deg); }
         }
 
-        /* Success Animation */
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Enhanced Success Animation */
         .success-animation {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 10000;
-            background: var(--success-color);
+            background: linear-gradient(135deg, var(--success-color), #20c997);
             color: white;
-            padding: 30px;
-            border-radius: 20px;
+            padding: 40px;
+            border-radius: 25px;
             text-align: center;
-            animation: scaleIn 0.5s ease-out;
-            box-shadow: var(--shadow-hover);
+            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 20px 40px rgba(40, 167, 69, 0.3);
+            backdrop-filter: blur(10px);
         }
 
         .success-checkmark {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             background: white;
-            margin: 0 auto 15px;
+            margin: 0 auto 20px;
             position: relative;
+            animation: pulse 2s infinite;
         }
 
         .success-checkmark::after {
@@ -117,12 +171,23 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 20px;
-            height: 35px;
+            width: 25px;
+            height: 40px;
             border: solid var(--success-color);
-            border-width: 0 4px 4px 0;
+            border-width: 0 5px 5px 0;
             transform: translate(-50%, -60%) rotate(45deg);
-            animation: checkmark 0.6s ease-in-out 0.2s both;
+            animation: checkmark 0.8s ease-in-out 0.3s both;
+        }
+
+        .success-text {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .success-subtext {
+            font-size: 14px;
+            opacity: 0.9;
         }
 
         /* Overlay */
@@ -183,7 +248,13 @@
             width: 40px;
             height: 40px;
             border-radius: 10px;
-            object-fit: cover;
+            background: linear-gradient(135deg, var(--primary-color), rgba(0, 0, 0, 0.8));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
             transition: var(--transition);
         }
@@ -414,6 +485,96 @@
             transform: scale(1.1);
         }
 
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Settings Dropdown */
+        .settings-dropdown {
+            position: relative;
+        }
+
+        .settings-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: var(--shadow-hover);
+            min-width: 200px;
+            z-index: 1000;
+            display: none;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .settings-menu.show {
+            display: block;
+        }
+
+        .settings-section {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .settings-section:last-child {
+            border-bottom: none;
+        }
+
+        .settings-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .theme-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .theme-option {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .theme-option:hover {
+            background: var(--bg-secondary);
+        }
+
+        .theme-option.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
         /* Page Content */
         .page-content {
             padding: 30px;
@@ -597,6 +758,61 @@
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
             transform: translateY(-1px);
+        }
+
+        /* Payment Type Selection */
+        .payment-type-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .payment-option {
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--bg-primary);
+        }
+
+        .payment-option:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .payment-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .payment-option i {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+        }
+
+        .payment-option-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Debt Payment Section */
+        .debt-payment-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .debt-payment-section.show {
+            display: block;
+            animation: slideUp 0.3s ease-out;
         }
 
         /* Buttons */
@@ -943,6 +1159,49 @@
             border-bottom: none;
         }
 
+        /* Global Search Results */
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+            box-shadow: var(--shadow);
+        }
+
+        .search-result {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .search-result:hover {
+            background: var(--bg-secondary);
+        }
+
+        .search-result:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .search-result-subtitle {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
         /* Status Badge */
         .status-badge {
             display: inline-flex;
@@ -961,6 +1220,11 @@
         .status-pending {
             background: rgba(255, 193, 7, 0.1);
             color: var(--warning-color);
+        }
+
+        .status-debt {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
         }
 
         /* Admin Panel */
@@ -1038,6 +1302,12 @@
             border-color: var(--danger-color);
         }
 
+        .alert-info {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info-color);
+            border-color: var(--info-color);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .page-content {
@@ -1063,6 +1333,10 @@
             .product-grid {
                 grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             }
+
+            .payment-type-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Utility Classes */
@@ -1082,12 +1356,12 @@
         .hidden { display: none; }
     </style>
 </head>
-<body>
-    <!-- Success Animation -->
+<body data-theme="light">
+    <!-- Enhanced Success Animation -->
     <div id="successAnimation" class="success-animation" style="display: none;">
         <div class="success-checkmark"></div>
-        <div style="font-size: 18px; font-weight: 600;">İşlem Başarılı!</div>
-        <div style="font-size: 14px; opacity: 0.9;">Kayıt tamamlandı</div>
+        <div class="success-text">İşlem Başarılı!</div>
+        <div class="success-subtext">Kayıt tamamlandı</div>
     </div>
 
     <!-- Overlay -->
@@ -1096,7 +1370,7 @@
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <img src="the1.png" alt="THE LENG Logo" class="sidebar-logo">
+            <div class="sidebar-logo">TL</div>
             <div class="sidebar-title">THE LENG</div>
             <button class="sidebar-close" id="sidebarClose">
                 <i class="fas fa-times"></i>
@@ -1152,10 +1426,49 @@
             
             <div class="search-container">
                 <i class="fas fa-search search-icon"></i>
-                <input type="search" class="search-input" placeholder="Ara...">
+                <input type="search" class="search-input" id="globalSearch" placeholder="Müşteri ara...">
+                <div class="search-results" id="searchResults"></div>
             </div>
 
             <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                    <span>Gece</span>
+                </button>
+                
+                <div class="settings-dropdown">
+                    <button class="header-btn" id="settingsBtn">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <div class="settings-menu" id="settingsMenu">
+                        <div class="settings-section">
+                            <div class="settings-title">Renk Temaları</div>
+                            <div class="theme-options">
+                                <div class="theme-option active" data-theme="light">
+                                    <i class="fas fa-sun"></i>
+                                    Açık
+                                </div>
+                                <div class="theme-option" data-theme="dark">
+                                    <i class="fas fa-moon"></i>
+                                    Koyu
+                                </div>
+                                <div class="theme-option" data-theme="blue">
+                                    <i class="fas fa-palette"></i>
+                                    Mavi
+                                </div>
+                                <div class="theme-option" data-theme="green">
+                                    <i class="fas fa-leaf"></i>
+                                    Yeşil
+                                </div>
+                                <div class="theme-option" data-theme="purple">
+                                    <i class="fas fa-gem"></i>
+                                    Mor
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <button class="header-btn" onclick="showPendingPayments()">
                     <i class="fas fa-bell"></i>
                     <span class="nav-badge" id="debtBadge" style="display: none;">0</span>
@@ -1281,6 +1594,45 @@
                                         <input type="number" id="salePrice" step="0.01" required>
                                     </div>
                                 </div>
+
+                                <!-- Payment Type Selection -->
+                                <div class="form-group">
+                                    <label>Ödeme Türü</label>
+                                    <div class="payment-type-grid">
+                                        <div class="payment-option" data-payment="cash">
+                                            <i class="fas fa-money-bill-wave"></i>
+                                            <div class="payment-option-name">Nakit</div>
+                                        </div>
+                                        <div class="payment-option" data-payment="card">
+                                            <i class="fas fa-credit-card"></i>
+                                            <div class="payment-option-name">Kredi Kartı</div>
+                                        </div>
+                                        <div class="payment-option" data-payment="debt">
+                                            <i class="fas fa-handshake"></i>
+                                            <div class="payment-option-name">Borç</div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="paymentType" required>
+                                </div>
+
+                                <!-- Debt Payment Section -->
+                                <div class="debt-payment-section" id="debtPaymentSection">
+                                    <h4 style="margin-bottom: 16px; color: var(--text-primary);">
+                                        <i class="fas fa-handshake"></i>
+                                        Borç Ödeme Detayları
+                                    </h4>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="paidAmount">Ödenen Tutar (₺)</label>
+                                            <input type="number" id="paidAmount" step="0.01" min="0">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="remainingDebt">Kalan Borç (₺)</label>
+                                            <input type="number" id="remainingDebt" step="0.01" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="employeeCode">Çalışan Kodu</label>
                                     <input type="password" id="employeeCode" maxlength="3" required>
@@ -1566,6 +1918,7 @@
                                             <th>Ürün</th>
                                             <th>Adet</th>
                                             <th>Tutar</th>
+                                            <th>Ödeme</th>
                                             <th>Çalışan</th>
                                             <th>İşlemler</th>
                                         </tr>
@@ -1726,8 +2079,44 @@
     <div id="paymentsModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closePaymentsModal()">&times;</span>
-            <h3 class="card-title mb-3">Bekleyen Ödemeler</h3>
+            <h3 class="card-title mb-3">
+                <i class="fas fa-exclamation-triangle"></i>
+                Bekleyen Ödemeler
+            </h3>
             <div id="pendingPaymentsList"></div>
+        </div>
+    </div>
+
+    <!-- Debt Payment Modal -->
+    <div id="debtPaymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDebtPaymentModal()">&times;</span>
+            <h3 class="card-title mb-3">
+                <i class="fas fa-money-bill-wave"></i>
+                Borç Ödemesi
+            </h3>
+            <form id="debtPaymentForm">
+                <div id="debtCustomerInfo" class="mb-3"></div>
+                <div class="form-group">
+                    <label for="debtPaymentAmount">Ödeme Tutarı (₺)</label>
+                    <input type="number" id="debtPaymentAmount" step="0.01" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="debtPaymentType">Ödeme Türü</label>
+                    <select id="debtPaymentType" required>
+                        <option value="cash">Nakit</option>
+                        <option value="card">Kredi Kartı</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="debtEmployeeCode">Çalışan Kodu</label>
+                    <input type="password" id="debtEmployeeCode" maxlength="3" required>
+                </div>
+                <button type="submit" class="btn btn-success w-full">
+                    <i class="fas fa-check"></i>
+                    Ödeme Kaydet
+                </button>
+            </form>
         </div>
     </div>
 
@@ -1756,11 +2145,14 @@
         let paymentsData = [];
 
         let selectedProductId = null;
+        let selectedPaymentType = null;
         let currentStockProductId = null;
+        let currentDebtId = null;
         let isAdminLoggedIn = false;
         let customerSuggestions = [];
         let isShowingSuggestions = false;
         let selectedCustomerIndex = -1;
+        let currentTheme = 'light';
 
         // File System Access API Variables
         let fileHandle = null;
@@ -1780,6 +2172,120 @@
         menuToggle.addEventListener('click', toggleSidebar);
         sidebarClose.addEventListener('click', toggleSidebar);
         overlay.addEventListener('click', toggleSidebar);
+
+        // Theme Management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            setTheme(savedTheme);
+        }
+
+        function setTheme(theme) {
+            currentTheme = theme;
+            document.body.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            
+            // Update theme toggle button
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = themeToggle.querySelector('i');
+            const themeText = themeToggle.querySelector('span');
+            
+            if (theme === 'dark') {
+                themeIcon.className = 'fas fa-sun';
+                themeText.textContent = 'Gündüz';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                themeText.textContent = 'Gece';
+            }
+            
+            // Update theme options
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.toggle('active', option.dataset.theme === theme);
+            });
+        }
+
+        // Theme toggle functionality
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+        });
+
+        // Settings dropdown
+        document.getElementById('settingsBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const settingsMenu = document.getElementById('settingsMenu');
+            settingsMenu.classList.toggle('show');
+        });
+
+        // Theme option selection
+        document.querySelectorAll('.theme-option').forEach(option => {
+            option.addEventListener('click', () => {
+                setTheme(option.dataset.theme);
+                document.getElementById('settingsMenu').classList.remove('show');
+            });
+        });
+
+        // Close settings menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const settingsMenu = document.getElementById('settingsMenu');
+            if (!e.target.closest('.settings-dropdown')) {
+                settingsMenu.classList.remove('show');
+            }
+        });
+
+        // Global Search Functionality
+        function setupGlobalSearch() {
+            const globalSearch = document.getElementById('globalSearch');
+            const searchResults = document.getElementById('searchResults');
+            
+            globalSearch.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                if (query.length < 2) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+                
+                const results = customersData.filter(customer => 
+                    customer.name.toLowerCase().includes(query) ||
+                    customer.surname.toLowerCase().includes(query) ||
+                    customer.phone.includes(query)
+                ).slice(0, 8);
+                
+                if (results.length > 0) {
+                    searchResults.innerHTML = results.map(customer => `
+                        <div class="search-result" onclick="selectGlobalSearchResult('${customer.id}')">
+                            <div class="search-result-title">${customer.name} ${customer.surname}</div>
+                            <div class="search-result-subtitle">${customer.phone} - ${customer.totalPurchases.toLocaleString('tr-TR')} ₺</div>
+                        </div>
+                    `).join('');
+                    searchResults.style.display = 'block';
+                } else {
+                    searchResults.style.display = 'none';
+                }
+            });
+            
+            globalSearch.addEventListener('blur', () => {
+                setTimeout(() => {
+                    searchResults.style.display = 'none';
+                }, 200);
+            });
+        }
+
+        function selectGlobalSearchResult(customerId) {
+            // Navigate to customers page and show customer details
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.querySelector('[data-page="customers"]').classList.add('active');
+            
+            document.querySelectorAll('.page').forEach(page => page.style.display = 'none');
+            document.getElementById('customers-page').style.display = 'block';
+            
+            loadCustomers();
+            setTimeout(() => {
+                showCustomerDetails(customerId);
+            }, 100);
+            
+            document.getElementById('globalSearch').value = '';
+            document.getElementById('searchResults').style.display = 'none';
+        }
 
         // Navigation
         const navItems = document.querySelectorAll('.nav-item[data-page]');
@@ -1823,6 +2329,59 @@
                 }
             });
         });
+
+        // Payment Type Selection
+        function setupPaymentTypeSelection() {
+            const paymentOptions = document.querySelectorAll('.payment-option');
+            const paymentTypeInput = document.getElementById('paymentType');
+            const debtPaymentSection = document.getElementById('debtPaymentSection');
+            const salePriceInput = document.getElementById('salePrice');
+            const paidAmountInput = document.getElementById('paidAmount');
+            const remainingDebtInput = document.getElementById('remainingDebt');
+            
+            paymentOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    // Remove selected class from all options
+                    paymentOptions.forEach(opt => opt.classList.remove('selected'));
+                    
+                    // Add selected class to clicked option
+                    option.classList.add('selected');
+                    
+                    // Set payment type
+                    selectedPaymentType = option.dataset.payment;
+                    paymentTypeInput.value = selectedPaymentType;
+                    
+                    // Show/hide debt payment section
+                    if (selectedPaymentType === 'debt') {
+                        debtPaymentSection.classList.add('show');
+                        paidAmountInput.required = true;
+                        
+                        // Calculate remaining debt when sale price changes
+                        const updateRemainingDebt = () => {
+                            const salePrice = parseFloat(salePriceInput.value) || 0;
+                            const paidAmount = parseFloat(paidAmountInput.value) || 0;
+                            remainingDebtInput.value = Math.max(0, salePrice - paidAmount).toFixed(2);
+                        };
+                        
+                        salePriceInput.addEventListener('input', updateRemainingDebt);
+                        paidAmountInput.addEventListener('input', updateRemainingDebt);
+                        
+                        // Set max paid amount to sale price
+                        paidAmountInput.addEventListener('input', function() {
+                            const salePrice = parseFloat(salePriceInput.value) || 0;
+                            if (parseFloat(this.value) > salePrice) {
+                                this.value = salePrice;
+                            }
+                            updateRemainingDebt();
+                        });
+                        
+                    } else {
+                        debtPaymentSection.classList.remove('show');
+                        paidAmountInput.required = false;
+                    }
+                });
+            });
+        }
 
         // File System Access API Functions
         async function selectDataFile() {
@@ -2183,10 +2742,28 @@
                 return;
             }
 
+            if (!selectedPaymentType) {
+                showAlert('Lütfen ödeme türünü seçin!', 'error');
+                return;
+            }
+
             const customerName = document.getElementById('customerName').value;
             const customerSurname = document.getElementById('customerSurname').value;
             const customerPhone = document.getElementById('customerPhone').value;
             const salePrice = parseFloat(document.getElementById('salePrice').value);
+
+            let paidAmount = salePrice;
+            let remainingDebt = 0;
+
+            if (selectedPaymentType === 'debt') {
+                paidAmount = parseFloat(document.getElementById('paidAmount').value) || 0;
+                remainingDebt = salePrice - paidAmount;
+                
+                if (remainingDebt < 0) {
+                    showAlert('Ödenen tutar satış fiyatından fazla olamaz!', 'error');
+                    return;
+                }
+            }
 
             const saleData = {
                 id: Date.now(),
@@ -2199,6 +2776,9 @@
                 productCode: product.code,
                 quantity: quantity,
                 salePrice: salePrice,
+                paymentType: selectedPaymentType,
+                paidAmount: paidAmount,
+                remainingDebt: remainingDebt,
                 employee: employeeName,
                 employeeCode: employeeCode
             };
@@ -2211,13 +2791,34 @@
             // Update customer data
             updateCustomer(customerName, customerSurname, customerPhone, saleData);
             
+            // Handle debt if any
+            if (remainingDebt > 0) {
+                const debtData = {
+                    id: Date.now() + 1,
+                    date: new Date().toISOString(),
+                    customerName: customerName,
+                    customerSurname: customerSurname,
+                    customerPhone: customerPhone,
+                    originalAmount: salePrice,
+                    paidAmount: paidAmount,
+                    remainingAmount: remainingDebt,
+                    saleId: saleData.id,
+                    employee: employeeName
+                };
+                debtsData.push(debtData);
+            }
+            
             await autoSave();
-            showSuccessAnimation();
+            showEnhancedSuccessAnimation();
             document.getElementById('salesForm').reset();
             selectedProductId = null;
+            selectedPaymentType = null;
+            document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+            document.getElementById('debtPaymentSection').classList.remove('show');
             loadProductGrid();
             loadWarehouse();
             updateDashboard();
+            updateDebtBadge();
             if (isAdminLoggedIn) loadAdminData();
         });
 
@@ -2273,7 +2874,7 @@
             expensesData.push(expenseData);
             
             await autoSave();
-            showSuccessAnimation();
+            showEnhancedSuccessAnimation();
             document.getElementById('expensesForm').reset();
             updateDashboard();
             if (isAdminLoggedIn) loadAdminData();
@@ -2292,9 +2893,71 @@
                 loadWarehouse();
                 loadProductGrid();
                 closeStockUpdateModal();
-                showSuccessAnimation();
+                showEnhancedSuccessAnimation();
                 if (isAdminLoggedIn) loadAdminProducts();
             }
+        });
+
+        // Debt payment form submission
+        document.getElementById('debtPaymentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const employeeCode = document.getElementById('debtEmployeeCode').value;
+            const employeeName = verifyEmployeeCode(employeeCode);
+            
+            if (!employeeName) {
+                showAlert('Geçersiz çalışan kodu!', 'error');
+                return;
+            }
+
+            const paymentAmount = parseFloat(document.getElementById('debtPaymentAmount').value);
+            const paymentType = document.getElementById('debtPaymentType').value;
+            const debt = debtsData.find(d => d.id === currentDebtId);
+            
+            if (!debt) {
+                showAlert('Borç bulunamadı!', 'error');
+                return;
+            }
+
+            if (paymentAmount > debt.remainingAmount) {
+                showAlert('Ödeme tutarı kalan borçtan fazla olamaz!', 'error');
+                return;
+            }
+
+            // Create payment record
+            const paymentData = {
+                id: Date.now(),
+                date: new Date().toISOString(),
+                customerName: debt.customerName,
+                customerSurname: debt.customerSurname,
+                customerPhone: debt.customerPhone,
+                amount: paymentAmount,
+                paymentType: paymentType,
+                debtId: debt.id,
+                employee: employeeName,
+                employeeCode: employeeCode
+            };
+
+            paymentsData.push(paymentData);
+
+            // Update debt
+            debt.remainingAmount -= paymentAmount;
+            debt.paidAmount += paymentAmount;
+
+            // Remove debt if fully paid
+            if (debt.remainingAmount <= 0) {
+                const debtIndex = debtsData.findIndex(d => d.id === debt.id);
+                if (debtIndex !== -1) {
+                    debtsData.splice(debtIndex, 1);
+                }
+            }
+
+            await autoSave();
+            showEnhancedSuccessAnimation();
+            closeDebtPaymentModal();
+            updateDashboard();
+            updateDebtBadge();
+            showPendingPayments(); // Refresh the pending payments modal
         });
 
         // Update dashboard
@@ -2319,7 +2982,7 @@
                 return paymentDate >= startOfDay && paymentDate < endOfDay;
             });
 
-            const totalSales = todaySales.reduce((sum, sale) => sum + sale.salePrice, 0);
+            const totalSales = todaySales.reduce((sum, sale) => sum + (sale.paidAmount || sale.salePrice), 0);
             const totalPayments = todayPayments.reduce((sum, payment) => sum + payment.amount, 0);
             const totalIncome = totalSales + totalPayments;
             const totalExpenses = todayExpenses.reduce((sum, expense) => sum + expense.amount, 0);
@@ -2354,8 +3017,8 @@
                     date: sale.date,
                     type: 'Satış',
                     description: `${sale.customerName} ${sale.customerSurname} - ${sale.productName}`,
-                    amount: sale.salePrice,
-                    paymentType: 'Nakit',
+                    amount: sale.paidAmount || sale.salePrice,
+                    paymentType: getPaymentTypeText(sale.paymentType),
                     employee: sale.employee
                 })),
                 ...paymentsData.map(payment => ({
@@ -2363,7 +3026,7 @@
                     type: 'Ödeme',
                     description: `${payment.customerName} ${payment.customerSurname}`,
                     amount: payment.amount,
-                    paymentType: payment.paymentType || 'Nakit',
+                    paymentType: getPaymentTypeText(payment.paymentType),
                     employee: payment.employee
                 })),
                 ...expensesData.map(expense => ({
@@ -2398,25 +3061,44 @@
             `).join('');
         }
 
+        function getPaymentTypeText(paymentType) {
+            switch(paymentType) {
+                case 'cash': return 'Nakit';
+                case 'card': return 'Kredi Kartı';
+                case 'debt': return 'Borç';
+                default: return 'Nakit';
+            }
+        }
+
         // Load customers
         function loadCustomers() {
             const customersList = document.getElementById('customersList');
             if (!customersList) return;
 
-            customersList.innerHTML = customersData.map(customer => `
-                <div class="warehouse-item" onclick="showCustomerDetails('${customer.id}')">
-                    <div class="warehouse-header">
-                        <div class="warehouse-name">${customer.name} ${customer.surname}</div>
-                        <div class="warehouse-code">${customer.phone}</div>
+            customersList.innerHTML = customersData.map(customer => {
+                const customerDebt = debtsData.find(debt => debt.customerPhone === customer.phone);
+                return `
+                    <div class="warehouse-item" onclick="showCustomerDetails('${customer.id}')">
+                        <div class="warehouse-header">
+                            <div class="warehouse-name">${customer.name} ${customer.surname}</div>
+                            <div class="warehouse-code">${customer.phone}</div>
+                        </div>
+                        <div class="warehouse-stock">
+                            ${customer.totalPurchases.toLocaleString('tr-TR')} ₺
+                        </div>
+                        ${customerDebt ? `
+                            <div style="text-align: center; margin-top: 8px;">
+                                <span class="status-badge status-debt">
+                                    Borç: ${customerDebt.remainingAmount.toLocaleString('tr-TR')} ₺
+                                </span>
+                            </div>
+                        ` : ''}
+                        <div style="text-align: center; color: var(--text-secondary); font-size: 12px; margin-top: 8px;">
+                            Son Alışveriş: ${new Date(customer.lastPurchase).toLocaleDateString('tr-TR')}
+                        </div>
                     </div>
-                    <div class="warehouse-stock">
-                        ${customer.totalPurchases.toLocaleString('tr-TR')} ₺
-                    </div>
-                    <div style="text-align: center; color: var(--text-secondary); font-size: 12px; margin-top: 8px;">
-                        Son Alışveriş: ${new Date(customer.lastPurchase).toLocaleDateString('tr-TR')}
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         // Search customers
@@ -2429,20 +3111,30 @@
             );
 
             const customersList = document.getElementById('customersList');
-            customersList.innerHTML = filteredCustomers.map(customer => `
-                <div class="warehouse-item" onclick="showCustomerDetails('${customer.id}')">
-                    <div class="warehouse-header">
-                        <div class="warehouse-name">${customer.name} ${customer.surname}</div>
-                        <div class="warehouse-code">${customer.phone}</div>
+            customersList.innerHTML = filteredCustomers.map(customer => {
+                const customerDebt = debtsData.find(debt => debt.customerPhone === customer.phone);
+                return `
+                    <div class="warehouse-item" onclick="showCustomerDetails('${customer.id}')">
+                        <div class="warehouse-header">
+                            <div class="warehouse-name">${customer.name} ${customer.surname}</div>
+                            <div class="warehouse-code">${customer.phone}</div>
+                        </div>
+                        <div class="warehouse-stock">
+                            ${customer.totalPurchases.toLocaleString('tr-TR')} ₺
+                        </div>
+                        ${customerDebt ? `
+                            <div style="text-align: center; margin-top: 8px;">
+                                <span class="status-badge status-debt">
+                                    Borç: ${customerDebt.remainingAmount.toLocaleString('tr-TR')} ₺
+                                </span>
+                            </div>
+                        ` : ''}
+                        <div style="text-align: center; color: var(--text-secondary); font-size: 12px; margin-top: 8px;">
+                            Son Alışveriş: ${new Date(customer.lastPurchase).toLocaleDateString('tr-TR')}
+                        </div>
                     </div>
-                    <div class="warehouse-stock">
-                        ${customer.totalPurchases.toLocaleString('tr-TR')} ₺
-                    </div>
-                    <div style="text-align: center; color: var(--text-secondary); font-size: 12px; margin-top: 8px;">
-                        Son Alışveriş: ${new Date(customer.lastPurchase).toLocaleDateString('tr-TR')}
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         // Show customer details
@@ -2477,6 +3169,11 @@
                             <div>
                                 <strong>Kalan Borç:</strong><br>
                                 <span style="color: var(--danger-color); font-size: 18px; font-weight: 600;">${customerDebt.remainingAmount.toLocaleString('tr-TR')} ₺</span>
+                                <br>
+                                <button class="btn btn-success btn-small mt-1" onclick="showDebtPaymentModal(${customerDebt.id})">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                    Ödeme Al
+                                </button>
                             </div>
                             ` : ''}
                         </div>
@@ -2496,6 +3193,7 @@
                                         <th>Ürün</th>
                                         <th>Adet</th>
                                         <th>Fiyat</th>
+                                        <th>Ödeme</th>
                                         <th>Çalışan</th>
                                     </tr>
                                 </thead>
@@ -2506,6 +3204,11 @@
                                             <td>${sale.productName || 'Halı'}</td>
                                             <td>${sale.quantity || sale.carpetArea || 1}</td>
                                             <td>${sale.salePrice.toLocaleString('tr-TR')} ₺</td>
+                                            <td>
+                                                <span class="status-badge ${sale.paymentType === 'debt' ? 'status-debt' : 'status-active'}">
+                                                    ${getPaymentTypeText(sale.paymentType)}
+                                                </span>
+                                            </td>
                                             <td>${sale.employee}</td>
                                         </tr>
                                     `).join('')}
@@ -2514,9 +3217,111 @@
                         </div>
                     </div>
                 </div>
+
+                ${customerPayments.length > 0 ? `
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Ödeme Geçmişi</h4>
+                    </div>
+                    <div class="card-content" style="padding: 0;">
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Tarih</th>
+                                        <th>Tutar</th>
+                                        <th>Ödeme Türü</th>
+                                        <th>Çalışan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${customerPayments.map(payment => `
+                                        <tr>
+                                            <td>${new Date(payment.date).toLocaleDateString('tr-TR')}</td>
+                                            <td style="color: var(--success-color);">+${payment.amount.toLocaleString('tr-TR')} ₺</td>
+                                            <td>
+                                                <span class="status-badge status-active">
+                                                    ${getPaymentTypeText(payment.paymentType)}
+                                                </span>
+                                            </td>
+                                            <td>${payment.employee}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                ` : ''}
             `;
             
             document.getElementById('customerModal').classList.add('show');
+        }
+
+        // Show debt payment modal
+        function showDebtPaymentModal(debtId) {
+            const debt = debtsData.find(d => d.id === debtId);
+            if (!debt) return;
+
+            currentDebtId = debtId;
+            
+            document.getElementById('debtCustomerInfo').innerHTML = `
+                <div class="card" style="margin: 0;">
+                    <div class="card-content" style="padding: 16px;">
+                        <strong>${debt.customerName} ${debt.customerSurname}</strong><br>
+                        <small>Telefon: ${debt.customerPhone}</small><br>
+                        <small>Kalan Borç: <span style="color: var(--danger-color); font-weight: 600;">${debt.remainingAmount.toLocaleString('tr-TR')} ₺</span></small>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('debtPaymentAmount').max = debt.remainingAmount;
+            document.getElementById('debtPaymentAmount').value = debt.remainingAmount;
+            document.getElementById('debtPaymentModal').classList.add('show');
+        }
+
+        function closeDebtPaymentModal() {
+            document.getElementById('debtPaymentModal').classList.remove('show');
+            document.getElementById('debtPaymentForm').reset();
+            currentDebtId = null;
+        }
+
+        // Show pending payments
+        function showPendingPayments() {
+            const pendingPaymentsList = document.getElementById('pendingPaymentsList');
+            
+            if (debtsData.length === 0) {
+                pendingPaymentsList.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                        <i class="fas fa-check-circle" style="font-size: 48px; margin-bottom: 16px; color: var(--success-color);"></i>
+                        <h4>Bekleyen Ödeme Yok</h4>
+                        <p>Tüm ödemeler tamamlanmış durumda.</p>
+                    </div>
+                `;
+            } else {
+                pendingPaymentsList.innerHTML = debtsData.map(debt => `
+                    <div class="warehouse-item">
+                        <div class="warehouse-header">
+                            <div class="warehouse-name">${debt.customerName} ${debt.customerSurname}</div>
+                            <div class="warehouse-code">${debt.customerPhone}</div>
+                        </div>
+                        <div class="warehouse-stock" style="color: var(--danger-color);">
+                            ${debt.remainingAmount.toLocaleString('tr-TR')} ₺
+                        </div>
+                        <div style="text-align: center; color: var(--text-secondary); font-size: 12px; margin: 8px 0;">
+                            Borç Tarihi: ${new Date(debt.date).toLocaleDateString('tr-TR')}
+                        </div>
+                        <div class="warehouse-actions">
+                            <button class="btn btn-success btn-small" onclick="showDebtPaymentModal(${debt.id})">
+                                <i class="fas fa-money-bill-wave"></i>
+                                Ödeme Al
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            document.getElementById('paymentsModal').classList.add('show');
         }
 
         // Admin functions
@@ -2603,11 +3408,18 @@
                 return expenseDate >= startOfDay && expenseDate < endOfDay;
             });
 
-            const totalSales = todaySales.reduce((sum, sale) => sum + sale.salePrice, 0);
-            const totalExpenses = todayExpenses.reduce((sum, expense) => sum + expense.amount, 0);
-            const netProfit = totalSales - totalExpenses;
+            const todayPayments = paymentsData.filter(payment => {
+                const paymentDate = new Date(payment.date);
+                return paymentDate >= startOfDay && paymentDate < endOfDay;
+            });
 
-            document.getElementById('adminTotalSales').textContent = totalSales.toLocaleString('tr-TR');
+            const totalSales = todaySales.reduce((sum, sale) => sum + (sale.paidAmount || sale.salePrice), 0);
+            const totalPayments = todayPayments.reduce((sum, payment) => sum + payment.amount, 0);
+            const totalIncome = totalSales + totalPayments;
+            const totalExpenses = todayExpenses.reduce((sum, expense) => sum + expense.amount, 0);
+            const netProfit = totalIncome - totalExpenses;
+
+            document.getElementById('adminTotalSales').textContent = totalIncome.toLocaleString('tr-TR');
             document.getElementById('adminTotalExpenses').textContent = totalExpenses.toLocaleString('tr-TR');
             document.getElementById('adminNetProfit').textContent = netProfit.toLocaleString('tr-TR');
             document.getElementById('adminTotalProducts').textContent = products.length;
@@ -2651,6 +3463,11 @@
                     <td>${sale.productName || 'Halı'}</td>
                     <td>${sale.quantity || sale.carpetArea || 1}</td>
                     <td>${sale.salePrice.toLocaleString('tr-TR')} ₺</td>
+                    <td>
+                        <span class="status-badge ${sale.paymentType === 'debt' ? 'status-debt' : 'status-active'}">
+                            ${getPaymentTypeText(sale.paymentType)}
+                        </span>
+                    </td>
                     <td>${sale.employee}</td>
                     <td>
                         <button class="btn btn-danger btn-small" onclick="deleteSale(${sale.id})">
@@ -2736,7 +3553,7 @@
             await autoSave();
             loadEmployees();
             closeAddEmployeeModal();
-            showSuccessAnimation();
+            showEnhancedSuccessAnimation();
         });
 
         document.getElementById('addProductForm').addEventListener('submit', async function(e) {
@@ -2764,7 +3581,7 @@
             loadProductGrid();
             loadWarehouse();
             closeAddProductModal();
-            showSuccessAnimation();
+            showEnhancedSuccessAnimation();
         });
 
         async function removeEmployee(code) {
@@ -2802,6 +3619,12 @@
                         product.stock += sale.quantity || 1;
                     }
                     
+                    // Remove related debt if exists
+                    const debtIndex = debtsData.findIndex(d => d.saleId === sale.id);
+                    if (debtIndex !== -1) {
+                        debtsData.splice(debtIndex, 1);
+                    }
+                    
                     salesData.splice(saleIndex, 1);
                     
                     // Update customer data
@@ -2823,6 +3646,7 @@
                     loadProductGrid();
                     loadWarehouse();
                     updateDashboard();
+                    updateDebtBadge();
                     showAlert('Satış silindi!', 'success');
                 }
             }
@@ -2847,7 +3671,7 @@
             const reportType = document.getElementById('reportType').value;
             const reportDate = document.getElementById('reportDate').value || new Date().toISOString().split('T')[0];
             
-            let filteredSales, filteredExpenses;
+            let filteredSales, filteredExpenses, filteredPayments;
             const targetDate = new Date(reportDate);
 
             if (reportType === 'daily') {
@@ -2858,6 +3682,10 @@
                 filteredExpenses = expensesData.filter(expense => {
                     const expenseDate = new Date(expense.date);
                     return expenseDate.toDateString() === targetDate.toDateString();
+                });
+                filteredPayments = paymentsData.filter(payment => {
+                    const paymentDate = new Date(payment.date);
+                    return paymentDate.toDateString() === targetDate.toDateString();
                 });
             } else if (reportType === 'monthly') {
                 filteredSales = salesData.filter(sale => {
@@ -2870,6 +3698,11 @@
                     return expenseDate.getMonth() === targetDate.getMonth() && 
                            expenseDate.getFullYear() === targetDate.getFullYear();
                 });
+                filteredPayments = paymentsData.filter(payment => {
+                    const paymentDate = new Date(payment.date);
+                    return paymentDate.getMonth() === targetDate.getMonth() && 
+                           paymentDate.getFullYear() === targetDate.getFullYear();
+                });
             } else {
                 filteredSales = salesData.filter(sale => {
                     const saleDate = new Date(sale.date);
@@ -2879,10 +3712,17 @@
                     const expenseDate = new Date(expense.date);
                     return expenseDate.getFullYear() === targetDate.getFullYear();
                 });
+                filteredPayments = paymentsData.filter(payment => {
+                    const paymentDate = new Date(payment.date);
+                    return paymentDate.getFullYear() === targetDate.getFullYear();
+                });
             }
 
-            const totalSales = filteredSales.reduce((sum, sale) => sum + sale.salePrice, 0);
+            const totalSales = filteredSales.reduce((sum, sale) => sum + (sale.paidAmount || sale.salePrice), 0);
+            const totalPayments = filteredPayments.reduce((sum, payment) => sum + payment.amount, 0);
+            const totalIncome = totalSales + totalPayments;
             const totalExpenses = filteredExpenses.reduce((sum, expense) => sum + expense.amount, 0);
+            const totalDebt = filteredSales.reduce((sum, sale) => sum + (sale.remainingDebt || 0), 0);
 
             const reportContent = document.getElementById('reportContent');
             reportContent.innerHTML = `
@@ -2900,7 +3740,7 @@
                                     <span class="stat-title">Toplam Gelir</span>
                                     <i class="fas fa-lira-sign stat-icon"></i>
                                 </div>
-                                <div class="stat-value">${totalSales.toLocaleString('tr-TR')}</div>
+                                <div class="stat-value">${totalIncome.toLocaleString('tr-TR')}</div>
                             </div>
                             <div class="stat-card">
                                 <div class="stat-header">
@@ -2914,14 +3754,14 @@
                                     <span class="stat-title">Kar</span>
                                     <i class="fas fa-chart-line stat-icon"></i>
                                 </div>
-                                <div class="stat-value">${(totalSales - totalExpenses).toLocaleString('tr-TR')}</div>
+                                <div class="stat-value">${(totalIncome - totalExpenses).toLocaleString('tr-TR')}</div>
                             </div>
                             <div class="stat-card">
                                 <div class="stat-header">
-                                    <span class="stat-title">İşlem Sayısı</span>
-                                    <i class="fas fa-list stat-icon"></i>
+                                    <span class="stat-title">Borç Tutarı</span>
+                                    <i class="fas fa-exclamation-triangle stat-icon"></i>
                                 </div>
-                                <div class="stat-value">${filteredSales.length + filteredExpenses.length}</div>
+                                <div class="stat-value">${totalDebt.toLocaleString('tr-TR')}</div>
                             </div>
                         </div>
                     </div>
@@ -2940,6 +3780,7 @@
                                         <th>Tür</th>
                                         <th>Açıklama</th>
                                         <th>Tutar</th>
+                                        <th>Ödeme</th>
                                         <th>Çalışan</th>
                                     </tr>
                                 </thead>
@@ -2949,14 +3790,24 @@
                                             date: sale.date,
                                             type: 'Satış',
                                             description: `${sale.customerName} ${sale.customerSurname} - ${sale.productName || 'Halı'}`,
-                                            amount: sale.salePrice,
+                                            amount: sale.paidAmount || sale.salePrice,
+                                            paymentType: getPaymentTypeText(sale.paymentType),
                                             employee: sale.employee
+                                        })),
+                                        ...filteredPayments.map(payment => ({
+                                            date: payment.date,
+                                            type: 'Ödeme',
+                                            description: `${payment.customerName} ${payment.customerSurname}`,
+                                            amount: payment.amount,
+                                            paymentType: getPaymentTypeText(payment.paymentType),
+                                            employee: payment.employee
                                         })),
                                         ...filteredExpenses.map(expense => ({
                                             date: expense.date,
                                             type: 'Gider',
                                             description: expense.description,
                                             amount: -expense.amount,
+                                            paymentType: '-',
                                             employee: expense.employee
                                         }))
                                     ].sort((a, b) => new Date(b.date) - new Date(a.date)).map(item => `
@@ -2966,6 +3817,14 @@
                                             <td>${item.description}</td>
                                             <td style="color: ${item.amount >= 0 ? 'var(--success-color)' : 'var(--danger-color)'}">
                                                 ${item.amount >= 0 ? '+' : ''}${item.amount.toLocaleString('tr-TR')} ₺
+                                            </td>
+                                            <td>
+                                                ${item.paymentType !== '-' ? 
+                                                    `<span class="status-badge status-active">
+                                                        ${item.paymentType}
+                                                    </span>` : 
+                                                    '-'
+                                                }
                                             </td>
                                             <td>${item.employee}</td>
                                         </tr>
@@ -3033,11 +3892,6 @@
             }
         }
 
-        // Show pending payments (placeholder)
-        function showPendingPayments() {
-            showAlert('Borç takip sistemi yakında eklenecek!', 'info');
-        }
-
         // Modal functions
         function closeCustomerModal() {
             document.getElementById('customerModal').classList.remove('show');
@@ -3047,14 +3901,14 @@
             document.getElementById('paymentsModal').classList.remove('show');
         }
 
-        // Success animation
-        function showSuccessAnimation() {
+        // Enhanced success animation
+        function showEnhancedSuccessAnimation() {
             const animation = document.getElementById('successAnimation');
             animation.style.display = 'block';
             
             setTimeout(() => {
                 animation.style.display = 'none';
-            }, 2000);
+            }, 3000);
         }
 
         // Show alert
@@ -3081,10 +3935,13 @@
 
         // Initialize app
         async function initApp() {
+            initTheme();
             updateDashboard();
             updateDebtBadge();
             loadProductGrid();
             loadWarehouse();
+            setupPaymentTypeSelection();
+            setupGlobalSearch();
             document.getElementById('reportDate').value = new Date().toISOString().split('T')[0];
         }
 
