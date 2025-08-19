@@ -238,6 +238,92 @@
       opacity: 0.6;
     }
 
+    /* Note actions */
+    .note-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .btn-small {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn-small:hover {
+      background: var(--surface);
+      color: var(--text-primary);
+    }
+
+    .btn-complete {
+      border-color: #28a745;
+      color: #28a745;
+    }
+
+    .btn-complete:hover {
+      background: #28a745;
+      color: white;
+    }
+
+    .btn-delete {
+      border-color: #dc3545;
+      color: #dc3545;
+    }
+
+    .btn-delete:hover {
+      background: #dc3545;
+      color: white;
+    }
+
+    /* Completed notes styling */
+    .note-card.completed {
+      opacity: 0.7;
+      background: var(--surface);
+    }
+
+    .note-card.completed .room-badge {
+      text-decoration: line-through;
+    }
+
+    /* Tab navigation */
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tab {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      padding: 0.75rem 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-bottom: 2px solid transparent;
+      font-family: inherit;
+    }
+
+    .tab.active {
+      color: var(--text-primary);
+      border-bottom-color: var(--text-primary);
+    }
+
+    .tab:hover {
+      color: var(--text-primary);
+    }
+
     /* Status */
     .status {
       text-align: center;
@@ -434,6 +520,12 @@
       </div>
     </div>
 
+    <!-- Added tab navigation -->
+    <div class="tabs">
+      <button id="tabActive" class="tab active">Aktif Notlar</button>
+      <button id="tabCompleted" class="tab">Tamamlanan Notlar</button>
+    </div>
+
     <!-- Notes Grid -->
     <div class="notes-grid" id="notes"></div>
 
@@ -460,6 +552,7 @@
     let currentHandle = null;
     let state = { notes: [] };
     let writeTimeout = null;
+    let currentTab = 'active'; // 'active' or 'completed'
 
     const notesEl = document.getElementById('notes');
     const noteText = document.getElementById('noteText');
@@ -478,21 +571,16 @@
     const btnCreateJSON = document.getElementById('btnCreateJSON');
     const btnCloseSettings = document.getElementById('btnCloseSettings');
 
+    const tabActive = document.getElementById('tabActive');
+    const tabCompleted = document.getElementById('tabCompleted');
+
+    tabActive.addEventListener('click', () => switchTab('active'));
+    tabCompleted.addEventListener('click', () => switchTab('completed'));
+
     btnSettings.addEventListener('click', () => openSettings());
     btnCloseSettings.addEventListener('click', () => closeSettings());
     btnPickJSON.addEventListener('click', () => pickJSONFile());
     btnCreateJSON.addEventListener('click', () => createNewJSON());
-
-    settingsModal.addEventListener('click', (e) => {
-      if (e.target === settingsModal) closeSettings();
-    });
-
-    addNoteToggle.addEventListener('click', () => {
-      inputSection.classList.toggle('open');
-      if (inputSection.classList.contains('open')) {
-        roomInput.focus();
-      }
-    });
 
     [noteText, noteDuration, roomInput].forEach(input => {
       input.addEventListener('keypress', (e) => {
@@ -624,19 +712,35 @@
 
     function renderNotes(){
       const now = Date.now();
-      const active = state.notes.filter(n => now < n.expire);
       
-      // Temizlenen notlar varsa dosyaya yaz
-      if (active.length !== state.notes.length) {
-        state.notes = active;
+      // Separate notes by status
+      let notesToShow = [];
+      
+      if (currentTab === 'active') {
+        notesToShow = state.notes.filter(n => !n.completed && now < n.expire);
+      } else {
+        notesToShow = state.notes.filter(n => n.completed || now >= n.expire);
+      }
+      
+      // Clean up expired notes from state (but keep completed ones)
+      const activeNotes = state.notes.filter(n => n.completed || now < n.expire);
+      if (activeNotes.length !== state.notes.length) {
+        state.notes = activeNotes;
         queueWrite();
       }
 
-      if (active.length === 0) {
+      if (notesToShow.length === 0) {
+        const emptyMessage = currentTab === 'active' 
+          ? 'Henüz aktif not yok' 
+          : 'Henüz tamamlanan not yok';
+        const emptyDescription = currentTab === 'active'
+          ? 'Yukarıdaki "Not Ekle" butonunu kullanarak ilk notunuzu oluşturun'
+          : 'Tamamladığınız notlar burada görünecek';
+          
         notesEl.innerHTML = `
           <div class="empty-state">
-            <h3>Henüz not yok</h3>
-            <p>Yukarıdaki "Not Ekle" butonunu kullanarak ilk notunuzu oluşturun</p>
+            <h3>${emptyMessage}</h3>
+            <p>${emptyDescription}</p>
           </div>
         `;
         return;
@@ -644,15 +748,25 @@
 
       notesEl.innerHTML = '';
       
-      // Notları expire zamanına göre sırala (en yakın süre önce)
-      active.sort((a, b) => a.expire - b.expire);
+      // Sort notes
+      if (currentTab === 'active') {
+        notesToShow.sort((a, b) => a.expire - b.expire);
+      } else {
+        notesToShow.sort((a, b) => (b.completedAt || b.expire) - (a.completedAt || a.expire));
+      }
       
-      for(const note of active){
+      for(const note of notesToShow){
         const div = document.createElement('div');
-        div.className = 'note-card';
+        div.className = `note-card ${note.completed ? 'completed' : ''}`;
         
         const createdDate = new Date(note.created).toLocaleString('tr-TR');
-        const timeRemaining = formatTimeRemaining(note.expire);
+        const timeRemaining = note.completed 
+          ? 'Tamamlandı' 
+          : (now >= note.expire ? 'Süresi doldu' : formatTimeRemaining(note.expire));
+        
+        const completedDate = note.completed && note.completedAt 
+          ? new Date(note.completedAt).toLocaleString('tr-TR')
+          : null;
         
         div.innerHTML = `
           <div class="note-header">
@@ -664,6 +778,18 @@
             <span>Oluşturulma: ${createdDate}</span>
             <span class="note-id">#${note.id}</span>
           </div>
+          ${completedDate ? `<div class="note-meta"><span>Tamamlanma: ${completedDate}</span></div>` : ''}
+          ${currentTab === 'active' && !note.completed ? `
+            <div class="note-actions">
+              <button class="btn-small btn-complete" onclick="completeNote('${note.id}')">✓ Tamamlandı</button>
+              <button class="btn-small btn-delete" onclick="deleteNote('${note.id}')">✕ Sil</button>
+            </div>
+          ` : ''}
+          ${currentTab === 'completed' ? `
+            <div class="note-actions">
+              <button class="btn-small btn-delete" onclick="deleteNote('${note.id}')">✕ Sil</button>
+            </div>
+          ` : ''}
         `;
         
         notesEl.appendChild(div);
@@ -861,6 +987,40 @@
       
       renderNotes();
     }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      
+      // Update tab appearance
+      tabActive.classList.toggle('active', tab === 'active');
+      tabCompleted.classList.toggle('active', tab === 'completed');
+      
+      renderNotes();
+    }
+
+    function completeNote(noteId) {
+      const note = state.notes.find(n => n.id === noteId);
+      if (note) {
+        note.completed = true;
+        note.completedAt = Date.now();
+        renderNotes();
+        queueWrite();
+        status('Not tamamlandı olarak işaretlendi', 'success');
+      }
+    }
+
+    function deleteNote(noteId) {
+      const noteIndex = state.notes.findIndex(n => n.id === noteId);
+      if (noteIndex !== -1) {
+        state.notes.splice(noteIndex, 1);
+        renderNotes();
+        queueWrite();
+        status('Not silindi', 'success');
+      }
+    }
+
+    window.completeNote = completeNote;
+    window.deleteNote = deleteNote;
 
     initializeApp();
 
