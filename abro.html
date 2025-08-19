@@ -3,74 +3,516 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Otel Notları</title>
+  <title>Otel Notları - Yenilenmiş Tasarım</title>
   <style>
-    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
-    * { box-sizing: border-box; }
-    body { margin: 0; padding: 24px; background: #0b1220; color: #e6edf3; }
-    .wrap { max-width: 1000px; margin: 0 auto; }
-    .card { background: #0f172a; border: 1px solid #1e293b; border-radius: 16px; padding: 20px; box-shadow: 0 8px 30px rgba(0,0,0,.25); }
-    h1 { margin: 0 0 12px; font-size: 24px; }
-    .hint { color: #94a3b8; font-size: 14px; }
-    .row { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; align-items: center; }
-    button { cursor: pointer; border: 1px solid #334155; background: #111827; color: #e5e7eb; padding: 10px 14px; border-radius: 12px; font-weight: 600; }
-    button:hover { background: #0b1220; }
-    button.primary { background: #2563eb; border-color: #1d4ed8; }
-    button.primary:hover { filter: brightness(1.05); }
-    input, textarea { border-radius: 10px; border: 1px solid #334155; background: #0b1220; color: #e6edf3; padding: 10px; }
-    input[type=number] { width: 140px; }
-    .notes { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-top: 20px; }
-    .note { background: #1e293b; border: 1px solid #334155; border-radius: 14px; padding: 12px; position: relative; display: flex; flex-direction: column; gap: 8px; }
-    .note h3 { margin: 0; font-size: 16px; word-wrap: break-word; }
-    .note .meta { font-size: 12px; color: #94a3b8; display: flex; justify-content: space-between; gap: 8px; }
-    .badge { display: inline-block; font-weight: 700; font-size: 12px; padding: 4px 8px; border-radius: 999px; border: 1px solid rgba(255,255,255,.15); background: #0b1220; }
-    .room-badge { color: #0b1220; background: white; border: none; }
-    .topbar { position: fixed; top: 12px; left: 12px; z-index: 50; display: flex; gap: 8px; align-items: center; }
-    .filename { font-size: 12px; color: #cbd5e1; padding: 6px 10px; border: 1px solid #334155; border-radius: 999px; background: #0f172a; }
-    .status { font-size: 13px; color: #a5b4fc; margin-top: 8px; }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --primary-light: #a5b4fc;
+      --background: #0f0f23;
+      --surface: #1a1a2e;
+      --surface-light: #16213e;
+      --border: #2d3748;
+      --text-primary: #f7fafc;
+      --text-secondary: #a0aec0;
+      --text-muted: #718096;
+      --success: #48bb78;
+      --warning: #ed8936;
+      --error: #f56565;
+      --shadow: rgba(0, 0, 0, 0.25);
+      --shadow-lg: rgba(0, 0, 0, 0.4);
+      --gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--background);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.05) 0%, transparent 50%);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.025em;
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      font-weight: 400;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Top Bar */
+    .topbar {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 100;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .settings-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(10px);
+      font-size: 0.9rem;
+    }
+
+    .settings-btn:hover {
+      background: var(--surface-light);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    .file-badge {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Input Section */
+    .input-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 8px 32px var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .input-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr auto;
+      gap: 1rem;
+      align-items: end;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .input-group label {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .input {
+      background: var(--background);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 0.875rem 1rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .btn-primary {
+      background: var(--gradient);
+      border: none;
+      color: white;
+      padding: 0.875rem 1.5rem;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    /* Notes Grid */
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Note Card */
+    .note-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      position: relative;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .note-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .note-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px var(--shadow-lg);
+      border-color: var(--primary-light);
+    }
+
+    .note-card:hover::before {
+      opacity: 1;
+    }
+
+    .note-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      gap: 1rem;
+    }
+
+    .room-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #1a1a2e;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .room-badge::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: inherit;
+      opacity: 0.9;
+      z-index: -1;
+    }
+
+    .time-badge {
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary-light);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .note-content {
+      color: var(--text-primary);
+      font-size: 1rem;
+      line-height: 1.6;
+      word-wrap: break-word;
+      margin-bottom: 1rem;
+    }
+
+    .note-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .note-id {
+      font-family: 'Monaco', 'Menlo', monospace;
+      opacity: 0.6;
+    }
+
+    /* Status */
+    .status {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .status.success {
+      color: var(--success);
+    }
+
+    .status.error {
+      color: var(--error);
+    }
 
     /* Modal */
-    .modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(2,6,23,.6); z-index: 100; }
-    .modal.open { display: flex; }
-    .modal .panel { width: 96%; max-width: 520px; background: #0f172a; border: 1px solid #1e293b; border-radius: 16px; padding: 20px; }
-    .modal h2 { margin: 0 0 10px; font-size: 20px; }
-    .modal p { margin: 6px 0 14px; color: #94a3b8; font-size: 14px; }
-    .modal .row { margin-top: 8px; }
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 15, 35, 0.8);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 2rem;
+    }
+
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 20px 60px var(--shadow-lg);
+      position: relative;
+    }
+
+    .modal h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .modal p {
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-secondary {
+      background: var(--background);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 0.75rem 1.25rem;
+      border-radius: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface-light);
+      border-color: var(--primary-light);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--text-muted);
+    }
+
+    .empty-state h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .input-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .notes-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .topbar {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin-bottom: 2rem;
+        justify-content: center;
+      }
+
+      .modal-content {
+        margin: 1rem;
+      }
+
+      .modal-actions {
+        flex-direction: column;
+      }
+    }
+
+    /* Animations */
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .note-card {
+      animation: slideIn 0.3s ease-out;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--background);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
   </style>
 </head>
 <body>
-  <!-- Sol üst ayarlar -->
+  <!-- Top Bar -->
   <div class="topbar">
-    <button id="btnSettings">⚙️ Ayarlar</button>
-    <span id="fileBadge" class="filename">JSON dosyası: seçilmedi</span>
+    <button id="btnSettings" class="settings-btn">⚙️ Ayarlar</button>
+    <span id="fileBadge" class="file-badge">JSON dosyası: seçilmedi</span>
   </div>
 
-  <div class="wrap">
-    <div class="card" style="margin-top: 48px;">
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
       <h1>Otel Notları</h1>
-      <p class="hint">Notlar seçtiğiniz <strong>JSON</strong> dosyasına kaydedilir ve oradan yüklenir. Süresi dolan notlar otomatik temizlenir.</p>
-      <div class="row">
-        <input id="roomInput" placeholder="Oda (örn: 204)" />
-        <input id="noteText" placeholder="Not içeriği..." style="flex:1; min-width:200px;" />
-        <input id="noteDuration" type="number" placeholder="Süre (dakika)" min="1" />
-        <button id="addNote" class="primary">Not Ekle</button>
-      </div>
-      <div class="notes" id="notes"></div>
-      <div id="status" class="status"></div>
+      <p>Odalarınız için zaman sınırlı notlar oluşturun. Notlar otomatik olarak temizlenir ve güvenli bir şekilde JSON dosyasında saklanır.</p>
     </div>
+
+    <!-- Input Section -->
+    <div class="input-section">
+      <div class="input-grid">
+        <div class="input-group">
+          <label for="roomInput">Oda Numarası</label>
+          <input id="roomInput" class="input" placeholder="örn: 204" />
+        </div>
+        <div class="input-group">
+          <label for="noteText">Not İçeriği</label>
+          <input id="noteText" class="input" placeholder="Notunuzu buraya yazın..." />
+        </div>
+        <div class="input-group">
+          <label for="noteDuration">Süre (Dakika)</label>
+          <input id="noteDuration" class="input" type="number" placeholder="60" min="1" />
+        </div>
+        <button id="addNote" class="btn-primary">Not Ekle</button>
+      </div>
+    </div>
+
+    <!-- Notes Grid -->
+    <div class="notes-grid" id="notes"></div>
+
+    <!-- Status -->
+    <div id="status" class="status"></div>
   </div>
 
-  <!-- Ayarlar Modalı -->
+  <!-- Settings Modal -->
   <div id="settingsModal" class="modal" aria-hidden="true">
-    <div class="panel">
-      <h2>JSON Dosyası</h2>
-      <p>Notları kaydetmek/okumak için bilgisayarınızdan bir <strong>.json</strong> dosyası seçin. İlk seferde izin verin; sonraki gelişte otomatik açılır. İzin verilemezse tekrar seçmeniz istenir.</p>
-      <div class="row">
-        <button id="btnPickJSON" class="primary">JSON Dosyası Seç</button>
-        <button id="btnCreateJSON">Yeni JSON Oluştur</button>
-      </div>
-      <div class="row">
-        <button id="btnCloseSettings">Kapat</button>
+    <div class="modal-content">
+      <h2>JSON Dosyası Ayarları</h2>
+      <p>Notları kaydetmek ve yüklemek için bilgisayarınızdan bir <strong>.json</strong> dosyası seçin. İlk seferde izin verin; sonraki gelişte otomatik açılır.</p>
+      <div class="modal-actions">
+        <button id="btnPickJSON" class="btn-primary">JSON Dosyası Seç</button>
+        <button id="btnCreateJSON" class="btn-secondary">Yeni JSON Oluştur</button>
+        <button id="btnCloseSettings" class="btn-secondary">Kapat</button>
       </div>
     </div>
   </div>
@@ -111,7 +553,7 @@
     }
 
     // —— Uygulama durumu ——
-    let currentHandle = null; // FileSystemFileHandle
+    let currentHandle = null;
     let state = { notes: [] };
 
     const notesEl = document.getElementById('notes');
@@ -128,80 +570,146 @@
     const btnCreateJSON = document.getElementById('btnCreateJSON');
     const btnCloseSettings = document.getElementById('btnCloseSettings');
 
-    function status(msg){ statusEl.textContent = msg || ''; }
-
-    function roomColor(room){
-      // Basit hash → HSL renk
-      const s = String(room||'');
-      let h = 0; for(let i=0;i<s.length;i++){ h = (h*31 + s.charCodeAt(i))>>>0; }
-      h = h % 360; const bg = `hsl(${h} 75% 70%)`; return bg;
+    function status(msg, type = ''){ 
+      statusEl.textContent = msg || ''; 
+      statusEl.className = `status ${type}`;
     }
 
-    function roomBadgeHTML(room){
-      const bg = roomColor(room);
-      return `<span class="badge room-badge" style="background:${bg}; color:#0b1220;">Oda ${room||'-'}</span>`;
+    function roomColor(room){
+      const s = String(room||'');
+      let h = 0; 
+      for(let i=0;i<s.length;i++){ 
+        h = (h*31 + s.charCodeAt(i))>>>0; 
+      }
+      h = h % 360; 
+      const saturation = 70 + (h % 20);
+      const lightness = 65 + (h % 15);
+      return `hsl(${h}, ${saturation}%, ${lightness}%)`;
+    }
+
+    function formatTimeRemaining(expireTime) {
+      const now = Date.now();
+      const remaining = expireTime - now;
+      
+      if (remaining <= 0) return 'Süresi doldu';
+      
+      const minutes = Math.floor(remaining / (1000 * 60));
+      const hours = Math.floor(minutes / 60);
+      const days = Math.floor(hours / 24);
+      
+      if (days > 0) return `${days} gün kaldı`;
+      if (hours > 0) return `${hours} saat kaldı`;
+      return `${minutes} dakika kaldı`;
     }
 
     async function setCurrentHandle(handle){
       currentHandle = handle;
       try {
         const ok = await verifyPermission(handle,false);
-        if (!ok) { fileBadge.textContent = 'JSON dosyası: izin gerek'; return; }
+        if (!ok) { 
+          fileBadge.textContent = 'JSON dosyası: izin gerekli'; 
+          fileBadge.style.color = 'var(--warning)';
+          return; 
+        }
         const file = await handle.getFile();
-        fileBadge.textContent = 'JSON dosyası: ' + (file.name || '(adı yok)');
-      } catch(e){ fileBadge.textContent = 'JSON dosyası: erişilemedi'; }
+        fileBadge.textContent = 'JSON: ' + (file.name || '(adı yok)');
+        fileBadge.style.color = 'var(--success)';
+      } catch(e){ 
+        fileBadge.textContent = 'JSON dosyası: erişilemedi'; 
+        fileBadge.style.color = 'var(--error)';
+      }
     }
 
     async function readJSON(handle){
       try{
-        const ok = await verifyPermission(handle,false); if(!ok) throw new Error('İzin verilmedi');
+        const ok = await verifyPermission(handle,false); 
+        if(!ok) throw new Error('İzin verilmedi');
         const file = await handle.getFile();
         const text = await file.text();
         const data = JSON.parse(text||'{}');
         if(!data || typeof data !== 'object' || !Array.isArray(data.notes)) return { notes: [] };
         return data;
-      }catch(e){ console.warn('readJSON',e); return { notes: [] }; }
+      }catch(e){ 
+        console.warn('readJSON',e); 
+        return { notes: [] }; 
+      }
     }
 
     async function writeJSON(handle, data){
-      const ok = await verifyPermission(handle,true); if(!ok) throw new Error('Yazma izni yok');
+      const ok = await verifyPermission(handle,true); 
+      if(!ok) throw new Error('Yazma izni yok');
       const writable = await handle.createWritable();
       await writable.write(JSON.stringify(data, null, 2));
       await writable.close();
     }
 
     function renderNotes(){
-      notesEl.innerHTML = '';
       const now = Date.now();
       const active = state.notes.filter(n => now < n.expire);
-      // Eğer temizlenen olduysa dosyaya da yazacağız (debounce edilmeden, sade)
+      
+      // Temizlenen notlar varsa dosyaya yaz
       if (active.length !== state.notes.length) {
         state.notes = active;
         queueWrite();
       }
-      for(const n of active){
-        const div = document.createElement('div');
-        div.className = 'note';
-        div.innerHTML = `
-          <div class="meta">
-            ${roomBadgeHTML(n.room)}
-            <span class="badge">Bitiş: ${new Date(n.expire).toLocaleString('tr-TR')}</span>
+
+      if (active.length === 0) {
+        notesEl.innerHTML = `
+          <div class="empty-state">
+            <h3>Henüz not yok</h3>
+            <p>Yukarıdaki formu kullanarak ilk notunuzu oluşturun</p>
           </div>
-          <h3>${escapeHTML(n.text)}</h3>
         `;
+        return;
+      }
+
+      notesEl.innerHTML = '';
+      
+      // Notları expire zamanına göre sırala (en yakın süre önce)
+      active.sort((a, b) => a.expire - b.expire);
+      
+      for(const note of active){
+        const div = document.createElement('div');
+        div.className = 'note-card';
+        
+        const roomBg = roomColor(note.room);
+        const createdDate = new Date(note.created).toLocaleString('tr-TR');
+        const timeRemaining = formatTimeRemaining(note.expire);
+        
+        div.innerHTML = `
+          <div class="note-header">
+            <div class="room-badge" style="background: ${roomBg};">
+              🏨 Oda ${note.room || '-'}
+            </div>
+            <div class="time-badge">${timeRemaining}</div>
+          </div>
+          <div class="note-content">${escapeHTML(note.text)}</div>
+          <div class="note-meta">
+            <span>Oluşturulma: ${createdDate}</span>
+            <span class="note-id">#${note.id}</span>
+          </div>
+        `;
+        
         notesEl.appendChild(div);
       }
     }
 
-    function escapeHTML(s){ return String(s).replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m])); }
+    function escapeHTML(s){ 
+      return String(s).replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m])); 
+    }
 
     let writeTimer=null;
     function queueWrite(){
       if(!currentHandle) return;
       clearTimeout(writeTimer);
       writeTimer = setTimeout(async ()=>{
-        try{ await writeJSON(currentHandle, state); status('Kaydedildi ✓'); }
-        catch(e){ status('Kaydetme hatası: '+e.message); }
+        try{ 
+          await writeJSON(currentHandle, state); 
+          status('Başarıyla kaydedildi ✓', 'success'); 
+        }
+        catch(e){ 
+          status('Kaydetme hatası: '+e.message, 'error'); 
+        }
       }, 300);
     }
 
@@ -209,27 +717,101 @@
       const text = noteText.value.trim();
       const mins = parseInt(noteDuration.value,10);
       const room = roomInput.value.trim();
-      if(!text){ return status('Not içeriği boş olamaz'); }
-      if(!currentHandle){ openSettings(true); return status('Önce bir JSON dosyası seçin'); }
-      if(!mins || mins<=0){ return status('Süre (dakika) 1 veya daha büyük olmalı'); }
-      const note = { id: Date.now().toString(36)+Math.random().toString(36).slice(2,7), text, room, created: Date.now(), expire: Date.now()+mins*60000 };
+      
+      if(!text){ 
+        status('Not içeriği boş olamaz', 'error'); 
+        noteText.focus();
+        return; 
+      }
+      if(!currentHandle){ 
+        openSettings(true); 
+        status('Önce bir JSON dosyası seçin', 'error'); 
+        return; 
+      }
+      if(!mins || mins<=0){ 
+        status('Süre (dakika) 1 veya daha büyük olmalı', 'error'); 
+        noteDuration.focus();
+        return; 
+      }
+      
+      const note = { 
+        id: Date.now().toString(36)+Math.random().toString(36).slice(2,7), 
+        text, 
+        room: room || 'Belirtilmemiş', 
+        created: Date.now(), 
+        expire: Date.now()+mins*60000 
+      };
+      
       state.notes.push(note);
-      noteText.value=''; noteDuration.value='';
+      noteText.value=''; 
+      noteDuration.value='';
+      roomInput.value='';
+      
       renderNotes();
       queueWrite();
+      status(`Not başarıyla eklendi (${mins} dakika süreyle)`, 'success');
+    });
+
+    // Enter tuşu ile not ekleme
+    [noteText, noteDuration, roomInput].forEach(input => {
+      input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          addNoteBtn.click();
+        }
+      });
     });
 
     // ——— Ayarlar Modalı ———
-    function openSettings(force){ settingsModal.classList.add('open'); settingsModal.setAttribute('aria-hidden','false'); if(force) status('JSON dosyası seçilmesi gerekiyor'); }
-    function closeSettings(){ settingsModal.classList.remove('open'); settingsModal.setAttribute('aria-hidden','true'); }
+    function openSettings(force){ 
+      settingsModal.classList.add('open'); 
+      settingsModal.setAttribute('aria-hidden','false'); 
+      if(force) status('JSON dosyası seçilmesi gerekiyor', 'error'); 
+    }
+    
+    function closeSettings(){ 
+      settingsModal.classList.remove('open'); 
+      settingsModal.setAttribute('aria-hidden','true'); 
+    }
+    
     btnSettings.addEventListener('click', ()=> openSettings());
     btnCloseSettings.addEventListener('click', ()=> closeSettings());
-    btnPickJSON.addEventListener('click', async()=>{ try{ await pickJSON(); await loadFromFile(); closeSettings(); }catch(e){ status('Seçim iptal veya hata: '+e.message); }});
-    btnCreateJSON.addEventListener('click', async()=>{ try{ await createJSON(); await loadFromFile(); closeSettings(); }catch(e){ status('Oluşturma iptal veya hata: '+e.message); }});
+    
+    btnPickJSON.addEventListener('click', async()=>{ 
+      try{ 
+        await pickJSON(); 
+        await loadFromFile(); 
+        closeSettings(); 
+        status('JSON dosyası başarıyla seçildi', 'success');
+      }catch(e){ 
+        status('Seçim iptal veya hata: '+e.message, 'error'); 
+      }
+    });
+    
+    btnCreateJSON.addEventListener('click', async()=>{ 
+      try{ 
+        await createJSON(); 
+        await loadFromFile(); 
+        closeSettings(); 
+        status('Yeni JSON dosyası oluşturuldu', 'success');
+      }catch(e){ 
+        status('Oluşturma iptal veya hata: '+e.message, 'error'); 
+      }
+    });
+
+    // Modal dışına tıklayınca kapat
+    settingsModal.addEventListener('click', (e) => {
+      if (e.target === settingsModal) {
+        closeSettings();
+      }
+    });
 
     async function loadFromFile(){
-      if(!currentHandle){ const saved = await idbGet('jsonHandle'); if(saved) await setCurrentHandle(saved); }
+      if(!currentHandle){ 
+        const saved = await idbGet('jsonHandle'); 
+        if(saved) await setCurrentHandle(saved); 
+      }
       if(!currentHandle) return;
+      
       const data = await readJSON(currentHandle);
       state = { notes: Array.isArray(data.notes) ? data.notes : [] };
       renderNotes();
@@ -237,17 +819,24 @@
 
     async function boot(){
       if(!supported()){
-        status('Tarayıcınız File System Access API desteklemiyor. Chrome/Edge/Brave + HTTPS/localhost gerekiyor.');
+        status('Tarayıcınız File System Access API desteklemiyor. Chrome/Edge/Brave + HTTPS/localhost gerekiyor.', 'error');
         return;
       }
+      
       const saved = await idbGet('jsonHandle');
       if(saved){
         await setCurrentHandle(saved);
-        try{ await loadFromFile(); }catch(e){ openSettings(true); }
+        try{ 
+          await loadFromFile(); 
+          status('Notlar başarıyla yüklendi', 'success');
+        }catch(e){ 
+          openSettings(true); 
+        }
       } else {
         openSettings(true);
       }
-      // Her 30 sn’de bir süresi geçenleri temizle + yeniden çiz
+      
+      // Her 30 saniyede bir süresi geçenleri temizle + yeniden çiz
       setInterval(renderNotes, 30000);
     }
 
