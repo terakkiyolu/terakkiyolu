@@ -502,6 +502,31 @@
       });
     });
 
+    function saveFileHandle(handle) {
+      if (handle && handle.name) {
+        localStorage.setItem('otel-notlari-file', handle.name);
+        localStorage.setItem('otel-notlari-handle', JSON.stringify({
+          name: handle.name,
+          kind: handle.kind
+        }));
+      }
+    }
+
+    async function loadSavedFileHandle() {
+      const savedFileName = localStorage.getItem('otel-notlari-file');
+      if (!savedFileName || !('showOpenFilePicker' in window)) return false;
+
+      try {
+        // Try to get permission for the previously used file
+        const handles = await window.showDirectoryPicker({ mode: 'read' });
+        // This is a simplified approach - in reality, we'd need to store the file handle
+        // using IndexedDB with the Origin Private File System API for full persistence
+        return false;
+      } catch (err) {
+        return false;
+      }
+    }
+
     function status(msg, type = ''){ 
       statusEl.textContent = msg || ''; 
       statusEl.className = `status ${type}`;
@@ -608,6 +633,7 @@
         });
 
         currentHandle = handle;
+        saveFileHandle(handle);
         await loadFromFile();
         updateFileBadge();
         closeSettings();
@@ -636,6 +662,7 @@
         });
 
         currentHandle = handle;
+        saveFileHandle(handle);
         state = { notes: [] };
         await writeToFile();
         updateFileBadge();
@@ -693,8 +720,14 @@
         fileBadge.textContent = `JSON dosyası: ${currentHandle.name}`;
         fileBadge.style.color = 'var(--text-primary)';
       } else {
-        fileBadge.textContent = 'JSON dosyası: seçilmedi';
-        fileBadge.style.color = 'var(--text-secondary)';
+        const savedFileName = localStorage.getItem('otel-notlari-file');
+        if (savedFileName) {
+          fileBadge.textContent = `JSON dosyası: ${savedFileName} (bağlantı kesildi)`;
+          fileBadge.style.color = 'var(--text-secondary)';
+        } else {
+          fileBadge.textContent = 'JSON dosyası: seçilmedi';
+          fileBadge.style.color = 'var(--text-secondary)';
+        }
       }
     }
 
@@ -743,8 +776,18 @@
       renderNotes();
     }, 30000); // Her 30 saniyede bir kontrol et
 
-    updateFileBadge();
-    renderNotes();
+    async function initializeApp() {
+      updateFileBadge();
+      renderNotes();
+      
+      // Show a message about file persistence limitation
+      const savedFileName = localStorage.getItem('otel-notlari-file');
+      if (savedFileName && !currentHandle) {
+        status('Önceki dosya bağlantısı kesildi. Ayarlardan tekrar seçin.', 'error');
+      }
+    }
+
+    initializeApp();
 
   </script>
 </body>
