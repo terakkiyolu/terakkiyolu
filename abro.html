@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Yerel Dosya ile Çalış</title>
+  <title>Notlar Uygulaması</title>
   <style>
     :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
     body { margin: 0; padding: 24px; background: #0b1220; color: #e6edf3; }
@@ -16,160 +16,73 @@
     button:hover { background: #0b1220; }
     button.primary { background: #2563eb; border-color: #1d4ed8; }
     button.primary:hover { filter: brightness(1.05); }
-    textarea { width: 100%; min-height: 320px; resize: vertical; border-radius: 12px; border: 1px solid #334155; background: #0b1220; color: #e6edf3; padding: 12px; box-sizing: border-box; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-    .status { font-size: 13px; color: #a5b4fc; margin-top: 8px; }
-    .badge { display: inline-block; padding: 4px 8px; border-radius: 10px; border: 1px solid #334155; background: #0b1220; color: #cbd5e1; font-size: 12px; }
+    input, select, textarea { border-radius: 8px; border: 1px solid #334155; background: #0b1220; color: #e6edf3; padding: 8px; }
+    .notes { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 20px; }
+    .note { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 12px; position: relative; }
+    .note h3 { margin: 0 0 6px; font-size: 16px; }
+    .note .time { font-size: 12px; color: #94a3b8; }
+    .expired { opacity: 0.5; text-decoration: line-through; }
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="card">
-      <h1>Yerel Dosya ile Çalış (File System Access API)</h1>
-      <p class="hint">
-        İlk seferde dosyayı seçip izin verirsiniz; sonraki girişlerde aynı sitede otomatik açılır.
-        Bu özellik Chromium tabanlı tarayıcılarda (Chrome/Edge/Opera/Brave) ve <strong>HTTPS</strong> veya <strong>localhost</strong> üzerinde çalışır.
-      </p>
+      <h1>Notlar</h1>
       <div class="row">
-        <button id="choose" class="primary">Dosya Seç</button>
-        <button id="save">Kaydet</button>
-        <button id="change">Farklı Dosya Seç</button>
-        <span id="filename" class="badge">Dosya: Yok</span>
+        <input id="noteText" placeholder="Not içeriği..." />
+        <select id="noteDuration">
+          <option value="3600000">1 Saat</option>
+          <option value="86400000">1 Gün</option>
+        </select>
+        <button id="addNote" class="primary">Not Ekle</button>
       </div>
-      <textarea id="editor" placeholder="Dosya içeriği burada görünecek..."></textarea>
-      <div id="status" class="status"></div>
+      <div class="notes" id="notes"></div>
     </div>
   </div>
 
   <script>
-    // —— Basit IndexedDB yardımcıları ——
-    const DB_NAME = 'local-file-demo';
-    const STORE = 'handles';
+    const notesEl = document.getElementById('notes');
+    const noteText = document.getElementById('noteText');
+    const noteDuration = document.getElementById('noteDuration');
+    const addNoteBtn = document.getElementById('addNote');
 
-    function openDB() {
-      return new Promise((resolve, reject) => {
-        const req = indexedDB.open(DB_NAME, 1);
-        req.onupgradeneeded = () => {
-          req.result.createObjectStore(STORE);
-        };
-        req.onsuccess = () => resolve(req.result);
-        req.onerror = () => reject(req.error);
-      });
+    function loadNotes() {
+      const data = localStorage.getItem('notes');
+      return data ? JSON.parse(data) : [];
     }
 
-    async function idbSet(key, value) {
-      const db = await openDB();
-      return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE, 'readwrite');
-        tx.objectStore(STORE).put(value, key);
-        tx.oncomplete = () => resolve();
-        tx.onerror = () => reject(tx.error);
-      });
+    function saveNotes(notes) {
+      localStorage.setItem('notes', JSON.stringify(notes));
     }
 
-    async function idbGet(key) {
-      const db = await openDB();
-      return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE, 'readonly');
-        const req = tx.objectStore(STORE).get(key);
-        req.onsuccess = () => resolve(req.result);
-        req.onerror = () => reject(req.error);
-      });
-    }
-
-    // —— File System Access yardımcıları ——
-    async function verifyPermission(fileHandle, withWrite) {
-      const opts = { mode: withWrite ? 'readwrite' : 'read' };
-      if ((await fileHandle.queryPermission(opts)) === 'granted') return true;
-      if ((await fileHandle.requestPermission(opts)) === 'granted') return true;
-      return false;
-    }
-
-    async function pickFile() {
-      const [handle] = await window.showOpenFilePicker({
-        types: [{ description: 'Metin veya tüm dosyalar', accept: { 'text/plain': ['.txt', '.md', '.log'], 'application/octet-stream': ['.*'] } }],
-        excludeAcceptAllOption: false,
-        multiple: false
-      });
-      await idbSet('fileHandle', handle);
-      return handle;
-    }
-
-    async function loadFromHandle(handle) {
-      const ok = await verifyPermission(handle, false);
-      if (!ok) throw new Error('İzin verilmedi.');
-      const file = await handle.getFile();
-      const text = await file.text();
-      editor.value = text;
-      filename.textContent = 'Dosya: ' + (file.name || '(adı bilinmiyor)');
-      status('Dosya yüklendi.');
-    }
-
-    async function saveToHandle(handle) {
-      const ok = await verifyPermission(handle, true);
-      if (!ok) throw new Error('Yazma izni verilmedi.');
-      const writable = await handle.createWritable();
-      await writable.write(editor.value);
-      await writable.close();
-      status('Kaydedildi ✓');
-    }
-
-    // —— UI ——
-    const chooseBtn = document.getElementById('choose');
-    const saveBtn = document.getElementById('save');
-    const changeBtn = document.getElementById('change');
-    const editor = document.getElementById('editor');
-    const filename = document.getElementById('filename');
-    const statusEl = document.getElementById('status');
-
-    function status(msg) { statusEl.textContent = msg; }
-
-    function supported() {
-      return 'showOpenFilePicker' in window && 'storage' in navigator;
-    }
-
-    async function boot() {
-      if (!supported()) {
-        status('Tarayıcınız File System Access API'yi desteklemiyor. Lütfen Chrome/Edge kullanın.');
-        return;
-      }
-      try {
-        const saved = await idbGet('fileHandle');
-        if (saved) {
-          // Bazı tarayıcılarda kalıcı izin doğrudan "granted" gelir ve yeniden seçim gerekmez.
-          await loadFromHandle(saved);
-        } else {
-          status('Başlamak için "Dosya Seç"e tıklayın.');
-        }
-      } catch (e) {
-        console.error(e);
-        status('Önceden kayıtlı dosya açılamadı: ' + e.message);
+    function renderNotes() {
+      const notes = loadNotes().filter(n => Date.now() < n.expire);
+      saveNotes(notes);
+      notesEl.innerHTML = '';
+      for (const n of notes) {
+        const div = document.createElement('div');
+        div.className = 'note';
+        div.innerHTML = `<h3>${n.text}</h3><div class="time">Bitecek: ${new Date(n.expire).toLocaleString()}</div>`;
+        notesEl.appendChild(div);
       }
     }
 
-    chooseBtn.addEventListener('click', async () => {
-      try {
-        const handle = await pickFile();
-        await loadFromHandle(handle);
-      } catch (e) { status('Seçim iptal edildi veya hata: ' + e.message); }
+    addNoteBtn.addEventListener('click', () => {
+      const text = noteText.value.trim();
+      if (!text) return;
+      const duration = parseInt(noteDuration.value, 10);
+      const expire = Date.now() + duration;
+      const notes = loadNotes();
+      notes.push({ text, expire });
+      saveNotes(notes);
+      noteText.value = '';
+      renderNotes();
     });
 
-    saveBtn.addEventListener('click', async () => {
-      try {
-        const handle = await idbGet('fileHandle');
-        if (!handle) return status('Önce bir dosya seçin.');
-        await saveToHandle(handle);
-      } catch (e) { status('Kaydedilemedi: ' + e.message); }
-    });
+    // Notları her 30 saniyede bir güncelle
+    setInterval(renderNotes, 30000);
 
-    changeBtn.addEventListener('click', async () => {
-      try {
-        const handle = await pickFile();
-        await loadFromHandle(handle);
-      } catch (e) { status('Seçim iptal edildi veya hata: ' + e.message); }
-    });
-
-    // PWA olarak kuruluysa izinler daha kararlı olabilir
-    window.addEventListener('load', boot);
+    renderNotes();
   </script>
 </body>
 </html>
