@@ -459,6 +459,7 @@
     // —— Uygulama durumu ——
     let currentHandle = null;
     let state = { notes: [] };
+    let writeTimeout = null;
 
     const notesEl = document.getElementById('notes');
     const noteText = document.getElementById('noteText');
@@ -477,6 +478,15 @@
     const btnCreateJSON = document.getElementById('btnCreateJSON');
     const btnCloseSettings = document.getElementById('btnCloseSettings');
 
+    btnSettings.addEventListener('click', () => openSettings());
+    btnCloseSettings.addEventListener('click', () => closeSettings());
+    btnPickJSON.addEventListener('click', () => pickJSONFile());
+    btnCreateJSON.addEventListener('click', () => createNewJSON());
+
+    settingsModal.addEventListener('click', (e) => {
+      if (e.target === settingsModal) closeSettings();
+    });
+
     addNoteToggle.addEventListener('click', () => {
       inputSection.classList.toggle('open');
       if (inputSection.classList.contains('open')) {
@@ -484,9 +494,20 @@
       }
     });
 
+    [noteText, noteDuration, roomInput].forEach(input => {
+      input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          addNoteBtn.click();
+        }
+      });
+    });
+
     function status(msg, type = ''){ 
       statusEl.textContent = msg || ''; 
       statusEl.className = `status ${type}`;
+      if (msg) {
+        setTimeout(() => status(''), 3000);
+      }
     }
 
     function formatTimeRemaining(expireTime) {
@@ -504,6 +525,11 @@
       return `${minutes} dakika kaldı`;
     }
 
+    function escapeHTML(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
 
     function renderNotes(){
       const now = Date.now();
@@ -553,6 +579,124 @@
       }
     }
 
+    function openSettings(autoFocus = false) {
+      settingsModal.classList.add('open');
+      settingsModal.setAttribute('aria-hidden', 'false');
+      if (autoFocus) {
+        setTimeout(() => btnPickJSON.focus(), 100);
+      }
+    }
+
+    function closeSettings() {
+      settingsModal.classList.remove('open');
+      settingsModal.setAttribute('aria-hidden', 'true');
+    }
+
+    async function pickJSONFile() {
+      if (!('showOpenFilePicker' in window)) {
+        status('Bu tarayıcı dosya seçmeyi desteklemiyor', 'error');
+        return;
+      }
+
+      try {
+        const [handle] = await window.showOpenFilePicker({
+          types: [{
+            description: 'JSON dosyaları',
+            accept: { 'application/json': ['.json'] }
+          }],
+          multiple: false
+        });
+
+        currentHandle = handle;
+        await loadFromFile();
+        updateFileBadge();
+        closeSettings();
+        status('JSON dosyası başarıyla yüklendi', 'success');
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          status('Dosya seçilirken hata oluştu', 'error');
+          console.error(err);
+        }
+      }
+    }
+
+    async function createNewJSON() {
+      if (!('showSaveFilePicker' in window)) {
+        status('Bu tarayıcı dosya oluşturmayı desteklemiyor', 'error');
+        return;
+      }
+
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: 'otel-notlari.json',
+          types: [{
+            description: 'JSON dosyaları',
+            accept: { 'application/json': ['.json'] }
+          }]
+        });
+
+        currentHandle = handle;
+        state = { notes: [] };
+        await writeToFile();
+        updateFileBadge();
+        closeSettings();
+        status('Yeni JSON dosyası oluşturuldu', 'success');
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          status('Dosya oluşturulurken hata oluştu', 'error');
+          console.error(err);
+        }
+      }
+    }
+
+    async function loadFromFile() {
+      if (!currentHandle) return;
+
+      try {
+        const file = await currentHandle.getFile();
+        const text = await file.text();
+        const data = JSON.parse(text);
+        
+        if (data && Array.isArray(data.notes)) {
+          state = data;
+          renderNotes();
+        } else {
+          state = { notes: [] };
+        }
+      } catch (err) {
+        console.error('Dosya yüklenirken hata:', err);
+        state = { notes: [] };
+        status('Dosya yüklenirken hata oluştu', 'error');
+      }
+    }
+
+    function queueWrite() {
+      if (writeTimeout) clearTimeout(writeTimeout);
+      writeTimeout = setTimeout(writeToFile, 500);
+    }
+
+    async function writeToFile() {
+      if (!currentHandle) return;
+
+      try {
+        const writable = await currentHandle.createWritable();
+        await writable.write(JSON.stringify(state, null, 2));
+        await writable.close();
+      } catch (err) {
+        console.error('Dosya yazılırken hata:', err);
+        status('Dosya kaydedilirken hata oluştu', 'error');
+      }
+    }
+
+    function updateFileBadge() {
+      if (currentHandle) {
+        fileBadge.textContent = `JSON dosyası: ${currentHandle.name}`;
+        fileBadge.style.color = 'var(--text-primary)';
+      } else {
+        fileBadge.textContent = 'JSON dosyası: seçilmedi';
+        fileBadge.style.color = 'var(--text-secondary)';
+      }
+    }
 
     addNoteBtn.addEventListener('click', async ()=>{
       const text = noteText.value.trim();
@@ -594,6 +738,13 @@
       queueWrite();
       status(`Not başarıyla eklendi (${mins} dakika süreyle)`, 'success');
     });
+
+    setInterval(() => {
+      renderNotes();
+    }, 30000); // Her 30 saniyede bir kontrol et
+
+    updateFileBadge();
+    renderNotes();
 
   </script>
 </body>
