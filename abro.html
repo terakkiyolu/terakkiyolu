@@ -3,84 +3,255 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Notlar Uygulaması</title>
+  <title>Otel Notları</title>
   <style>
     :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    * { box-sizing: border-box; }
     body { margin: 0; padding: 24px; background: #0b1220; color: #e6edf3; }
-    .wrap { max-width: 900px; margin: 0 auto; }
+    .wrap { max-width: 1000px; margin: 0 auto; }
     .card { background: #0f172a; border: 1px solid #1e293b; border-radius: 16px; padding: 20px; box-shadow: 0 8px 30px rgba(0,0,0,.25); }
     h1 { margin: 0 0 12px; font-size: 24px; }
     .hint { color: #94a3b8; font-size: 14px; }
-    .row { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; align-items: center; }
     button { cursor: pointer; border: 1px solid #334155; background: #111827; color: #e5e7eb; padding: 10px 14px; border-radius: 12px; font-weight: 600; }
     button:hover { background: #0b1220; }
     button.primary { background: #2563eb; border-color: #1d4ed8; }
     button.primary:hover { filter: brightness(1.05); }
-    input, textarea { border-radius: 8px; border: 1px solid #334155; background: #0b1220; color: #e6edf3; padding: 8px; }
-    .notes { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 20px; }
-    .note { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 12px; position: relative; }
-    .note h3 { margin: 0 0 6px; font-size: 16px; }
-    .note .time { font-size: 12px; color: #94a3b8; }
+    input, textarea { border-radius: 10px; border: 1px solid #334155; background: #0b1220; color: #e6edf3; padding: 10px; }
+    input[type=number] { width: 140px; }
+    .notes { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-top: 20px; }
+    .note { background: #1e293b; border: 1px solid #334155; border-radius: 14px; padding: 12px; position: relative; display: flex; flex-direction: column; gap: 8px; }
+    .note h3 { margin: 0; font-size: 16px; word-wrap: break-word; }
+    .note .meta { font-size: 12px; color: #94a3b8; display: flex; justify-content: space-between; gap: 8px; }
+    .badge { display: inline-block; font-weight: 700; font-size: 12px; padding: 4px 8px; border-radius: 999px; border: 1px solid rgba(255,255,255,.15); background: #0b1220; }
+    .room-badge { color: #0b1220; background: white; border: none; }
+    .topbar { position: fixed; top: 12px; left: 12px; z-index: 50; display: flex; gap: 8px; align-items: center; }
+    .filename { font-size: 12px; color: #cbd5e1; padding: 6px 10px; border: 1px solid #334155; border-radius: 999px; background: #0f172a; }
+    .status { font-size: 13px; color: #a5b4fc; margin-top: 8px; }
+
+    /* Modal */
+    .modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(2,6,23,.6); z-index: 100; }
+    .modal.open { display: flex; }
+    .modal .panel { width: 96%; max-width: 520px; background: #0f172a; border: 1px solid #1e293b; border-radius: 16px; padding: 20px; }
+    .modal h2 { margin: 0 0 10px; font-size: 20px; }
+    .modal p { margin: 6px 0 14px; color: #94a3b8; font-size: 14px; }
+    .modal .row { margin-top: 8px; }
   </style>
 </head>
 <body>
+  <!-- Sol üst ayarlar -->
+  <div class="topbar">
+    <button id="btnSettings">⚙️ Ayarlar</button>
+    <span id="fileBadge" class="filename">JSON dosyası: seçilmedi</span>
+  </div>
+
   <div class="wrap">
-    <div class="card">
-      <h1>Notlar</h1>
+    <div class="card" style="margin-top: 48px;">
+      <h1>Otel Notları</h1>
+      <p class="hint">Notlar seçtiğiniz <strong>JSON</strong> dosyasına kaydedilir ve oradan yüklenir. Süresi dolan notlar otomatik temizlenir.</p>
       <div class="row">
-        <input id="noteText" placeholder="Not içeriği..." />
+        <input id="roomInput" placeholder="Oda (örn: 204)" />
+        <input id="noteText" placeholder="Not içeriği..." style="flex:1; min-width:200px;" />
         <input id="noteDuration" type="number" placeholder="Süre (dakika)" min="1" />
         <button id="addNote" class="primary">Not Ekle</button>
       </div>
       <div class="notes" id="notes"></div>
+      <div id="status" class="status"></div>
+    </div>
+  </div>
+
+  <!-- Ayarlar Modalı -->
+  <div id="settingsModal" class="modal" aria-hidden="true">
+    <div class="panel">
+      <h2>JSON Dosyası</h2>
+      <p>Notları kaydetmek/okumak için bilgisayarınızdan bir <strong>.json</strong> dosyası seçin. İlk seferde izin verin; sonraki gelişte otomatik açılır. İzin verilemezse tekrar seçmeniz istenir.</p>
+      <div class="row">
+        <button id="btnPickJSON" class="primary">JSON Dosyası Seç</button>
+        <button id="btnCreateJSON">Yeni JSON Oluştur</button>
+      </div>
+      <div class="row">
+        <button id="btnCloseSettings">Kapat</button>
+      </div>
     </div>
   </div>
 
   <script>
+    // —— IndexedDB ——
+    const DB_NAME = 'otel-notlari-db';
+    const STORE = 'handles';
+    function openDB(){
+      return new Promise((res, rej)=>{ const r=indexedDB.open(DB_NAME,1); r.onupgradeneeded=()=>r.result.createObjectStore(STORE); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); });
+    }
+    async function idbSet(key,val){ const db=await openDB(); return new Promise((res,rej)=>{ const tx=db.transaction(STORE,'readwrite'); tx.objectStore(STORE).put(val,key); tx.oncomplete=()=>res(); tx.onerror=()=>rej(tx.error); }); }
+    async function idbGet(key){ const db=await openDB(); return new Promise((res,rej)=>{ const tx=db.transaction(STORE,'readonly'); const g=tx.objectStore(STORE).get(key); g.onsuccess=()=>res(g.result); g.onerror=()=>rej(g.error); }); }
+
+    // —— File System Access helpers ——
+    function supported(){ return 'showOpenFilePicker' in window; }
+    async function verifyPermission(handle, write){ const opts={mode: write?'readwrite':'read'}; const q=await handle.queryPermission(opts); if(q==='granted') return true; const r=await handle.requestPermission(opts); return r==='granted'; }
+
+    // JSON dosyası seç / oluştur
+    async function pickJSON(){
+      const [handle] = await window.showOpenFilePicker({
+        types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }],
+        excludeAcceptAllOption: false, multiple: false
+      });
+      await idbSet('jsonHandle', handle);
+      await setCurrentHandle(handle);
+      return handle;
+    }
+    async function createJSON(){
+      const handle = await window.showSaveFilePicker({
+        suggestedName: 'otel-notlari.json',
+        types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }]
+      });
+      await idbSet('jsonHandle', handle);
+      await writeJSON(handle, { notes: [] });
+      await setCurrentHandle(handle);
+      return handle;
+    }
+
+    // —— Uygulama durumu ——
+    let currentHandle = null; // FileSystemFileHandle
+    let state = { notes: [] };
+
     const notesEl = document.getElementById('notes');
     const noteText = document.getElementById('noteText');
     const noteDuration = document.getElementById('noteDuration');
+    const roomInput = document.getElementById('roomInput');
     const addNoteBtn = document.getElementById('addNote');
+    const statusEl = document.getElementById('status');
+    const fileBadge = document.getElementById('fileBadge');
 
-    function loadNotes() {
-      const data = localStorage.getItem('notes');
-      return data ? JSON.parse(data) : [];
+    const btnSettings = document.getElementById('btnSettings');
+    const settingsModal = document.getElementById('settingsModal');
+    const btnPickJSON = document.getElementById('btnPickJSON');
+    const btnCreateJSON = document.getElementById('btnCreateJSON');
+    const btnCloseSettings = document.getElementById('btnCloseSettings');
+
+    function status(msg){ statusEl.textContent = msg || ''; }
+
+    function roomColor(room){
+      // Basit hash → HSL renk
+      const s = String(room||'');
+      let h = 0; for(let i=0;i<s.length;i++){ h = (h*31 + s.charCodeAt(i))>>>0; }
+      h = h % 360; const bg = `hsl(${h} 75% 70%)`; return bg;
     }
 
-    function saveNotes(notes) {
-      localStorage.setItem('notes', JSON.stringify(notes));
+    function roomBadgeHTML(room){
+      const bg = roomColor(room);
+      return `<span class="badge room-badge" style="background:${bg}; color:#0b1220;">Oda ${room||'-'}</span>`;
     }
 
-    function renderNotes() {
-      const now = Date.now();
-      const notes = loadNotes().filter(n => now < n.expire);
-      saveNotes(notes);
+    async function setCurrentHandle(handle){
+      currentHandle = handle;
+      try {
+        const ok = await verifyPermission(handle,false);
+        if (!ok) { fileBadge.textContent = 'JSON dosyası: izin gerek'; return; }
+        const file = await handle.getFile();
+        fileBadge.textContent = 'JSON dosyası: ' + (file.name || '(adı yok)');
+      } catch(e){ fileBadge.textContent = 'JSON dosyası: erişilemedi'; }
+    }
+
+    async function readJSON(handle){
+      try{
+        const ok = await verifyPermission(handle,false); if(!ok) throw new Error('İzin verilmedi');
+        const file = await handle.getFile();
+        const text = await file.text();
+        const data = JSON.parse(text||'{}');
+        if(!data || typeof data !== 'object' || !Array.isArray(data.notes)) return { notes: [] };
+        return data;
+      }catch(e){ console.warn('readJSON',e); return { notes: [] }; }
+    }
+
+    async function writeJSON(handle, data){
+      const ok = await verifyPermission(handle,true); if(!ok) throw new Error('Yazma izni yok');
+      const writable = await handle.createWritable();
+      await writable.write(JSON.stringify(data, null, 2));
+      await writable.close();
+    }
+
+    function renderNotes(){
       notesEl.innerHTML = '';
-      for (const n of notes) {
+      const now = Date.now();
+      const active = state.notes.filter(n => now < n.expire);
+      // Eğer temizlenen olduysa dosyaya da yazacağız (debounce edilmeden, sade)
+      if (active.length !== state.notes.length) {
+        state.notes = active;
+        queueWrite();
+      }
+      for(const n of active){
         const div = document.createElement('div');
         div.className = 'note';
-        div.innerHTML = `<h3>${n.text}</h3><div class="time">Bitecek: ${new Date(n.expire).toLocaleString()}</div>`;
+        div.innerHTML = `
+          <div class="meta">
+            ${roomBadgeHTML(n.room)}
+            <span class="badge">Bitiş: ${new Date(n.expire).toLocaleString('tr-TR')}</span>
+          </div>
+          <h3>${escapeHTML(n.text)}</h3>
+        `;
         notesEl.appendChild(div);
       }
     }
 
-    addNoteBtn.addEventListener('click', () => {
+    function escapeHTML(s){ return String(s).replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m])); }
+
+    let writeTimer=null;
+    function queueWrite(){
+      if(!currentHandle) return;
+      clearTimeout(writeTimer);
+      writeTimer = setTimeout(async ()=>{
+        try{ await writeJSON(currentHandle, state); status('Kaydedildi ✓'); }
+        catch(e){ status('Kaydetme hatası: '+e.message); }
+      }, 300);
+    }
+
+    addNoteBtn.addEventListener('click', async ()=>{
       const text = noteText.value.trim();
-      const durationMinutes = parseInt(noteDuration.value, 10);
-      if (!text || isNaN(durationMinutes) || durationMinutes <= 0) return;
-      const expire = Date.now() + durationMinutes * 60000;
-      const notes = loadNotes();
-      notes.push({ text, expire });
-      saveNotes(notes);
-      noteText.value = '';
-      noteDuration.value = '';
+      const mins = parseInt(noteDuration.value,10);
+      const room = roomInput.value.trim();
+      if(!text){ return status('Not içeriği boş olamaz'); }
+      if(!currentHandle){ openSettings(true); return status('Önce bir JSON dosyası seçin'); }
+      if(!mins || mins<=0){ return status('Süre (dakika) 1 veya daha büyük olmalı'); }
+      const note = { id: Date.now().toString(36)+Math.random().toString(36).slice(2,7), text, room, created: Date.now(), expire: Date.now()+mins*60000 };
+      state.notes.push(note);
+      noteText.value=''; noteDuration.value='';
       renderNotes();
+      queueWrite();
     });
 
-    // Notları her 30 saniyede bir güncelle
-    setInterval(renderNotes, 30000);
+    // ——— Ayarlar Modalı ———
+    function openSettings(force){ settingsModal.classList.add('open'); settingsModal.setAttribute('aria-hidden','false'); if(force) status('JSON dosyası seçilmesi gerekiyor'); }
+    function closeSettings(){ settingsModal.classList.remove('open'); settingsModal.setAttribute('aria-hidden','true'); }
+    btnSettings.addEventListener('click', ()=> openSettings());
+    btnCloseSettings.addEventListener('click', ()=> closeSettings());
+    btnPickJSON.addEventListener('click', async()=>{ try{ await pickJSON(); await loadFromFile(); closeSettings(); }catch(e){ status('Seçim iptal veya hata: '+e.message); }});
+    btnCreateJSON.addEventListener('click', async()=>{ try{ await createJSON(); await loadFromFile(); closeSettings(); }catch(e){ status('Oluşturma iptal veya hata: '+e.message); }});
 
-    renderNotes();
+    async function loadFromFile(){
+      if(!currentHandle){ const saved = await idbGet('jsonHandle'); if(saved) await setCurrentHandle(saved); }
+      if(!currentHandle) return;
+      const data = await readJSON(currentHandle);
+      state = { notes: Array.isArray(data.notes) ? data.notes : [] };
+      renderNotes();
+    }
+
+    async function boot(){
+      if(!supported()){
+        status('Tarayıcınız File System Access API desteklemiyor. Chrome/Edge/Brave + HTTPS/localhost gerekiyor.');
+        return;
+      }
+      const saved = await idbGet('jsonHandle');
+      if(saved){
+        await setCurrentHandle(saved);
+        try{ await loadFromFile(); }catch(e){ openSettings(true); }
+      } else {
+        openSettings(true);
+      }
+      // Her 30 sn’de bir süresi geçenleri temizle + yeniden çiz
+      setInterval(renderNotes, 30000);
+    }
+
+    window.addEventListener('load', boot);
   </script>
 </body>
 </html>
