@@ -502,27 +502,93 @@
       });
     });
 
-    function saveFileHandle(handle) {
-      if (handle && handle.name) {
+    const DB_NAME = 'OtelNotlariDB';
+    const DB_VERSION = 1;
+    const STORE_NAME = 'fileHandles';
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => resolve(request.result);
+        
+        request.onupgradeneeded = (event) => {
+          const db = event.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME);
+          }
+        };
+      });
+    }
+
+    async function saveFileHandle(handle) {
+      if (!handle || !handle.name) return;
+      
+      try {
+        const db = await openDB();
+        const transaction = db.transaction([STORE_NAME], 'readwrite');
+        const store = transaction.objectStore(STORE_NAME);
+        
+        await store.put(handle, 'currentHandle');
         localStorage.setItem('otel-notlari-file', handle.name);
-        localStorage.setItem('otel-notlari-handle', JSON.stringify({
-          name: handle.name,
-          kind: handle.kind
-        }));
+        
+        console.log('[v0] File handle saved to IndexedDB');
+      } catch (err) {
+        console.error('[v0] Error saving file handle:', err);
+        // Fallback to localStorage only
+        localStorage.setItem('otel-notlari-file', handle.name);
       }
     }
 
     async function loadSavedFileHandle() {
-      const savedFileName = localStorage.getItem('otel-notlari-file');
-      if (!savedFileName || !('showOpenFilePicker' in window)) return false;
-
+      if (!('showOpenFilePicker' in window)) return false;
+      
       try {
-        // Try to get permission for the previously used file
-        const handles = await window.showDirectoryPicker({ mode: 'read' });
-        // This is a simplified approach - in reality, we'd need to store the file handle
-        // using IndexedDB with the Origin Private File System API for full persistence
-        return false;
+        const db = await openDB();
+        const transaction = db.transaction([STORE_NAME], 'readonly');
+        const store = transaction.objectStore(STORE_NAME);
+        
+        return new Promise((resolve) => {
+          const request = store.get('currentHandle');
+          
+          request.onsuccess = async () => {
+            const handle = request.result;
+            if (handle) {
+              try {
+                // Test if we still have permission to access the file
+                const permission = await handle.queryPermission({ mode: 'readwrite' });
+                
+                if (permission === 'granted') {
+                  currentHandle = handle;
+                  console.log('[v0] File handle restored from IndexedDB');
+                  resolve(true);
+                } else if (permission === 'prompt') {
+                  // Request permission
+                  const newPermission = await handle.requestPermission({ mode: 'readwrite' });
+                  if (newPermission === 'granted') {
+                    currentHandle = handle;
+                    console.log('[v0] File permission granted, handle restored');
+                    resolve(true);
+                  } else {
+                    resolve(false);
+                  }
+                } else {
+                  resolve(false);
+                }
+              } catch (err) {
+                console.error('[v0] Error accessing saved file handle:', err);
+                resolve(false);
+              }
+            } else {
+              resolve(false);
+            }
+          };
+          
+          request.onerror = () => resolve(false);
+        });
       } catch (err) {
+        console.error('[v0] Error loading file handle from IndexedDB:', err);
         return false;
       }
     }
@@ -633,11 +699,11 @@
         });
 
         currentHandle = handle;
-        saveFileHandle(handle);
+        await saveFileHandle(handle);
         await loadFromFile();
         updateFileBadge();
         closeSettings();
-        status('JSON dosyası başarıyla yüklendi', 'success');
+        status('JSON dosyası başarıyla yüklendi ve kaydedildi', 'success');
       } catch (err) {
         if (err.name !== 'AbortError') {
           status('Dosya seçilirken hata oluştu', 'error');
@@ -662,12 +728,12 @@
         });
 
         currentHandle = handle;
-        saveFileHandle(handle);
+        await saveFileHandle(handle);
         state = { notes: [] };
         await writeToFile();
         updateFileBadge();
         closeSettings();
-        status('Yeni JSON dosyası oluşturuldu', 'success');
+        status('Yeni JSON dosyası oluşturuldu ve kaydedildi', 'success');
       } catch (err) {
         if (err.name !== 'AbortError') {
           status('Dosya oluşturulurken hata oluştu', 'error');
@@ -778,13 +844,22 @@
 
     async function initializeApp() {
       updateFileBadge();
-      renderNotes();
       
-      // Show a message about file persistence limitation
-      const savedFileName = localStorage.getItem('otel-notlari-file');
-      if (savedFileName && !currentHandle) {
-        status('Önceki dosya bağlantısı kesildi. Ayarlardan tekrar seçin.', 'error');
+      // Try to load previously saved file handle
+      const handleLoaded = await loadSavedFileHandle();
+      
+      if (handleLoaded && currentHandle) {
+        await loadFromFile();
+        updateFileBadge();
+        status('Önceki JSON dosyası otomatik yüklendi', 'success');
+      } else {
+        const savedFileName = localStorage.getItem('otel-notlari-file');
+        if (savedFileName) {
+          status('Dosya erişimi için izin gerekli. Ayarlardan tekrar seçin.', 'error');
+        }
       }
+      
+      renderNotes();
     }
 
     initializeApp();
