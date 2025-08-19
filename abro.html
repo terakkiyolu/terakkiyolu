@@ -3,27 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Otel Notları - Yenilenmiş Tasarım</title>
+  <title>Otel Notları</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
     
     :root {
-      --primary: #6366f1;
-      --primary-dark: #4f46e5;
-      --primary-light: #a5b4fc;
-      --background: #0f0f23;
-      --surface: #1a1a2e;
-      --surface-light: #16213e;
-      --border: #2d3748;
-      --text-primary: #f7fafc;
-      --text-secondary: #a0aec0;
-      --text-muted: #718096;
-      --success: #48bb78;
-      --warning: #ed8936;
-      --error: #f56565;
-      --shadow: rgba(0, 0, 0, 0.25);
-      --shadow-lg: rgba(0, 0, 0, 0.4);
-      --gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      --background: #ffffff;
+      --surface: #f8f9fa;
+      --border: #e9ecef;
+      --text-primary: #000000;
+      --text-secondary: #6c757d;
+      --shadow: rgba(0, 0, 0, 0.1);
+      --shadow-lg: rgba(0, 0, 0, 0.15);
     }
 
     * {
@@ -38,9 +29,6 @@
       color: var(--text-primary);
       line-height: 1.6;
       min-height: 100vh;
-      background-image: 
-        radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.05) 0%, transparent 50%);
     }
 
     .container {
@@ -49,60 +37,49 @@
       padding: 2rem;
     }
 
-    /* Header */
-    .header {
-      text-align: center;
-      margin-bottom: 3rem;
-      position: relative;
-    }
-
-    .header h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.025em;
-    }
-
-    .header p {
-      color: var(--text-secondary);
-      font-size: 1.1rem;
-      font-weight: 400;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    /* Top Bar */
+    /* Added top bar with add note button */
     .topbar {
-      position: fixed;
-      top: 1.5rem;
-      right: 1.5rem;
-      z-index: 100;
       display: flex;
-      gap: 1rem;
+      justify-content: space-between;
       align-items: center;
+      margin-bottom: 3rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .add-note-btn {
+      background: var(--text-primary);
+      border: none;
+      color: var(--background);
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .add-note-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px var(--shadow-lg);
     }
 
     .settings-btn {
-      background: var(--surface);
+      background: transparent;
       border: 1px solid var(--border);
       color: var(--text-primary);
       padding: 0.75rem 1rem;
-      border-radius: 12px;
+      border-radius: 8px;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s ease;
-      backdrop-filter: blur(10px);
       font-size: 0.9rem;
     }
 
     .settings-btn:hover {
-      background: var(--surface-light);
+      background: var(--surface);
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px var(--shadow);
     }
 
     .file-badge {
@@ -113,18 +90,21 @@
       border-radius: 20px;
       font-size: 0.8rem;
       font-weight: 500;
-      backdrop-filter: blur(10px);
     }
 
-    /* Input Section */
+    /* Hidden input section by default */
     .input-section {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: 12px;
       padding: 2rem;
       margin-bottom: 3rem;
-      box-shadow: 0 8px 32px var(--shadow);
-      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 12px var(--shadow);
+      display: none;
+    }
+
+    .input-section.open {
+      display: block;
     }
 
     .input-grid {
@@ -151,7 +131,7 @@
       border: 1px solid var(--border);
       color: var(--text-primary);
       padding: 0.875rem 1rem;
-      border-radius: 12px;
+      border-radius: 8px;
       font-size: 1rem;
       transition: all 0.2s ease;
       font-family: inherit;
@@ -159,20 +139,20 @@
 
     .input:focus {
       outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+      border-color: var(--text-primary);
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
     }
 
     .input::placeholder {
-      color: var(--text-muted);
+      color: var(--text-secondary);
     }
 
     .btn-primary {
-      background: var(--gradient);
+      background: var(--text-primary);
       border: none;
-      color: white;
+      color: var(--background);
       padding: 0.875rem 1.5rem;
-      border-radius: 12px;
+      border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -182,11 +162,7 @@
 
     .btn-primary:hover {
       transform: translateY(-1px);
-      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
-    }
-
-    .btn-primary:active {
-      transform: translateY(0);
+      box-shadow: 0 4px 12px var(--shadow-lg);
     }
 
     /* Notes Grid */
@@ -197,38 +173,20 @@
       margin-bottom: 2rem;
     }
 
-    /* Note Card */
+    /* Simplified note card design */
     .note-card {
-      background: var(--surface);
+      background: var(--background);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 12px;
       padding: 1.5rem;
       position: relative;
       transition: all 0.3s ease;
-      overflow: hidden;
-      backdrop-filter: blur(10px);
-    }
-
-    .note-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: var(--gradient);
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      box-shadow: 0 2px 8px var(--shadow);
     }
 
     .note-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px var(--shadow-lg);
-      border-color: var(--primary-light);
-    }
-
-    .note-card:hover::before {
-      opacity: 1;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px var(--shadow-lg);
     }
 
     .note-header {
@@ -239,35 +197,17 @@
       gap: 1rem;
     }
 
+    /* Bold room number only, no prefix or icons */
     .room-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #1a1a2e;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .room-badge::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: inherit;
-      opacity: 0.9;
-      z-index: -1;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
     }
 
     .time-badge {
-      background: rgba(99, 102, 241, 0.1);
-      color: var(--primary-light);
-      border: 1px solid rgba(99, 102, 241, 0.2);
+      background: var(--surface);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
       padding: 0.25rem 0.75rem;
       border-radius: 12px;
       font-size: 0.75rem;
@@ -290,7 +230,7 @@
       padding-top: 1rem;
       border-top: 1px solid var(--border);
       font-size: 0.8rem;
-      color: var(--text-muted);
+      color: var(--text-secondary);
     }
 
     .note-id {
@@ -308,19 +248,18 @@
     }
 
     .status.success {
-      color: var(--success);
+      color: #28a745;
     }
 
     .status.error {
-      color: var(--error);
+      color: #dc3545;
     }
 
     /* Modal */
     .modal {
       position: fixed;
       inset: 0;
-      background: rgba(15, 15, 35, 0.8);
-      backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.5);
       display: none;
       align-items: center;
       justify-content: center;
@@ -333,9 +272,9 @@
     }
 
     .modal-content {
-      background: var(--surface);
+      background: var(--background);
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: 12px;
       padding: 2rem;
       max-width: 500px;
       width: 100%;
@@ -363,11 +302,11 @@
     }
 
     .btn-secondary {
-      background: var(--background);
+      background: var(--surface);
       border: 1px solid var(--border);
       color: var(--text-primary);
       padding: 0.75rem 1.25rem;
-      border-radius: 12px;
+      border-radius: 8px;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -375,31 +314,30 @@
     }
 
     .btn-secondary:hover {
-      background: var(--surface-light);
-      border-color: var(--primary-light);
+      background: var(--border);
     }
 
     /* Empty State */
     .empty-state {
       text-align: center;
       padding: 4rem 2rem;
-      color: var(--text-muted);
+      color: var(--text-secondary);
     }
 
     .empty-state h3 {
       font-size: 1.25rem;
       margin-bottom: 0.5rem;
-      color: var(--text-secondary);
+      color: var(--text-primary);
     }
+
+    /* Simple vectorial icons using Unicode */
+    .icon-settings::before { content: "⚙"; }
+    .icon-add::before { content: "+"; }
 
     /* Responsive */
     @media (max-width: 768px) {
       .container {
         padding: 1rem;
-      }
-
-      .header h1 {
-        font-size: 2rem;
       }
 
       .input-grid {
@@ -413,11 +351,9 @@
       }
 
       .topbar {
-        position: relative;
-        top: auto;
-        right: auto;
-        margin-bottom: 2rem;
-        justify-content: center;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
       }
 
       .modal-content {
@@ -460,26 +396,27 @@
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: var(--primary);
+      background: var(--text-secondary);
     }
   </style>
 </head>
 <body>
-  <!-- Top Bar -->
-  <div class="topbar">
-    <button id="btnSettings" class="settings-btn">⚙️ Ayarlar</button>
-    <span id="fileBadge" class="file-badge">JSON dosyası: seçilmedi</span>
-  </div>
-
+  <!-- Redesigned top bar with add button and settings -->
   <div class="container">
-    <!-- Header -->
-    <div class="header">
-      <h1>Otel Notları</h1>
-      <p>Odalarınız için zaman sınırlı notlar oluşturun. Notlar otomatik olarak temizlenir ve güvenli bir şekilde JSON dosyasında saklanır.</p>
+    <div class="topbar">
+      <button id="addNoteToggle" class="add-note-btn">
+        <span class="icon-add"></span> Not Ekle
+      </button>
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <button id="btnSettings" class="settings-btn">
+          <span class="icon-settings"></span> Ayarlar
+        </button>
+        <span id="fileBadge" class="file-badge">JSON dosyası: seçilmedi</span>
+      </div>
     </div>
 
-    <!-- Input Section -->
-    <div class="input-section">
+    <!-- Input section now hidden by default -->
+    <div class="input-section" id="inputSection">
       <div class="input-grid">
         <div class="input-group">
           <label for="roomInput">Oda Numarası</label>
@@ -493,7 +430,7 @@
           <label for="noteDuration">Süre (Dakika)</label>
           <input id="noteDuration" class="input" type="number" placeholder="60" min="1" />
         </div>
-        <button id="addNote" class="btn-primary">Not Ekle</button>
+        <button id="addNote" class="btn-primary">Ekle</button>
       </div>
     </div>
 
@@ -518,39 +455,6 @@
   </div>
 
   <script>
-    // —— IndexedDB ——
-    const DB_NAME = 'otel-notlari-db';
-    const STORE = 'handles';
-    function openDB(){
-      return new Promise((res, rej)=>{ const r=indexedDB.open(DB_NAME,1); r.onupgradeneeded=()=>r.result.createObjectStore(STORE); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); });
-    }
-    async function idbSet(key,val){ const db=await openDB(); return new Promise((res,rej)=>{ const tx=db.transaction(STORE,'readwrite'); tx.objectStore(STORE).put(val,key); tx.oncomplete=()=>res(); tx.onerror=()=>rej(tx.error); }); }
-    async function idbGet(key){ const db=await openDB(); return new Promise((res,rej)=>{ const tx=db.transaction(STORE,'readonly'); const g=tx.objectStore(STORE).get(key); g.onsuccess=()=>res(g.result); g.onerror=()=>rej(g.error); }); }
-
-    // —— File System Access helpers ——
-    function supported(){ return 'showOpenFilePicker' in window; }
-    async function verifyPermission(handle, write){ const opts={mode: write?'readwrite':'read'}; const q=await handle.queryPermission(opts); if(q==='granted') return true; const r=await handle.requestPermission(opts); return r==='granted'; }
-
-    // JSON dosyası seç / oluştur
-    async function pickJSON(){
-      const [handle] = await window.showOpenFilePicker({
-        types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }],
-        excludeAcceptAllOption: false, multiple: false
-      });
-      await idbSet('jsonHandle', handle);
-      await setCurrentHandle(handle);
-      return handle;
-    }
-    async function createJSON(){
-      const handle = await window.showSaveFilePicker({
-        suggestedName: 'otel-notlari.json',
-        types: [{ description: 'JSON', accept: { 'application/json': ['.json'] } }]
-      });
-      await idbSet('jsonHandle', handle);
-      await writeJSON(handle, { notes: [] });
-      await setCurrentHandle(handle);
-      return handle;
-    }
 
     // —— Uygulama durumu ——
     let currentHandle = null;
@@ -564,27 +468,25 @@
     const statusEl = document.getElementById('status');
     const fileBadge = document.getElementById('fileBadge');
 
+    const addNoteToggle = document.getElementById('addNoteToggle');
+    const inputSection = document.getElementById('inputSection');
+
     const btnSettings = document.getElementById('btnSettings');
     const settingsModal = document.getElementById('settingsModal');
     const btnPickJSON = document.getElementById('btnPickJSON');
     const btnCreateJSON = document.getElementById('btnCreateJSON');
     const btnCloseSettings = document.getElementById('btnCloseSettings');
 
+    addNoteToggle.addEventListener('click', () => {
+      inputSection.classList.toggle('open');
+      if (inputSection.classList.contains('open')) {
+        roomInput.focus();
+      }
+    });
+
     function status(msg, type = ''){ 
       statusEl.textContent = msg || ''; 
       statusEl.className = `status ${type}`;
-    }
-
-    function roomColor(room){
-      const s = String(room||'');
-      let h = 0; 
-      for(let i=0;i<s.length;i++){ 
-        h = (h*31 + s.charCodeAt(i))>>>0; 
-      }
-      h = h % 360; 
-      const saturation = 70 + (h % 20);
-      const lightness = 65 + (h % 15);
-      return `hsl(${h}, ${saturation}%, ${lightness}%)`;
     }
 
     function formatTimeRemaining(expireTime) {
@@ -602,46 +504,6 @@
       return `${minutes} dakika kaldı`;
     }
 
-    async function setCurrentHandle(handle){
-      currentHandle = handle;
-      try {
-        const ok = await verifyPermission(handle,false);
-        if (!ok) { 
-          fileBadge.textContent = 'JSON dosyası: izin gerekli'; 
-          fileBadge.style.color = 'var(--warning)';
-          return; 
-        }
-        const file = await handle.getFile();
-        fileBadge.textContent = 'JSON: ' + (file.name || '(adı yok)');
-        fileBadge.style.color = 'var(--success)';
-      } catch(e){ 
-        fileBadge.textContent = 'JSON dosyası: erişilemedi'; 
-        fileBadge.style.color = 'var(--error)';
-      }
-    }
-
-    async function readJSON(handle){
-      try{
-        const ok = await verifyPermission(handle,false); 
-        if(!ok) throw new Error('İzin verilmedi');
-        const file = await handle.getFile();
-        const text = await file.text();
-        const data = JSON.parse(text||'{}');
-        if(!data || typeof data !== 'object' || !Array.isArray(data.notes)) return { notes: [] };
-        return data;
-      }catch(e){ 
-        console.warn('readJSON',e); 
-        return { notes: [] }; 
-      }
-    }
-
-    async function writeJSON(handle, data){
-      const ok = await verifyPermission(handle,true); 
-      if(!ok) throw new Error('Yazma izni yok');
-      const writable = await handle.createWritable();
-      await writable.write(JSON.stringify(data, null, 2));
-      await writable.close();
-    }
 
     function renderNotes(){
       const now = Date.now();
@@ -657,7 +519,7 @@
         notesEl.innerHTML = `
           <div class="empty-state">
             <h3>Henüz not yok</h3>
-            <p>Yukarıdaki formu kullanarak ilk notunuzu oluşturun</p>
+            <p>Yukarıdaki "Not Ekle" butonunu kullanarak ilk notunuzu oluşturun</p>
           </div>
         `;
         return;
@@ -672,15 +534,12 @@
         const div = document.createElement('div');
         div.className = 'note-card';
         
-        const roomBg = roomColor(note.room);
         const createdDate = new Date(note.created).toLocaleString('tr-TR');
         const timeRemaining = formatTimeRemaining(note.expire);
         
         div.innerHTML = `
           <div class="note-header">
-            <div class="room-badge" style="background: ${roomBg};">
-              🏨 Oda ${note.room || '-'}
-            </div>
+            <div class="room-badge">${note.room || '-'}</div>
             <div class="time-badge">${timeRemaining}</div>
           </div>
           <div class="note-content">${escapeHTML(note.text)}</div>
@@ -694,24 +553,6 @@
       }
     }
 
-    function escapeHTML(s){ 
-      return String(s).replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m])); 
-    }
-
-    let writeTimer=null;
-    function queueWrite(){
-      if(!currentHandle) return;
-      clearTimeout(writeTimer);
-      writeTimer = setTimeout(async ()=>{
-        try{ 
-          await writeJSON(currentHandle, state); 
-          status('Başarıyla kaydedildi ✓', 'success'); 
-        }
-        catch(e){ 
-          status('Kaydetme hatası: '+e.message, 'error'); 
-        }
-      }, 300);
-    }
 
     addNoteBtn.addEventListener('click', async ()=>{
       const text = noteText.value.trim();
@@ -747,100 +588,13 @@
       noteDuration.value='';
       roomInput.value='';
       
+      inputSection.classList.remove('open');
+      
       renderNotes();
       queueWrite();
       status(`Not başarıyla eklendi (${mins} dakika süreyle)`, 'success');
     });
 
-    // Enter tuşu ile not ekleme
-    [noteText, noteDuration, roomInput].forEach(input => {
-      input.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          addNoteBtn.click();
-        }
-      });
-    });
-
-    // ——— Ayarlar Modalı ———
-    function openSettings(force){ 
-      settingsModal.classList.add('open'); 
-      settingsModal.setAttribute('aria-hidden','false'); 
-      if(force) status('JSON dosyası seçilmesi gerekiyor', 'error'); 
-    }
-    
-    function closeSettings(){ 
-      settingsModal.classList.remove('open'); 
-      settingsModal.setAttribute('aria-hidden','true'); 
-    }
-    
-    btnSettings.addEventListener('click', ()=> openSettings());
-    btnCloseSettings.addEventListener('click', ()=> closeSettings());
-    
-    btnPickJSON.addEventListener('click', async()=>{ 
-      try{ 
-        await pickJSON(); 
-        await loadFromFile(); 
-        closeSettings(); 
-        status('JSON dosyası başarıyla seçildi', 'success');
-      }catch(e){ 
-        status('Seçim iptal veya hata: '+e.message, 'error'); 
-      }
-    });
-    
-    btnCreateJSON.addEventListener('click', async()=>{ 
-      try{ 
-        await createJSON(); 
-        await loadFromFile(); 
-        closeSettings(); 
-        status('Yeni JSON dosyası oluşturuldu', 'success');
-      }catch(e){ 
-        status('Oluşturma iptal veya hata: '+e.message, 'error'); 
-      }
-    });
-
-    // Modal dışına tıklayınca kapat
-    settingsModal.addEventListener('click', (e) => {
-      if (e.target === settingsModal) {
-        closeSettings();
-      }
-    });
-
-    async function loadFromFile(){
-      if(!currentHandle){ 
-        const saved = await idbGet('jsonHandle'); 
-        if(saved) await setCurrentHandle(saved); 
-      }
-      if(!currentHandle) return;
-      
-      const data = await readJSON(currentHandle);
-      state = { notes: Array.isArray(data.notes) ? data.notes : [] };
-      renderNotes();
-    }
-
-    async function boot(){
-      if(!supported()){
-        status('Tarayıcınız File System Access API desteklemiyor. Chrome/Edge/Brave + HTTPS/localhost gerekiyor.', 'error');
-        return;
-      }
-      
-      const saved = await idbGet('jsonHandle');
-      if(saved){
-        await setCurrentHandle(saved);
-        try{ 
-          await loadFromFile(); 
-          status('Notlar başarıyla yüklendi', 'success');
-        }catch(e){ 
-          openSettings(true); 
-        }
-      } else {
-        openSettings(true);
-      }
-      
-      // Her 30 saniyede bir süresi geçenleri temizle + yeniden çiz
-      setInterval(renderNotes, 30000);
-    }
-
-    window.addEventListener('load', boot);
   </script>
 </body>
 </html>
