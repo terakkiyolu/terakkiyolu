@@ -442,6 +442,16 @@
         align-items: stretch;
       }
 
+      /* Fixed button sizes to stay consistent on mobile */
+      .add-note-btn,
+      .settings-btn,
+      .btn-primary,
+      .btn-complete,
+      .btn-delete {
+        font-size: 0.9rem !important;
+        padding: 0.6rem 1.2rem !important;
+      }
+
       .modal-content {
         margin: 1rem;
       }
@@ -581,6 +591,10 @@
     btnCloseSettings.addEventListener('click', () => closeSettings());
     btnPickJSON.addEventListener('click', () => pickJSONFile());
     btnCreateJSON.addEventListener('click', () => createNewJSON());
+
+    addNoteToggle.addEventListener('click', () => {
+      inputSection.classList.toggle('open');
+    });
 
     [noteText, noteDuration, roomInput].forEach(input => {
       input.addEventListener('keypress', (e) => {
