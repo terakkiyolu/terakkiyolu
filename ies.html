@@ -3,35 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#3B82F6">
     <title>IES - Industrial Engineering Society | Türk Hava Kurumu Üniversitesi</title>
     <meta name="description" content="Türk Hava Kurumu Üniversitesi Industrial Engineering Society - Öğrenci topluluğu, projeler, etkinlikler ve daha fazlası">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         :root {
-            --accent: #3B82F6;
-            --bg-light: #ffffff;
-            --text-dark: #1a1a1a;
+            --c-glass: #bbbbbc;
+            --c-light: #fff;
+            --c-dark: #000;
+            --c-content: #224;
+            --c-action: #3B82F6;
+            --c-bg: #E8E8E9;
+            --glass-reflex-dark: 1;
+            --glass-reflex-light: 1;
+            --saturation: 150%;
             --text-muted: #6b7280;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(59, 130, 246, 0.2);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 25%, #e0e7ff 50%, #ddd6fe 75%, #e0f2fe 100%);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-            color: var(--text-dark);
+            font-family: "DM Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-optical-sizing: auto;
+            background: var(--c-bg);
+            color: var(--c-content);
             line-height: 1.6;
             overflow-x: hidden;
             position: relative;
+            transition: background 400ms cubic-bezier(1, 0.0, 0.4, 1), color 400ms cubic-bezier(1, 0.0, 0.4, 1);
         }
 
+        /* Animated wave background effect */
         body::before {
             content: '';
             position: fixed;
@@ -39,30 +49,125 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(14, 165, 233, 0.1) 0%, transparent 50%);
+            background: 
+                linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+                linear-gradient(225deg, rgba(147, 51, 234, 0.05) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
+            animation: waveShift 20s ease-in-out infinite;
         }
 
-        body::after {
-            content: '';
+        @keyframes waveShift {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
+        }
+
+        /* Animated airplane vector background */
+        .airplane-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
             pointer-events: none;
             z-index: 1;
+            overflow: hidden;
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .airplane {
+            position: absolute;
+            opacity: 0.12;
+            filter: drop-shadow(0 4px 8px rgba(59, 130, 246, 0.2));
+        }
+
+        .airplane:nth-child(1) {
+            top: 12%;
+            animation: flyAcross 35s linear infinite;
+        }
+
+        .airplane:nth-child(2) {
+            top: 42%;
+            animation: flyAcross 40s linear infinite 10s;
+        }
+
+        .airplane:nth-child(3) {
+            top: 72%;
+            animation: flyAcross 32s linear infinite 20s;
+        }
+
+        @keyframes flyAcross {
+            0% {
+                left: -10%;
+                transform: translateY(0) rotate(-3deg);
+            }
+            25% {
+                transform: translateY(-15px) rotate(-3deg);
+            }
+            50% {
+                transform: translateY(-25px) rotate(-3deg);
+            }
+            75% {
+                transform: translateY(-15px) rotate(-3deg);
+            }
+            100% {
+                left: 110%;
+                transform: translateY(0) rotate(-3deg);
+            }
+        }
+
+        /* SVG Filter for Professional Liquid Glass Distortion */
+        .glass-filter-svg {
+            position: absolute;
+            width: 0;
+            height: 0;
+            z-index: -1;
+        }
+
+        /* Professional iOS 26 Liquid Glass Effect */
+        .glass-card {
+            position: relative;
+            border-radius: 20px;
+            overflow: visible;
+            background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+            backdrop-filter: blur(16px) saturate(var(--saturation));
+            -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+            box-shadow: 
+                inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+                inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+                inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+                inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
+                inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent), 
+                inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+                inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+                inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+                0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+                0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+            transition: 
+                background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
+                box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1),
+                transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.08) 0%, transparent 60%),
+                        radial-gradient(circle at 70% 80%, rgba(255,255,255,0.05) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 1;
+            animation: glassShimmer 8s ease-in-out infinite;
+        }
+
+        @keyframes glassShimmer {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .glass-content {
+            position: relative;
+            z-index: 2;
         }
 
         header, section, footer, .page {
@@ -72,7 +177,7 @@
 
         .page {
             display: none;
-            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .page.active {
@@ -90,20 +195,25 @@
             }
         }
 
-        .liquid-glass {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        /* Ripple effect for interactions */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(59, 130, 246, 0.4);
+            transform: scale(0);
+            animation: rippleEffect 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            z-index: 100;
         }
 
-        .liquid-glass-enhanced {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(59, 130, 246, 0.25);
-            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
         }
 
+        /* Header with Liquid Glass navbar */
         header {
             position: sticky;
             top: 0;
@@ -119,72 +229,123 @@
             justify-content: space-between;
             padding: 0.75rem 1.5rem;
             border-radius: 50px;
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(59, 130, 246, 0.15);
         }
 
+        /* Softer, more elegant logo animation */
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             font-weight: 600;
             font-size: 1.1rem;
             text-decoration: none;
-            color: var(--text-dark);
+            color: var(--c-content);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 5;
+        }
+
+        .logo:hover {
+            transform: translateY(-2px);
         }
 
         .logo img {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
         }
 
+        .logo:hover img {
+            transform: rotate(3deg) scale(1.08);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
+        }
+
+        /* Visible navbar with liquid glass transitions */
         nav {
             display: flex;
-            gap: 2rem;
+            gap: 2.5rem;
+            position: relative;
+            z-index: 5;
         }
 
         nav a {
-            color: var(--text-muted);
+            color: var(--c-content);
             text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            padding: 0.5rem 0;
+            opacity: 1;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--c-action);
+            border-radius: 2px;
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
         }
 
         nav a:hover, nav a.active {
-            color: var(--accent);
+            color: var(--c-action);
         }
 
         .cta-button {
-            background: var(--accent);
+            background: var(--c-action);
             color: white;
-            padding: 0.6rem 1.5rem;
+            padding: 0.7rem 1.8rem;
             border-radius: 25px;
             text-decoration: none;
             font-weight: 600;
             font-size: 0.9rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             border: none;
             cursor: pointer;
+            position: relative;
+            z-index: 5;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
         }
 
         .cta-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
         }
 
+        /* Mobile menu with liquid glass design */
         .mobile-menu-btn {
             display: none;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            color: var(--text-dark);
-            padding: 0.5rem;
-            border-radius: 8px;
+            background: color-mix(in srgb, var(--c-action) 15%, transparent);
+            border: 1px solid color-mix(in srgb, var(--c-action) 25%, transparent);
+            color: var(--c-content);
+            padding: 0.6rem 0.8rem;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 1.2rem;
+            position: relative;
+            z-index: 5;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        .mobile-menu-btn:hover {
+            background: color-mix(in srgb, var(--c-action) 25%, transparent);
+            transform: scale(1.05);
+        }
+
+        /* Improved mobile menu organization with liquid glass cards */
         .mobile-menu {
             display: none;
             position: fixed;
@@ -192,48 +353,86 @@
             left: 0;
             width: 100%;
             height: 100vh;
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(20px) saturate(180%);
             z-index: 9999;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 2rem;
-            animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 1.5rem;
+            animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 2rem;
         }
 
         .mobile-menu.active {
             display: flex;
         }
 
+        /* Mobile menu items as liquid glass cards */
         .mobile-menu a {
-            color: var(--text-dark);
+            color: var(--c-content);
             text-decoration: none;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: visible;
+            padding: 1.2rem 2.5rem;
+            opacity: 1;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            border-radius: 16px;
+            background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+            backdrop-filter: blur(16px) saturate(var(--saturation));
+            -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+            box-shadow: 
+                inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+                inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+                0px 4px 12px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+        }
+
+        .mobile-menu a::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.08) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 1;
+            animation: glassShimmer 8s ease-in-out infinite;
         }
 
         .mobile-menu a:hover {
-            color: var(--accent);
-            transform: scale(1.1);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 
+                inset 0 0 0 1px color-mix(in srgb, var(--c-action) 30%, transparent),
+                inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+                0px 8px 24px 0px color-mix(in srgb, var(--c-action) 20%, transparent);
+            background-color: color-mix(in srgb, var(--c-action) 15%, transparent);
         }
 
         .mobile-menu-close {
             position: absolute;
             top: 2rem;
             right: 2rem;
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            color: var(--text-dark);
-            width: 40px;
-            height: 40px;
+            background: color-mix(in srgb, var(--c-action) 15%, transparent);
+            border: 1px solid color-mix(in srgb, var(--c-action) 25%, transparent);
+            color: var(--c-content);
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .mobile-menu-close:hover {
+            background: var(--c-action);
+            color: white;
+            transform: rotate(90deg);
         }
 
         .hero-carousel {
@@ -259,7 +458,7 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .carousel-slide.active {
@@ -286,13 +485,13 @@
             font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 0.5rem;
-            animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .carousel-subtitle {
             font-size: 1.1rem;
             opacity: 0.9;
-            animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s backwards;
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards;
         }
 
         @keyframes slideUp {
@@ -322,7 +521,9 @@
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.5);
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
         }
 
         .carousel-indicator.active {
@@ -334,7 +535,7 @@
         .hero {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 4rem 2rem;
+            padding: 4rem 1rem;
             text-align: center;
         }
 
@@ -346,30 +547,30 @@
         }
 
         .hero .accent-text {
-            color: var(--accent);
+            color: var(--c-action);
             text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
         }
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 1.5rem;
             margin-top: 3rem;
-            padding: 0 1rem;
+            padding: 0 0.75rem;
         }
 
         .project-card {
             border-radius: 20px;
-            padding: 1rem;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
         }
 
         .project-card:hover {
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+        }
+
+        .project-card .glass-content {
+            padding: 1rem;
         }
 
         .project-image {
@@ -384,7 +585,7 @@
             margin-bottom: 1rem;
             position: relative;
             overflow: hidden;
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .project-card:hover .project-image {
@@ -401,7 +602,7 @@
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
-            color: var(--text-dark);
+            color: var(--c-content);
         }
 
         .project-desc {
@@ -409,10 +610,11 @@
             color: var(--text-muted);
         }
 
+        /* Added project detail page styles with liquid glass theme */
         .project-detail {
             max-width: 1000px;
             margin: 2rem auto;
-            padding: 2rem;
+            padding: 2rem 1rem;
         }
 
         .project-detail-header {
@@ -421,20 +623,21 @@
         }
 
         .project-detail-title {
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 800;
             margin-bottom: 1rem;
-            color: var(--text-dark);
+            color: var(--c-content);
         }
 
         .project-detail-subtitle {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--text-muted);
+            margin-bottom: 2rem;
         }
 
         .project-detail-image {
             width: 100%;
-            aspect-ratio: 16/9;
+            height: 400px;
             border-radius: 24px;
             overflow: hidden;
             margin-bottom: 3rem;
@@ -448,148 +651,151 @@
         }
 
         .project-detail-content {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(59, 130, 246, 0.2);
             border-radius: 24px;
             padding: 3rem;
             margin-bottom: 2rem;
         }
 
         .project-detail-section {
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
 
         .project-detail-section h3 {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            color: var(--accent);
+            color: var(--c-action);
         }
 
         .project-detail-section p {
-            font-size: 1rem;
+            font-size: 1.1rem;
             line-height: 1.8;
-            color: var(--text-dark);
+            color: var(--c-content);
             margin-bottom: 1rem;
         }
 
         .project-detail-section ul {
             list-style: none;
-            padding-left: 0;
+            padding: 0;
         }
 
-        .project-detail-section li {
-            padding: 0.5rem 0;
-            padding-left: 1.5rem;
+        .project-detail-section ul li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
             position: relative;
+            font-size: 1.05rem;
+            color: var(--c-content);
         }
 
-        .project-detail-section li::before {
-            content: '→';
+        .project-detail-section ul li::before {
+            content: '✓';
             position: absolute;
             left: 0;
-            color: var(--accent);
+            color: var(--c-action);
             font-weight: bold;
+            font-size: 1.2rem;
         }
 
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--accent);
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-        }
-
-        .back-button:hover {
-            background: var(--accent);
-            color: white;
-            transform: translateX(-5px);
-        }
-
-        .members-section {
+        /* Added about page styles with liquid glass theme */
+        .about-section {
             max-width: 1200px;
             margin: 2rem auto;
-            padding: 2rem;
+            padding: 2rem 1rem;
         }
 
-        .members-header {
+        .about-header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
         }
 
-        .members-title {
-            font-size: clamp(2rem, 5vw, 3.5rem);
+        .about-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 800;
             margin-bottom: 1rem;
-            color: var(--text-dark);
+            color: var(--c-content);
         }
 
-        .members-subtitle {
-            font-size: 1.2rem;
+        .about-subtitle {
+            font-size: 1.3rem;
             color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
         }
 
-        .members-grid {
+        .about-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
         }
 
-        .member-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 0.5px solid rgba(59, 130, 246, 0.2);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        .about-text-card {
+            border-radius: 24px;
+            padding: 3rem;
         }
 
-        .member-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+        .about-text-card h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--c-action);
         }
 
-        .member-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 16px;
+        .about-text-card p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--c-content);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-image-card {
+            border-radius: 24px;
             overflow: hidden;
-            margin: 0 auto 1.5rem;
-            background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
-            border: 1px solid rgba(59, 130, 246, 0.15);
+            height: 100%;
+            min-height: 400px;
         }
 
-        .member-image img {
+        .about-image-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .member-name {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-dark);
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
         }
 
-        .member-department {
-            font-size: 0.9rem;
-            color: var(--text-muted);
+        .stat-card {
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--c-action);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--c-content);
+            font-weight: 600;
         }
 
         .features {
             max-width: 1200px;
             margin: 4rem auto;
-            padding: 0 2rem;
+            padding: 0 1rem;
         }
 
         .features h2 {
@@ -597,17 +803,25 @@
             font-size: clamp(2rem, 4vw, 3rem);
             font-weight: 800;
             margin-bottom: 3rem;
-            color: var(--text-dark);
+            color: var(--c-content);
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
         }
 
         .feature-card {
             border-radius: 20px;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .feature-card .glass-content {
             padding: 2rem;
         }
 
@@ -622,21 +836,29 @@
             font-size: 1.25rem;
             font-weight: 600;
             margin-bottom: 1rem;
-            color: var(--text-dark);
+            color: var(--c-content);
         }
 
-        .feature-images {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-top: 1.5rem;
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
         }
 
-        .feature-img {
-            aspect-ratio: 3/4;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
-            border: 1px solid rgba(59, 130, 246, 0.2);
+        .feature-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--c-action);
+            font-weight: bold;
         }
 
         .rating {
@@ -649,7 +871,7 @@
         .rating-number {
             font-size: 3rem;
             font-weight: 700;
-            color: var(--accent);
+            color: var(--c-action);
         }
 
         .stars {
@@ -659,16 +881,180 @@
         }
 
         .star {
-            color: var(--accent);
+            color: var(--c-action);
             font-size: 1.25rem;
+        }
+
+        .members-section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem 1rem;
+        }
+
+        .members-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .members-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--c-content);
+        }
+
+        .members-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+
+        /* Redesigned member cards with professional liquid glass effect */
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .member-card {
+            position: relative;
+            border-radius: 24px;
+            overflow: visible;
+            aspect-ratio: 3/4;
+            cursor: pointer;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+            backdrop-filter: blur(20px) saturate(var(--saturation));
+            -webkit-backdrop-filter: blur(20px) saturate(var(--saturation));
+            box-shadow: 
+                inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+                inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+                inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+                0px 6px 20px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+                0px 12px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+        }
+
+        .member-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.1) 0%, transparent 60%),
+                        radial-gradient(circle at 70% 80%, rgba(255,255,255,0.06) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 1;
+            animation: glassShimmer 10s ease-in-out infinite;
+        }
+
+        .member-card:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 
+                inset 0 0 0 1px color-mix(in srgb, var(--c-action) 30%, transparent),
+                inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 100%), transparent), 
+                0px 16px 40px 0px color-mix(in srgb, var(--c-action) 25%, transparent), 
+                0px 24px 60px 0px color-mix(in srgb, var(--c-action) 15%, transparent);
+        }
+
+        .member-image {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .member-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .member-card:hover .member-image img {
+            transform: scale(1.08);
+        }
+
+        .member-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 40%, transparent 70%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem 1.5rem;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 2;
+            border-radius: inherit;
+        }
+
+        .member-card:hover .member-overlay {
+            background: linear-gradient(
+                to top, 
+                color-mix(in srgb, var(--c-action) 95%, transparent) 0%, 
+                color-mix(in srgb, var(--c-action) 70%, transparent) 40%, 
+                color-mix(in srgb, var(--c-action) 30%, transparent) 70%,
+                transparent 100%
+            );
+        }
+
+        .member-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            color: white;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 3;
+        }
+
+        .member-card:hover .member-name {
+            transform: translateY(-4px);
+        }
+
+        .member-department {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 500;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 3;
+        }
+
+        .member-card:hover .member-department {
+            transform: translateY(-2px);
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: color-mix(in srgb, var(--c-action) 15%, transparent);
+            color: var(--c-action);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid color-mix(in srgb, var(--c-action) 25%, transparent);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem; /* Added margin */
+        }
+
+        .back-button:hover {
+            background: var(--c-action);
+            color: white;
+            transform: translateX(-5px);
         }
 
         footer {
             max-width: 1200px;
             margin: 4rem auto 2rem;
-            padding: 2rem;
+            padding: 2rem 1rem;
             text-align: center;
-            border-top: 1px solid rgba(59, 130, 246, 0.2);
+            border-top: 1px solid color-mix(in srgb, var(--c-action) 20%, transparent);
         }
 
         .footer-content {
@@ -682,7 +1068,7 @@
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
-            color: var(--text-dark);
+            color: var(--c-content);
         }
 
         .footer-text {
@@ -698,20 +1084,22 @@
         }
 
         .social-link {
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            background: rgba(59, 130, 246, 0.1);
+            background: color-mix(in srgb, var(--c-action) 15%, transparent);
             display: flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            color: var(--text-dark);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--c-content);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
         }
 
         .social-link:hover {
-            background: var(--accent);
+            background: var(--c-action);
             transform: translateY(-3px);
         }
 
@@ -719,6 +1107,7 @@
             width: 20px;
             height: 20px;
             fill: currentColor;
+            transition: fill 0.3s;
         }
 
         .social-link:hover svg {
@@ -735,7 +1124,7 @@
             }
 
             .hero {
-                padding: 2rem 1rem;
+                padding: 2rem 0.75rem;
             }
 
             .carousel-container {
@@ -751,30 +1140,28 @@
             }
 
             .projects-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
+                grid-template-columns: 1fr;
+                padding: 0 0.75rem;
             }
 
             .features-grid {
                 grid-template-columns: 1fr;
             }
 
-            .project-detail-content {
-                padding: 1.5rem;
-            }
-
             .members-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
+                grid-template-columns: 1fr;
             }
 
-            .member-card {
-                padding: 1.5rem;
+            .about-content {
+                grid-template-columns: 1fr;
             }
 
-            .member-image {
-                width: 120px;
-                height: 120px;
+            .project-detail-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .about-text-card {
+                padding: 2rem 1.5rem;
             }
         }
 
@@ -786,34 +1173,53 @@
             .carousel-title {
                 font-size: 1.5rem;
             }
-
-            .members-grid {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
 <body>
+    <!-- SVG Filter for Liquid Glass Distortion -->
+    <svg class="glass-filter-svg">
+        <filter id="glass-distortion" primitiveUnits="objectBoundingBox">
+            <feTurbulence type="turbulence" baseFrequency="0.008" numOctaves="2" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" />
+        </filter>
+    </svg>
+
+    <!-- Animated airplane vector background -->
+    <div class="airplane-bg">
+        <svg class="airplane" width="70" height="70" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="#3B82F6" opacity="0.6"/>
+        </svg>
+        <svg class="airplane" width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="#3B82F6" opacity="0.6"/>
+        </svg>
+        <svg class="airplane" width="65" height="65" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="#3B82F6" opacity="0.6"/>
+        </svg>
+    </div>
+
     <header>
-        <div class="header-container">
-            <a href="#home" class="logo">
-                <img src="logo.jpg" alt="IES Logo">
-                <span>IES</span>
-            </a>
-            <nav>
-                <a href="#home" class="nav-link">Ana Sayfa</a>
-                <a href="#projects" class="nav-link">Projeler</a>
-                <a href="#members" class="nav-link">Üyeler</a>
-                <a href="#about" class="nav-link">Hakkımızda</a>
-                <a href="#contact" class="nav-link">İletişim</a>
-            </nav>
-            <a href="#contact" class="cta-button">Bize Ulaşın</a>
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+        <div class="header-container glass-card">
+            <div class="glass-content" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <a href="#home" class="logo">
+                    <img src="logo.jpg" alt="IES Logo">
+                    <span>IES</span>
+                </a>
+                <nav>
+                    <a href="#home" class="nav-link">Ana Sayfa</a>
+                    <a href="#projects" class="nav-link">Projeler</a>
+                    <a href="#members" class="nav-link">Üyeler</a>
+                    <a href="#about" class="nav-link">Hakkımızda</a>
+                    <a href="#contact" class="nav-link">İletişim</a>
+                </nav>
+                <a href="#contact" class="cta-button">Bize Ulaşın</a>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            </div>
         </div>
     </header>
 
-    <div class="mobile-menu" id="mobileMenu">
-        <button class="mobile-menu-close" onclick="toggleMobileMenu()">×</button>
+    <!-- Removed close button from mobile menu -->
+    <div class="mobile-menu glass-card" id="mobileMenu">
         <a href="#home" onclick="toggleMobileMenu()">Ana Sayfa</a>
         <a href="#projects" onclick="toggleMobileMenu()">Projeler</a>
         <a href="#members" onclick="toggleMobileMenu()">Üyeler</a>
@@ -826,28 +1232,28 @@
         <div class="hero-carousel">
             <div class="carousel-container" id="carouselContainer">
                 <div class="carousel-slide active">
-                    <img src="/kader.jpg" alt="Endüstri 4.0">
+                    <img src="/test3.jpg" alt="Endüstri 4.0">
                     <div class="carousel-content">
                         <h2 class="carousel-title">Endüstri 4.0</h2>
                         <p class="carousel-subtitle">Geleceğin üretim teknolojilerini keşfedin</p>
                     </div>
                 </div>
                 <div class="carousel-slide">
-                    <img src="/s%C4%B1z%C4%B1nt%C4%B1.webp" alt="Takım Çalışması">
+                    <img src="/test2.jpg" alt="Takım Çalışması">
                     <div class="carousel-content">
                         <h2 class="carousel-title">Takım Çalışması</h2>
                         <p class="carousel-subtitle">Birlikte daha güçlüyüz</p>
                     </div>
                 </div>
                 <div class="carousel-slide">
-                    <img src="/sefaat1.jpg" alt="Veri Analizi">
+                    <img src="/test.jpg" alt="Veri Analizi">
                     <div class="carousel-content">
                         <h2 class="carousel-title">Veri Analizi</h2>
                         <p class="carousel-subtitle">Veriye dayalı kararlar alın</p>
                     </div>
                 </div>
                 <div class="carousel-slide">
-                    <img src="/s%C4%B1z%C4%B1nt%C4%B1.webp" alt="Sürdürülebilirlik">
+                    <img src="/test1.jpg" alt="Sürdürülebilirlik">
                     <div class="carousel-content">
                         <h2 class="carousel-title">Sürdürülebilirlik</h2>
                         <p class="carousel-subtitle">Yeşil üretim için çalışıyoruz</p>
@@ -871,52 +1277,64 @@
             <a href="#contact" class="cta-button">Topluluğa Katıl</a>
 
             <div class="projects-grid" id="projects">
-                <div class="project-card liquid-glass" onclick="navigateTo('#project-1')">
-                    <div class="project-image">
-                        <img src="/kader.jpg" alt="Üretim Optimizasyonu">
+                <div class="project-card glass-card" onclick="navigateTo('project-1')">
+                    <div class="glass-content">
+                        <div class="project-image">
+                            <img src="/test.jpg" alt="Üretim Optimizasyonu">
+                        </div>
+                        <h3 class="project-title">Üretim Optimizasyonu</h3>
+                        <p class="project-desc">Akıllı üretim sistemleri ve verimlilik analizi</p>
                     </div>
-                    <h3 class="project-title">Üretim Optimizasyonu</h3>
-                    <p class="project-desc">Akıllı üretim sistemleri ve verimlilik analizi</p>
                 </div>
 
-                <div class="project-card liquid-glass" onclick="navigateTo('#project-2')">
-                    <div class="project-image">
-                        <img src="/s%C4%B1z%C4%B1nt%C4%B1.webp" alt="Veri Analizi">
+                <div class="project-card glass-card" onclick="navigateTo('project-2')">
+                    <div class="glass-content">
+                        <div class="project-image">
+                            <img src="/test1.jpg" alt="Veri Analizi">
+                        </div>
+                        <h3 class="project-title">Veri Analizi</h3>
+                        <p class="project-desc">Büyük veri ile karar destek sistemleri</p>
                     </div>
-                    <h3 class="project-title">Veri Analizi</h3>
-                    <p class="project-desc">Büyük veri ile karar destek sistemleri</p>
                 </div>
 
-                <div class="project-card liquid-glass" onclick="navigateTo('#project-3')">
-                    <div class="project-image">
-                        <img src="/s%C4%B1z%C4%B1nt%C4%B12.webp" alt="Otomasyon">
+                <div class="project-card glass-card" onclick="navigateTo('project-3')">
+                    <div class="glass-content">
+                        <div class="project-image">
+                            <img src="/test2.jpg" alt="Otomasyon">
+                        </div>
+                        <h3 class="project-title">Otomasyon</h3>
+                        <p class="project-desc">Endüstri 4.0 ve akıllı fabrika çözümleri</p>
                     </div>
-                    <h3 class="project-title">Otomasyon</h3>
-                    <p class="project-desc">Endüstri 4.0 ve akıllı fabrika çözümleri</p>
                 </div>
 
-                <div class="project-card liquid-glass" onclick="navigateTo('#project-4')">
-                    <div class="project-image">
-                        <img src="/s%C4%B1z%C4%B1nt%C4%B13.webp" alt="Süreç İyileştirme">
+                <div class="project-card glass-card" onclick="navigateTo('project-4')">
+                    <div class="glass-content">
+                        <div class="project-image">
+                            <img src="/test3.jpg" alt="Süreç İyileştirme">
+                        </div>
+                        <h3 class="project-title">Süreç İyileştirme</h3>
+                        <p class="project-desc">Lean ve Six Sigma metodolojileri</p>
                     </div>
-                    <h3 class="project-title">Süreç İyileştirme</h3>
-                    <p class="project-desc">Lean ve Six Sigma metodolojileri</p>
                 </div>
 
-                <div class="project-card liquid-glass" onclick="navigateTo('#project-5')">
-                    <div class="project-image">
-                        <img src="/sefaat1.jpg" alt="Sürdürülebilirlik">
+                <div class="project-card glass-card" onclick="navigateTo('project-5')">
+                    <div class="glass-content">
+                        <div class="project-image">
+                            <img src="/test4.jpg" alt="Sürdürülebilirlik">
+                        </div>
+                        <h3 class="project-title">Sürdürülebilirlik</h3>
+                        <p class="project-desc">Yeşil üretim ve çevre dostu çözümler</p>
                     </div>
-                    <h3 class="project-title">Sürdürülebilirlik</h3>
-                    <p class="project-desc">Yeşil üretim ve çevre dostu çözümler</p>
                 </div>
 
-                <div class="project-card liquid-glass" onclick="navigateTo('#project-6')">
-                    <div class="project-image">
-                        <img src="/kader.jpg" alt="Tedarik Zinciri">
+                <div class="project-card glass-card" onclick="navigateTo('project-6')">
+                    <div class="glass-content">
+                        <div class="project-image">
+                            <img src="/test5.jpg" alt="Tedarik Zinciri">
+                        </div>
+                        <h3 class="project-title">Tedarik Zinciri</h3>
+                        <p class="project-desc">Lojistik ve tedarik zinciri optimizasyonu</p>
                     </div>
-                    <h3 class="project-title">Tedarik Zinciri</h3>
-                    <p class="project-desc">Lojistik ve tedarik zinciri optimizasyonu</p>
                 </div>
             </div>
         </section>
@@ -924,38 +1342,98 @@
         <section class="features" id="about">
             <h2>Neden IES?</h2>
             <div class="features-grid">
-                <div class="feature-card liquid-glass">
-                    <p class="feature-label">ETKİNLİKLER</p>
-                    <h3 class="feature-title">Düzenli seminerler, workshoplar ve saha gezileri ile pratik deneyim kazanın</h3>
-                    <div class="feature-images">
-                        <div class="feature-img"></div>
-                        <div class="feature-img"></div>
+                <div class="feature-card glass-card">
+                    <div class="glass-content">
+                        <p class="feature-label">ETKİNLİKLER</p>
+                        <h3 class="feature-title">Düzenli seminerler, workshoplar ve saha gezileri</h3>
+                        <ul class="feature-list">
+                            <li>Haftalık teknik workshoplar</li>
+                            <li>Sektör profesyonelleri ile seminerler</li>
+                            <li>Fabrika ve tesis gezileri</li>
+                            <li>Hackathon ve yarışmalar</li>
+                        </ul>
                     </div>
                 </div>
 
-                <div class="feature-card liquid-glass">
-                    <p class="feature-label">TOPLULUK</p>
-                    <h3 class="feature-title">Endüstri mühendisliği alanında kariyer yapmak isteyen öğrencilerle tanışın</h3>
-                    <div class="rating">
-                        <div class="rating-number">4.9</div>
-                        <div class="stars">
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
-                            <span class="star">★</span>
+                <div class="feature-card glass-card">
+                    <div class="glass-content">
+                        <p class="feature-label">TOPLULUK</p>
+                        <h3 class="feature-title">Endüstri mühendisliği alanında kariyer yapmak isteyen öğrenciler</h3>
+                        <div class="rating">
+                            <div class="rating-number">4.9</div>
+                            <div class="stars">
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                                <span class="star">★</span>
+                            </div>
                         </div>
+                        <ul class="feature-list">
+                            <li>200+ aktif üye</li>
+                            <li>Mentörlük programları</li>
+                            <li>Networking etkinlikleri</li>
+                        </ul>
                     </div>
-                    <div class="feature-images">
-                        <div class="feature-img"></div>
-                        <div class="feature-img"></div>
+                </div>
+
+                <div class="feature-card glass-card">
+                    <div class="glass-content">
+                        <p class="feature-label">PROJELER</p>
+                        <h3 class="feature-title">Gerçek dünya problemlerine çözümler üretin</h3>
+                        <ul class="feature-list">
+                            <li>Endüstri 4.0 projeleri</li>
+                            <li>Veri analizi çalışmaları</li>
+                            <li>Süreç optimizasyonu</li>
+                            <li>Otomasyon sistemleri</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="feature-card glass-card">
+                    <div class="glass-content">
+                        <p class="feature-label">KARİYER</p>
+                        <h3 class="feature-title">Sektörün önde gelen firmalarıyla tanışın</h3>
+                        <ul class="feature-list">
+                            <li>Kariyer günleri ve fuarlar</li>
+                            <li>Staj ve iş fırsatları</li>
+                            <li>CV ve mülakat hazırlığı</li>
+                            <li>Şirket ziyaretleri</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="feature-card glass-card">
+                    <div class="glass-content">
+                        <p class="feature-label">EĞİTİM</p>
+                        <h3 class="feature-title">Teknik becerilerinizi geliştirin</h3>
+                        <ul class="feature-list">
+                            <li>Python ve veri analizi eğitimleri</li>
+                            <li>Simülasyon yazılımları</li>
+                            <li>Lean ve Six Sigma sertifikaları</li>
+                            <li>CAD ve modelleme araçları</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="feature-card glass-card">
+                    <div class="glass-content">
+                        <p class="feature-label">NETWORK</p>
+                        <h3 class="feature-title">Geniş bir profesyonel ağ oluşturun</h3>
+                        <ul class="feature-list">
+                            <li>Mezun üyeler ile bağlantı</li>
+                            <li>Sektör liderleri ile görüşmeler</li>
+                            <li>Uluslararası işbirlikleri</li>
+                            <li>Sosyal etkinlikler</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- Project Detail Pages -->
+    <!-- Added project detail pages with liquid glass styling -->
+    <!-- Project 1 Detail Page -->
     <div id="page-project-1" class="page">
         <div class="project-detail">
             <a href="#home" class="back-button">← Geri Dön</a>
@@ -964,36 +1442,41 @@
                 <p class="project-detail-subtitle">Akıllı üretim sistemleri ve verimlilik analizi</p>
             </div>
             <div class="project-detail-image">
-                <img src="/placeholder.svg?height=600&width=1200" alt="Üretim Optimizasyonu">
+                <img src="/test.jpg" alt="Üretim Optimizasyonu">
             </div>
-            <div class="project-detail-content">
-                <div class="project-detail-section">
-                    <h3>Proje Hakkında</h3>
-                    <p>Üretim Optimizasyonu projemiz, modern üretim tesislerinde verimliliği artırmak ve maliyetleri düşürmek için geliştirilmiş kapsamlı bir çözümdür. Yapay zeka ve makine öğrenmesi algoritmalarını kullanarak üretim süreçlerini optimize ediyoruz.</p>
-                    <p>Projemiz, gerçek zamanlı veri analizi ile üretim hatlarındaki darboğazları tespit eder ve çözüm önerileri sunar. Bu sayede üretim verimliliğinde %30'a varan artışlar elde edilebilmektedir.</p>
-                </div>
-                <div class="project-detail-section">
-                    <h3>Kullanılan Teknolojiler</h3>
-                    <ul>
-                        <li>Python ve TensorFlow ile makine öğrenmesi modelleri</li>
-                        <li>IoT sensörler ile gerçek zamanlı veri toplama</li>
-                        <li>Power BI ile görselleştirme ve raporlama</li>
-                        <li>Simülasyon yazılımları ile süreç modelleme</li>
-                    </ul>
-                </div>
-                <div class="project-detail-section">
-                    <h3>Proje Hedefleri</h3>
-                    <ul>
-                        <li>Üretim verimliliğini artırmak</li>
-                        <li>Enerji tüketimini optimize etmek</li>
-                        <li>Kalite kontrol süreçlerini iyileştirmek</li>
-                        <li>Üretim maliyetlerini düşürmek</li>
-                    </ul>
+            <div class="project-detail-content glass-card">
+                <div class="glass-content">
+                    <div class="project-detail-section">
+                        <h3>Proje Hakkında</h3>
+                        <p>Üretim Optimizasyonu projemiz, modern üretim tesislerinde verimliliği artırmak ve maliyetleri düşürmek için gelişmiş analitik yöntemler kullanmaktadır. Yapay zeka ve makine öğrenmesi algoritmalarıyla üretim süreçlerini optimize ediyoruz.</p>
+                        <p>Bu proje kapsamında, gerçek zamanlı veri toplama sistemleri, tahminsel bakım modelleri ve dinamik üretim planlama araçları geliştiriyoruz.</p>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>Kullanılan Teknolojiler</h3>
+                        <ul>
+                            <li>Python ve TensorFlow ile makine öğrenmesi modelleri</li>
+                            <li>IoT sensörler ve gerçek zamanlı veri toplama</li>
+                            <li>Simülasyon yazılımları (Arena, FlexSim)</li>
+                            <li>Veri görselleştirme araçları (Power BI, Tableau)</li>
+                            <li>Optimizasyon algoritmaları ve doğrusal programlama</li>
+                        </ul>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>Proje Hedefleri</h3>
+                        <ul>
+                            <li>Üretim verimliliğini %25 artırmak</li>
+                            <li>Makine arıza sürelerini %40 azaltmak</li>
+                            <li>Enerji tüketimini optimize etmek</li>
+                            <li>Kalite kontrol süreçlerini otomatikleştirmek</li>
+                            <li>Gerçek zamanlı karar destek sistemi oluşturmak</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Project 2 Detail Page -->
     <div id="page-project-2" class="page">
         <div class="project-detail">
             <a href="#home" class="back-button">← Geri Dön</a>
@@ -1002,36 +1485,41 @@
                 <p class="project-detail-subtitle">Büyük veri ile karar destek sistemleri</p>
             </div>
             <div class="project-detail-image">
-                <img src="/placeholder.svg?height=600&width=1200" alt="Veri Analizi">
+                <img src="/test3.jpg" alt="Veri Analizi">
             </div>
-            <div class="project-detail-content">
-                <div class="project-detail-section">
-                    <h3>Proje Hakkında</h3>
-                    <p>Veri Analizi projemiz, büyük veri setlerini analiz ederek işletmelere stratejik karar verme süreçlerinde destek sağlar. Gelişmiş istatistiksel yöntemler ve veri madenciliği teknikleri kullanarak anlamlı içgörüler elde ediyoruz.</p>
-                    <p>Projemiz kapsamında geliştirilen karar destek sistemleri, işletmelerin pazar trendlerini öngörmesine ve rekabet avantajı elde etmesine yardımcı olmaktadır.</p>
-                </div>
-                <div class="project-detail-section">
-                    <h3>Kullanılan Teknolojiler</h3>
-                    <ul>
-                        <li>Python (Pandas, NumPy, Scikit-learn)</li>
-                        <li>SQL ve NoSQL veritabanları</li>
-                        <li>Tableau ve Power BI görselleştirme araçları</li>
-                        <li>Apache Spark ile büyük veri işleme</li>
-                    </ul>
-                </div>
-                <div class="project-detail-section">
-                    <h3>Proje Çıktıları</h3>
-                    <ul>
-                        <li>Tahmine dayalı analiz modelleri</li>
-                        <li>İnteraktif veri görselleştirme panoları</li>
-                        <li>Otomatik raporlama sistemleri</li>
-                        <li>Anomali tespit algoritmaları</li>
-                    </ul>
+            <div class="project-detail-content glass-card">
+                <div class="glass-content">
+                    <div class="project-detail-section">
+                        <h3>Proje Hakkında</h3>
+                        <p>Veri Analizi projemiz, büyük veri setlerinden anlamlı içgörüler çıkarmak ve stratejik kararları desteklemek için gelişmiş analitik teknikler kullanmaktadır. Endüstriyel verileri işleyerek işletmelere rekabet avantajı sağlıyoruz.</p>
+                        <p>Tahminsel analitik, istatistiksel modelleme ve veri madenciliği yöntemleriyle geleceğe yönelik öngörüler sunuyoruz.</p>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>Kullanılan Teknolojiler</h3>
+                        <ul>
+                            <li>Python (Pandas, NumPy, Scikit-learn)</li>
+                            <li>R programlama dili ve istatistiksel analiz</li>
+                            <li>SQL ve NoSQL veritabanları</li>
+                            <li>Apache Spark ve Hadoop</li>
+                            <li>Veri görselleştirme (Matplotlib, Seaborn, Plotly)</li>
+                        </ul>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>Proje Hedefleri</h3>
+                        <ul>
+                            <li>Tahminsel bakım modelleri geliştirmek</li>
+                            <li>Müşteri davranış analizi yapmak</li>
+                            <li>Talep tahmini sistemleri oluşturmak</li>
+                            <li>Anomali tespiti ve erken uyarı sistemleri</li>
+                            <li>İnteraktif veri görselleştirme panoları</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Project 3 Detail Page -->
     <div id="page-project-3" class="page">
         <div class="project-detail">
             <a href="#home" class="back-button">← Geri Dön</a>
@@ -1040,36 +1528,41 @@
                 <p class="project-detail-subtitle">Endüstri 4.0 ve akıllı fabrika çözümleri</p>
             </div>
             <div class="project-detail-image">
-                <img src="/placeholder.svg?height=600&width=1200" alt="Otomasyon">
+                <img src="/placeholder.svg?height=400&width=1000" alt="Otomasyon">
             </div>
-            <div class="project-detail-content">
-                <div class="project-detail-section">
-                    <h3>Proje Hakkında</h3>
-                    <p>Otomasyon projemiz, Endüstri 4.0 prensiplerini benimseyerek üretim tesislerini akıllı fabrikalara dönüştürmeyi hedefler. Robotik sistemler, IoT cihazları ve yapay zeka entegrasyonu ile tam otomatik üretim hatları tasarlıyoruz.</p>
-                    <p>Projemiz, insan-makine işbirliğini optimize ederek hem verimliliği artırır hem de iş güvenliğini iyileştirir.</p>
-                </div>
-                <div class="project-detail-section">
-                    <h3>Kullanılan Teknolojiler</h3>
-                    <ul>
-                        <li>PLC programlama ve SCADA sistemleri</li>
-                        <li>Endüstriyel robotlar ve kobot sistemleri</li>
-                        <li>IoT sensörler ve akıllı cihazlar</li>
-                        <li>Dijital ikiz teknolojisi</li>
-                    </ul>
-                </div>
-                <div class="project-detail-section">
-                    <h3>Proje Kapsamı</h3>
-                    <ul>
-                        <li>Üretim hattı otomasyonu</li>
-                        <li>Kalite kontrol sistemleri</li>
-                        <li>Malzeme taşıma otomasyonu</li>
-                        <li>Enerji yönetim sistemleri</li>
-                    </ul>
+            <div class="project-detail-content glass-card">
+                <div class="glass-content">
+                    <div class="project-detail-section">
+                        <h3>Proje Hakkında</h3>
+                        <p>Otomasyon projemiz, Endüstri 4.0 teknolojilerini kullanarak akıllı fabrika çözümleri geliştirmektedir. Robotik sistemler, IoT entegrasyonu ve yapay zeka ile üretim süreçlerini tamamen otomatikleştiriyoruz.</p>
+                        <p>Siber-fiziksel sistemler, bulut bilişim ve nesnelerin interneti teknolojileriyle geleceğin fabrikalarını bugünden inşa ediyoruz.</p>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>Kullanılan Teknolojiler</h3>
+                        <ul>
+                            <li>PLC programlama ve SCADA sistemleri</li>
+                            <li>Endüstriyel robotlar ve otomasyon</li>
+                            <li>IoT platformları ve sensör ağları</li>
+                            <li>Dijital ikiz teknolojisi</li>
+                            <li>Bulut tabanlı üretim yönetim sistemleri</li>
+                        </ul>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>Proje Hedefleri</h3>
+                        <ul>
+                            <li>Tam otomatik üretim hatları tasarlamak</li>
+                            <li>İnsan-robot işbirliği sistemleri geliştirmek</li>
+                            <li>Gerçek zamanlı üretim izleme</li>
+                            <li>Esnek üretim sistemleri oluşturmak</li>
+                            <li>Dijital dönüşüm danışmanlığı sunmak</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Project 4 Detail Page -->
     <div id="page-project-4" class="page">
         <div class="project-detail">
             <a href="#home" class="back-button">← Geri Dön</a>
@@ -1078,36 +1571,41 @@
                 <p class="project-detail-subtitle">Lean ve Six Sigma metodolojileri</p>
             </div>
             <div class="project-detail-image">
-                <img src="/placeholder.svg?height=600&width=1200" alt="Süreç İyileştirme">
+                <img src="/placeholder.svg?height=400&width=1000" alt="Süreç İyileştirme">
             </div>
-            <div class="project-detail-content">
-                <div class="project-detail-section">
-                    <h3>Proje Hakkında</h3>
-                    <p>Süreç İyileştirme projemiz, Lean Manufacturing ve Six Sigma metodolojilerini kullanarak üretim süreçlerindeki israfı minimize eder ve kaliteyi maksimize eder. DMAIC (Define, Measure, Analyze, Improve, Control) yaklaşımı ile sistematik iyileştirmeler gerçekleştiriyoruz.</p>
-                    <p>Projemiz, süreç verimliliğini artırırken aynı zamanda çalışan memnuniyetini de yükseltmeyi hedefler.</p>
-                </div>
-                <div class="project-detail-section">
-                    <h3>Kullanılan Metodolojiler</h3>
-                    <ul>
-                        <li>5S metodolojisi ile çalışma alanı organizasyonu</li>
-                        <li>Kaizen ile sürekli iyileştirme</li>
-                        <li>Value Stream Mapping (Değer Akış Haritalama)</li>
-                        <li>Statistical Process Control (İstatistiksel Süreç Kontrolü)</li>
-                    </ul>
-                </div>
-                <div class="project-detail-section">
-                    <h3>Beklenen Faydalar</h3>
-                    <ul>
-                        <li>Üretim süre ve maliyetlerinde azalma</li>
-                        <li>Ürün kalitesinde artış</li>
-                        <li>İsraf oranlarında düşüş</li>
-                        <li>Çalışan verimliliğinde iyileşme</li>
-                    </ul>
+            <div class="project-detail-content glass-card">
+                <div class="glass-content">
+                    <div class="project-detail-section">
+                        <h3>Proje Hakkında</h3>
+                        <p>Süreç İyileştirme projemiz, Lean Manufacturing ve Six Sigma metodolojilerini kullanarak işletmelerin operasyonel mükemmelliğe ulaşmasını sağlamaktadır. İsrafı elimine ederek değer akışını optimize ediyoruz.</p>
+                        <p>DMAIC (Define, Measure, Analyze, Improve, Control) yaklaşımıyla süreçleri sistematik olarak iyileştiriyoruz.</p>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>Kullanılan Metodolojiler</h3>
+                        <ul>
+                            <li>Lean Manufacturing prensipleri</li>
+                            <li>Six Sigma ve DMAIC metodolojisi</li>
+                            <li>Değer akış haritalama (VSM)</li>
+                            <li>5S ve Kaizen uygulamaları</li>
+                            <li>İstatistiksel proses kontrolü (SPC)</li>
+                        </ul>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>Proje Hedefleri</h3>
+                        <ul>
+                            <li>Üretim süreçlerinde israfı %30 azaltmak</li>
+                            <li>Çevrim sürelerini kısaltmak</li>
+                            <li>Kalite maliyetlerini düşürmek</li>
+                            <li>Süreç varyasyonunu minimize etmek</li>
+                            <li>Sürekli iyileştirme kültürü oluşturmak</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Project 5 Detail Page -->
     <div id="page-project-5" class="page">
         <div class="project-detail">
             <a href="#home" class="back-button">← Geri Dön</a>
@@ -1116,36 +1614,41 @@
                 <p class="project-detail-subtitle">Yeşil üretim ve çevre dostu çözümler</p>
             </div>
             <div class="project-detail-image">
-                <img src="/placeholder.svg?height=600&width=1200" alt="Sürdürülebilirlik">
+                <img src="/placeholder.svg?height=400&width=1000" alt="Sürdürülebilirlik">
             </div>
-            <div class="project-detail-content">
-                <div class="project-detail-section">
-                    <h3>Proje Hakkında</h3>
-                    <p>Sürdürülebilirlik projemiz, çevre dostu üretim yöntemleri geliştirerek karbon ayak izini azaltmayı ve döngüsel ekonomi prensiplerini uygulamayı amaçlar. Yenilenebilir enerji kaynaklarının entegrasyonu ve atık yönetimi optimizasyonu ile sürdürülebilir üretim modelleri oluşturuyoruz.</p>
-                    <p>Projemiz, ekonomik büyüme ile çevresel sorumluluğu dengeleyerek gelecek nesiller için daha yaşanabilir bir dünya bırakmayı hedefler.</p>
-                </div>
-                <div class="project-detail-section">
-                    <h3>Odak Alanları</h3>
-                    <ul>
-                        <li>Yenilenebilir enerji sistemleri entegrasyonu</li>
-                        <li>Atık azaltma ve geri dönüşüm programları</li>
-                        <li>Su ve enerji verimliliği optimizasyonu</li>
-                        <li>Karbon ayak izi ölçümü ve azaltma stratejileri</li>
-                    </ul>
-                </div>
-                <div class="project-detail-section">
-                    <h3>Çevresel Etkiler</h3>
-                    <ul>
-                        <li>Karbon emisyonlarında %40 azalma</li>
-                        <li>Enerji tüketiminde %35 verimlilik artışı</li>
-                        <li>Atık miktarında %50 azalma</li>
-                        <li>Su kullanımında %30 tasarruf</li>
-                    </ul>
+            <div class="project-detail-content glass-card">
+                <div class="glass-content">
+                    <div class="project-detail-section">
+                        <h3>Proje Hakkında</h3>
+                        <p>Sürdürülebilirlik projemiz, çevre dostu üretim yöntemleri geliştirerek hem ekonomik hem de ekolojik değer yaratmayı hedeflemektedir. Karbon ayak izini azaltırken operasyonel verimliliği artırıyoruz.</p>
+                        <p>Döngüsel ekonomi prensipleri, yenilenebilir enerji kullanımı ve atık yönetimi konularında çözümler sunuyoruz.</p>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>Odak Alanları</h3>
+                        <ul>
+                            <li>Enerji verimliliği ve yenilenebilir enerji</li>
+                            <li>Atık azaltma ve geri dönüşüm sistemleri</li>
+                            <li>Karbon ayak izi hesaplama ve azaltma</li>
+                            <li>Yeşil tedarik zinciri yönetimi</li>
+                            <li>Sürdürülebilirlik raporlama ve sertifikasyon</li>
+                        </ul>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>Proje Hedefleri</h3>
+                        <ul>
+                            <li>Karbon emisyonlarını %50 azaltmak</li>
+                            <li>Enerji tüketimini optimize etmek</li>
+                            <li>Sıfır atık hedefine ulaşmak</li>
+                            <li>Döngüsel ekonomi modelleri geliştirmek</li>
+                            <li>Sürdürülebilirlik standartlarına uyum sağlamak</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Project 6 Detail Page -->
     <div id="page-project-6" class="page">
         <div class="project-detail">
             <a href="#home" class="back-button">← Geri Dön</a>
@@ -1154,31 +1657,35 @@
                 <p class="project-detail-subtitle">Lojistik ve tedarik zinciri optimizasyonu</p>
             </div>
             <div class="project-detail-image">
-                <img src="/placeholder.svg?height=600&width=1200" alt="Tedarik Zinciri">
+                <img src="/placeholder.svg?height=400&width=1000" alt="Tedarik Zinciri">
             </div>
-            <div class="project-detail-content">
-                <div class="project-detail-section">
-                    <h3>Proje Hakkında</h3>
-                    <p>Tedarik Zinciri projemiz, lojistik süreçleri optimize ederek maliyetleri düşürür ve teslimat sürelerini kısaltır. Gelişmiş tahmin algoritmaları ve rota optimizasyonu ile tedarik zincirinin her aşamasını iyileştiriyoruz.</p>
-                    <p>Projemiz, tedarikçi ilişkileri yönetimi, envanter optimizasyonu ve dağıtım ağı tasarımı gibi kritik alanlarda çözümler sunmaktadır.</p>
-                </div>
-                <div class="project-detail-section">
-                    <h3>Kullanılan Teknolojiler</h3>
-                    <ul>
-                        <li>ERP sistemleri entegrasyonu</li>
-                        <li>GPS ve RFID takip sistemleri</li>
-                        <li>Talep tahmin algoritmaları</li>
-                        <li>Rota optimizasyon yazılımları</li>
-                    </ul>
-                </div>
-                <div class="project-detail-section">
-                    <h3>Proje Kazanımları</h3>
-                    <ul>
-                        <li>Lojistik maliyetlerinde %25 azalma</li>
-                        <li>Teslimat sürelerinde %40 iyileşme</li>
-                        <li>Envanter maliyetlerinde %30 düşüş</li>
-                        <li>Müşteri memnuniyetinde artış</li>
-                    </ul>
+            <div class="project-detail-content glass-card">
+                <div class="glass-content">
+                    <div class="project-detail-section">
+                        <h3>Proje Hakkında</h3>
+                        <p>Tedarik Zinciri projemiz, lojistik süreçleri optimize ederek maliyetleri düşürürken müşteri memnuniyetini artırmayı hedeflemektedir. Gelişmiş analitik ve optimizasyon teknikleriyle tedarik zincirini uçtan uca yönetiyoruz.</p>
+                        <p>Talep tahmini, envanter optimizasyonu, rota planlama ve tedarikçi yönetimi konularında çözümler geliştiriyoruz.</p>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>Kullanılan Teknolojiler</h3>
+                        <ul>
+                            <li>Tedarik zinciri yönetim yazılımları (SAP, Oracle)</li>
+                            <li>Rota optimizasyonu algoritmaları</li>
+                            <li>Envanter yönetim sistemleri</li>
+                            <li>Blockchain teknolojisi ve izlenebilirlik</li>
+                            <li>Tahminsel analitik ve talep tahmini</li>
+                        </ul>
+                    </div>
+                    <div class="project-detail-section">
+                        <h3>Proje Hedefleri</h3>
+                        <ul>
+                            <li>Lojistik maliyetlerini %20 azaltmak</li>
+                            <li>Teslimat sürelerini kısaltmak</li>
+                            <li>Envanter seviyelerini optimize etmek</li>
+                            <li>Tedarik zinciri görünürlüğünü artırmak</li>
+                            <li>Risk yönetimi ve dayanıklılık oluşturmak</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1195,59 +1702,155 @@
             <div class="members-grid">
                 <div class="member-card">
                     <div class="member-image">
-                        <img src="/placeholder.svg?height=150&width=150" alt="Ahmet Yılmaz">
+                        <img src="/placeholder.svg?height=400&width=300" alt="Ahmet Yılmaz">
                     </div>
-                    <h3 class="member-name">Ahmet Yılmaz</h3>
-                    <p class="member-department">Endüstri Mühendisliği</p>
+                    <div class="member-overlay">
+                        <h3 class="member-name">Ahmet Yılmaz</h3>
+                        <p class="member-department">Endüstri Mühendisliği</p>
+                    </div>
                 </div>
                 <div class="member-card">
                     <div class="member-image">
-                        <img src="/placeholder.svg?height=150&width=150" alt="Ayşe Demir">
+                        <img src="/placeholder.svg?height=400&width=300" alt="Ayşe Demir">
                     </div>
-                    <h3 class="member-name">Ayşe Demir</h3>
-                    <p class="member-department">Endüstri Mühendisliği</p>
+                    <div class="member-overlay">
+                        <h3 class="member-name">Ayşe Demir</h3>
+                        <p class="member-department">Endüstri Mühendisliği</p>
+                    </div>
                 </div>
                 <div class="member-card">
                     <div class="member-image">
-                        <img src="/placeholder.svg?height=150&width=150" alt="Mehmet Kaya">
+                        <img src="/placeholder.svg?height=400&width=300" alt="Mehmet Kaya">
                     </div>
-                    <h3 class="member-name">Mehmet Kaya</h3>
-                    <p class="member-department">Endüstri Mühendisliği</p>
+                    <div class="member-overlay">
+                        <h3 class="member-name">Mehmet Kaya</h3>
+                        <p class="member-department">Endüstri Mühendisliği</p>
+                    </div>
                 </div>
                 <div class="member-card">
                     <div class="member-image">
-                        <img src="/placeholder.svg?height=150&width=150" alt="Zeynep Şahin">
+                        <img src="/placeholder.svg?height=400&width=300" alt="Zeynep Şahin">
                     </div>
-                    <h3 class="member-name">Zeynep Şahin</h3>
-                    <p class="member-department">Endüstri Mühendisliği</p>
+                    <div class="member-overlay">
+                        <h3 class="member-name">Zeynep Şahin</h3>
+                        <p class="member-department">Endüstri Mühendisliği</p>
+                    </div>
                 </div>
                 <div class="member-card">
                     <div class="member-image">
-                        <img src="/placeholder.svg?height=150&width=150" alt="Can Öztürk">
+                        <img src="/placeholder.svg?height=400&width=300" alt="Can Öztürk">
                     </div>
-                    <h3 class="member-name">Can Öztürk</h3>
-                    <p class="member-department">Endüstri Mühendisliği</p>
+                    <div class="member-overlay">
+                        <h3 class="member-name">Can Öztürk</h3>
+                        <p class="member-department">Endüstri Mühendisliği</p>
+                    </div>
                 </div>
                 <div class="member-card">
                     <div class="member-image">
-                        <img src="/placeholder.svg?height=150&width=150" alt="Elif Arslan">
+                        <img src="/placeholder.svg?height=400&width=300" alt="Elif Arslan">
                     </div>
-                    <h3 class="member-name">Elif Arslan</h3>
-                    <p class="member-department">Endüstri Mühendisliği</p>
+                    <div class="member-overlay">
+                        <h3 class="member-name">Elif Arslan</h3>
+                        <p class="member-department">Endüstri Mühendisliği</p>
+                    </div>
                 </div>
                 <div class="member-card">
                     <div class="member-image">
-                        <img src="/placeholder.svg?height=150&width=150" alt="Burak Çelik">
+                        <img src="/placeholder.svg?height=400&width=300" alt="Burak Çelik">
                     </div>
-                    <h3 class="member-name">Burak Çelik</h3>
-                    <p class="member-department">Endüstri Mühendisliği</p>
+                    <div class="member-overlay">
+                        <h3 class="member-name">Burak Çelik</h3>
+                        <p class="member-department">Endüstri Mühendisliği</p>
+                    </div>
                 </div>
                 <div class="member-card">
                     <div class="member-image">
-                        <img src="/placeholder.svg?height=150&width=150" alt="Selin Aydın">
+                        <img src="/placeholder.svg?height=400&width=300" alt="Selin Aydın">
                     </div>
-                    <h3 class="member-name">Selin Aydın</h3>
-                    <p class="member-department">Endüstri Mühendisliği</p>
+                    <div class="member-overlay">
+                        <h3 class="member-name">Selin Aydın</h3>
+                        <p class="member-department">Endüstri Mühendisliği</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Added comprehensive About page with liquid glass styling -->
+    <!-- About Page -->
+    <div id="page-about" class="page">
+        <div class="about-section">
+            <a href="#home" class="back-button">← Geri Dön</a>
+            <div class="about-header">
+                <h1 class="about-title">Hakkımızda</h1>
+                <p class="about-subtitle">Türk Hava Kurumu Üniversitesi Endüstri Mühendisliği Öğrenci Topluluğu olarak geleceğin mühendislerini bugünden yetiştiriyoruz</p>
+            </div>
+
+            <div class="about-content">
+                <div class="about-text-card glass-card">
+                    <div class="glass-content">
+                        <h3>Vizyonumuz</h3>
+                        <p>Endüstri mühendisliği alanında Türkiye'nin en yenilikçi ve etkili öğrenci topluluğu olmak. Üyelerimize dünya standartlarında eğitim ve deneyim fırsatları sunarak, sektörün geleceğini şekillendiren liderler yetiştirmek.</p>
+                        <p>Teknoloji ve inovasyonu merkeze alarak, sürdürülebilir ve verimli üretim sistemleri geliştiren bir topluluk oluşturmak istiyoruz.</p>
+                    </div>
+                </div>
+                <div class="about-image-card glass-card">
+                    <img src="/placeholder.svg?height=400&width=500" alt="Takım Çalışması">
+                </div>
+            </div>
+
+            <div class="about-content">
+                <div class="about-image-card glass-card">
+                    <img src="/placeholder.svg?height=400&width=500" alt="Laboratuvar">
+                </div>
+                <div class="about-text-card glass-card">
+                    <div class="glass-content">
+                        <h3>Misyonumuz</h3>
+                        <p>Endüstri mühendisliği öğrencilerine teorik bilgilerini pratiğe dönüştürebilecekleri bir platform sunmak. Sektör profesyonelleri ile buluşturarak, gerçek dünya problemlerine çözümler üretmelerini sağlamak.</p>
+                        <p>Workshoplar, seminerler, fabrika gezileri ve projeler aracılığıyla üyelerimizin teknik ve sosyal becerilerini geliştirmek. Kariyer hedeflerine ulaşmaları için gerekli tüm desteği sağlamak.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-content">
+                <div class="about-text-card glass-card">
+                    <div class="glass-content">
+                        <h3>Değerlerimiz</h3>
+                        <p><strong>İnovasyon:</strong> Sürekli yenilik ve gelişim peşinde koşuyoruz. Geleneksel yöntemleri sorgulayarak, daha iyi çözümler üretiyoruz.</p>
+                        <p><strong>İşbirliği:</strong> Takım çalışmasına inanıyoruz. Birlikte daha güçlü olduğumuzu biliyoruz.</p>
+                        <p><strong>Sürdürülebilirlik:</strong> Çevre dostu ve sosyal sorumlu projeler geliştiriyoruz.</p>
+                        <p><strong>Mükemmellik:</strong> Her projede en yüksek kalite standartlarını hedefliyoruz.</p>
+                    </div>
+                </div>
+                <div class="about-image-card glass-card">
+                    <img src="/placeholder.svg?height=400&width=500" alt="Sunum">
+                </div>
+            </div>
+
+            <div class="about-stats">
+                <div class="stat-card glass-card">
+                    <div class="glass-content">
+                        <div class="stat-number">200+</div>
+                        <div class="stat-label">Aktif Üye</div>
+                    </div>
+                </div>
+                <div class="stat-card glass-card">
+                    <div class="glass-content">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Tamamlanan Proje</div>
+                    </div>
+                </div>
+                <div class="stat-card glass-card">
+                    <div class="glass-content">
+                        <div class="stat-number">30+</div>
+                        <div class="stat-label">Etkinlik/Yıl</div>
+                    </div>
+                </div>
+                <div class="stat-card glass-card">
+                    <div class="glass-content">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Sektör Ortağı</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1289,9 +1892,60 @@
     </footer>
 
     <script>
-        // <CHANGE> Added hash-based routing system
-        function navigateTo(hash) {
-            window.location.hash = hash;
+        function createRipple(event) {
+            const element = event.currentTarget;
+            const ripple = document.createElement('span');
+            const rect = element.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = event.clientX - rect.left - size / 2;
+            const y = event.clientY - rect.top - size / 2;
+
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple');
+
+            element.appendChild(ripple);
+
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const interactiveElements = document.querySelectorAll(
+                '.cta-button, .back-button, .project-card, .feature-card, .member-card, ' +
+                '.social-link, .carousel-indicator, .mobile-menu-btn, .mobile-menu-close, ' +
+                'nav a, .mobile-menu a'
+            );
+
+            interactiveElements.forEach(element => {
+                element.style.position = 'relative';
+                element.style.overflow = 'hidden';
+                element.addEventListener('click', createRipple);
+            });
+
+            const glassCards = document.querySelectorAll('.glass-card');
+            
+            glassCards.forEach(card => {
+                card.addEventListener('mousemove', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+                    
+                    this.style.setProperty('--mouse-x', x + '%');
+                    this.style.setProperty('--mouse-y', y + '%');
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    this.style.removeProperty('--mouse-x');
+                    this.style.removeProperty('--mouse-y');
+                });
+            });
+        });
+
+        function navigateTo(pageId) {
+            window.location.hash = pageId;
         }
 
         function showPage(pageId) {
@@ -1305,7 +1959,6 @@
                 window.scrollTo(0, 0);
             }
 
-            // Update active nav link
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href') === '#' + pageId) {
@@ -1322,7 +1975,7 @@
         window.addEventListener('hashchange', handleHashChange);
         window.addEventListener('load', handleHashChange);
 
-        // <CHANGE> Added swipe functionality for carousel
+        // Carousel functionality
         let touchStartX = 0;
         let touchEndX = 0;
         const carouselContainer = document.getElementById('carouselContainer');
@@ -1342,16 +1995,13 @@
 
             if (Math.abs(diff) > swipeThreshold) {
                 if (diff > 0) {
-                    // Swipe left - next slide
                     nextSlide();
                 } else {
-                    // Swipe right - previous slide
                     previousSlide();
                 }
             }
         }
 
-        // Carousel functionality
         let currentSlide = 0;
         const slides = document.querySelectorAll('.carousel-slide');
         const indicators = document.querySelectorAll('.carousel-indicator');
@@ -1381,10 +2031,8 @@
             showSlide(index);
         }
 
-        // Auto-advance carousel every 5 seconds
         let carouselInterval = setInterval(nextSlide, 5000);
 
-        // Pause auto-advance on touch
         carouselContainer.addEventListener('touchstart', () => {
             clearInterval(carouselInterval);
         });
@@ -1393,21 +2041,23 @@
             carouselInterval = setInterval(nextSlide, 5000);
         });
 
-        // Mobile menu toggle
         function toggleMobileMenu() {
             const mobileMenu = document.getElementById('mobileMenu');
             mobileMenu.classList.toggle('active');
         }
 
-        // Close mobile menu when clicking outside
         document.addEventListener('click', function(event) {
             const mobileMenu = document.getElementById('mobileMenu');
             const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
             
-            if (mobileMenu.classList.contains('active') && 
-                !mobileMenu.contains(event.target) && 
-                !mobileMenuBtn.contains(event.target)) {
-                mobileMenu.classList.remove('active');
+            if (mobileMenu.classList.contains('active')) {
+                const isClickInsideMenu = Array.from(mobileMenu.querySelectorAll('a')).some(link => 
+                    link.contains(event.target)
+                );
+                
+                if (!isClickInsideMenu && !mobileMenuBtn.contains(event.target)) {
+                    mobileMenu.classList.remove('active');
+                }
             }
         });
     </script>
