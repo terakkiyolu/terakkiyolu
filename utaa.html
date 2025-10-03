@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Liquid Glass - Tema Değiştirici</title>
+  <title>Liquid Glass - Topluluk</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
@@ -13,7 +13,6 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      /* Remove tap highlight effect on mobile browsers */
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -87,7 +86,7 @@
       gap: 20px;
     }
 
-    /* Navbar Styles */
+    /*Navbar Styles */
     .navbar {
       display: flex;
       align-items: center;
@@ -151,7 +150,6 @@
       background-color: color-mix(in srgb, var(--c-action) 10%, transparent);
     }
 
-    /* Mobile Menu Button - hidden on desktop */
     .menu-toggle {
       display: none;
       align-items: center;
@@ -183,7 +181,6 @@
       background-color: color-mix(in srgb, var(--c-glass) 20%, transparent);
     }
 
-    /* Close Menu Button - appears when menu opens */
     .close-menu-btn {
       display: none;
       align-items: center;
@@ -224,7 +221,6 @@
       fill: var(--c-action);
     }
 
-    /* Mobile-specific styles - switcher inside navbar, logo text hidden */
     @media (max-width: 768px) {
       .header-container {
         flex-direction: column;
@@ -257,7 +253,6 @@
         gap: 12px;
       }
 
-      /* Hide logo text on mobile to save space */
       .navbar-logo span {
         display: none;
       }
@@ -330,7 +325,6 @@
         border-radius: 16px;
       }
 
-      /* Switcher positioned below expanded navbar menu on the right side */
       .switcher {
         position: absolute;
         top: calc(100% + 12px);
@@ -347,7 +341,6 @@
                     transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
       }
 
-      /* Show switcher when menu opens with smooth animation */
       .navbar.menu-open ~ .switcher {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -549,84 +542,317 @@
       100% { scale: 1 1; }
     }
 
-    .article {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 10em 2em 5em;
+    /* Main content styles for community website */
+    main {
+      padding-top: 110px;
+      min-height: 100vh;
     }
 
-    h1, h2, p, blockquote {
+    /* Hero Carousel */
+    .hero-carousel {
+      position: relative;
       width: 100%;
-      max-width: 600px;
-      box-sizing: border-box;
+      height: 600px;
+      overflow: hidden;
+      border-radius: 32px;
+      margin: 0 auto 80px;
+      max-width: 1400px;
+      background-color: color-mix(in srgb, var(--c-glass) 8%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
     }
 
-    h1 {
-      font-size: 3em;
-      margin: 1.4em 0 0.6em;
-    }
-
-    h2 {
-      font-size: 2em;
-      margin: 1.4em 0 0.6em;
-    }
-
-    p {
-      line-height: 160%;
-      margin: 0 0 1em;
-    }
-
-    blockquote {
-      margin-left: 0;
-      margin-right: 0;
-      font-size: 2em;
-      padding-left: 1em;
-      border-left: 0.1em solid currentColor;
-    }
-
-    figure {
-      margin: 1em 0 2em;
+    .carousel-track {
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      height: 100%;
+      transition: transform 800ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    figcaption {
-      max-width: 600px;
-      margin-top: 1em;
-      font-size: 0.8em;
-      color: color-mix(in srgb, var(--c-content) 60%, var(--c-bg));
+    .carousel-slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
     }
 
-    a {
-      color: var(--c-action);
-      text-decoration-thickness: 0.05em;
-      text-underline-position: under;
-      text-decoration-color: color-mix(in srgb, currentColor, transparent 70%);
-      transition: color 160ms, text-decoration-color 160ms;
-    }
-
-    a:hover {
-      color: color-mix(in srgb, var(--c-action), var(--c-content) 40%);
-      text-decoration-color: color-mix(in srgb, currentColor, transparent 30%);
-    }
-
-    img {
-      display: block;
-      border-radius: 0.8em;
+    .carousel-slide img {
       width: 100%;
-      max-width: 700px;
-      aspect-ratio: 5 / 3;
+      height: 100%;
       object-fit: cover;
+      transition: transform 800ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .box {
-      padding: 1em 1.4em;
-      border-top: 4px solid color-mix(in srgb, var(--c-action) 50%, transparent);
-      border-radius: 0.8em;
-      background-color: color-mix(in srgb, var(--c-action) 8%, var(--c-bg));
-      transition: background 400ms cubic-bezier(1, 0.0, 0.4, 1);
+    .carousel-slide.active img {
+      transform: scale(1.05);
+    }
+
+    .carousel-title {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--c-light);
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      padding: 20px 32px;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, var(--c-glass) 20%, transparent);
+      backdrop-filter: blur(12px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(12px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 24px 0px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 600ms cubic-bezier(0.4, 0, 0.2, 1) 200ms,
+                  transform 600ms cubic-bezier(0.4, 0, 0.2, 1) 200ms;
+    }
+
+    .carousel-slide.active .carousel-title {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .carousel-nav {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      gap: 12px;
+      z-index: 10;
+    }
+
+    .carousel-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: color-mix(in srgb, var(--c-light) 40%, transparent);
+      border: none;
+      cursor: pointer;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .carousel-dot.active {
+      width: 40px;
+      border-radius: 6px;
+      background-color: var(--c-light);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 100px;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 60px;
+      color: var(--c-content);
+    }
+
+    /* Glass Card */
+    .glass-card {
+      padding: 40px;
+      border-radius: 32px;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 12px 48px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+    }
+
+    /* Features Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      text-align: center;
+    }
+
+    .feature-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 24px;
+      padding: 20px;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, var(--c-action) 15%, transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .feature-icon svg {
+      width: 40px;
+      height: 40px;
+      fill: var(--c-action);
+    }
+
+    .feature-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--c-content);
+    }
+
+    .feature-description {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: color-mix(in srgb, var(--c-content) 80%, transparent);
+    }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--c-action);
+      margin-bottom: 12px;
+    }
+
+    .stat-label {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--c-content);
+    }
+
+    /* CTA Section */
+    .cta-section {
+      text-align: center;
+      padding: 80px 40px;
+      border-radius: 32px;
+      background: linear-gradient(135deg, 
+        color-mix(in srgb, var(--c-action) 20%, transparent),
+        color-mix(in srgb, var(--c-action) 5%, transparent));
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+    }
+
+    .cta-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: var(--c-content);
+    }
+
+    .cta-description {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      color: color-mix(in srgb, var(--c-content) 85%, transparent);
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 18px 48px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--c-light);
+      background-color: var(--c-action);
+      border: none;
+      border-radius: 99em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0px 8px 24px 0px color-mix(in srgb, var(--c-action) 40%, transparent);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0px 12px 32px 0px color-mix(in srgb, var(--c-action) 50%, transparent);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 60px 20px;
+      color: color-mix(in srgb, var(--c-content) 60%, transparent);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero-carousel {
+        height: 400px;
+        border-radius: 24px;
+        margin-bottom: 60px;
+      }
+
+      .carousel-title {
+        font-size: 1.8rem;
+        bottom: 20px;
+        left: 20px;
+        padding: 16px 24px;
+      }
+
+      .section-title {
+        font-size: 2rem;
+        margin-bottom: 40px;
+      }
+
+      .glass-card {
+        padding: 24px;
+        border-radius: 24px;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+      }
+
+      .cta-section {
+        padding: 60px 24px;
+      }
+
+      .cta-title {
+        font-size: 1.8rem;
+      }
+
+      .cta-description {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
@@ -685,71 +911,112 @@
     </fieldset>
   </div>
     
-  <article class="article">
-    <h1>Liquid Glass</h1>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui maxime optio quam debitis autem, maiores odio tenetur dicta aperiam aliquam, iusto nisi ipsum tempore dolore doloremque facere non culpa sint sequi ducimus corporis veritatis cumque corrupti sed. Ipsa dolor quod alias dicta dolores. Ducimus pariatur nostrum quo, impedit <a href="#">facilis voluptatibus</a>! Non doloremque, facere neque dolorem animi earum odio placeat quae voluptatem nisi nihil deleniti voluptatibus harum magnam adipisci tenetur. Ab aliquid reprehenderit accusamus id quae velit quasi nostrum possimus ipsa vel. Voluptate nisi impedit placeat nemo neque asperiores iure saepe, eius eligendi odit quisquam delectus veniam autem, sequi laborum atque
-    </p>
-    <figure>
-      <img src="https://images.unsplash.com/photo-1706720094773-d91e070e4b90?q=80&w=2515&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Photo by Neeqolah Creative Works on Unsplash">
-      <figcaption>Photo by Neeqolah Creative Works on <a href="https://unsplash.com/photos/a-close-up-of-a-green-object-on-a-yellow-background-A2kyFEwh3zo">Unsplash</a></figcaption>
-    </figure>
-    <p>
-      Sit amet consectetur adipisicing elit. Quibusdam illum in voluptates omnis reprehenderit inventore perferendis dolores, architecto doloribus. Quam error qui nam quis! Dolorum, dolore saepe ipsam quae aliquam tenetur dolores dolor repellendus facere a quasi soluta voluptate provident earum cum. Nostrum consequuntur corporis quibusdam tempora amet, animi inventore dicta voluptas nisi placeat ut illum explicabo! Consequatur, accusamus. Labore quo perspiciatis quos est molestiae illo possimus deserunt sed amet maxime, dolorum praesentium nihil doloribus similique cumque eveniet qui vero eius magni reprehenderit aspernatur, et, quod voluptatum? Voluptatem, eveniet vel sunt nesciunt recusandae alias maiores optio labore, dolorum aut possimus iusto quia. Non quas excepturi ea, maxime mollitia fugit, animi alias ad repudiandae dolores facere molestiae id, nemo temporibus explicabo.
-    </p>
-    <blockquote>
-      Et aliquam libero deserunt maxime! Perspiciatis neque deserunt sequi deleniti!
-    </blockquote>
-    <p>
-      Recusandae doloribus, ullam inventore esse culpa dignissimos qui ducimus possimus ipsum reprehenderit, suscipit debitis nihil sit. Animi eligendi sed molestiae. Repellat, est ut eos voluptates tempora quisquam corporis mollitia, excepturi commodi cum dolore asperiores eaque debitis fuga quidem! A laborum ab reiciendis saepe rerum iste. Nisi quos earum ex nulla neque <a href="#">tempora explicabo reiciendis</a> vitae sapiente accusamus tempore consequatur nemo, placeat magni quasi corrupti nobis alias, rerum ipsam fuga quisquam tenetur repellendus! Sit laborum aut odit pariatur quos cupiditate iure maiores. Quis nemo dicta numquam autem debitis blanditiis, odio explicabo maxime officiis magni soluta dolor suscipit, quo nisi eaque deleniti dolorem aperiam deserunt. Animi dolor expedita consectetur deserunt, quae id ab.
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi aperiam enim eos repellendus molestiae, ad ab maxime et, aut nam culpa eveniet. Eaque consequuntur laudantium ex dolore voluptas rem cumque, quos voluptatibus aut maxime. Animi enim odio ea porro molestiae laudantium ipsam nulla quia distinctio quod incidunt pariatur accusamus possimus laborum veritatis maxime, asperiores quasi! 
-    </p>
-    <h2>
-      Doloremque nisi eius quis
-    </h2>
-    <p>Magnam quo voluptate vitae voluptatem expedita vel illum ut. Tempore, sed? Sunt distinctio minus dolore, consequuntur eos qui eveniet error rerum tempora, autem et quaerat, ea repellendus unde iure. Fuga ad tempore cupiditate animi iste, eius nam beatae, aliquid quae id iusto perspiciatis. Quos quis cum itaque facilis libero sequi quaerat ipsam hic blanditiis doloribus modi sapiente tempora ipsum fugiat similique cupiditate beatae provident eos natus doloremque alias, sed praesentium. 
-    </p>
-    <figure>
-      <img src="https://images.unsplash.com/photo-1734606901283-489b25f7aa9b?q=80&w=2360&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Photo by Irene Demetri on Unsplash">
-      <figcaption>Photo by Irene Demetri on <a href="https://unsplash.com/photos/a-close-up-of-a-green-object-on-a-yellow-background-A2kyFEwh3zo">Unsplash</a></figcaption>
-    </figure>
-    <p>
-      Quod iste recusandae sed labore corporis ea provident debitis hic maxime placeat alias rem cumque animi explicabo laboriosam, dicta molestias? Corporis quibusdam, aliquam asperiores quo officia reiciendis nemo aspernatur similique voluptatibus in tempora? Laborum temporibus ipsa at exercitationem ullam labore tempore neque. Porro earum distinctio rem perferendis amet nihil maiores ab id cumque quae nesciunt, velit fugiat in aspernatur unde. Ut dolor eaque, vero quo sunt sed exercitationem cum accusamus, beatae, quasi rerum. Id eius dolorem nihil porro, voluptatem exercitationem tenetur impedit laudantium odit aliquam vel, facilis eos quasi voluptatibus optio. Ipsum voluptatum labore consequatur dolorum veritatis qui placeat magnam aut expedita. Error facere tempora ratione sapiente illo laudantium, ut nihil. Mollitia vitae, eveniet blanditiis corrupti at molestias aliquam ipsa esse optio temporibus dolorem, fugiat obcaecati culpa fuga numquam sapiente libero. Impedit maiores doloremque iusto autem temporibus! Quam cupiditate officiis possimus, ratione quasi nobis rem quidem quibusdam? Ut earum possimus expedita culpa nobis suscipit, non minima at dignissimos aut optio eum? Cumque?
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi, aut commodi aliquid, blanditiis doloribus suscipit perferendis hic assumenda dolorum magnam enim. Error minima magnam modi aliquam quia at obcaecati sunt quas velit numquam, voluptatem inventore blanditiis necessitatibus harum possimus nostrum vel expedita quam dignissimos tenetur maxime provident aspernatur nam iste. At veritatis nemo quisquam, facilis numquam nostrum veniam perferendis repudiandae cum ipsa eos eius est doloremque excepturi delectus quidem repellat suscipit et tenetur vitae porro nisi iure? Ipsa facere at blanditiis nobis temporibus labore architecto nulla deleniti quod hic minus consequuntur, unde, quasi eius consequatur est! Laborum neque illo ab.
-    </p>
-    <blockquote>
-      Consequatur itaque sit amet consectetur adipisicing elit.
-    </blockquote>
-    <p>
-      Ab eveniet recusandae incidunt id cumque porro? Dignissimos nostrum iure possimus mollitia sed provident esse optio odio consequatur! Recusandae dicta ab atque? Eveniet molestias autem accusantium vero, tenetur placeat ratione voluptates nesciunt, adipisci ullam cum quae eius eaque quibusdam nihil dolorem! Ab eveniet recusandae incidunt id cumque porro? Sit tenetur quasi odit, facere dolore quae voluptatibus fugiat, quibusdam vitae labore dignissimos. Unde, maiores cumque dolore quas repellat vel adipisci harum incidunt consequatur ad! 
-    </p>
-    <p>
-      Ipsum explicabo quod laborum non provident, consectetur sint unde hic dolor quisquam ullam nulla veniam! Sapiente impedit sint expedita officiis fugit est quia. Neque, ea aspernatur? Quod voluptas ab aliquid saepe id, eos suscipit, autem quae reiciendis omnis veritatis officiis culpa doloremque? Reiciendis ea modi quod ducimus culpa omnis aliquid non minus ipsam necessitatibus distinctio, aspernatur iure. Nihil cupiditate amet officiis eligendi nostrum harum labore porro optio obcaecati reiciendis blanditiis quae, perspiciatis voluptatibus suscipit enim. 
-    </p>
-    <p class="box">
-      Perspiciatis sapiente eum velit inventore illum accusamus eos at esse mollitia debitis quae rem odit, ipsam nam. Voluptas beatae, velit voluptatum dolor obcaecati a nobis consequuntur quis id eaque! Sapiente nostrum rerum esse quo laborum excepturi explicabo, perspiciatis dicta corporis atque?
-    </p>
-    <h2>Quod voluptas aliquid id saepe</h2>
-    <p>
-      Et minima quas amet! Debitis commodi consectetur laborum fugit voluptatum qui distinctio, natus odit obcaecati. Voluptate suscipit consectetur, aspernatur ratione impedit minus facilis voluptatum tempora nesciunt pariatur ipsa provident qui distinctio ad quasi magnam exercitationem itaque. Recusandae maiores dolor saepe commodi a eligendi aut adipisci neque dolorem tempora perspiciatis odio asperiores quos iusto animi quia tempore, molestiae deleniti vel. Earum, atque? Ipsa reiciendis cum laborum fugiat doloremque asperiores, voluptatem exercitationem in sequi!
-    </p>
-    <p>
-      Dolor sit, amet consectetur adipisicing elit. Earum, amet ea quaerat, repellendus ipsum sunt blanditiis ab tempora doloribus quas voluptas magni ut perferendis unde dolor tenetur repudiandae, porro dolore et nisi eius. Eos, esse minus molestiae maiores praesentium dolorum dolor eaque repellendus laudantium provident adipisci alias inventore ratione distinctio libero facilis voluptas hic illum odio laboriosam quos minima officia natus. Maxime eveniet repellendus non iste exercitationem aliquam velit, corrupti ut, id provident reprehenderit accusamus nemo reiciendis fugiat saepe quas quasi ad tempora! Qui earum eligendi architecto delectus animi similique laborum dolorum, recusandae beatae voluptatibus! Maiores ad libero quibusdam temporibus, quis possimus perferendis corporis modi, culpa voluptatum maxime. Earum, rem.
-    </p>
-    <p>
-      Eos dolore dicta delectus dolorum porro fuga modi, perferendis natus ratione repellendus sit harum sint! Numquam quas facere quod doloribus enim omnis earum maxime perferendis ipsam magnam quos culpa, vitae, tenetur quisquam, unde quis maiores. Eos quos earum illo animi exercitationem nemo, at asperiores soluta similique aliquid cum quam quo corrupti accusantium iure praesentium. Omnis aliquam harum reiciendis necessitatibus temporibus expedita voluptate, dignissimos ratione dolorem perferendis ut aliquid magni nam nisi deserunt eum nulla excepturi quos sunt accusamus earum cupiditate minus. Expedita, corporis suscipit mollitia qui repellendus harum cumque id quis architecto quidem, aliquid vero dolores necessitatibus animi eos optio? Perspiciatis!
-    </p>
-    <p>
-      Maxime in officiis fugiat corporis cum doloremque atque, at architecto dicta quod inventore corrupti facilis repellendus pariatur possimus error! At aperiam aliquam fugiat eveniet sapiente soluta hic ab ipsam, corrupti temporibus tempore? Velit, sed quos mollitia deleniti fugiat tempora fuga reprehenderit neque tempore doloremque ducimus quasi? Sit facere porro esse vero accusantium praesentium odit. Quisquam sint nobis dolorum labore distinctio animi alias quod necessitatibus rem non error consectetur voluptate tempora libero facilis ratione voluptates expedita, unde a blanditiis odio. Nostrum sapiente dolor enim?
-    </p>
-    <p style="text-align: center; margin-top: 3em;">
-      Made with love by <a href="https://vadik.design">Vadik Matveev</a>
-    </p>
-  </article>
+  <main>
+    <div class="container">
+      
+      <!-- Hero Carousel -->
+      <div class="hero-carousel">
+        <div class="carousel-track" id="carouselTrack">
+          <div class="carousel-slide active">
+            <img src="/kader.jpg" alt="Topluluk Buluşması">
+            <h2 class="carousel-title">Birlikte Daha Güçlüyüz</h2>
+          </div>
+          <div class="carousel-slide">
+            <img src="/test.jpg" alt="İşbirliği">
+            <h2 class="carousel-title">Yaratıcı İşbirlikleri</h2>
+          </div>
+          <div class="carousel-slide">
+            <img src="/test3.jpg" alt="Etkinlikler">
+            <h2 class="carousel-title">Unutulmaz Anılar</h2>
+          </div>
+          <div class="carousel-slide">
+            <img src="/test5.jpg" alt="Öğrenme">
+            <h2 class="carousel-title">Sürekli Gelişim</h2>
+          </div>
+        </div>
+        <div class="carousel-nav">
+          <button class="carousel-dot active" data-slide="0"></button>
+          <button class="carousel-dot" data-slide="1"></button>
+          <button class="carousel-dot" data-slide="2"></button>
+          <button class="carousel-dot" data-slide="3"></button>
+        </div>
+      </div>
+
+      <!-- Features Section -->
+      <section class="section">
+        <h2 class="section-title">Neden Bize Katılmalısınız?</h2>
+        <div class="features-grid">
+          <div class="glass-card feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Güçlü Topluluk</h3>
+            <p class="feature-description">Binlerce aktif üye ile tanışın, fikir alışverişinde bulunun ve birlikte büyüyün.</p>
+          </div>
+
+          <div class="glass-card feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Özel Etkinlikler</h3>
+            <p class="feature-description">Düzenli olarak organize edilen workshoplar, seminerler ve sosyal etkinliklere katılın.</p>
+          </div>
+
+          <div class="glass-card feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Eğitim İmkanları</h3>
+            <p class="feature-description">Uzman eğitmenlerden ücretsiz kurslar ve mentorluk programlarından faydalanın.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stats Section -->
+      <section class="section">
+        <div class="glass-card">
+          <div class="stats-grid">
+            <div>
+              <div class="stat-number">5,000+</div>
+              <div class="stat-label">Aktif Üye</div>
+            </div>
+            <div>
+              <div class="stat-number">250+</div>
+              <div class="stat-label">Etkinlik</div>
+            </div>
+            <div>
+              <div class="stat-number">50+</div>
+              <div class="stat-label">Şehir</div>
+            </div>
+            <div>
+              <div class="stat-number">98%</div>
+              <div class="stat-label">Memnuniyet</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="section">
+        <div class="cta-section">
+          <h2 class="cta-title">Topluluğumuza Katılın</h2>
+          <p class="cta-description">Hemen üye olun ve bu harika deneyimin bir parçası olun!</p>
+          <a href="/join" class="cta-button">Üye Ol</a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Liquid Glass Topluluğu. Tüm hakları saklıdır.</p>
+  </footer>
 
   <script>
     // Theme Switcher
@@ -790,13 +1057,48 @@
       navbar.classList.remove('menu-open');
     });
 
-    // Close menu when clicking on a link
     const menuLinks = document.querySelectorAll('.navbar-menu a');
     menuLinks.forEach(link => {
       link.addEventListener('click', () => {
         navbar.classList.remove('menu-open');
       });
     });
+
+    const track = document.getElementById('carouselTrack');
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.carousel-dot');
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    function goToSlide(index) {
+      // Remove active class from all
+      slides.forEach(slide => slide.classList.remove('active'));
+      dots.forEach(dot => dot.classList.remove('active'));
+      
+      // Add active class to current
+      slides[index].classList.add('active');
+      dots[index].classList.add('active');
+      
+      // Move track
+      track.style.transform = `translateX(-${index * 100}%)`;
+      currentSlide = index;
+    }
+
+    function nextSlide() {
+      const next = (currentSlide + 1) % totalSlides;
+      goToSlide(next);
+    }
+
+    // Dot navigation
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const slideIndex = parseInt(dot.getAttribute('data-slide'));
+        goToSlide(slideIndex);
+      });
+    });
+
+    // Auto advance carousel
+    setInterval(nextSlide, 5000);
   </script>
 
 </body>
