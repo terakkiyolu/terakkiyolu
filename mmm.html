@@ -1,0 +1,2186 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liquid Glass - Topluluk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
+  <!-- Added PDF.js library for PDF rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      --c-glass: #bbbbbc;
+      --c-light: #fff;
+      --c-dark: #000;
+      
+      --c-content: #224;
+      --c-action: #0052f5;
+      
+      --c-bg: #E8E8E9;
+      
+      --glass-reflex-dark: 1;
+      --glass-reflex-light: 1;
+      
+      --saturation: 150%;
+      
+      font-size: 20px;
+      font-family: "DM Sans", sans-serif;
+      font-optical-sizing: auto;
+      background: var(--c-bg);
+      color: var(--c-content);
+      
+      transition: background 400ms cubic-bezier(1, 0.0, 0.4, 1), color 400ms cubic-bezier(1, 0.0, 0.4, 1);
+    }
+
+    body:has(input[value="dark"]:checked) {
+      --c-glass: #bbbbbc;
+      --c-light: #fff;
+      --c-dark: #000;
+      
+      --c-content: #e1e1e1;
+      --c-action: #03d5ff;
+      
+      --c-bg: #1b1b1d;
+      
+      --glass-reflex-dark: 2;
+      --glass-reflex-light: 0.3;
+      
+      --saturation: 150%;
+    }
+
+    body:has(input[value="dim"]:checked) {
+      --c-light: #99deff;
+      --c-dark: #20001b;
+      --c-glass: hsl(335 250% 74% / 1);
+      
+      --c-content: #d5dbe2;
+      --c-action: #ff48a9;
+      
+      --c-bg: #152433;
+      
+      --glass-reflex-dark: 2;
+      --glass-reflex-light: 0.7;
+      
+      --saturation: 200%;
+    }
+
+    /* Header Container - centered on desktop, separate navbar and switcher */
+    .header-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    /*Navbar Styles */
+    .navbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 70px;
+      padding: 8px 20px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
+        inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent), 
+        inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--c-content);
+      text-decoration: none;
+      transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1), transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .navbar-logo svg {
+      width: 32px;
+      height: 32px;
+      fill: var(--c-action);
+    }
+
+    .navbar-menu {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .navbar-menu li a {
+      display: block;
+      padding: 10px 18px;
+      border-radius: 99em;
+      color: var(--c-content);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .navbar-menu li a:hover {
+      color: var(--c-action);
+      background-color: color-mix(in srgb, var(--c-action) 10%, transparent);
+    }
+
+    .menu-toggle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border: none;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 2px 8px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      cursor: pointer;
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .menu-toggle svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--c-content);
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .menu-toggle:hover {
+      background-color: color-mix(in srgb, var(--c-glass) 20%, transparent);
+    }
+
+    .close-menu-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 20%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        0px 2px 8px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      color: var(--c-content);
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .close-menu-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--c-content);
+    }
+
+    .close-menu-btn:hover {
+      background-color: color-mix(in srgb, var(--c-glass) 30%, transparent);
+      color: var(--c-action);
+    }
+
+    .close-menu-btn:hover svg {
+      fill: var(--c-action);
+    }
+
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px;
+        gap: 0;
+      }
+
+      .navbar {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        padding: 16px;
+        border-radius: 24px;
+        overflow: visible;
+        transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+      }
+
+      .navbar.menu-open {
+        border-radius: 24px;
+      }
+
+      .navbar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        gap: 12px;
+      }
+
+      .navbar-logo span {
+        display: none;
+      }
+
+      .navbar-logo {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .navbar.menu-open .navbar-logo {
+        opacity: 0;
+        transform: translateX(-20px);
+        pointer-events: none;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      .navbar.menu-open .menu-toggle {
+        opacity: 0;
+        transform: scale(0.8);
+        pointer-events: none;
+      }
+
+      .navbar.menu-open .close-menu-btn {
+        display: flex;
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .navbar-menu {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 4px;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        margin-top: 0;
+        transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* Fixed menu items visibility - they should be invisible by default and visible when menu opens */
+      .navbar-menu li {
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .navbar.menu-open .navbar-menu {
+        max-height: 500px;
+        opacity: 1;
+        margin-top: 24px;
+      }
+
+      /* When menu is open, make items visible with staggered animation */
+      .navbar.menu-open .navbar-menu li {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .navbar.menu-open .navbar-menu li:nth-child(1) { transition-delay: 100ms; }
+      .navbar.menu-open .navbar-menu li:nth-child(2) { transition-delay: 150ms; }
+      .navbar.menu-open .navbar-menu li:nth-child(3) { transition-delay: 200ms; }
+      .navbar.menu-open .navbar-menu li:nth-child(4) { transition-delay: 250ms; }
+      .navbar.menu-open .navbar-menu li:nth-child(5) { transition-delay: 300ms; }
+
+      .navbar-menu li a {
+        width: 100%;
+        padding: 14px 20px;
+        border-radius: 16px;
+      }
+
+      .switcher {
+        position: absolute;
+        top: calc(100% + 12px);
+        right: 0;
+        width: auto;
+        min-width: 180px;
+        max-width: 180px;
+        height: 54px;
+        padding: 6px 10px 8px;
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+        pointer-events: none;
+        transition: opacity 500ms cubic-bezier(0.4, 0, 0.2, 1), 
+                    transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .navbar.menu-open ~ .switcher {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+        transition-delay: 350ms;
+      }
+
+      .switcher__option {
+        width: 54px;
+        padding: 0 12px;
+      }
+
+      .switcher::after {
+        width: 60px;
+      }
+
+      .switcher:has(input[c-option="2"]:checked)::after {
+        translate: 54px 0;
+      }
+
+      .switcher:has(input[c-option="3"]:checked)::after {
+        translate: 108px 0;
+      }
+    }
+
+    /* Theme Switcher */
+    .switcher {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 244px;
+      max-width: 244px;
+      height: 70px;
+      box-sizing: border-box;
+      padding: 8px 12px 10px;
+      border: none;
+      border-radius: 99em;
+      font-size: var(--fz);
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
+        inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent), 
+        inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      transition: 
+        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1);
+    }
+
+    .switcher__legend {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      border: 0;
+      padding: 0;
+      white-space: nowrap;
+      clip-path: inset(100%);
+      clip: rect(0 0 0 0);
+      overflow: hidden;
+    }
+
+    .switcher__input {
+      clip: rect(0 0 0 0);
+      clip-path: inset(100%);
+      height: 1px;
+      width: 1px;
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+    }
+
+    .switcher__icon {
+      display: block;
+      width: 100%;
+      transition: scale 200ms cubic-bezier(0.5, 0, 0, 1);
+    }
+
+    .switcher__filter {
+      position: absolute;
+      width: 0;
+      height: 0;
+      z-index: -1;
+    }
+
+    .switcher__option {
+      --c: var(--c-content);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 16px;
+      width: 68px;
+      height: 100%;
+      box-sizing: border-box;
+      border-radius: 99em;
+      opacity: 1;
+      transition: all 160ms;
+    }
+
+    .switcher__option:hover {
+      --c: var(--c-action);
+      cursor: pointer;
+    }
+
+    .switcher__option:hover .switcher__icon {
+      scale: 1.2;
+    }
+
+    .switcher__option:has(input:checked) {
+      --c: var(--c-content);
+      cursor: auto;
+    }
+
+    .switcher__option:has(input:checked) .switcher__icon {
+      scale: 1;
+    }
+
+    .switcher::after {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      display: block;
+      width: 84px;
+      height: calc(100% - 10px);
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 36%, transparent);
+      z-index: -1;
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 2px 1px 0px -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -1.5px -1px 0px -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        inset -2px -6px 1px -5px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
+        inset -1px 2px 3px -1px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 0px -4px 1px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 3px 6px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+    }
+
+    .switcher:has(input[c-option="1"]:checked)::after {
+      translate: 0 0;
+      transform-origin: right;
+      transition: 
+        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        translate 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      animation: scaleToggle 440ms ease; 
+    }
+
+    .switcher:has(input[c-option="2"]:checked)::after {
+      translate: 76px 0;
+      transition: 
+        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        translate 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      animation: scaleToggle2 440ms ease; 
+    }
+
+    .switcher[c-previous="1"]:has(input[c-option="2"]:checked)::after {
+      transform-origin: left;
+    }
+
+    .switcher[c-previous="3"]:has(input[c-option="2"]:checked)::after {
+      transform-origin: right;
+    }
+
+    .switcher:has(input[c-option="3"]:checked)::after {
+      translate: 152px 0;
+      transform-origin: left;
+      transition: 
+        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        translate 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      animation: scaleToggle3 440ms ease; 
+    }
+
+    @keyframes scaleToggle {
+      0% { scale: 1 1; }
+      50% { scale: 1.1 1; }
+      100% { scale: 1 1; }
+    }
+
+    @keyframes scaleToggle2{
+      0% { scale: 1 1; }
+      50% { scale: 1.2 1; }
+      100% { scale: 1 1; }
+    } 
+
+    @keyframes scaleToggle3 {
+      0% { scale: 1 1; }
+      50% { scale: 1.1 1; }
+      100% { scale: 1 1; }
+    }
+
+    /* Main content styles for community website */
+    main {
+      padding-top: 110px;
+      min-height: 100vh;
+    }
+
+    /* Hero Carousel */
+    .hero-carousel {
+      position: relative;
+      width: 100%;
+      height: 600px;
+      overflow: hidden;
+      border-radius: 32px;
+      margin: 0 auto 80px;
+      max-width: 1400px;
+      background-color: color-mix(in srgb, var(--c-glass) 8%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+    }
+
+    .carousel-track {
+      display: flex;
+      height: 100%;
+      transition: transform 800ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 800ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .carousel-slide.active img {
+      transform: scale(1.05);
+    }
+
+    .carousel-title {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--c-light);
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      padding: 20px 32px;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, var(--c-glass) 20%, transparent);
+      backdrop-filter: blur(12px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(12px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 24px 0px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 600ms cubic-bezier(0.4, 0, 0.2, 1) 200ms,
+                  transform 600ms cubic-bezier(0.4, 0, 0.2, 1) 200ms;
+    }
+
+    .carousel-slide.active .carousel-title {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .carousel-nav {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      gap: 12px;
+      z-index: 10;
+    }
+
+    .carousel-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: color-mix(in srgb, var(--c-light) 40%, transparent);
+      border: none;
+      cursor: pointer;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .carousel-dot.active {
+      width: 40px;
+      border-radius: 6px;
+      background-color: var(--c-light);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 100px;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 60px;
+      color: var(--c-content);
+    }
+
+    /* Glass Card */
+    .glass-card {
+      padding: 40px;
+      border-radius: 32px;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 12px 48px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+    }
+
+    /* Added expandable card styles for announcements and who-are-we sections */
+    .expandable-card {
+      padding: 24px;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      cursor: pointer;
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .expandable-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 12px 48px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+    }
+
+    .expandable-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .expandable-card-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--c-content);
+      margin: 0;
+    }
+
+    .expandable-card-icon {
+      width: 24px;
+      height: 24px;
+      fill: var(--c-action);
+      transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+    }
+
+    .expandable-card.expanded .expandable-card-icon {
+      transform: rotate(180deg);
+    }
+
+    .expandable-card-preview {
+      margin-top: 12px;
+      font-size: 0.95rem;
+      color: color-mix(in srgb, var(--c-content) 70%, transparent);
+      line-height: 1.6;
+    }
+
+    .expandable-card-content {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 500ms cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 500ms cubic-bezier(0.4, 0, 0.2, 1),
+                  margin-top 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .expandable-card.expanded .expandable-card-content {
+      max-height: 1000px;
+      opacity: 1;
+      margin-top: 20px;
+    }
+
+    .expandable-card.expanded .expandable-card-preview {
+      opacity: 0;
+      max-height: 0;
+      margin: 0;
+      transition: opacity 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                  max-height 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                  margin 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .expandable-card-text {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--c-content);
+    }
+
+    .announcements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 24px;
+    }
+
+    /* Added numbered card styles for who-are-we section */
+    .numbered-card {
+      position: relative;
+      padding: 32px;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      cursor: pointer;
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .numbered-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 12px 48px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+    }
+
+    .numbered-card-number {
+      position: absolute;
+      top: -20px;
+      right: 20px;
+      font-size: 8rem;
+      font-weight: 900;
+      color: color-mix(in srgb, var(--c-action) 15%, transparent);
+      line-height: 1;
+      pointer-events: none;
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .numbered-card.expanded .numbered-card-number {
+      opacity: 0.5;
+      transform: scale(0.8);
+    }
+
+    .numbered-card-header {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .numbered-card-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--c-content);
+      margin: 0;
+    }
+
+    .numbered-card-icon {
+      width: 28px;
+      height: 28px;
+      fill: var(--c-action);
+      transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .numbered-card.expanded .numbered-card-icon {
+      transform: rotate(180deg);
+    }
+
+    .numbered-card-content {
+      position: relative;
+      z-index: 1;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 500ms cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .numbered-card.expanded .numbered-card-content {
+      max-height: 1000px;
+      opacity: 1;
+    }
+
+    .numbered-card-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--c-content);
+    }
+
+    .who-are-we-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    /* Features Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      text-align: center;
+    }
+
+    .feature-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 24px;
+      padding: 20px;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, var(--c-action) 15%, transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .feature-icon svg {
+      width: 40px;
+      height: 40px;
+      fill: var(--c-action);
+    }
+
+    .feature-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--c-content);
+    }
+
+    .feature-description {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: color-mix(in srgb, var(--c-content) 80%, transparent);
+    }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--c-action);
+      margin-bottom: 12px;
+    }
+
+    .stat-label {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--c-content);
+    }
+
+    /* CTA Section */
+    .cta-section {
+      text-align: center;
+      padding: 80px 40px;
+      border-radius: 32px;
+      background: linear-gradient(135deg, 
+        color-mix(in srgb, var(--c-action) 20%, transparent),
+        color-mix(in srgb, var(--c-action) 5%, transparent));
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+    }
+
+    .cta-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: var(--c-content);
+    }
+
+    .cta-description {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      color: color-mix(in srgb, var(--c-content) 85%, transparent);
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 18px 48px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--c-light);
+      background-color: var(--c-action);
+      border: none;
+      border-radius: 99em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0px 8px 24px 0px color-mix(in srgb, var(--c-action) 40%, transparent);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0px 12px 32px 0px color-mix(in srgb, var(--c-action) 50%, transparent);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 60px 20px;
+      color: color-mix(in srgb, var(--c-content) 60%, transparent);
+      font-size: 0.9rem;
+    }
+
+    /* Added PDF Library Section Styles */
+    .pdf-library-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .pdf-card {
+      position: relative;
+      padding: 0;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      cursor: pointer;
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .pdf-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 16px 56px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 16%), transparent);
+    }
+
+    .pdf-card-cover {
+      width: 100%;
+      height: 360px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px 24px 0 0;
+    }
+
+    .pdf-card-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .pdf-card-cover::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    }
+
+    .pdf-card-info {
+      padding: 24px;
+    }
+
+    .pdf-card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--c-content);
+      margin-bottom: 8px;
+    }
+
+    .pdf-card-description {
+      font-size: 0.9rem;
+      color: color-mix(in srgb, var(--c-content) 70%, transparent);
+      line-height: 1.5;
+    }
+
+    /* Redesigned PDF Viewer Modal with floating island controls */
+    .pdf-viewer-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: color-mix(in srgb, var(--c-dark) 85%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      z-index: 10000;
+      display: none;
+      opacity: 0;
+      transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .pdf-viewer-modal.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .pdf-viewer-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Top controls as floating islands */
+    .pdf-viewer-top-controls {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .pdf-viewer-top-controls > * {
+      pointer-events: auto;
+    }
+
+    .pdf-viewer-info-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pdf-viewer-title {
+      padding: 12px 24px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--c-content);
+      max-width: 300px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .pdf-page-info {
+      padding: 12px 20px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+      color: var(--c-content);
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .pdf-viewer-close {
+      width: 48px;
+      height: 48px;
+      border: none;
+      border-radius: 50%;
+      background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .pdf-viewer-close:hover {
+      background-color: color-mix(in srgb, var(--c-glass) 35%, transparent);
+      transform: rotate(90deg) scale(1.1);
+    }
+
+    .pdf-viewer-close svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--c-content);
+    }
+
+    .pdf-viewer-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 20px 120px;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .pdf-canvas-wrapper {
+      max-width: 100%;
+      max-height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #pdfCanvas {
+      max-width: 100%;
+      max-height: 100%;
+      box-shadow: 0px 16px 64px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 40%), transparent);
+      border-radius: 4px;
+      transition: transform 100ms cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: center center;
+    }
+
+    /* Bottom controls as floating island */
+    .pdf-viewer-controls {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 24px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 30%), transparent);
+      z-index: 10;
+    }
+
+    .pdf-control-btn {
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: none;
+      border-radius: 50%;
+      background-color: color-mix(in srgb, var(--c-glass) 20%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        0px 4px 12px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent);
+      color: var(--c-content);
+      cursor: pointer;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pdf-control-btn:hover:not(:disabled) {
+      background-color: color-mix(in srgb, var(--c-glass) 35%, transparent);
+      transform: scale(1.1);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 20px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+    }
+
+    .pdf-control-btn:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+
+    .pdf-control-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .pdf-control-btn svg {
+      width: 22px;
+      height: 22px;
+      fill: var(--c-content);
+    }
+
+    .pdf-download-btn {
+      background-color: color-mix(in srgb, var(--c-action) 70%, transparent);
+    }
+
+    .pdf-download-btn:hover:not(:disabled) {
+      background-color: var(--c-action);
+    }
+
+    .pdf-control-divider {
+      width: 1px;
+      height: 24px;
+      background-color: color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent);
+      margin: 0 4px;
+    }
+
+    @media (max-width: 768px) {
+      .hero-carousel {
+        height: 400px;
+        border-radius: 24px;
+        margin-bottom: 60px;
+      }
+
+      .carousel-title {
+        font-size: 1.8rem;
+        bottom: 20px;
+        left: 20px;
+        padding: 16px 24px;
+      }
+
+      .section-title {
+        font-size: 2rem;
+        margin-bottom: 40px;
+      }
+
+      .glass-card {
+        padding: 24px;
+        border-radius: 24px;
+      }
+
+      .announcements-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .who-are-we-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .numbered-card-number {
+        font-size: 5rem;
+        top: -10px;
+        right: 10px;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+      }
+
+      .cta-section {
+        padding: 60px 24px;
+      }
+
+      .cta-title {
+        font-size: 1.8rem;
+      }
+
+      .cta-description {
+        font-size: 1rem;
+      }
+
+      /* Mobile-optimized PDF viewer controls */
+      .pdf-viewer-top-controls {
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .pdf-viewer-info-group {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .pdf-viewer-title {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+        max-width: 200px;
+      }
+
+      .pdf-page-info {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+      }
+
+      .pdf-viewer-close {
+        width: 44px;
+        height: 44px;
+      }
+
+      .pdf-viewer-content {
+        padding: 80px 12px 100px;
+      }
+
+      .pdf-viewer-controls {
+        bottom: 12px;
+        padding: 12px 16px;
+        gap: 8px;
+      }
+
+      .pdf-control-btn {
+        width: 40px;
+        height: 40px;
+      }
+
+      .pdf-control-btn svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      /* Responsive styles for PDF library */
+      .pdf-library-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .pdf-card-cover {
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="header-container">
+    <nav class="navbar" id="navbar">
+      <div class="navbar-header">
+        <a href="#" class="navbar-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+          </svg>
+          <span>Liquid Glass</span>
+        </a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Menüyü Aç">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+          </svg>
+        </button>
+        <button class="close-menu-btn" id="closeMenuBtn">
+          <span>CLOSE MENU</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="navbar-menu">
+        <li><a href="/">Ana Sayfa</a></li>
+        <li><a href="/about">Hakkımızda</a></li>
+        <li><a href="/services">Hizmetler</a></li>
+        <li><a href="/portfolio">Portföy</a></li>
+        <li><a href="/contact">İletişim</a></li>
+      </ul>
+    </nav>
+    <fieldset class="switcher">
+      <legend class="switcher__legend">Tema Seçin</legend>
+      <label class="switcher__option">
+        <input class="switcher__input" type="radio" name="theme" value="light" c-option="1" checked/>
+        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
+          <path fill="var(--c)" fill-rule="evenodd" d="M18 12a6 6 0 1 1 0 12 6 6 0 0 1 0-12Zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" clip-rule="evenodd"/>
+          <path fill="var(--c)" d="M17 6.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3ZM24.244 7.742a1 1 0 1 1 1.618 1.176L24.1 11.345a1 1 0 1 1-1.618-1.176l1.763-2.427ZM29.104 13.379a1 1 0 0 1 .618 1.902l-2.854.927a1 1 0 1 1-.618-1.902l2.854-.927ZM29.722 20.795a1 1 0 0 1-.619 1.902l-1.763-2.427a1 1 0 1 1 1.618-1.175l1.763 2.427ZM19 30.038a1 1 0 0 1-2 0v-3a1 1 0 1 1 2 0v3ZM11.755 28.334a1 1 0 0 1-1.618-1.175l1.764-2.427a1 1 0 1 1 1.618 1.175l-1.764 2.427ZM6.896 22.697a1 1 0 1 1-.618-1.902l2.853-.927a1 1 0 1 1 .618 1.902l-2.853.927ZM6.278 15.28a1 1 0 1 1 .618-1.901l2.853.927a1 1 0 1 1-.618 1.902l-2.853-.927ZM10.137 8.918a1 1 0 0 1 1.618-1.176l1.764 2.427a1 1 0 0 1-1.618 1.176l-1.764-2.427Z"/>
+        </svg>
+      </label>
+      <label class="switcher__option">
+        <input class="switcher__input" type="radio" name="theme" value="dark" c-option="2"/>
+        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
+          <path fill="var(--c)" d="M12.5 8.473a10.968 10.968 0 0 1 8.785-.97 7.435 7.435 0 0 0-3.737 4.672l-.09.373A7.454 7.454 0 0 0 28.732 20.4a10.97 10.97 0 0 1-5.232 7.125l-.497.27c-5.014 2.566-11.175.916-14.234-3.813l-.295-.483C5.53 18.403 7.13 11.93 12.017 8.77l.483-.297Zm4.234.616a8.946 8.946 0 0 0-2.805.883l-.429.234A9 9 0 0 0 10.206 22.5l.241.395A9 9 0 0 0 22.5 25.794l.416-.255a8.94 8.94 0 0 0 2.167-1.99 9.433 9.433 0 0 1-2.782-.313c-5.043-1.352-8.036-6.535-6.686-11.578l.147-.491c.242-.745.573-1.44.972-2.078Z"/>
+        </svg>
+      </label>
+      <label class="switcher__option">
+        <input class="switcher__input" type="radio" name="theme" value="dim" c-option="3"/>
+        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
+          <path fill="var(--c)" d="M5 21a1 1 0 0 1 1-1h24a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1ZM12 25a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H13a1 1 0 0 1-1-1ZM15 29a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1ZM18 13a6 6 0 0 1 5.915 7h-2.041A4.005 4.005 0 0 0 18 15a4 4 0 0 0-3.874 5h-2.041A6 6 0 0 1 18 13ZM17 7.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3ZM24.244 8.742a1 1 0 1 1 1.618 1.176L24.1 12.345a1 1 0 1 1-1.618-1.176l1.763-2.427ZM29.104 14.379a1 1 0 0 1 .618 1.902l-2.854.927a1 1 0 1 1-.618-1.902l2.854-.927ZM6.278 16.28a1 1 0 1 1 .618-1.901l2.853.927a1 1 0 1 1-.618 1.902l-2.853-.927ZM10.137 9.918a1 1 0 0 1 1.618-1.176l1.764 2.427a1 1 0 0 1-1.618 1.176l-1.764-2.427Z"/>
+        </svg>
+      </label>
+    </fieldset>
+  </div>
+    
+  <main>
+    <div class="container">
+      
+      <!-- Hero Carousel -->
+      <div class="hero-carousel">
+        <div class="carousel-track" id="carouselTrack">
+          <div class="carousel-slide active">
+            <img src="/placeholder.svg?height=600&width=1400" alt="Topluluk Buluşması">
+            <h2 class="carousel-title">Birlikte Daha Güçlüyüz</h2>
+          </div>
+          <div class="carousel-slide">
+            <img src="/placeholder.svg?height=600&width=1400" alt="İşbirliği">
+            <h2 class="carousel-title">Yaratıcı İşbirlikleri</h2>
+          </div>
+          <div class="carousel-slide">
+            <img src="/placeholder.svg?height=600&width=1400" alt="Etkinlikler">
+            <h2 class="carousel-title">Unutulmaz Anılar</h2>
+          </div>
+          <div class="carousel-slide">
+            <img src="/placeholder.svg?height=600&width=1400" alt="Öğrenme">
+            <h2 class="carousel-title">Sürekli Gelişim</h2>
+          </div>
+        </div>
+        <div class="carousel-nav">
+          <button class="carousel-dot active" data-slide="0"></button>
+          <button class="carousel-dot" data-slide="1"></button>
+          <button class="carousel-dot" data-slide="2"></button>
+          <button class="carousel-dot" data-slide="3"></button>
+        </div>
+      </div>
+
+      <!-- Added Announcements Section -->
+      <section class="section">
+        <h2 class="section-title">Duyurular</h2>
+        <div class="announcements-grid">
+          <div class="expandable-card" data-expandable="announcement1">
+            <div class="expandable-card-header">
+              <h3 class="expandable-card-title">Yeni Etkinlik Duyurusu</h3>
+              <svg class="expandable-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <p class="expandable-card-preview">Bu hafta sonu düzenlenecek olan topluluk buluşmasına davetlisiniz...</p>
+            <div class="expandable-card-content">
+              <p class="expandable-card-text">
+                Bu hafta sonu düzenlenecek olan topluluk buluşmasına davetlisiniz! Etkinliğimizde birçok workshop, panel ve networking fırsatı sizi bekliyor. 
+                Alanında uzman konuşmacılarımız deneyimlerini paylaşacak ve sorularınızı yanıtlayacak. Katılım ücretsizdir ancak kayıt zorunludur. 
+                Etkinlik 15 Mart Cumartesi günü saat 10:00'da başlayacak ve 18:00'e kadar devam edecektir. Kahvaltı ve öğle yemeği ikramlarımız olacaktır.
+              </p>
+            </div>
+          </div>
+
+          <div class="expandable-card" data-expandable="announcement2">
+            <div class="expandable-card-header">
+              <h3 class="expandable-card-title">Mentorluk Programı Başlıyor</h3>
+              <svg class="expandable-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <p class="expandable-card-preview">Kariyerinizi bir üst seviyeye taşımak için mentorluk programımıza katılın...</p>
+            <div class="expandable-card-content">
+              <p class="expandable-card-text">
+                Kariyerinizi bir üst seviyeye taşımak için mentorluk programımıza katılın! Alanında deneyimli mentorlarımız ile birebir görüşme fırsatı yakalayın. 
+                Program 3 ay sürecek ve her hafta düzenli olarak mentorunuzla görüşeceksiniz. Başvurular 20 Mart tarihine kadar devam edecektir. 
+                Program tamamen ücretsizdir ve tüm üyelerimize açıktır. Başvuru formunu web sitemizden doldurabilirsiniz.
+              </p>
+            </div>
+          </div>
+
+          <div class="expandable-card" data-expandable="announcement3">
+            <div class="expandable-card-header">
+              <h3 class="expandable-card-title">Yeni Kurslar Açıldı</h3>
+              <svg class="expandable-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <p class="expandable-card-preview">Web geliştirme, tasarım ve dijital pazarlama alanlarında yeni kurslarımız başladı...</p>
+            <div class="expandable-card-content">
+              <p class="expandable-card-text">
+                Web geliştirme, tasarım ve dijital pazarlama alanlarında yeni kurslarımız başladı! Uzman eğitmenlerimiz eşliğinde teorik ve pratik bilgiler edineceksiniz. 
+                Kurslar hem online hem de yüz yüze olarak düzenlenecektir. Her kurs 8 hafta sürecek ve haftada 2 gün, 2'şer saat olacaktır. 
+                Kurs sonunda sertifika verilecektir. Kayıtlar sınırlı sayıdadır, hemen başvurun!
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Added Who Are We Section with numbered cards -->
+      <section class="section">
+        <h2 class="section-title">Biz Kimiz?</h2>
+        <div class="who-are-we-grid">
+          <div class="numbered-card" data-expandable="who1">
+            <div class="numbered-card-number">1</div>
+            <div class="numbered-card-header">
+              <h3 class="numbered-card-title">Misyonumuz</h3>
+              <svg class="numbered-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <div class="numbered-card-content">
+              <p class="numbered-card-text">
+                Misyonumuz, teknoloji ve yaratıcılık alanlarında tutkulu bireyleri bir araya getirerek, bilgi paylaşımını ve işbirliğini teşvik etmektir. 
+                Herkesin potansiyelini en üst düzeye çıkarabileceği, destekleyici ve kapsayıcı bir topluluk oluşturmayı hedefliyoruz. 
+                Üyelerimize sürekli öğrenme ve gelişim fırsatları sunarak, sektörde fark yaratan profesyoneller yetiştirmeyi amaçlıyoruz.
+              </p>
+            </div>
+          </div>
+
+          <div class="numbered-card" data-expandable="who2">
+            <div class="numbered-card-number">2</div>
+            <div class="numbered-card-header">
+              <h3 class="numbered-card-title">Vizyonumuz</h3>
+              <svg class="numbered-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <div class="numbered-card-content">
+              <p class="numbered-card-text">
+                Vizyonumuz, Türkiye'nin en büyük ve en etkili teknoloji topluluğu olmaktır. Yenilikçi projelere imza atan, 
+                sektöre değer katan ve birbirini destekleyen binlerce üyeyle, teknoloji ekosisteminin merkezinde yer almayı hedefliyoruz. 
+                Gelecekte, uluslararası arenada da tanınan, global işbirlikleri kuran bir topluluk olmayı amaçlıyoruz.
+              </p>
+            </div>
+          </div>
+
+          <div class="numbered-card" data-expandable="who3">
+            <div class="numbered-card-number">3</div>
+            <div class="numbered-card-header">
+              <h3 class="numbered-card-title">Değerlerimiz</h3>
+              <svg class="numbered-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <div class="numbered-card-content">
+              <p class="numbered-card-text">
+                Değerlerimiz, topluluğumuzun temelini oluşturur: Şeffaflık, dürüstlük ve açık iletişim; 
+                kapsayıcılık ve çeşitlilik; sürekli öğrenme ve gelişim; işbirliği ve dayanışma; 
+                yenilikçilik ve yaratıcılık. Bu değerler doğrultusunda hareket ederek, 
+                herkesin kendini değerli hissettiği ve potansiyelini gerçekleştirebileceği bir ortam yaratıyoruz.
+              </p>
+            </div>
+          </div>
+
+          <div class="numbered-card" data-expandable="who4">
+            <div class="numbered-card-number">4</div>
+            <div class="numbered-card-header">
+              <h3 class="numbered-card-title">Hikayemiz</h3>
+              <svg class="numbered-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <div class="numbered-card-content">
+              <p class="numbered-card-text">
+                Topluluğumuz 2020 yılında, teknoloji tutkunu bir grup arkadaşın bir araya gelmesiyle kuruldu. 
+                Başlangıçta küçük bir grup olarak başladık, ancak zamanla büyüyerek bugünkü haline geldik. 
+                Şu anda 50'den fazla şehirde binlerce üyemiz var ve her geçen gün büyümeye devam ediyoruz. 
+                Yolculuğumuz boyunca yüzlerce etkinlik düzenledik, binlerce kişiye ulaştık ve sayısız başarı hikayesine tanıklık ettik.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="section">
+        <h2 class="section-title">Neden Bize Katılmalısınız?</h2>
+        <div class="features-grid">
+          <div class="glass-card feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Güçlü Topluluk</h3>
+            <p class="feature-description">Binlerce aktif üye ile tanışın, fikir alışverişinde bulunun ve birlikte büyüyün.</p>
+          </div>
+
+          <div class="glass-card feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Özel Etkinlikler</h3>
+            <p class="feature-description">Düzenli olarak organize edilen workshoplar, seminerler ve sosyal etkinliklere katılın.</p>
+          </div>
+
+          <div class="glass-card feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Eğitim İmkanları</h3>
+            <p class="feature-description">Uzman eğitmenlerden ücretsiz kurslar ve mentorluk programlarından faydalanın.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stats Section -->
+      <section class="section">
+        <div class="glass-card">
+          <div class="stats-grid">
+            <div>
+              <div class="stat-number">5,000+</div>
+              <div class="stat-label">Aktif Üye</div>
+            </div>
+            <div>
+              <div class="stat-number">250+</div>
+              <div class="stat-label">Etkinlik</div>
+            </div>
+            <div>
+              <div class="stat-number">50+</div>
+              <div class="stat-label">Şehir</div>
+            </div>
+            <div>
+              <div class="stat-number">98%</div>
+              <div class="stat-label">Memnuniyet</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="section">
+        <div class="cta-section">
+          <h2 class="cta-title">Topluluğumuza Katılın</h2>
+          <p class="cta-description">Hemen üye olun ve bu harika deneyimin bir parçası olun!</p>
+          <a href="/join" class="cta-button">Üye Ol</a>
+        </div>
+      </section>
+
+      <!-- Added PDF Library Section -->
+      <section class="section">
+        <h2 class="section-title">Paylaşım Deposu</h2>
+        <div class="pdf-library-grid">
+          <!-- Added cover images to PDF cards -->
+          <div class="pdf-card" data-pdf="test.pdf" data-title="Temel Programlama Rehberi">
+            <div class="pdf-card-cover">
+              <img src="/placeholder.svg?height=360&width=280" alt="Temel Programlama Rehberi">
+            </div>
+            <div class="pdf-card-info">
+              <h3 class="pdf-card-title">Temel Programlama Rehberi</h3>
+              <p class="pdf-card-description">Programlamaya başlayanlar için kapsamlı bir rehber. Temel kavramlar ve uygulamalar.</p>
+            </div>
+          </div>
+
+          <div class="pdf-card" data-pdf="test2.pdf" data-title="Web Geliştirme İleri Seviye">
+            <div class="pdf-card-cover">
+              <img src="/placeholder.svg?height=360&width=280" alt="Web Geliştirme İleri Seviye">
+            </div>
+            <div class="pdf-card-info">
+              <h3 class="pdf-card-title">Web Geliştirme İleri Seviye</h3>
+              <p class="pdf-card-description">Modern web teknolojileri ve ileri seviye konular. Framework'ler ve best practices.</p>
+            </div>
+          </div>
+
+          <div class="pdf-card" data-pdf="test3.pdf" data-title="Veri Bilimi ve Analitik">
+            <div class="pdf-card-cover">
+              <img src="/placeholder.svg?height=360&width=280" alt="Veri Bilimi ve Analitik">
+            </div>
+            <div class="pdf-card-info">
+              <h3 class="pdf-card-title">Veri Bilimi ve Analitik</h3>
+              <p class="pdf-card-description">Veri analizi, makine öğrenmesi ve istatistik temelleri. Pratik uygulamalar.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Liquid Glass Topluluğu. Tüm hakları saklıdır.</p>
+  </footer>
+
+  <!-- Redesigned PDF Viewer Modal with floating island controls -->
+  <div class="pdf-viewer-modal" id="pdfViewerModal">
+    <div class="pdf-viewer-container">
+      <div class="pdf-viewer-top-controls">
+        <div class="pdf-viewer-info-group">
+          <h3 class="pdf-viewer-title" id="pdfViewerTitle">PDF Görüntüleyici</h3>
+          <div class="pdf-page-info">
+            <span id="pdfPageNum">1</span> / <span id="pdfPageCount">1</span>
+          </div>
+        </div>
+        <button class="pdf-viewer-close" id="pdfViewerClose">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="pdf-viewer-content" id="pdfViewerContent">
+        <div class="pdf-canvas-wrapper">
+          <canvas id="pdfCanvas"></canvas>
+        </div>
+      </div>
+      <div class="pdf-viewer-controls">
+        <button class="pdf-control-btn" id="pdfPrevPage" title="Önceki Sayfa">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+          </svg>
+        </button>
+        <button class="pdf-control-btn" id="pdfZoomOut" title="Uzaklaştır">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 13H5v-2h14v2z"/>
+          </svg>
+        </button>
+        <button class="pdf-control-btn" id="pdfZoomIn" title="Yakınlaştır">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+          </svg>
+        </button>
+        <div class="pdf-control-divider"></div>
+        <button class="pdf-control-btn pdf-download-btn" id="pdfDownload" title="İndir">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+          </svg>
+        </button>
+        <div class="pdf-control-divider"></div>
+        <button class="pdf-control-btn" id="pdfNextPage" title="Sonraki Sayfa">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Theme Switcher
+    const switcher = document.querySelector('.switcher');
+
+    const trackPrevious = (el) => {
+      const radios = el.querySelectorAll('input[type="radio"]');
+      let previousValue = null;
+
+      const initiallyChecked = el.querySelector('input[type="radio"]:checked');
+      if (initiallyChecked) {
+        previousValue = initiallyChecked.getAttribute("c-option");
+        el.setAttribute('c-previous', previousValue);
+      }
+
+      radios.forEach(radio => {
+        radio.addEventListener('change', () => {
+          if (radio.checked) {
+            el.setAttribute('c-previous', previousValue ?? '');
+            previousValue = radio.getAttribute("c-option");
+          }
+        });
+      });
+    }
+
+    trackPrevious(switcher);
+
+    // Mobile Menu Toggle
+    const navbar = document.getElementById('navbar');
+    const menuToggle = document.getElementById('menuToggle');
+    const closeMenuBtn = document.getElementById('closeMenuBtn');
+
+    menuToggle.addEventListener('click', () => {
+      navbar.classList.add('menu-open');
+    });
+
+    closeMenuBtn.addEventListener('click', () => {
+      navbar.classList.remove('menu-open');
+    });
+
+    const menuLinks = document.querySelectorAll('.navbar-menu a');
+    menuLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        navbar.classList.remove('menu-open');
+      });
+    });
+
+    // Carousel functionality
+    const track = document.getElementById('carouselTrack');
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.carousel-dot');
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    function goToSlide(index) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      dots.forEach(dot => dot.classList.remove('active'));
+      
+      slides[index].classList.add('active');
+      dots[index].classList.add('active');
+      
+      track.style.transform = `translateX(-${index * 100}%)`;
+      currentSlide = index;
+    }
+
+    function nextSlide() {
+      const next = (currentSlide + 1) % totalSlides;
+      goToSlide(next);
+    }
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const slideIndex = parseInt(dot.getAttribute('data-slide'));
+        goToSlide(slideIndex);
+      });
+    });
+
+    setInterval(nextSlide, 5000);
+
+    // Expandable cards functionality
+    const expandableCards = document.querySelectorAll('[data-expandable]');
+    
+    expandableCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const isExpanded = card.classList.contains('expanded');
+        
+        // Close all other cards
+        expandableCards.forEach(otherCard => {
+          if (otherCard !== card) {
+            otherCard.classList.remove('expanded');
+          }
+        });
+        
+        // Toggle current card
+        if (isExpanded) {
+          card.classList.remove('expanded');
+        } else {
+          card.classList.add('expanded');
+        }
+      });
+    });
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    let pdfDoc = null;
+    let pageNum = 1;
+    let pageRendering = false;
+    let pageNumPending = null;
+    let scale = 1.5;
+    let currentPdfUrl = '';
+    let currentPdfTitle = '';
+
+    // Pinch-to-zoom variables
+    let initialPinchDistance = 0;
+    let currentZoomScale = 1;
+    let isPinching = false;
+    let panX = 0;
+    let panY = 0;
+    let isPanning = false;
+    let lastTouchX = 0;
+    let lastTouchY = 0;
+
+    const canvas = document.getElementById('pdfCanvas');
+    const ctx = canvas.getContext('2d');
+    const canvasWrapper = document.querySelector('.pdf-canvas-wrapper');
+    const modal = document.getElementById('pdfViewerModal');
+    const pdfContent = document.getElementById('pdfViewerContent');
+    const closeBtn = document.getElementById('pdfViewerClose');
+    const prevBtn = document.getElementById('pdfPrevPage');
+    const nextBtn = document.getElementById('pdfNextPage');
+    const zoomInBtn = document.getElementById('pdfZoomIn');
+    const zoomOutBtn = document.getElementById('pdfZoomOut');
+    const downloadBtn = document.getElementById('pdfDownload');
+    const pageNumSpan = document.getElementById('pdfPageNum');
+    const pageCountSpan = document.getElementById('pdfPageCount');
+    const titleSpan = document.getElementById('pdfViewerTitle');
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const swipeThreshold = 50;
+
+    function getDistance(touch1, touch2) {
+      const dx = touch1.clientX - touch2.clientX;
+      const dy = touch1.clientY - touch2.clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    function applyTransform() {
+      canvas.style.transform = `scale(${currentZoomScale}) translate(${panX}px, ${panY}px)`;
+    }
+
+    canvasWrapper.addEventListener('touchstart', function(e) {
+      if (e.touches.length === 2) {
+        // Two fingers - pinch to zoom
+        isPinching = true;
+        isPanning = false;
+        initialPinchDistance = getDistance(e.touches[0], e.touches[1]);
+      } else if (e.touches.length === 1 && currentZoomScale > 1) {
+        // One finger and zoomed in - pan
+        isPanning = true;
+        isPinching = false;
+        lastTouchX = e.touches[0].clientX;
+        lastTouchY = e.touches[0].clientY;
+      } else {
+        // One finger - swipe for page navigation
+        touchStartX = e.touches[0].clientX;
+      }
+    }, { passive: true });
+
+    canvasWrapper.addEventListener('touchmove', function(e) {
+      if (isPinching && e.touches.length === 2) {
+        e.preventDefault();
+        const currentDistance = getDistance(e.touches[0], e.touches[1]);
+        const scaleDelta = currentDistance / initialPinchDistance;
+        
+        // Allow extreme zoom levels (up to 8x)
+        let newScale = currentZoomScale * scaleDelta;
+        newScale = Math.max(0.5, Math.min(8, newScale));
+        
+        currentZoomScale = newScale;
+        initialPinchDistance = currentDistance;
+        applyTransform();
+      } else if (isPanning && e.touches.length === 1 && currentZoomScale > 1) {
+        e.preventDefault();
+        const deltaX = e.touches[0].clientX - lastTouchX;
+        const deltaY = e.touches[0].clientY - lastTouchY;
+        
+        panX += deltaX / currentZoomScale;
+        panY += deltaY / currentZoomScale;
+        
+        lastTouchX = e.touches[0].clientX;
+        lastTouchY = e.touches[0].clientY;
+        applyTransform();
+      }
+    }, { passive: false });
+
+    canvasWrapper.addEventListener('touchend', function(e) {
+      if (isPinching) {
+        isPinching = false;
+      } else if (isPanning) {
+        isPanning = false;
+      } else if (e.changedTouches.length === 1 && currentZoomScale <= 1) {
+        // Only handle swipe if not zoomed in
+        touchEndX = e.changedTouches[0].clientX;
+        handleSwipe();
+      }
+    }, { passive: true });
+
+    function handleSwipe() {
+      const swipeDistance = touchEndX - touchStartX;
+      if (Math.abs(swipeDistance) > swipeThreshold) {
+        if (swipeDistance > 0) {
+          onPrevPage();
+        } else {
+          onNextPage();
+        }
+      }
+    }
+
+    function renderPage(num) {
+      pageRendering = true;
+      pdfDoc.getPage(num).then(function(page) {
+        const viewport = page.getViewport({scale: scale});
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const renderContext = {
+          canvasContext: ctx,
+          viewport: viewport
+        };
+        
+        const renderTask = page.render(renderContext);
+
+        renderTask.promise.then(function() {
+          pageRendering = false;
+          if (pageNumPending !== null) {
+            renderPage(pageNumPending);
+            pageNumPending = null;
+          }
+        });
+      });
+
+      pageNumSpan.textContent = num;
+    }
+
+    function queueRenderPage(num) {
+      if (pageRendering) {
+        pageNumPending = num;
+      } else {
+        renderPage(num);
+      }
+    }
+
+    function onPrevPage() {
+      if (pageNum <= 1) {
+        return;
+      }
+      pageNum--;
+      queueRenderPage(pageNum);
+      updateButtons();
+      resetZoomAndPan();
+    }
+
+    function onNextPage() {
+      if (pageNum >= pdfDoc.numPages) {
+        return;
+      }
+      pageNum++;
+      queueRenderPage(pageNum);
+      updateButtons();
+      resetZoomAndPan();
+    }
+
+    function resetZoomAndPan() {
+      currentZoomScale = 1;
+      panX = 0;
+      panY = 0;
+      applyTransform();
+    }
+
+    function onZoomIn() {
+      scale += 0.25;
+      queueRenderPage(pageNum);
+    }
+
+    function onZoomOut() {
+      if (scale <= 0.5) return;
+      scale -= 0.25;
+      queueRenderPage(pageNum);
+    }
+
+    function updateButtons() {
+      prevBtn.disabled = pageNum <= 1;
+      nextBtn.disabled = pageNum >= pdfDoc.numPages;
+    }
+
+    function openPdfViewer(pdfUrl, title) {
+      currentPdfUrl = pdfUrl;
+      currentPdfTitle = title;
+      titleSpan.textContent = title;
+      
+      resetZoomAndPan();
+      
+      pdfjsLib.getDocument(pdfUrl).promise.then(function(pdfDoc_) {
+        pdfDoc = pdfDoc_;
+        pageCountSpan.textContent = pdfDoc.numPages;
+        pageNum = 1;
+        renderPage(pageNum);
+        updateButtons();
+        
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    }
+
+    function closePdfViewer() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+      resetZoomAndPan();
+      pdfDoc = null;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function downloadPdf() {
+      const link = document.createElement('a');
+      link.href = currentPdfUrl;
+      link.download = currentPdfTitle + '.pdf';
+      link.click();
+    }
+
+    // Event listeners for PDF viewer
+    closeBtn.addEventListener('click', closePdfViewer);
+    prevBtn.addEventListener('click', onPrevPage);
+    nextBtn.addEventListener('click', onNextPage);
+    zoomInBtn.addEventListener('click', onZoomIn);
+    zoomOutBtn.addEventListener('click', onZoomOut);
+    downloadBtn.addEventListener('click', downloadPdf);
+
+    document.addEventListener('keydown', function(e) {
+      if (modal.classList.contains('active')) {
+        if (e.key === 'Escape') {
+          closePdfViewer();
+        } else if (e.key === 'ArrowLeft') {
+          onPrevPage();
+        } else if (e.key === 'ArrowRight') {
+          onNextPage();
+        }
+      }
+    });
+
+    // Close modal when clicking outside
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closePdfViewer();
+      }
+    });
+
+    // PDF card click handlers
+    const pdfCards = document.querySelectorAll('.pdf-card');
+    pdfCards.forEach(card => {
+      card.addEventListener('click', function() {
+        const pdfUrl = this.getAttribute('data-pdf');
+        const title = this.getAttribute('data-title');
+        openPdfViewer(pdfUrl, title);
+      });
+    });
+  </script>
+
+</body>
+</html>
