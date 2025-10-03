@@ -124,10 +124,11 @@
       transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1), transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .navbar-logo svg {
+    /* Updated logo styling for PNG image */
+    .navbar-logo img {
       width: 32px;
       height: 32px;
-      fill: var(--c-action);
+      object-fit: contain;
     }
 
     .navbar-menu {
@@ -1110,14 +1111,15 @@
     /* Top controls as floating islands */
     .pdf-viewer-top-controls {
       position: absolute;
-      top: 20px;
-      left: 20px;
-      right: 20px;
+      top: 16px;
+      left: 16px;
+      right: 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 10;
       pointer-events: none;
+      gap: 12px;
     }
 
     .pdf-viewer-top-controls > * {
@@ -1128,6 +1130,8 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      flex: 1;
+      min-width: 0;
     }
 
     .pdf-viewer-title {
@@ -1148,6 +1152,7 @@
       text-overflow: ellipsis;
     }
 
+    /* Page info with click-to-jump functionality */
     .pdf-page-info {
       padding: 12px 20px;
       border-radius: 99em;
@@ -1161,6 +1166,170 @@
       font-family: "DM Sans", sans-serif;
       font-size: 0.9rem;
       font-weight: 600;
+      cursor: pointer;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pdf-page-info:hover {
+      background-color: color-mix(in srgb, var(--c-glass) 35%, transparent);
+      transform: scale(1.05);
+    }
+
+    .pdf-page-input {
+      width: 50px;
+      padding: 8px 12px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 35%, transparent);
+      border: 1px solid color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 20%), transparent);
+      color: var(--c-content);
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-align: center;
+      outline: none;
+    }
+
+    .pdf-page-input:focus {
+      background-color: color-mix(in srgb, var(--c-glass) 45%, transparent);
+    }
+
+    /* Search button as floating island */
+    .pdf-search-btn {
+      width: 48px;
+      height: 48px;
+      border: none;
+      border-radius: 50%;
+      background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .pdf-search-btn:hover {
+      background-color: color-mix(in srgb, var(--c-glass) 35%, transparent);
+      transform: scale(1.1);
+    }
+
+    .pdf-search-btn svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--c-content);
+    }
+
+    /* Search panel */
+    .pdf-search-panel {
+      position: absolute;
+      top: 80px;
+      right: 16px;
+      padding: 16px;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+      z-index: 10;
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 280px;
+    }
+
+    .pdf-search-panel.active {
+      display: flex;
+    }
+
+    .pdf-search-input {
+      padding: 12px 16px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 35%, transparent);
+      border: 1px solid color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 20%), transparent);
+      color: var(--c-content);
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      width: 100%;
+    }
+
+    .pdf-search-input::placeholder {
+      color: color-mix(in srgb, var(--c-content) 60%, transparent);
+    }
+
+    .pdf-search-input:focus {
+      background-color: color-mix(in srgb, var(--c-glass) 45%, transparent);
+    }
+
+    .pdf-search-results {
+      color: var(--c-content);
+      font-size: 0.85rem;
+      text-align: center;
+      opacity: 0.8;
+    }
+
+    /* Search navigation controls */
+    .pdf-search-nav {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pdf-search-nav-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 50%;
+      background-color: color-mix(in srgb, var(--c-glass) 35%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .pdf-search-nav-btn:hover:not(:disabled) {
+      background-color: color-mix(in srgb, var(--c-glass) 45%, transparent);
+      transform: scale(1.1);
+    }
+
+    .pdf-search-nav-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .pdf-search-nav-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--c-content);
+    }
+
+    /* Text highlight overlay styles */
+    .pdf-text-highlight {
+      position: absolute;
+      background-color: rgba(255, 255, 0, 0.4);
+      pointer-events: none;
+      z-index: 5;
+      transition: background-color 200ms ease;
+    }
+
+    .pdf-text-highlight.current {
+      background-color: rgba(255, 200, 0, 0.6);
+      box-shadow: 0 0 0 2px rgba(255, 200, 0, 0.8);
     }
 
     .pdf-viewer-close {
@@ -1179,6 +1348,7 @@
       align-items: center;
       justify-content: center;
       transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
     }
 
     .pdf-viewer-close:hover {
@@ -1192,19 +1362,22 @@
       fill: var(--c-content);
     }
 
+    /* Content area with zero padding for full-screen PDF */
     .pdf-viewer-content {
-      flex: 1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 100px 20px 120px;
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
+      overflow: hidden;
     }
 
     .pdf-canvas-wrapper {
-      max-width: 100%;
-      max-height: 100%;
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1216,8 +1389,8 @@
     #pdfCanvas {
       max-width: 100%;
       max-height: 100%;
+      object-fit: contain;
       box-shadow: 0px 16px 64px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 40%), transparent);
-      border-radius: 4px;
       transition: transform 100ms cubic-bezier(0.4, 0, 0.2, 1);
       transform-origin: center center;
     }
@@ -1225,54 +1398,39 @@
     /* Bottom controls as floating island */
     .pdf-viewer-controls {
       position: absolute;
-      bottom: 20px;
+      bottom: 16px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 24px;
+      gap: 8px;
+      z-index: 10;
+      padding: 8px;
       border-radius: 99em;
       background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
       backdrop-filter: blur(16px) saturate(var(--saturation));
       -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
       box-shadow: 
         inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
-        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 30%), transparent);
-      z-index: 10;
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
     }
 
     .pdf-control-btn {
-      width: 44px;
-      height: 44px;
-      padding: 0;
+      width: 48px;
+      height: 48px;
       border: none;
       border-radius: 50%;
       background-color: color-mix(in srgb, var(--c-glass) 20%, transparent);
-      backdrop-filter: blur(8px) saturate(var(--saturation));
-      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
-      box-shadow: 
-        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-        0px 4px 12px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent);
-      color: var(--c-content);
       cursor: pointer;
-      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent);
     }
 
-    .pdf-control-btn:hover:not(:disabled) {
+    .pdf-control-btn:hover {
       background-color: color-mix(in srgb, var(--c-glass) 35%, transparent);
       transform: scale(1.1);
-      box-shadow: 
-        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
-        0px 8px 20px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
-    }
-
-    .pdf-control-btn:active:not(:disabled) {
-      transform: scale(0.95);
     }
 
     .pdf-control-btn:disabled {
@@ -1280,25 +1438,22 @@
       cursor: not-allowed;
     }
 
+    .pdf-control-btn:disabled:hover {
+      transform: scale(1);
+    }
+
     .pdf-control-btn svg {
-      width: 22px;
-      height: 22px;
+      width: 24px;
+      height: 24px;
       fill: var(--c-content);
-    }
-
-    .pdf-download-btn {
-      background-color: color-mix(in srgb, var(--c-action) 70%, transparent);
-    }
-
-    .pdf-download-btn:hover:not(:disabled) {
-      background-color: var(--c-action);
     }
 
     .pdf-control-divider {
       width: 1px;
-      height: 24px;
+      height: 32px;
       background-color: color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent);
       margin: 0 4px;
+      align-self: center;
     }
 
     @media (max-width: 768px) {
@@ -1369,53 +1524,66 @@
 
       /* Mobile-optimized PDF viewer controls */
       .pdf-viewer-top-controls {
-        top: 12px;
-        left: 12px;
-        right: 12px;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-      }
-
-      .pdf-viewer-info-group {
-        width: 100%;
-        justify-content: space-between;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        flex-wrap: wrap;
       }
 
       .pdf-viewer-title {
+        max-width: 120px;
+        font-size: 0.85rem;
         padding: 10px 16px;
-        font-size: 0.9rem;
-        max-width: 200px;
       }
 
       .pdf-page-info {
-        padding: 10px 16px;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
+        padding: 10px 14px;
       }
 
+      .pdf-page-input {
+        width: 40px;
+        font-size: 0.8rem;
+        padding: 6px 10px;
+      }
+
+      .pdf-search-btn,
       .pdf-viewer-close {
         width: 44px;
         height: 44px;
       }
 
-      .pdf-viewer-content {
-        padding: 80px 12px 100px;
+      .pdf-search-btn svg,
+      .pdf-viewer-close svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .pdf-search-panel {
+        top: 70px;
+        right: 10px;
+        left: 10px;
+        min-width: auto;
       }
 
       .pdf-viewer-controls {
-        bottom: 12px;
-        padding: 12px 16px;
-        gap: 8px;
+        bottom: 10px;
+        gap: 6px;
+        padding: 6px;
       }
 
       .pdf-control-btn {
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
       }
 
       .pdf-control-btn svg {
         width: 20px;
         height: 20px;
+      }
+
+      .pdf-control-divider {
+        height: 28px;
       }
 
       /* Responsive styles for PDF library */
@@ -1436,10 +1604,9 @@
     <nav class="navbar" id="navbar">
       <div class="navbar-header">
         <a href="#" class="navbar-logo">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
-          </svg>
-          <span>Liquid Glass</span>
+          <!-- Replaced SVG with PNG logo -->
+          <img src="logo.jpg" alt="Liquid Glass Logo">
+          <span>THE LENG</span>
         </a>
         <button class="menu-toggle" id="menuToggle" aria-label="Menüyü Aç">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -1467,7 +1634,7 @@
         <input class="switcher__input" type="radio" name="theme" value="light" c-option="1" checked/>
         <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
           <path fill="var(--c)" fill-rule="evenodd" d="M18 12a6 6 0 1 1 0 12 6 6 0 0 1 0-12Zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" clip-rule="evenodd"/>
-          <path fill="var(--c)" d="M17 6.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3ZM24.244 7.742a1 1 0 1 1 1.618 1.176L24.1 11.345a1 1 0 1 1-1.618-1.176l1.763-2.427ZM29.104 13.379a1 1 0 0 1 .618 1.902l-2.854.927a1 1 0 1 1-.618-1.902l2.854-.927ZM29.722 20.795a1 1 0 0 1-.619 1.902l-1.763-2.427a1 1 0 1 1 1.618-1.175l1.763 2.427ZM19 30.038a1 1 0 0 1-2 0v-3a1 1 0 1 1 2 0v3ZM11.755 28.334a1 1 0 0 1-1.618-1.175l1.764-2.427a1 1 0 1 1 1.618 1.175l-1.764 2.427ZM6.896 22.697a1 1 0 1 1-.618-1.902l2.853-.927a1 1 0 1 1 .618 1.902l-2.853.927ZM6.278 15.28a1 1 0 1 1 .618-1.901l2.853.927a1 1 0 1 1-.618 1.902l-2.853-.927ZM10.137 8.918a1 1 0 0 1 1.618-1.176l1.764 2.427a1 1 0 0 1-1.618 1.176l-1.764-2.427Z"/>
+          <path fill="var(--c)" d="M17 6.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3 ModInt17 6.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3ZM24.244 7.742a1 1 0 1 1 1.618 1.176L24.1 11.345a1 1 0 1 1-1.618-1.176l1.763-2.427ZM29.104 13.379a1 1 0 0 1 .618 1.902l-2.854.927a1 1 0 1 1-.618-1.902l2.854-.927ZM29.722 20.795a1 1 0 0 1-.619 1.902l-1.763-2.427a1 1 0 1 1 1.618-1.175l1.763 2.427ZM19 30.038a1 1 0 0 1-2 0v-3a1 1 0 1 1 2 0v3 ModInt19 30.038a1 1 0 0 1-2 0v-3a1 1 0 1 1 2 0v3ZM11.755 28.334a1 1 0 0 1-1.618-1.175l1.764-2.427a1 1 0 1 1 1.618 1.175l-1.764 2.427ZM6.896 22.697a1 1 0 1 1-.618-1.902l2.853-.927a1 1 0 1 1 .618 1.902l-2.853.927ZM6.278 15.28a1 1 0 1 1 .618-1.901l2.853.927a1 1 0 1 1-.618 1.902l-2.853-.927ZM10.137 8.918a1 1 0 0 1 1.618-1.176l1.764 2.427a1 1 0 0 1-1.618 1.176l-1.764-2.427Z"/>
         </svg>
       </label>
       <label class="switcher__option">
@@ -1479,7 +1646,7 @@
       <label class="switcher__option">
         <input class="switcher__input" type="radio" name="theme" value="dim" c-option="3"/>
         <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
-          <path fill="var(--c)" d="M5 21a1 1 0 0 1 1-1h24a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1ZM12 25a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H13a1 1 0 0 1-1-1ZM15 29a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1ZM18 13a6 6 0 0 1 5.915 7h-2.041A4.005 4.005 0 0 0 18 15a4 4 0 0 0-3.874 5h-2.041A6 6 0 0 1 18 13ZM17 7.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3ZM24.244 8.742a1 1 0 1 1 1.618 1.176L24.1 12.345a1 1 0 1 1-1.618-1.176l1.763-2.427ZM29.104 14.379a1 1 0 0 1 .618 1.902l-2.854.927a1 1 0 1 1-.618-1.902l2.854-.927ZM6.278 16.28a1 1 0 1 1 .618-1.901l2.853.927a1 1 0 1 1-.618 1.902l-2.853-.927ZM10.137 9.918a1 1 0 0 1 1.618-1.176l1.764 2.427a1 1 0 0 1-1.618 1.176l-1.764-2.427Z"/>
+          <path fill="var(--c)" d="M5 21a1 1 0 0 1 1-1h24a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1ZM12 25a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H13a1 1 0 0 1-1-1ZM15 29a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1ZM18 13a6 6 0 0 1 5.915 7h-2.041A4.005 4.005 0 0 0 18 15a4 4 0 0 0-3.874 5h-2.041A6 6 0 0 1 18 13 ModInt18 13a6 6 0 0 1 5.915 7h-2.041A4.005 4.005 0 0 0 18 15a4 4 0 0 0-3.874 5h-2.041A6 6 0 0 1 18 13ZM17 7.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3 ModInt17 7.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3ZM24.244 8.742a1 1 0 1 1 1.618 1.176L24.1 12.345a1 1 0 1 1-1.618-1.176l1.763-2.427ZM29.104 14.379a1 1 0 0 1 .618 1.902l-2.854.927a1 1 0 1 1-.618-1.902l2.854-.927ZM6.278 16.28a1 1 0 1 1 .618-1.901l2.853.927a1 1 0 1 1-.618 1.902l-2.853-.927ZM10.137 9.918a1 1 0 0 1 1.618-1.176l1.764 2.427a1 1 0 0 1-1.618 1.176l-1.764-2.427Z"/>
         </svg>
       </label>
     </fieldset>
@@ -1762,27 +1929,54 @@
     <p>© 2025 Liquid Glass Topluluğu. Tüm hakları saklıdır.</p>
   </footer>
 
-  <!-- Redesigned PDF Viewer Modal with floating island controls -->
+  <!-- Updated PDF Viewer Modal with search and page jump -->
   <div class="pdf-viewer-modal" id="pdfViewerModal">
     <div class="pdf-viewer-container">
       <div class="pdf-viewer-top-controls">
         <div class="pdf-viewer-info-group">
           <h3 class="pdf-viewer-title" id="pdfViewerTitle">PDF Görüntüleyici</h3>
-          <div class="pdf-page-info">
+          <div class="pdf-page-info" id="pdfPageInfo">
             <span id="pdfPageNum">1</span> / <span id="pdfPageCount">1</span>
           </div>
         </div>
+        <button class="pdf-search-btn" id="pdfSearchBtn" title="Ara">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+          </svg>
+        </button>
         <button class="pdf-viewer-close" id="pdfViewerClose">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
           </svg>
         </button>
       </div>
+      
+      <!-- Search panel -->
+      <div class="pdf-search-panel" id="pdfSearchPanel">
+        <input type="text" class="pdf-search-input" id="pdfSearchInput" placeholder="Kelime ara...">
+        <!-- Added navigation controls for search results -->
+        <div class="pdf-search-nav" id="pdfSearchNav" style="display: none;">
+          <button class="pdf-search-nav-btn" id="pdfSearchPrev" title="Önceki">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+          </button>
+          <span class="pdf-search-results" id="pdfSearchResults"></span>
+          <button class="pdf-search-nav-btn" id="pdfSearchNext" title="Sonraki">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg>
+          </button>
+        </div>
+        <div class="pdf-search-results" id="pdfSearchResultsText"></div>
+      </div>
+
       <div class="pdf-viewer-content" id="pdfViewerContent">
         <div class="pdf-canvas-wrapper">
           <canvas id="pdfCanvas"></canvas>
         </div>
       </div>
+      
       <div class="pdf-viewer-controls">
         <button class="pdf-control-btn" id="pdfPrevPage" title="Önceki Sayfa">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -1925,16 +2119,15 @@
     let scale = 1.5;
     let currentPdfUrl = '';
     let currentPdfTitle = '';
-
-    // Pinch-to-zoom variables
-    let initialPinchDistance = 0;
     let currentZoomScale = 1;
-    let isPinching = false;
     let panX = 0;
     let panY = 0;
+    let isPinching = false;
     let isPanning = false;
+    let initialPinchDistance = 0;
     let lastTouchX = 0;
     let lastTouchY = 0;
+    let pdfTextContent = [];
 
     const canvas = document.getElementById('pdfCanvas');
     const ctx = canvas.getContext('2d');
@@ -1950,10 +2143,213 @@
     const pageNumSpan = document.getElementById('pdfPageNum');
     const pageCountSpan = document.getElementById('pdfPageCount');
     const titleSpan = document.getElementById('pdfViewerTitle');
+    const pageInfo = document.getElementById('pdfPageInfo');
+    const searchBtn = document.getElementById('pdfSearchBtn');
+    const searchPanel = document.getElementById('pdfSearchPanel');
+    const searchInput = document.getElementById('pdfSearchInput');
+    const searchResults = document.getElementById('pdfSearchResults');
+    const searchResultsText = document.getElementById('pdfSearchResultsText');
+    const searchNav = document.getElementById('pdfSearchNav');
+    const searchPrevBtn = document.getElementById('pdfSearchPrev');
+    const searchNextBtn = document.getElementById('pdfSearchNext');
 
     let touchStartX = 0;
     let touchEndX = 0;
     const swipeThreshold = 50;
+
+    let searchMatches = [];
+    let currentMatchIndex = -1;
+    let currentSearchQuery = '';
+
+    let isEditingPage = false;
+    pageInfo.addEventListener('click', function() {
+      if (isEditingPage) return;
+      
+      isEditingPage = true;
+      const currentPage = pageNum;
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.min = 1;
+      input.max = pdfDoc.numPages;
+      input.value = currentPage;
+      input.className = 'pdf-page-input';
+      
+      pageInfo.innerHTML = '';
+      pageInfo.appendChild(input);
+      input.focus();
+      input.select();
+      
+      const finishEdit = () => {
+        const newPage = parseInt(input.value);
+        if (newPage >= 1 && newPage <= pdfDoc.numPages && newPage !== currentPage) {
+          pageNum = newPage;
+          queueRenderPage(pageNum);
+          updateButtons();
+          resetZoomAndPan();
+        }
+        pageInfo.innerHTML = `<span id="pdfPageNum">${pageNum}</span> / <span id="pdfPageCount">${pdfDoc.numPages}</span>`;
+        isEditingPage = false;
+      };
+      
+      input.addEventListener('blur', finishEdit);
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          finishEdit();
+        } else if (e.key === 'Escape') {
+          pageInfo.innerHTML = `<span id="pdfPageNum">${currentPage}</span> / <span id="pdfPageCount">${pdfDoc.numPages}</span>`;
+          isEditingPage = false;
+        }
+      });
+    });
+
+    searchBtn.addEventListener('click', function() {
+      searchPanel.classList.toggle('active');
+      if (searchPanel.classList.contains('active')) {
+        searchInput.focus();
+      } else {
+        clearSearchHighlights();
+      }
+    });
+
+    searchInput.addEventListener('input', async function() {
+      const query = searchInput.value.trim().toLowerCase();
+      
+      if (!query) {
+        searchResultsText.textContent = '';
+        searchNav.style.display = 'none';
+        clearSearchHighlights();
+        searchMatches = [];
+        currentMatchIndex = -1;
+        currentSearchQuery = '';
+        return;
+      }
+      
+      currentSearchQuery = query;
+      searchMatches = [];
+      
+      // Search through all pages and collect matches
+      for (let pageIndex = 0; pageIndex < pdfTextContent.length; pageIndex++) {
+        const text = pdfTextContent[pageIndex].toLowerCase();
+        let startIndex = 0;
+        
+        while ((startIndex = text.indexOf(query, startIndex)) !== -1) {
+          searchMatches.push({
+            pageNum: pageIndex + 1,
+            textIndex: startIndex
+          });
+          startIndex += query.length;
+        }
+      }
+      
+      if (searchMatches.length > 0) {
+        currentMatchIndex = 0;
+        searchNav.style.display = 'flex';
+        updateSearchResults();
+        goToSearchMatch(0);
+      } else {
+        searchResultsText.textContent = 'Sonuç bulunamadı';
+        searchNav.style.display = 'none';
+        clearSearchHighlights();
+      }
+    });
+
+    searchPrevBtn.addEventListener('click', function() {
+      if (currentMatchIndex > 0) {
+        currentMatchIndex--;
+        updateSearchResults();
+        goToSearchMatch(currentMatchIndex);
+      }
+    });
+
+    searchNextBtn.addEventListener('click', function() {
+      if (currentMatchIndex < searchMatches.length - 1) {
+        currentMatchIndex++;
+        updateSearchResults();
+        goToSearchMatch(currentMatchIndex);
+      }
+    });
+
+    function updateSearchResults() {
+      searchResults.textContent = `${currentMatchIndex + 1} / ${searchMatches.length}`;
+      searchPrevBtn.disabled = currentMatchIndex === 0;
+      searchNextBtn.disabled = currentMatchIndex === searchMatches.length - 1;
+    }
+
+    async function goToSearchMatch(matchIndex) {
+      if (matchIndex < 0 || matchIndex >= searchMatches.length) return;
+      
+      const match = searchMatches[matchIndex];
+      
+      // Navigate to page if different
+      if (match.pageNum !== pageNum) {
+        pageNum = match.pageNum;
+        await queueRenderPage(pageNum);
+        updateButtons();
+        resetZoomAndPan();
+      }
+      
+      // Highlight all matches on current page
+      await highlightSearchMatches();
+    }
+
+    async function highlightSearchMatches() {
+      clearSearchHighlights();
+      
+      if (!currentSearchQuery || searchMatches.length === 0) return;
+      
+      const page = await pdfDoc.getPage(pageNum);
+      const textContent = await page.getTextContent();
+      const viewport = page.getViewport({ scale: scale });
+      
+      const canvasRect = canvas.getBoundingClientRect();
+      const canvasWrapper = canvas.parentElement;
+      
+      const pageMatches = searchMatches.filter(m => m.pageNum === pageNum);
+      
+      textContent.items.forEach((item, itemIndex) => {
+        const itemText = item.str.toLowerCase();
+        const query = currentSearchQuery.toLowerCase();
+        let startIndex = 0;
+        
+        while ((startIndex = itemText.indexOf(query, startIndex)) !== -1) {
+          const transform = pdfjsLib.Util.transform(
+            viewport.transform,
+            item.transform
+          );
+          
+          const x = transform[4];
+          const y = transform[5];
+          const height = Math.sqrt(transform[2] * transform[2] + transform[3] * transform[3]) * item.height;
+          const width = item.width * (query.length / item.str.length);
+          
+          const highlight = document.createElement('div');
+          highlight.className = 'pdf-text-highlight';
+          highlight.style.left = `${x}px`;
+          highlight.style.top = `${viewport.height - y - height}px`;
+          highlight.style.width = `${width}px`;
+          highlight.style.height = `${height}px`;
+          
+          const isCurrentMatch = pageMatches.some(m => {
+            const pageText = pdfTextContent[pageNum - 1].toLowerCase();
+            const matchPos = pageText.indexOf(query, m.textIndex);
+            return matchPos === m.textIndex && m === searchMatches[currentMatchIndex];
+          });
+          
+          if (isCurrentMatch) {
+            highlight.classList.add('current');
+          }
+          
+          canvasWrapper.appendChild(highlight);
+          
+          startIndex += query.length;
+        }
+      });
+    }
+
+    function clearSearchHighlights() {
+      const highlights = document.querySelectorAll('.pdf-text-highlight');
+      highlights.forEach(h => h.remove());
+    }
 
     function getDistance(touch1, touch2) {
       const dx = touch1.clientX - touch2.clientX;
@@ -1967,18 +2363,15 @@
 
     canvasWrapper.addEventListener('touchstart', function(e) {
       if (e.touches.length === 2) {
-        // Two fingers - pinch to zoom
         isPinching = true;
         isPanning = false;
         initialPinchDistance = getDistance(e.touches[0], e.touches[1]);
       } else if (e.touches.length === 1 && currentZoomScale > 1) {
-        // One finger and zoomed in - pan
         isPanning = true;
         isPinching = false;
         lastTouchX = e.touches[0].clientX;
         lastTouchY = e.touches[0].clientY;
       } else {
-        // One finger - swipe for page navigation
         touchStartX = e.touches[0].clientX;
       }
     }, { passive: true });
@@ -1989,7 +2382,6 @@
         const currentDistance = getDistance(e.touches[0], e.touches[1]);
         const scaleDelta = currentDistance / initialPinchDistance;
         
-        // Allow extreme zoom levels (up to 8x)
         let newScale = currentZoomScale * scaleDelta;
         newScale = Math.max(0.5, Math.min(8, newScale));
         
@@ -2016,7 +2408,6 @@
       } else if (isPanning) {
         isPanning = false;
       } else if (e.changedTouches.length === 1 && currentZoomScale <= 1) {
-        // Only handle swipe if not zoomed in
         touchEndX = e.changedTouches[0].clientX;
         handleSwipe();
       }
@@ -2033,30 +2424,30 @@
       }
     }
 
-    function renderPage(num) {
+    async function renderPage(num) {
       pageRendering = true;
-      pdfDoc.getPage(num).then(function(page) {
-        const viewport = page.getViewport({scale: scale});
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
+      const page = await pdfDoc.getPage(num);
+      const viewport = page.getViewport({ scale: scale });
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
 
-        const renderContext = {
-          canvasContext: ctx,
-          viewport: viewport
-        };
-        
-        const renderTask = page.render(renderContext);
+      const renderContext = {
+        canvasContext: ctx,
+        viewport: viewport
+      };
 
-        renderTask.promise.then(function() {
-          pageRendering = false;
-          if (pageNumPending !== null) {
-            renderPage(pageNumPending);
-            pageNumPending = null;
-          }
-        });
-      });
+      const renderTask = page.render(renderContext);
+      await renderTask.promise;
+      pageRendering = false;
 
-      pageNumSpan.textContent = num;
+      if (pageNumPending !== null) {
+        renderPage(pageNumPending);
+        pageNumPending = null;
+      }
+      
+      if (currentSearchQuery && searchMatches.length > 0) {
+        await highlightSearchMatches();
+      }
     }
 
     function queueRenderPage(num) {
@@ -2110,12 +2501,27 @@
       nextBtn.disabled = pageNum >= pdfDoc.numPages;
     }
 
+    async function extractTextContent(pdf) {
+      pdfTextContent = [];
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items.map(item => item.str).join(' ');
+        pdfTextContent.push(pageText);
+      }
+    }
+
     function openPdfViewer(pdfUrl, title) {
       currentPdfUrl = pdfUrl;
       currentPdfTitle = title;
       titleSpan.textContent = title;
       
       resetZoomAndPan();
+      searchPanel.classList.remove('active');
+      searchInput.value = '';
+      searchResults.textContent = '';
+      searchResultsText.textContent = '';
+      searchNav.style.display = 'none';
       
       pdfjsLib.getDocument(pdfUrl).promise.then(function(pdfDoc_) {
         pdfDoc = pdfDoc_;
@@ -2123,6 +2529,7 @@
         pageNum = 1;
         renderPage(pageNum);
         updateButtons();
+        extractTextContent(pdfDoc);
         
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -2133,7 +2540,13 @@
       modal.classList.remove('active');
       document.body.style.overflow = '';
       resetZoomAndPan();
+      searchPanel.classList.remove('active');
       pdfDoc = null;
+      pdfTextContent = [];
+      clearSearchHighlights();
+      searchMatches = [];
+      currentMatchIndex = -1;
+      currentSearchQuery = '';
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
@@ -2144,13 +2557,18 @@
       link.click();
     }
 
-    // Event listeners for PDF viewer
     closeBtn.addEventListener('click', closePdfViewer);
     prevBtn.addEventListener('click', onPrevPage);
     nextBtn.addEventListener('click', onNextPage);
     zoomInBtn.addEventListener('click', onZoomIn);
     zoomOutBtn.addEventListener('click', onZoomOut);
     downloadBtn.addEventListener('click', downloadPdf);
+
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closePdfViewer();
+      }
+    });
 
     document.addEventListener('keydown', function(e) {
       if (modal.classList.contains('active')) {
@@ -2160,18 +2578,14 @@
           onPrevPage();
         } else if (e.key === 'ArrowRight') {
           onNextPage();
+        } else if (e.key === 'f' && !isEditingPage && !searchPanel.classList.contains('active')) {
+            searchBtn.click();
+            searchInput.focus();
+            e.preventDefault();
         }
       }
     });
 
-    // Close modal when clicking outside
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        closePdfViewer();
-      }
-    });
-
-    // PDF card click handlers
     const pdfCards = document.querySelectorAll('.pdf-card');
     pdfCards.forEach(card => {
       card.addEventListener('click', function() {
