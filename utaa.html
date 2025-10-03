@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
+  <!-- Added PDF.js library for PDF rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   
   <style>
     * {
@@ -302,15 +304,10 @@
         margin-top: 24px;
       }
 
-      .navbar-menu li {
+      .navbar.menu-open .navbar-menu li {
         opacity: 0;
         transform: translateY(-10px);
         transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      .navbar.menu-open .navbar-menu li {
-        opacity: 1;
-        transform: translateY(0);
       }
 
       .navbar.menu-open .navbar-menu li:nth-child(1) { transition-delay: 100ms; }
@@ -685,6 +682,202 @@
         0px 12px 48px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
     }
 
+    /* Added expandable card styles for announcements and who-are-we sections */
+    .expandable-card {
+      padding: 24px;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      cursor: pointer;
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .expandable-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 12px 48px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+    }
+
+    .expandable-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .expandable-card-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--c-content);
+      margin: 0;
+    }
+
+    .expandable-card-icon {
+      width: 24px;
+      height: 24px;
+      fill: var(--c-action);
+      transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+    }
+
+    .expandable-card.expanded .expandable-card-icon {
+      transform: rotate(180deg);
+    }
+
+    .expandable-card-preview {
+      margin-top: 12px;
+      font-size: 0.95rem;
+      color: color-mix(in srgb, var(--c-content) 70%, transparent);
+      line-height: 1.6;
+    }
+
+    .expandable-card-content {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 500ms cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 500ms cubic-bezier(0.4, 0, 0.2, 1),
+                  margin-top 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .expandable-card.expanded .expandable-card-content {
+      max-height: 1000px;
+      opacity: 1;
+      margin-top: 20px;
+    }
+
+    .expandable-card.expanded .expandable-card-preview {
+      opacity: 0;
+      max-height: 0;
+      margin: 0;
+      transition: opacity 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                  max-height 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                  margin 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .expandable-card-text {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--c-content);
+    }
+
+    .announcements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 24px;
+    }
+
+    /* Added numbered card styles for who-are-we section */
+    .numbered-card {
+      position: relative;
+      padding: 32px;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      cursor: pointer;
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .numbered-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 12px 48px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+    }
+
+    .numbered-card-number {
+      position: absolute;
+      top: -20px;
+      right: 20px;
+      font-size: 8rem;
+      font-weight: 900;
+      color: color-mix(in srgb, var(--c-action) 15%, transparent);
+      line-height: 1;
+      pointer-events: none;
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .numbered-card.expanded .numbered-card-number {
+      opacity: 0.5;
+      transform: scale(0.8);
+    }
+
+    .numbered-card-header {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .numbered-card-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--c-content);
+      margin: 0;
+    }
+
+    .numbered-card-icon {
+      width: 28px;
+      height: 28px;
+      fill: var(--c-action);
+      transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .numbered-card.expanded .numbered-card-icon {
+      transform: rotate(180deg);
+    }
+
+    .numbered-card-content {
+      position: relative;
+      z-index: 1;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 500ms cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .numbered-card.expanded .numbered-card-content {
+      max-height: 1000px;
+      opacity: 1;
+    }
+
+    .numbered-card-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--c-content);
+    }
+
+    .who-are-we-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
     /* Features Grid */
     .features-grid {
       display: grid;
@@ -804,6 +997,299 @@
       font-size: 0.9rem;
     }
 
+    /* Added PDF Library Section Styles */
+    .pdf-library-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .pdf-card {
+      position: relative;
+      padding: 0;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      cursor: pointer;
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .pdf-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 16px 56px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 16%), transparent);
+    }
+
+    .pdf-card-cover {
+      width: 100%;
+      height: 360px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px 24px 0 0;
+    }
+
+    .pdf-card-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .pdf-card-cover::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    }
+
+    .pdf-card-info {
+      padding: 24px;
+    }
+
+    .pdf-card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--c-content);
+      margin-bottom: 8px;
+    }
+
+    .pdf-card-description {
+      font-size: 0.9rem;
+      color: color-mix(in srgb, var(--c-content) 70%, transparent);
+      line-height: 1.5;
+    }
+
+    /* Redesigned PDF Viewer Modal with floating island controls */
+    .pdf-viewer-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: color-mix(in srgb, var(--c-dark) 85%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      z-index: 10000;
+      display: none;
+      opacity: 0;
+      transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .pdf-viewer-modal.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .pdf-viewer-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Top controls as floating islands */
+    .pdf-viewer-top-controls {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .pdf-viewer-top-controls > * {
+      pointer-events: auto;
+    }
+
+    .pdf-viewer-info-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pdf-viewer-title {
+      padding: 12px 24px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--c-content);
+      max-width: 300px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .pdf-page-info {
+      padding: 12px 20px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+      color: var(--c-content);
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .pdf-viewer-close {
+      width: 48px;
+      height: 48px;
+      border: none;
+      border-radius: 50%;
+      background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .pdf-viewer-close:hover {
+      background-color: color-mix(in srgb, var(--c-glass) 35%, transparent);
+      transform: rotate(90deg) scale(1.1);
+    }
+
+    .pdf-viewer-close svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--c-content);
+    }
+
+    .pdf-viewer-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 20px 120px;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .pdf-canvas-wrapper {
+      max-width: 100%;
+      max-height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: pan-x pan-y;
+    }
+
+    #pdfCanvas {
+      max-width: 100%;
+      max-height: 100%;
+      box-shadow: 0px 16px 64px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 40%), transparent);
+      border-radius: 4px;
+    }
+
+    /* Bottom controls as floating island */
+    .pdf-viewer-controls {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 24px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 30%), transparent);
+      z-index: 10;
+    }
+
+    .pdf-control-btn {
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: none;
+      border-radius: 50%;
+      background-color: color-mix(in srgb, var(--c-glass) 20%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        0px 4px 12px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent);
+      color: var(--c-content);
+      cursor: pointer;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pdf-control-btn:hover:not(:disabled) {
+      background-color: color-mix(in srgb, var(--c-glass) 35%, transparent);
+      transform: scale(1.1);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 20px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+    }
+
+    .pdf-control-btn:active:not(:disabled) {
+      transform: scale(0.95);
+    }
+
+    .pdf-control-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .pdf-control-btn svg {
+      width: 22px;
+      height: 22px;
+      fill: var(--c-content);
+    }
+
+    .pdf-download-btn {
+      background-color: color-mix(in srgb, var(--c-action) 70%, transparent);
+    }
+
+    .pdf-download-btn:hover:not(:disabled) {
+      background-color: var(--c-action);
+    }
+
+    .pdf-control-divider {
+      width: 1px;
+      height: 24px;
+      background-color: color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent);
+      margin: 0 4px;
+    }
+
     @media (max-width: 768px) {
       .hero-carousel {
         height: 400px;
@@ -826,6 +1312,22 @@
       .glass-card {
         padding: 24px;
         border-radius: 24px;
+      }
+
+      .announcements-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .who-are-we-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .numbered-card-number {
+        font-size: 5rem;
+        top: -10px;
+        right: 10px;
       }
 
       .features-grid {
@@ -852,6 +1354,67 @@
 
       .cta-description {
         font-size: 1rem;
+      }
+
+      /* Mobile-optimized PDF viewer controls */
+      .pdf-viewer-top-controls {
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .pdf-viewer-info-group {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .pdf-viewer-title {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+        max-width: 200px;
+      }
+
+      .pdf-page-info {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+      }
+
+      .pdf-viewer-close {
+        width: 44px;
+        height: 44px;
+      }
+
+      .pdf-viewer-content {
+        padding: 80px 12px 100px;
+      }
+
+      .pdf-viewer-controls {
+        bottom: 12px;
+        padding: 12px 16px;
+        gap: 8px;
+      }
+
+      .pdf-control-btn {
+        width: 40px;
+        height: 40px;
+      }
+
+      .pdf-control-btn svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      /* Responsive styles for PDF library */
+      .pdf-library-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .pdf-card-cover {
+        height: 300px;
       }
     }
   </style>
@@ -918,19 +1481,19 @@
       <div class="hero-carousel">
         <div class="carousel-track" id="carouselTrack">
           <div class="carousel-slide active">
-            <img src="/kader.jpg" alt="Topluluk Buluşması">
+            <img src="/placeholder.svg?height=600&width=1400" alt="Topluluk Buluşması">
             <h2 class="carousel-title">Birlikte Daha Güçlüyüz</h2>
           </div>
           <div class="carousel-slide">
-            <img src="/test.jpg" alt="İşbirliği">
+            <img src="/placeholder.svg?height=600&width=1400" alt="İşbirliği">
             <h2 class="carousel-title">Yaratıcı İşbirlikleri</h2>
           </div>
           <div class="carousel-slide">
-            <img src="/test3.jpg" alt="Etkinlikler">
+            <img src="/placeholder.svg?height=600&width=1400" alt="Etkinlikler">
             <h2 class="carousel-title">Unutulmaz Anılar</h2>
           </div>
           <div class="carousel-slide">
-            <img src="/test5.jpg" alt="Öğrenme">
+            <img src="/placeholder.svg?height=600&width=1400" alt="Öğrenme">
             <h2 class="carousel-title">Sürekli Gelişim</h2>
           </div>
         </div>
@@ -941,6 +1504,139 @@
           <button class="carousel-dot" data-slide="3"></button>
         </div>
       </div>
+
+      <!-- Added Announcements Section -->
+      <section class="section">
+        <h2 class="section-title">Duyurular</h2>
+        <div class="announcements-grid">
+          <div class="expandable-card" data-expandable="announcement1">
+            <div class="expandable-card-header">
+              <h3 class="expandable-card-title">Yeni Etkinlik Duyurusu</h3>
+              <svg class="expandable-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <p class="expandable-card-preview">Bu hafta sonu düzenlenecek olan topluluk buluşmasına davetlisiniz...</p>
+            <div class="expandable-card-content">
+              <p class="expandable-card-text">
+                Bu hafta sonu düzenlenecek olan topluluk buluşmasına davetlisiniz! Etkinliğimizde birçok workshop, panel ve networking fırsatı sizi bekliyor. 
+                Alanında uzman konuşmacılarımız deneyimlerini paylaşacak ve sorularınızı yanıtlayacak. Katılım ücretsizdir ancak kayıt zorunludur. 
+                Etkinlik 15 Mart Cumartesi günü saat 10:00'da başlayacak ve 18:00'e kadar devam edecektir. Kahvaltı ve öğle yemeği ikramlarımız olacaktır.
+              </p>
+            </div>
+          </div>
+
+          <div class="expandable-card" data-expandable="announcement2">
+            <div class="expandable-card-header">
+              <h3 class="expandable-card-title">Mentorluk Programı Başlıyor</h3>
+              <svg class="expandable-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <p class="expandable-card-preview">Kariyerinizi bir üst seviyeye taşımak için mentorluk programımıza katılın...</p>
+            <div class="expandable-card-content">
+              <p class="expandable-card-text">
+                Kariyerinizi bir üst seviyeye taşımak için mentorluk programımıza katılın! Alanında deneyimli mentorlarımız ile birebir görüşme fırsatı yakalayın. 
+                Program 3 ay sürecek ve her hafta düzenli olarak mentorunuzla görüşeceksiniz. Başvurular 20 Mart tarihine kadar devam edecektir. 
+                Program tamamen ücretsizdir ve tüm üyelerimize açıktır. Başvuru formunu web sitemizden doldurabilirsiniz.
+              </p>
+            </div>
+          </div>
+
+          <div class="expandable-card" data-expandable="announcement3">
+            <div class="expandable-card-header">
+              <h3 class="expandable-card-title">Yeni Kurslar Açıldı</h3>
+              <svg class="expandable-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <p class="expandable-card-preview">Web geliştirme, tasarım ve dijital pazarlama alanlarında yeni kurslarımız başladı...</p>
+            <div class="expandable-card-content">
+              <p class="expandable-card-text">
+                Web geliştirme, tasarım ve dijital pazarlama alanlarında yeni kurslarımız başladı! Uzman eğitmenlerimiz eşliğinde teorik ve pratik bilgiler edineceksiniz. 
+                Kurslar hem online hem de yüz yüze olarak düzenlenecektir. Her kurs 8 hafta sürecek ve haftada 2 gün, 2'şer saat olacaktır. 
+                Kurs sonunda sertifika verilecektir. Kayıtlar sınırlı sayıdadır, hemen başvurun!
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Added Who Are We Section with numbered cards -->
+      <section class="section">
+        <h2 class="section-title">Biz Kimiz?</h2>
+        <div class="who-are-we-grid">
+          <div class="numbered-card" data-expandable="who1">
+            <div class="numbered-card-number">1</div>
+            <div class="numbered-card-header">
+              <h3 class="numbered-card-title">Misyonumuz</h3>
+              <svg class="numbered-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <div class="numbered-card-content">
+              <p class="numbered-card-text">
+                Misyonumuz, teknoloji ve yaratıcılık alanlarında tutkulu bireyleri bir araya getirerek, bilgi paylaşımını ve işbirliğini teşvik etmektir. 
+                Herkesin potansiyelini en üst düzeye çıkarabileceği, destekleyici ve kapsayıcı bir topluluk oluşturmayı hedefliyoruz. 
+                Üyelerimize sürekli öğrenme ve gelişim fırsatları sunarak, sektörde fark yaratan profesyoneller yetiştirmeyi amaçlıyoruz.
+              </p>
+            </div>
+          </div>
+
+          <div class="numbered-card" data-expandable="who2">
+            <div class="numbered-card-number">2</div>
+            <div class="numbered-card-header">
+              <h3 class="numbered-card-title">Vizyonumuz</h3>
+              <svg class="numbered-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <div class="numbered-card-content">
+              <p class="numbered-card-text">
+                Vizyonumuz, Türkiye'nin en büyük ve en etkili teknoloji topluluğu olmaktır. Yenilikçi projelere imza atan, 
+                sektöre değer katan ve birbirini destekleyen binlerce üyeyle, teknoloji ekosisteminin merkezinde yer almayı hedefliyoruz. 
+                Gelecekte, uluslararası arenada da tanınan, global işbirlikleri kuran bir topluluk olmayı amaçlıyoruz.
+              </p>
+            </div>
+          </div>
+
+          <div class="numbered-card" data-expandable="who3">
+            <div class="numbered-card-number">3</div>
+            <div class="numbered-card-header">
+              <h3 class="numbered-card-title">Değerlerimiz</h3>
+              <svg class="numbered-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <div class="numbered-card-content">
+              <p class="numbered-card-text">
+                Değerlerimiz, topluluğumuzun temelini oluşturur: Şeffaflık, dürüstlük ve açık iletişim; 
+                kapsayıcılık ve çeşitlilik; sürekli öğrenme ve gelişim; işbirliği ve dayanışma; 
+                yenilikçilik ve yaratıcılık. Bu değerler doğrultusunda hareket ederek, 
+                herkesin kendini değerli hissettiği ve potansiyelini gerçekleştirebileceği bir ortam yaratıyoruz.
+              </p>
+            </div>
+          </div>
+
+          <div class="numbered-card" data-expandable="who4">
+            <div class="numbered-card-number">4</div>
+            <div class="numbered-card-header">
+              <h3 class="numbered-card-title">Hikayemiz</h3>
+              <svg class="numbered-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <div class="numbered-card-content">
+              <p class="numbered-card-text">
+                Topluluğumuz 2020 yılında, teknoloji tutkunu bir grup arkadaşın bir araya gelmesiyle kuruldu. 
+                Başlangıçta küçük bir grup olarak başladık, ancak zamanla büyüyerek bugünkü haline geldik. 
+                Şu anda 50'den fazla şehirde binlerce üyemiz var ve her geçen gün büyümeye devam ediyoruz. 
+                Yolculuğumuz boyunca yüzlerce etkinlik düzenledik, binlerce kişiye ulaştık ve sayısız başarı hikayesine tanıklık ettik.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <!-- Features Section -->
       <section class="section">
@@ -1011,12 +1707,102 @@
         </div>
       </section>
 
+      <!-- Added PDF Library Section -->
+      <section class="section">
+        <h2 class="section-title">Paylaşım Deposu</h2>
+        <div class="pdf-library-grid">
+          <!-- Added cover images to PDF cards -->
+          <div class="pdf-card" data-pdf="test.pdf" data-title="Temel Programlama Rehberi">
+            <div class="pdf-card-cover">
+              <img src="/kader.jpg" alt="Temel Programlama Rehberi">
+            </div>
+            <div class="pdf-card-info">
+              <h3 class="pdf-card-title">Temel Programlama Rehberi</h3>
+              <p class="pdf-card-description">Programlamaya başlayanlar için kapsamlı bir rehber. Temel kavramlar ve uygulamalar.</p>
+            </div>
+          </div>
+
+          <div class="pdf-card" data-pdf="test2.pdf" data-title="Web Geliştirme İleri Seviye">
+            <div class="pdf-card-cover">
+              <img src="/placeholder.svg?height=360&width=280" alt="Web Geliştirme İleri Seviye">
+            </div>
+            <div class="pdf-card-info">
+              <h3 class="pdf-card-title">Web Geliştirme İleri Seviye</h3>
+              <p class="pdf-card-description">Modern web teknolojileri ve ileri seviye konular. Framework'ler ve best practices.</p>
+            </div>
+          </div>
+
+          <div class="pdf-card" data-pdf="test3.pdf" data-title="Veri Bilimi ve Analitik">
+            <div class="pdf-card-cover">
+              <img src="/placeholder.svg?height=360&width=280" alt="Veri Bilimi ve Analitik">
+            </div>
+            <div class="pdf-card-info">
+              <h3 class="pdf-card-title">Veri Bilimi ve Analitik</h3>
+              <p class="pdf-card-description">Veri analizi, makine öğrenmesi ve istatistik temelleri. Pratik uygulamalar.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
   </main>
 
   <footer>
     <p>© 2025 Liquid Glass Topluluğu. Tüm hakları saklıdır.</p>
   </footer>
+
+  <!-- Redesigned PDF Viewer Modal with floating island controls -->
+  <div class="pdf-viewer-modal" id="pdfViewerModal">
+    <div class="pdf-viewer-container">
+      <div class="pdf-viewer-top-controls">
+        <div class="pdf-viewer-info-group">
+          <h3 class="pdf-viewer-title" id="pdfViewerTitle">PDF Görüntüleyici</h3>
+          <div class="pdf-page-info">
+            <span id="pdfPageNum">1</span> / <span id="pdfPageCount">1</span>
+          </div>
+        </div>
+        <button class="pdf-viewer-close" id="pdfViewerClose">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="pdf-viewer-content" id="pdfViewerContent">
+        <div class="pdf-canvas-wrapper">
+          <canvas id="pdfCanvas"></canvas>
+        </div>
+      </div>
+      <div class="pdf-viewer-controls">
+        <button class="pdf-control-btn" id="pdfPrevPage" title="Önceki Sayfa">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+          </svg>
+        </button>
+        <button class="pdf-control-btn" id="pdfZoomOut" title="Uzaklaştır">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 13H5v-2h14v2z"/>
+          </svg>
+        </button>
+        <button class="pdf-control-btn" id="pdfZoomIn" title="Yakınlaştır">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+          </svg>
+        </button>
+        <div class="pdf-control-divider"></div>
+        <button class="pdf-control-btn pdf-download-btn" id="pdfDownload" title="İndir">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+          </svg>
+        </button>
+        <div class="pdf-control-divider"></div>
+        <button class="pdf-control-btn" id="pdfNextPage" title="Sonraki Sayfa">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <script>
     // Theme Switcher
@@ -1064,6 +1850,7 @@
       });
     });
 
+    // Carousel functionality
     const track = document.getElementById('carouselTrack');
     const slides = document.querySelectorAll('.carousel-slide');
     const dots = document.querySelectorAll('.carousel-dot');
@@ -1071,15 +1858,12 @@
     const totalSlides = slides.length;
 
     function goToSlide(index) {
-      // Remove active class from all
       slides.forEach(slide => slide.classList.remove('active'));
       dots.forEach(dot => dot.classList.remove('active'));
       
-      // Add active class to current
       slides[index].classList.add('active');
       dots[index].classList.add('active');
       
-      // Move track
       track.style.transform = `translateX(-${index * 100}%)`;
       currentSlide = index;
     }
@@ -1089,7 +1873,6 @@
       goToSlide(next);
     }
 
-    // Dot navigation
     dots.forEach(dot => {
       dot.addEventListener('click', () => {
         const slideIndex = parseInt(dot.getAttribute('data-slide'));
@@ -1097,8 +1880,220 @@
       });
     });
 
-    // Auto advance carousel
     setInterval(nextSlide, 5000);
+
+    // Expandable cards functionality
+    const expandableCards = document.querySelectorAll('[data-expandable]');
+    
+    expandableCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const isExpanded = card.classList.contains('expanded');
+        
+        // Close all other cards
+        expandableCards.forEach(otherCard => {
+          if (otherCard !== card) {
+            otherCard.classList.remove('expanded');
+          }
+        });
+        
+        // Toggle current card
+        if (isExpanded) {
+          card.classList.remove('expanded');
+        } else {
+          card.classList.add('expanded');
+        }
+      });
+    });
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    let pdfDoc = null;
+    let pageNum = 1;
+    let pageRendering = false;
+    let pageNumPending = null;
+    let scale = 1.5;
+    let currentPdfUrl = '';
+    let currentPdfTitle = '';
+
+    const canvas = document.getElementById('pdfCanvas');
+    const ctx = canvas.getContext('2d');
+    const modal = document.getElementById('pdfViewerModal');
+    const pdfContent = document.getElementById('pdfViewerContent');
+    const closeBtn = document.getElementById('pdfViewerClose');
+    const prevBtn = document.getElementById('pdfPrevPage');
+    const nextBtn = document.getElementById('pdfNextPage');
+    const zoomInBtn = document.getElementById('pdfZoomIn');
+    const zoomOutBtn = document.getElementById('pdfZoomOut');
+    const downloadBtn = document.getElementById('pdfDownload');
+    const pageNumSpan = document.getElementById('pdfPageNum');
+    const pageCountSpan = document.getElementById('pdfPageCount');
+    const titleSpan = document.getElementById('pdfViewerTitle');
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const swipeThreshold = 50;
+
+    function handleSwipe() {
+      const swipeDistance = touchEndX - touchStartX;
+      if (Math.abs(swipeDistance) > swipeThreshold) {
+        if (swipeDistance > 0) {
+          // Swipe right - previous page
+          onPrevPage();
+        } else {
+          // Swipe left - next page
+          onNextPage();
+        }
+      }
+    }
+
+    pdfContent.addEventListener('touchstart', function(e) {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    pdfContent.addEventListener('touchend', function(e) {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    function renderPage(num) {
+      pageRendering = true;
+      pdfDoc.getPage(num).then(function(page) {
+        const viewport = page.getViewport({scale: scale});
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const renderContext = {
+          canvasContext: ctx,
+          viewport: viewport
+        };
+        
+        const renderTask = page.render(renderContext);
+
+        renderTask.promise.then(function() {
+          pageRendering = false;
+          if (pageNumPending !== null) {
+            renderPage(pageNumPending);
+            pageNumPending = null;
+          }
+        });
+      });
+
+      pageNumSpan.textContent = num;
+    }
+
+    function queueRenderPage(num) {
+      if (pageRendering) {
+        pageNumPending = num;
+      } else {
+        renderPage(num);
+      }
+    }
+
+    function onPrevPage() {
+      if (pageNum <= 1) {
+        return;
+      }
+      pageNum--;
+      queueRenderPage(pageNum);
+      updateButtons();
+    }
+
+    function onNextPage() {
+      if (pageNum >= pdfDoc.numPages) {
+        return;
+      }
+      pageNum++;
+      queueRenderPage(pageNum);
+      updateButtons();
+    }
+
+    function onZoomIn() {
+      scale += 0.25;
+      queueRenderPage(pageNum);
+    }
+
+    function onZoomOut() {
+      if (scale <= 0.5) return;
+      scale -= 0.25;
+      queueRenderPage(pageNum);
+    }
+
+    function updateButtons() {
+      prevBtn.disabled = pageNum <= 1;
+      nextBtn.disabled = pageNum >= pdfDoc.numPages;
+    }
+
+    function openPdfViewer(pdfUrl, title) {
+      currentPdfUrl = pdfUrl;
+      currentPdfTitle = title;
+      titleSpan.textContent = title;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      pdfjsLib.getDocument(pdfUrl).promise.then(function(pdfDoc_) {
+        pdfDoc = pdfDoc_;
+        pageCountSpan.textContent = pdfDoc.numPages;
+        pageNum = 1;
+        scale = 1.5;
+        renderPage(pageNum);
+        updateButtons();
+      }).catch(function(error) {
+        console.error('[v0] Error loading PDF:', error);
+        alert('PDF yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+        closePdfViewer();
+      });
+    }
+
+    function closePdfViewer() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+      pdfDoc = null;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function downloadPdf() {
+      const link = document.createElement('a');
+      link.href = currentPdfUrl;
+      link.download = currentPdfTitle + '.pdf';
+      link.click();
+    }
+
+    // Event listeners for PDF viewer
+    closeBtn.addEventListener('click', closePdfViewer);
+    prevBtn.addEventListener('click', onPrevPage);
+    nextBtn.addEventListener('click', onNextPage);
+    zoomInBtn.addEventListener('click', onZoomIn);
+    zoomOutBtn.addEventListener('click', onZoomOut);
+    downloadBtn.addEventListener('click', downloadPdf);
+
+    document.addEventListener('keydown', function(e) {
+      if (modal.classList.contains('active')) {
+        if (e.key === 'Escape') {
+          closePdfViewer();
+        } else if (e.key === 'ArrowLeft') {
+          onPrevPage();
+        } else if (e.key === 'ArrowRight') {
+          onNextPage();
+        }
+      }
+    });
+
+    // Close modal when clicking outside
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closePdfViewer();
+      }
+    });
+
+    // PDF card click handlers
+    const pdfCards = document.querySelectorAll('.pdf-card');
+    pdfCards.forEach(card => {
+      card.addEventListener('click', function() {
+        const pdfUrl = this.getAttribute('data-pdf');
+        const title = this.getAttribute('data-title');
+        openPdfViewer(pdfUrl, title);
+      });
+    });
   </script>
 
 </body>
