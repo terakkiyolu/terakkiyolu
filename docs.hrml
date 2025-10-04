@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Form Anketi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    p {
+      color: #555;
+      margin-bottom: 20px;
+    }
+    .form-embed {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding-bottom: 120%; /* form uzunluğuna göre artır/azalt */
+      height: 0;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-radius: 8px;
+    }
+    .form-embed iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Katılım Anketi</h1>
+  <p>Lütfen aşağıdaki formu doldurun. Görüşleriniz bizim için değerlidir.</p>
+
+  <div class="form-embed">
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScf6QRL5obzQ4knntBPzIktwMn2XRkJH17xrlbhThsVfdzAcg/viewform?embedded=true"
+            frameborder="0" marginheight="0" marginwidth="0">Yükleniyor…
+    </iframe>
+  </div>
+
+</body>
+</html>
