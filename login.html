@@ -1265,7 +1265,12 @@
     </div>
 
     <div class="page-content" id="page2">
-      <div class="content-section">
+      <div class="content-section" id="adminMembersView" style="display: none;">
+        <h1 class="section-title">Kayıtlı Üyeler <span class="admin-badge">Admin</span></h1>
+        <div class="cards-grid" id="membersCardsGrid"></div>
+      </div>
+      
+      <div class="content-section" id="announcementsView">
         <h1 class="section-title">Duyurular</h1>
         <div class="cards-grid">
           <div class="info-card">
@@ -1303,7 +1308,20 @@
     </div>
 
     <div class="page-content" id="page3">
-      <div class="content-section">
+      <div class="content-section scanner-container" id="adminScannerView" style="display: none;">
+        <h1 class="section-title">QR Kod Okuyucu <span class="admin-badge">Admin</span></h1>
+        <div id="qr-reader"></div>
+        <div class="scanned-list" id="scannedList">
+          <h3 style="margin-bottom: 16px; color: var(--c-content);">Taranan Üyeler</h3>
+          <div id="scannedItems"></div>
+          <button class="download-btn" id="downloadBtn" style="display: none;">
+            <i class="fas fa-download"></i>
+            JSON İndir
+          </button>
+        </div>
+      </div>
+      
+      <div class="content-section" id="eventsView">
         <h1 class="section-title">Etkinlikler</h1>
         <div class="cards-grid">
           <div class="info-card">
@@ -1339,22 +1357,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Added admin QR scanner page -->
-    <div class="page-content" id="adminPage" style="display: none;">
-      <div class="content-section scanner-container">
-        <h1 class="section-title">QR Kod Okuyucu <span class="admin-badge">Admin</span></h1>
-        <div id="qr-reader"></div>
-        <div class="scanned-list" id="scannedList">
-          <h3 style="margin-bottom: 16px; color: var(--c-content);">Taranan Üyeler</h3>
-          <div id="scannedItems"></div>
-          <button class="download-btn" id="downloadBtn" style="display: none;">
-            <i class="fas fa-download"></i>
-            JSON İndir
-          </button>
-        </div>
-      </div>
-    </div>
   </main>
 
   <script>
@@ -1375,7 +1377,7 @@
         joinDate: "15.09.2024",
         avatar: "https://lh3.googleusercontent.com/a/default-user"
       },
-      "timurertek@gmail.com": {
+      "ertek036gmail.com": {
         name: "Admin User",
         memberNumber: "ADMIN 001",
         department: "Yönetim",
@@ -1494,6 +1496,29 @@
       qrMemberCode.textContent = memberNumber;
     }
 
+    function displayRegisteredMembers() {
+      const membersCardsGrid = document.getElementById('membersCardsGrid');
+      
+      const membersHTML = Object.entries(usersDatabase).map(([email, user]) => `
+        <div class="info-card">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+            <img src="${user.avatar}" alt="${user.name}" style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--c-action);">
+            <div>
+              <h3 style="margin: 0; font-size: 1.2rem;">${user.name}</h3>
+              ${user.isAdmin ? '<span class="admin-badge" style="margin-left: 0; margin-top: 4px; display: inline-block;">Admin</span>' : ''}
+            </div>
+          </div>
+          <div style="display: grid; gap: 8px;">
+            <p style="margin: 0;"><strong>Üye No:</strong> ${user.memberNumber}</p>
+            <p style="margin: 0;"><strong>Bölüm:</strong> ${user.department}</p>
+            <p style="margin: 0;"><strong>E-posta:</strong> ${email}</p>
+          </div>
+        </div>
+      `).join('');
+      
+      membersCardsGrid.innerHTML = membersHTML;
+    }
+
     function initQRScanner() {
       if (!currentUser || !currentUser.isAdmin) return;
 
@@ -1606,10 +1631,12 @@
         document.getElementById('loginScreen').classList.add('hidden');
 
         if (currentUser.isAdmin) {
-          document.getElementById('adminPage').style.display = 'block';
-          setTimeout(() => {
-            initQRScanner();
-          }, 500);
+          document.getElementById('announcementsView').style.display = 'none';
+          document.getElementById('adminMembersView').style.display = 'block';
+          document.getElementById('eventsView').style.display = 'none';
+          document.getElementById('adminScannerView').style.display = 'block';
+          
+          displayRegisteredMembers();
         }
       } else {
         alert('Bu e-posta adresi sistemde kayıtlı değil. Lütfen yöneticinizle iletişime geçin.');
@@ -1680,10 +1707,12 @@
           page.classList.remove('active');
         });
 
-        if (selectedPage === 'page3' && currentUser && currentUser.isAdmin) {
-          document.getElementById('adminPage').classList.add('active');
-        } else {
-          document.getElementById(selectedPage).classList.add('active');
+        document.getElementById(selectedPage).classList.add('active');
+        
+        if (selectedPage === 'page3' && currentUser && currentUser.isAdmin && !html5QrCode) {
+          setTimeout(() => {
+            initQRScanner();
+          }, 500);
         }
 
         if (selectedPage === 'page1') {
