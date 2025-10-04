@@ -1,925 +1,961 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grup Üye Portalı</title>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden;
-            height: 100vh;
-            position: relative;
-        }
-
-        /* Animated gradient background */
-        .background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            transition: background 1s ease;
-            z-index: -1;
-        }
-
-        .background.page-1 {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .background.page-2 {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-
-        .background.page-3 {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-
-        /* Floating orbs for depth */
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.5;
-            animation: float 20s infinite ease-in-out;
-        }
-
-        .orb-1 {
-            width: 400px;
-            height: 400px;
-            background: rgba(255, 255, 255, 0.3);
-            top: -100px;
-            left: -100px;
-            animation-delay: 0s;
-        }
-
-        .orb-2 {
-            width: 300px;
-            height: 300px;
-            background: rgba(255, 255, 255, 0.2);
-            bottom: -50px;
-            right: -50px;
-            animation-delay: 5s;
-        }
-
-        .orb-3 {
-            width: 250px;
-            height: 250px;
-            background: rgba(255, 255, 255, 0.25);
-            top: 50%;
-            left: 50%;
-            animation-delay: 10s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(50px, -50px) scale(1.1); }
-            66% { transform: translate(-30px, 30px) scale(0.9); }
-        }
-
-        /* Login container */
-        .login-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 100;
-            opacity: 1;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        .login-container.hidden {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.9);
-            pointer-events: none;
-        }
-
-        .login-title {
-            color: white;
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            letter-spacing: -1px;
-        }
-
-        .login-subtitle {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.2rem;
-            margin-bottom: 3rem;
-            font-weight: 300;
-        }
-
-        /* Premium Google Sign-In Button with Liquid Glass */
-        .google-signin-btn {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.2rem 2.5rem;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 16px;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .google-signin-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .google-signin-btn:hover::before {
-            left: 100%;
-        }
-
-        .google-signin-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: translateY(-2px);
-            box-shadow: 
-                0 12px 40px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.5),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-        }
-
-        .google-signin-btn:active {
-            transform: translateY(0);
-            box-shadow: 
-                0 4px 16px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        }
-
-        .google-icon {
-            width: 24px;
-            height: 24px;
-            background: white;
-            border-radius: 4px;
-            padding: 2px;
-        }
-
-        /* Main content container */
-        .content-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
-
-        .content-container.visible {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        /* Navigation */
-        .nav-container {
-            position: fixed;
-            top: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            display: flex;
-            gap: 1rem;
-            padding: 0.8rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        }
-
-        .nav-btn {
-            padding: 0.8rem 1.8rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .nav-btn.active {
-            background: rgba(255, 255, 255, 0.3);
-            color: white;
-            border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 
-                0 4px 16px rgba(0, 0, 0, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
-        }
-
-        /* Page content */
-        .page {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transform: scale(0.95);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            pointer-events: none;
-        }
-
-        .page.active {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: all;
-        }
-
-        /* Credit Card Style User Card */
-        .user-card {
-            width: 400px;
-            height: 250px;
-            position: relative;
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(30px) saturate(200%);
-            -webkit-backdrop-filter: blur(30px) saturate(200%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.5),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: all 0.4s ease;
-        }
-
-        .user-card:hover {
-            transform: translateY(-8px) rotateX(5deg);
-            box-shadow: 
-                0 30px 80px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6);
-        }
-
-        /* Card shine effect */
-        .user-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent 30%,
-                rgba(255, 255, 255, 0.1) 50%,
-                transparent 70%
-            );
-            transform: rotate(45deg);
-            animation: cardShine 3s infinite;
-        }
-
-        @keyframes cardShine {
-            0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        /* Card holographic effect */
-        .user-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                135deg,
-                rgba(255, 255, 255, 0.1) 0%,
-                transparent 50%,
-                rgba(255, 255, 255, 0.05) 100%
-            );
-            pointer-events: none;
-        }
-
-        .card-content {
-            position: relative;
-            z-index: 1;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            color: white;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .card-logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-chip {
-            width: 50px;
-            height: 40px;
-            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
-            border-radius: 8px;
-            box-shadow: 
-                0 4px 10px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.5);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-chip::before {
-            content: '';
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            right: 5px;
-            bottom: 5px;
-            background: linear-gradient(135deg, #e6c200 0%, #ffd700 100%);
-            border-radius: 4px;
-        }
-
-        .card-number {
-            font-size: 1.3rem;
-            font-weight: 600;
-            letter-spacing: 3px;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            font-family: 'Courier New', monospace;
-        }
-
-        .card-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .card-holder {
-            flex: 1;
-        }
-
-        .card-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0.8;
-            margin-bottom: 0.3rem;
-        }
-
-        .card-value {
-            font-size: 1rem;
-            font-weight: 600;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-        }
-
-        .card-date {
-            text-align: right;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background: rgba(76, 175, 80, 0.3);
-            border: 1px solid rgba(76, 175, 80, 0.5);
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-top: 0.5rem;
-            backdrop-filter: blur(10px);
-        }
-
-        /* Announcements and Events */
-        .content-wrapper {
-            max-width: 900px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            padding: 2rem;
-        }
-
-        .content-wrapper::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .content-wrapper::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
-
-        .content-wrapper::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-        }
-
-        .content-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 2rem;
-            text-align: center;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .item-card {
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 16px;
-            padding: 1.8rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .item-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .item-card:hover::before {
-            left: 100%;
-        }
-
-        .item-card:hover {
-            transform: translateY(-4px);
-            background: rgba(255, 255, 255, 0.18);
-            box-shadow: 
-                0 12px 40px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.5);
-        }
-
-        .item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-        }
-
-        .item-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 0.5rem;
-        }
-
-        .item-date {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
-            background: rgba(255, 255, 255, 0.15);
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-        }
-
-        .item-description {
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.6;
-            font-size: 1rem;
-        }
-
-        .event-location {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
-            padding: 0.6rem 1.2rem;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            color: white;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-        }
-
-        /* Logout button */
-        .logout-btn {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            padding: 0.8rem 1.5rem;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-
-        .logout-btn:hover {
-            background: rgba(255, 82, 82, 0.3);
-            border-color: rgba(255, 82, 82, 0.5);
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 768px) {
-            .user-card {
-                width: 90%;
-                max-width: 400px;
-            }
-
-            .nav-container {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .login-title {
-                font-size: 2rem;
-            }
-
-            .content-title {
-                font-size: 2rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Üyelik Sistemi</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --fz: 16px;
+      --saturation: 1.8;
+      
+      /* Page 1 - Blue Theme */
+      --page1-bg: #0a1628;
+      --page1-content: #e8f0ff;
+      --page1-action: #3b82f6;
+      --page1-glass: #1e3a5f;
+      --page1-light: #ffffff;
+      --page1-dark: #000000;
+      
+      /* Page 2 - Purple Theme */
+      --page2-bg: #1a0a2e;
+      --page2-content: #f0e8ff;
+      --page2-action: #a855f7;
+      --page2-glass: #3d1e5f;
+      --page2-light: #ffffff;
+      --page2-dark: #000000;
+      
+      /* Page 3 - Green Theme */
+      --page3-bg: #0a2e1a;
+      --page3-content: #e8fff0;
+      --page3-action: #10b981;
+      --page3-glass: #1e5f3d;
+      --page3-light: #ffffff;
+      --page3-dark: #000000;
+      
+      /* Active colors (will change based on page) */
+      --c-bg: var(--page1-bg);
+      --c-content: var(--page1-content);
+      --c-action: var(--page1-action);
+      --c-glass: var(--page1-glass);
+      --c-light: var(--page1-light);
+      --c-dark: var(--page1-dark);
+      
+      --glass-reflex-light: 1;
+      --glass-reflex-dark: 1;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background-color: var(--c-bg);
+      color: var(--c-content);
+      min-height: 100vh;
+      transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Login Screen */
+    .login-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a1628 0%, #1a0a2e 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 600ms ease, visibility 600ms ease;
+    }
+
+    .login-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .login-container {
+      text-align: center;
+      padding: 60px 40px;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, #1e3a5f 12%, transparent);
+      backdrop-filter: blur(16px) saturate(1.8);
+      -webkit-backdrop-filter: blur(16px) saturate(1.8);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, #ffffff 10%, transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, #ffffff 90%, transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, #ffffff 80%, transparent), 
+        0px 6px 24px 0px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
+      animation: fadeInUp 800ms ease;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .login-container h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #e8f0ff;
+    }
+
+    .login-container p {
+      font-size: 1.1rem;
+      color: #e8f0ff;
+      opacity: 0.7;
+      margin-bottom: 40px;
+    }
+
+    #googleSignInButton {
+      margin: 0 auto;
+    }
+
+    .header-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 70px;
+      padding: 8px 20px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
+        inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent), 
+        inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--c-content);
+      text-decoration: none;
+      transition: color 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 16px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 20%, transparent);
+      backdrop-filter: blur(8px);
+      font-size: 0.9rem;
+      color: var(--c-content);
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--c-action);
+    }
+
+    .switcher {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 244px;
+      max-width: 244px;
+      height: 70px;
+      box-sizing: border-box;
+      padding: 8px 12px 10px;
+      border: none;
+      border-radius: 99em;
+      font-size: var(--fz);
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
+        inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent), 
+        inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      transition: 
+        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      position: relative;
+    }
+
+    .switcher__legend {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      border: 0;
+      padding: 0;
+      white-space: nowrap;
+      clip-path: inset(100%);
+      clip: rect(0 0 0 0);
+      overflow: hidden;
+    }
+
+    .switcher__input {
+      clip: rect(0 0 0 0);
+      clip-path: inset(100%);
+      height: 1px;
+      width: 1px;
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+    }
+
+    .switcher__icon {
+      display: block;
+      width: 100%;
+      transition: scale 200ms cubic-bezier(0.5, 0, 0, 1);
+    }
+
+    .switcher__option {
+      --c: var(--c-content);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 16px;
+      width: 68px;
+      height: 100%;
+      box-sizing: border-box;
+      border-radius: 99em;
+      opacity: 1;
+      transition: all 160ms;
+    }
+
+    .switcher__option:hover {
+      --c: var(--c-action);
+      cursor: pointer;
+    }
+
+    .switcher__option:hover .switcher__icon {
+      scale: 1.2;
+    }
+
+    .switcher__option:has(input:checked) {
+      --c: var(--c-content);
+      cursor: auto;
+    }
+
+    .switcher__option:has(input:checked) .switcher__icon {
+      scale: 1;
+    }
+
+    .switcher::after {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      display: block;
+      width: 84px;
+      height: calc(100% - 10px);
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 36%, transparent);
+      z-index: -1;
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 2px 1px 0px -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -1.5px -1px 0px -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        inset -2px -6px 1px -5px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
+        inset -1px 2px 3px -1px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 0px -4px 1px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 3px 6px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+    }
+
+    .switcher:has(input[c-option="1"]:checked)::after {
+      translate: 0 0;
+      transform-origin: right;
+      transition: 
+        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        translate 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      animation: scaleToggle 440ms ease; 
+    }
+
+    .switcher:has(input[c-option="2"]:checked)::after {
+      translate: 76px 0;
+      transition: 
+        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        translate 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      animation: scaleToggle2 440ms ease; 
+    }
+
+    .switcher[c-previous="1"]:has(input[c-option="2"]:checked)::after {
+      transform-origin: left;
+    }
+
+    .switcher[c-previous="3"]:has(input[c-option="2"]:checked)::after {
+      transform-origin: right;
+    }
+
+    .switcher:has(input[c-option="3"]:checked)::after {
+      translate: 152px 0;
+      transform-origin: left;
+      transition: 
+        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        translate 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      animation: scaleToggle3 440ms ease; 
+    }
+
+    @keyframes scaleToggle {
+      0% { scale: 1 1; }
+      50% { scale: 1.1 1; }
+      100% { scale: 1 1; }
+    }
+
+    @keyframes scaleToggle2{
+      0% { scale: 1 1; }
+      50% { scale: 1.2 1; }
+      100% { scale: 1 1; }
+    } 
+
+    @keyframes scaleToggle3 {
+      0% { scale: 1 1; }
+      50% { scale: 1.1 1; }
+      100% { scale: 1 1; }
+    }
+
+    main {
+      padding-top: 120px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 60px;
+    }
+
+    .page-content {
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 600ms cubic-bezier(0.4, 0, 0.2, 1), 
+                  transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: 1000px;
+      width: 100%;
+      padding: 40px;
+    }
+
+    .page-content.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Membership Card Styles */
+    .membership-card {
+      width: 420px;
+      height: 260px;
+      margin: 0 auto;
+      padding: 32px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, 
+        color-mix(in srgb, var(--c-glass) 40%, transparent) 0%,
+        color-mix(in srgb, var(--c-glass) 20%, transparent) 100%);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        inset 2px 3px 0px -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 70%), transparent), 
+        inset -3px -10px 2px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 50%), transparent), 
+        inset -1px 3px 6px -1px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 15%), transparent), 
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 30%), transparent),
+        0px 2px 8px 0px color-mix(in srgb, var(--c-action) 20%, transparent);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: cardFloat 800ms ease;
+    }
+
+    @keyframes cardFloat {
+      from {
+        opacity: 0;
+        transform: translateY(40px) rotateX(10deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+      }
+    }
+
+    .membership-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, 
+        color-mix(in srgb, var(--c-action) 30%, transparent) 0%,
+        transparent 70%);
+      border-radius: 50%;
+      filter: blur(40px);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--c-content);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .card-chip {
+      width: 50px;
+      height: 40px;
+      background: linear-gradient(135deg, 
+        color-mix(in srgb, var(--c-action) 60%, transparent),
+        color-mix(in srgb, var(--c-action) 30%, transparent));
+      border-radius: 8px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .card-number {
+      font-family: 'Space Mono', monospace;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--c-content);
+      letter-spacing: 4px;
+      margin: 20px 0;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-holder {
+      flex: 1;
+    }
+
+    .card-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--c-content);
+      opacity: 0.6;
+      margin-bottom: 4px;
+    }
+
+    .card-value {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--c-content);
+      text-transform: uppercase;
+    }
+
+    .card-date {
+      text-align: right;
+    }
+
+    /* Announcements & Events */
+    .content-section {
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 40px;
+      color: var(--c-content);
+      transition: color 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .info-card {
+      padding: 32px;
+      border-radius: 20px;
+      background-color: color-mix(in srgb, var(--c-glass) 15%, transparent);
+      backdrop-filter: blur(12px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(12px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 4px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 15%), transparent);
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      text-align: left;
+    }
+
+    .info-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+    }
+
+    .info-card-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 16px;
+      padding: 12px;
+      border-radius: 12px;
+      background-color: color-mix(in srgb, var(--c-action) 20%, transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .info-card-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: var(--c-action);
+    }
+
+    .info-card h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--c-content);
+    }
+
+    .info-card-date {
+      font-size: 0.85rem;
+      color: var(--c-action);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .info-card p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--c-content);
+      opacity: 0.8;
+    }
+
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .switcher {
+        width: 180px;
+        max-width: 180px;
+        height: 54px;
+        padding: 6px 10px 8px;
+      }
+
+      .switcher__option {
+        width: 54px;
+        padding: 0 12px;
+      }
+
+      .switcher::after {
+        width: 60px;
+      }
+
+      .switcher:has(input[c-option="2"]:checked)::after {
+        translate: 54px 0;
+      }
+
+      .switcher:has(input[c-option="3"]:checked)::after {
+        translate: 108px 0;
+      }
+
+      .membership-card {
+        width: 100%;
+        max-width: 380px;
+        height: 240px;
+        padding: 24px;
+      }
+
+      .card-number {
+        font-size: 2rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Animated background -->
-    <div class="background page-1" id="background">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
+  <!-- Login Screen -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-container">
+      <h1>Hoş Geldiniz</h1>
+      <p>Üyelik sistemine giriş yapmak için Google hesabınızla oturum açın</p>
+      <div id="googleSignInButton"></div>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div class="header-container">
+    <nav class="navbar">
+      <a href="#" class="navbar-logo">
+        <span>ÜYELİK SİSTEMİ</span>
+      </a>
+      <div class="user-info" id="userInfo" style="display: none;">
+        <img id="userAvatar" class="user-avatar" src="/placeholder.svg" alt="User">
+        <span id="userName"></span>
+      </div>
+    </nav>
+    <fieldset class="switcher" id="pageSwitcher">
+      <legend class="switcher__legend">Sayfa Seçin</legend>
+      <label class="switcher__option">
+        <input class="switcher__input" type="radio" name="page" value="page1" c-option="1" checked/>
+        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
+          <path fill="var(--c)" d="M18 6C11.373 6 6 11.373 6 18s5.373 12 12 12 12-5.373 12-12S24.627 6 18 6zm0 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S8 23.523 8 18 12.477 8 18 8zm-2 4v8h-3l5 6 5-6h-3v-8h-4z"/>
+        </svg>
+      </label>
+      <label class="switcher__option">
+        <input class="switcher__input" type="radio" name="page" value="page2" c-option="2"/>
+        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
+          <path fill="var(--c)" d="M18 6l-2.5 7.5H8l6 4.5L11.5 26 18 21.5 24.5 26 22 18l6-4.5h-7.5L18 6z"/>
+        </svg>
+      </label>
+      <label class="switcher__option">
+        <input class="switcher__input" type="radio" name="page" value="page3" c-option="3"/>
+        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
+          <path fill="var(--c)" d="M6 8v20h24V8H6zm2 2h20v16H8V10zm4 3v2h12v-2H12zm0 4v2h12v-2H12zm0 4v2h8v-2h-8z"/>
+        </svg>
+      </label>
+    </fieldset>
+  </div>
+
+  <main>
+    <!-- Page 1: Membership Card -->
+    <div class="page-content active" id="page1">
+      <div class="membership-card">
+        <div class="card-header">
+          <div class="card-logo">MEMBER</div>
+          <div class="card-chip"></div>
+        </div>
+        <div class="card-number" id="memberNumber">0000 0000</div>
+        <div class="card-info">
+          <div class="card-holder">
+            <div class="card-label">Üye Adı</div>
+            <div class="card-value" id="memberName">-</div>
+          </div>
+          <div class="card-date">
+            <div class="card-label">Bölüm</div>
+            <div class="card-value" id="memberDepartment">-</div>
+          </div>
+        </div>
+        <div style="margin-top: 12px;">
+          <div class="card-label">Giriş Tarihi</div>
+          <div class="card-value" id="memberJoinDate">-</div>
+        </div>
+      </div>
     </div>
 
-    <!-- Login Screen -->
-    <div class="login-container" id="loginContainer">
-        <h1 class="login-title">Grup Üye Portalı</h1>
-        <p class="login-subtitle">Devam etmek için Google hesabınızla giriş yapın</p>
-        <button class="google-signin-btn" id="googleSignInBtn">
-            <svg class="google-icon" viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-            </svg>
-            Google ile Giriş Yap
-        </button>
+    <!-- Page 2: Announcements -->
+    <div class="page-content" id="page2">
+      <div class="content-section">
+        <h1 class="section-title">Duyurular</h1>
+        <div class="cards-grid">
+          <div class="info-card">
+            <div class="info-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+              </svg>
+            </div>
+            <div class="info-card-date">15 Mart 2025</div>
+            <h3>Yeni Dönem Başlangıcı</h3>
+            <p>Yeni dönem etkinliklerimiz 1 Nisan'da başlayacaktır. Tüm üyelerimizin katılımını bekliyoruz.</p>
+          </div>
+          <div class="info-card">
+            <div class="info-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
+              </svg>
+            </div>
+            <div class="info-card-date">10 Mart 2025</div>
+            <h3>Üyelik Yenileme</h3>
+            <p>2025 yılı üyelik yenileme işlemleri başlamıştır. Lütfen üyelik bilgilerinizi güncelleyin.</p>
+          </div>
+          <div class="info-card">
+            <div class="info-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              </svg>
+            </div>
+            <div class="info-card-date">5 Mart 2025</div>
+            <h3>Sistem Güncellemesi</h3>
+            <p>Üyelik sistemimiz yeni özelliklerle güncellendi. Artık daha hızlı ve güvenli bir deneyim sunuyoruz.</p>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Main Content (Hidden initially) -->
-    <div class="content-container" id="contentContainer">
-        <!-- Logout Button -->
-        <button class="logout-btn" id="logoutBtn">Çıkış Yap</button>
-
-        <!-- Navigation -->
-        <div class="nav-container">
-            <button class="nav-btn active" onclick="switchPage(1)">Profilim</button>
-            <button class="nav-btn" onclick="switchPage(2)">Duyurular</button>
-            <button class="nav-btn" onclick="switchPage(3)">Etkinlikler</button>
-        </div>
-
-        <!-- Page 1: User Profile Card -->
-        <div class="page active" id="page1">
-            <div class="user-card">
-                <div class="card-content">
-                    <div class="card-header">
-                        <div class="card-logo">GRUP</div>
-                        <div class="card-chip"></div>
-                    </div>
-                    
-                    <div class="card-number" id="userEmail">****@****.com</div>
-                    
-                    <div class="card-info">
-                        <div class="card-holder">
-                            <div class="card-label">Üye Adı</div>
-                            <div class="card-value" id="userName">Yükleniyor...</div>
-                            <div class="status-badge" id="userStatus">Aktif Üye</div>
-                        </div>
-                        <div class="card-date">
-                            <div class="card-label">Giriş Tarihi</div>
-                            <div class="card-value" id="joinDate">--/--</div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Page 3: Events -->
+    <div class="page-content" id="page3">
+      <div class="content-section">
+        <h1 class="section-title">Etkinlikler</h1>
+        <div class="cards-grid">
+          <div class="info-card">
+            <div class="info-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM7 11h5v5H7z"/>
+              </svg>
             </div>
-            <div style="text-align: center; margin-top: 2rem;">
-                <div style="color: white; font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;" id="userDepartment">Bölüm Yükleniyor...</div>
+            <div class="info-card-date">25 Mart 2025</div>
+            <h3>Bahar Şenliği</h3>
+            <p>Bahar şenliğimiz 25 Mart'ta kampüs alanında gerçekleşecek. Müzik, yemek ve eğlence dolu bir gün sizi bekliyor!</p>
+          </div>
+          <div class="info-card">
+            <div class="info-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
             </div>
-        </div>
-
-        <!-- Page 2: Announcements -->
-        <div class="page" id="page2">
-            <div class="content-wrapper">
-                <h2 class="content-title">Duyurular</h2>
-                
-                <div class="item-card">
-                    <div class="item-header">
-                        <div>
-                            <h3 class="item-title">Yeni Dönem Toplantısı</h3>
-                        </div>
-                        <span class="item-date">15 Ocak 2025</span>
-                    </div>
-                    <p class="item-description">
-                        Değerli üyelerimiz, yeni dönem çalışma planımızı belirlemek için 20 Ocak Pazartesi günü saat 18:00'de genel toplantı yapılacaktır. Tüm üyelerimizin katılımı önemlidir.
-                    </p>
-                </div>
-
-                <div class="item-card">
-                    <div class="item-header">
-                        <div>
-                            <h3 class="item-title">Proje Teslim Tarihleri</h3>
-                        </div>
-                        <span class="item-date">12 Ocak 2025</span>
-                    </div>
-                    <p class="item-description">
-                        Devam eden projelerimizin teslim tarihleri güncellendi. Web sitesi projesi 25 Ocak, mobil uygulama projesi ise 5 Şubat tarihine kadar tamamlanmalıdır.
-                    </p>
-                </div>
-
-                <div class="item-card">
-                    <div class="item-header">
-                        <div>
-                            <h3 class="item-title">Yeni Üye Alımları</h3>
-                        </div>
-                        <span class="item-date">8 Ocak 2025</span>
-                    </div>
-                    <p class="item-description">
-                        Grubumuz yeni dönemde genişliyor! Yazılım, tasarım ve pazarlama alanlarında yeni üye başvuruları 30 Ocak tarihine kadar devam edecektir. Başvuru formu web sitemizde yayınlandı.
-                    </p>
-                </div>
-
-                <div class="item-card">
-                    <div class="item-header">
-                        <div>
-                            <h3 class="item-title">Eğitim Programı Duyurusu</h3>
-                        </div>
-                        <span class="item-date">5 Ocak 2025</span>
-                    </div>
-                    <p class="item-description">
-                        Üyelerimizin gelişimi için hazırlanan React ve Node.js eğitim programı başlıyor. Eğitimler her Çarşamba ve Cuma günleri saat 19:00'da online olarak gerçekleştirilecektir.
-                    </p>
-                </div>
+            <div class="info-card-date">18 Mart 2025</div>
+            <h3>Teknik Gezi</h3>
+            <p>Teknoloji şirketlerine düzenlenecek teknik gezi için kayıtlar başladı. Kontenjan sınırlıdır.</p>
+          </div>
+          <div class="info-card">
+            <div class="info-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+              </svg>
             </div>
+            <div class="info-card-date">12 Mart 2025</div>
+            <h3>Networking Gecesi</h3>
+            <p>Sektör profesyonelleri ve üyelerimizin buluşacağı networking etkinliğimize davetlisiniz.</p>
+          </div>
         </div>
-
-        <!-- Page 3: Events -->
-        <div class="page" id="page3">
-            <div class="content-wrapper">
-                <h2 class="content-title">Etkinlikler</h2>
-                
-                <div class="item-card">
-                    <div class="item-header">
-                        <div>
-                            <h3 class="item-title">Hackathon 2025</h3>
-                        </div>
-                        <span class="item-date">28-29 Ocak 2025</span>
-                    </div>
-                    <p class="item-description">
-                        24 saatlik hackathon etkinliğimizde yapay zeka temalı projeler geliştireceğiz. Ödüllü yarışmamıza tüm üyelerimiz davetlidir. Takımlar 3-4 kişiden oluşacaktır.
-                    </p>
-                    <div class="event-location">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        Teknoloji Merkezi - A Blok
-                    </div>
-                </div>
-
-                <div class="item-card">
-                    <div class="item-header">
-                        <div>
-                            <h3 class="item-title">Networking Gecesi</h3>
-                        </div>
-                        <span class="item-date">15 Şubat 2025</span>
-                    </div>
-                    <p class="item-description">
-                        Sektör profesyonelleri ve mezunlarımızla buluşma fırsatı! Kariyer gelişimi, iş fırsatları ve deneyim paylaşımı için harika bir gece olacak.
-                    </p>
-                    <div class="event-location">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        Konferans Salonu
-                    </div>
-                </div>
-
-                <div class="item-card">
-                    <div class="item-header">
-                        <div>
-                            <h3 class="item-title">Workshop: UI/UX Tasarım</h3>
-                        </div>
-                        <span class="item-date">22 Şubat 2025</span>
-                    </div>
-                    <p class="item-description">
-                        Profesyonel tasarımcılardan modern UI/UX prensiplerini öğrenin. Figma kullanımı ve kullanıcı deneyimi tasarımı üzerine uygulamalı atölye çalışması.
-                    </p>
-                    <div class="event-location">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        Online - Zoom
-                    </div>
-                </div>
-
-                <div class="item-card">
-                    <div class="item-header">
-                        <div>
-                            <h3 class="item-title">Bahar Şenliği</h3>
-                        </div>
-                        <span class="item-date">15 Mart 2025</span>
-                    </div>
-                    <p class="item-description">
-                        Geleneksel bahar şenliğimizde eğlence, müzik ve lezzetli yemekler! Tüm grup üyeleri ve aileleri için keyifli bir gün.
-                    </p>
-                    <div class="event-location">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        Kampüs Bahçesi
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+  </main>
 
-    <script>
-        // User database
-        const users = {
-            "m.yusufertek@gmail.com": {
-                name: "Mehmet Yusuf Ertek",
-                department: "Bilgisayar Mühendisliği",
-                joinDate: "09/2024",
-                status: "Aktif Üye"
-            },
-            "test@example.com": {
-                name: "Test Kullanıcı",
-                department: "Yazılım Geliştirme",
-                joinDate: "01/2025",
-                status: "Yeni Üye"
-            }
+  <script>
+    // User database (simulated JSON)
+    const usersDatabase = {
+      "m.yusufertek@gmail.com": {
+        name: "Mehmet Yusuf Ertek",
+        memberNumber: "2024 1453",
+        department: "Bilgisayar Mühendisliği",
+        joinDate: "15.09.2024",
+        avatar: "https://lh3.googleusercontent.com/a/default-user"
+      },
+      "test@example.com": {
+        name: "Test Kullanıcı",
+        memberNumber: "2024 0001",
+        department: "Yazılım Geliştirme",
+        joinDate: "01.01.2024",
+        avatar: "https://lh3.googleusercontent.com/a/default-user"
+      }
+    };
+
+    let currentUser = null;
+
+    // Google Sign-In
+    function handleCredentialResponse(response) {
+      const responsePayload = parseJwt(response.credential);
+      const userEmail = responsePayload.email;
+      
+      console.log("User signed in:", userEmail);
+      
+      // Check if user exists in database
+      if (usersDatabase[userEmail]) {
+        currentUser = {
+          email: userEmail,
+          picture: responsePayload.picture,
+          ...usersDatabase[userEmail]
         };
+        
+        // Update UI with user data
+        document.getElementById('userName').textContent = currentUser.name.split(' ')[0];
+        document.getElementById('userAvatar').src = currentUser.picture;
+        document.getElementById('userInfo').style.display = 'flex';
+        
+        // Update membership card
+        document.getElementById('memberNumber').textContent = currentUser.memberNumber;
+        document.getElementById('memberName').textContent = currentUser.name;
+        document.getElementById('memberDepartment').textContent = currentUser.department;
+        document.getElementById('memberJoinDate').textContent = currentUser.joinDate;
+        
+        // Hide login screen
+        document.getElementById('loginScreen').classList.add('hidden');
+      } else {
+        alert('Bu e-posta adresi sistemde kayıtlı değil. Lütfen yöneticinizle iletişime geçin.');
+      }
+    }
 
-        let currentUser = null;
+    function parseJwt(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonPayload);
+    }
 
-        // Google Sign-In
-        function handleCredentialResponse(response) {
-            const responsePayload = parseJwt(response.credential);
-            const email = responsePayload.email;
-            
-            console.log("[v0] User logged in:", email);
-            
-            // Check if user exists in database
-            if (users[email]) {
-                currentUser = users[email];
-                showUserProfile(email);
-            } else {
-                // Default user for unknown emails
-                currentUser = {
-                    name: responsePayload.name || "Misafir Kullanıcı",
-                    department: "Genel Üye",
-                    joinDate: new Date().toLocaleDateString('tr-TR', { month: '2-digit', year: 'numeric' }),
-                    status: "Yeni Üye"
-                };
-                showUserProfile(email);
-            }
-        }
+    function initializeGoogleSignIn() {
+      if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+        google.accounts.id.initialize({
+          client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
+          callback: handleCredentialResponse,
+          auto_select: false,
+          cancel_on_tap_outside: true
+        });
+        
+        google.accounts.id.renderButton(
+          document.getElementById('googleSignInButton'),
+          { 
+            theme: 'filled_blue', 
+            size: 'large',
+            width: 280,
+            text: 'signin_with',
+            locale: 'tr'
+          }
+        );
+        
+        console.log('Google Sign-In initialized successfully.');
+      } else {
+        console.warn('Google Sign-In script not yet loaded. Retrying initialization...');
+        setTimeout(initializeGoogleSignIn, 500);
+      }
+    }
 
-        function parseJwt(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            return JSON.parse(jsonPayload);
-        }
+    // Initialize Google Sign-In when page loads
+    window.onload = initializeGoogleSignIn;
 
-        function showUserProfile(email) {
-            // Hide login, show content
-            document.getElementById('loginContainer').classList.add('hidden');
-            document.getElementById('contentContainer').classList.add('visible');
-            
-            // Update user card
-            document.getElementById('userName').textContent = currentUser.name;
-            document.getElementById('userEmail').textContent = email;
-            document.getElementById('userDepartment').textContent = currentUser.department;
-            document.getElementById('joinDate').textContent = currentUser.joinDate;
-            document.getElementById('userStatus').textContent = currentUser.status;
-        }
+    // Page switching functionality
+    const switcher = document.getElementById('pageSwitcher');
+    const root = document.documentElement;
 
-        function initializeGoogleSignIn() {
-            if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-                google.accounts.id.initialize({
-                    client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
-                    callback: handleCredentialResponse,
-                    auto_select: false,
-                    cancel_on_tap_outside: true
-                });
-                
-                google.accounts.id.renderButton(
-                    document.getElementById('googleSignInBtn'),
-                    { 
-                        theme: 'filled_blue',
-                        size: 'large',
-                        width: 300,
-                        text: 'signin_with'
-                    }
-                );
-                
-                console.log('[v0] Google Sign-In initialized successfully.');
-            } else {
-                console.warn('[v0] Google Sign-In script not yet loaded. Retrying...');
-                setTimeout(initializeGoogleSignIn, 500);
-            }
-        }
+    // Track previous selection for animation
+    const trackPrevious = (el) => {
+      const radios = el.querySelectorAll('input[type="radio"]');
+      let previousValue = null;
 
-        // Custom button click handler
-        document.getElementById('googleSignInBtn').addEventListener('click', function() {
-            if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-                google.accounts.id.prompt();
-            }
+      const initiallyChecked = el.querySelector('input[type="radio"]:checked');
+      if (initiallyChecked) {
+        previousValue = initiallyChecked.getAttribute("c-option");
+        el.setAttribute('c-previous', previousValue);
+      }
+
+      radios.forEach(radio => {
+        radio.addEventListener('change', () => {
+          if (radio.checked) {
+            el.setAttribute('c-previous', previousValue ?? '');
+            previousValue = radio.getAttribute("c-option");
+          }
+        });
+      });
+    }
+
+    trackPrevious(switcher);
+
+    // Page switching
+    const pageRadios = document.querySelectorAll('input[name="page"]');
+    const pages = document.querySelectorAll('.page-content');
+
+    pageRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        const selectedPage = radio.value;
+        
+        // Hide all pages
+        pages.forEach(page => {
+          page.classList.remove('active');
         });
 
-        // Page switching
-        function switchPage(pageNum) {
-            const pages = document.querySelectorAll('.page');
-            const navBtns = document.querySelectorAll('.nav-btn');
-            const background = document.getElementById('background');
-            
-            pages.forEach(page => page.classList.remove('active'));
-            navBtns.forEach(btn => btn.classList.remove('active'));
-            
-            document.getElementById('page' + pageNum).classList.add('active');
-            navBtns[pageNum - 1].classList.add('active');
-            
-            background.className = 'background page-' + pageNum;
+        // Show selected page
+        document.getElementById(selectedPage).classList.add('active');
+
+        // Change theme colors based on page
+        if (selectedPage === 'page1') {
+          root.style.setProperty('--c-bg', 'var(--page1-bg)');
+          root.style.setProperty('--c-content', 'var(--page1-content)');
+          root.style.setProperty('--c-action', 'var(--page1-action)');
+          root.style.setProperty('--c-glass', 'var(--page1-glass)');
+          root.style.setProperty('--c-light', 'var(--page1-light)');
+          root.style.setProperty('--c-dark', 'var(--page1-dark)');
+        } else if (selectedPage === 'page2') {
+          root.style.setProperty('--c-bg', 'var(--page2-bg)');
+          root.style.setProperty('--c-content', 'var(--page2-content)');
+          root.style.setProperty('--c-action', 'var(--page2-action)');
+          root.style.setProperty('--c-glass', 'var(--page2-glass)');
+          root.style.setProperty('--c-light', 'var(--page2-light)');
+          root.style.setProperty('--c-dark', 'var(--page2-dark)');
+        } else if (selectedPage === 'page3') {
+          root.style.setProperty('--c-bg', 'var(--page3-bg)');
+          root.style.setProperty('--c-content', 'var(--page3-content)');
+          root.style.setProperty('--c-action', 'var(--page3-action)');
+          root.style.setProperty('--c-glass', 'var(--page3-glass)');
+          root.style.setProperty('--c-light', 'var(--page3-light)');
+          root.style.setProperty('--c-dark', 'var(--page3-dark)');
         }
-
-        // Logout
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            currentUser = null;
-            document.getElementById('contentContainer').classList.remove('visible');
-            document.getElementById('loginContainer').classList.remove('hidden');
-            switchPage(1);
-            
-            if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-                google.accounts.id.disableAutoSelect();
-            }
-        });
-
-        // Initialize on load
-        window.onload = function() {
-            initializeGoogleSignIn();
-        };
-    </script>
+      });
+    });
+  </script>
 </body>
 </html>
