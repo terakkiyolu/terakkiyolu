@@ -1,891 +1,925 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grup Üye Sistemi</title>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grup Üye Portalı</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    :root {
-      --fz: 16px;
-      --saturation: 1.8;
-      
-      --page1-bg: #0a1628;
-      --page1-content: #e8f0ff;
-      --page1-action: #3b82f6;
-      --page1-glass: #1e3a5f;
-      --page1-light: #ffffff;
-      --page1-dark: #000000;
-      
-      --page2-bg: #1a0a2e;
-      --page2-content: #f0e8ff;
-      --page2-action: #a855f7;
-      --page2-glass: #3d1e5f;
-      --page2-light: #ffffff;
-      --page2-dark: #000000;
-      
-      --page3-bg: #0a2e1a;
-      --page3-content: #e8fff0;
-      --page3-action: #10b981;
-      --page3-glass: #1e5f3d;
-      --page3-light: #ffffff;
-      --page3-dark: #000000;
-      
-      --c-bg: var(--page1-bg);
-      --c-content: var(--page1-content);
-      --c-action: var(--page1-action);
-      --c-glass: var(--page1-glass);
-      --c-light: var(--page1-light);
-      --c-dark: var(--page1-dark);
-      
-      --glass-reflex-light: 1;
-      --glass-reflex-dark: 1;
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
 
-    body {
-      font-family: "DM Sans", sans-serif;
-      background-color: var(--c-bg);
-      color: var(--c-content);
-      min-height: 100vh;
-      transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1);
-    }
+        /* Animated gradient background */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: background 1s ease;
+            z-index: -1;
+        }
 
-    .header-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-      padding: 20px;
-      z-index: 1000;
-    }
+        .background.page-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
 
-    .navbar {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      height: 70px;
-      padding: 8px 20px;
-      border-radius: 99em;
-      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
-      backdrop-filter: blur(8px) saturate(var(--saturation));
-      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
-      box-shadow: 
-        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
-        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
-        inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
-        inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent), 
-        inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
-        inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
-        inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
-        0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
-        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
-      transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
-    }
+        .background.page-2 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
 
-    .navbar-logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 600;
-      font-size: 1.1rem;
-      color: var(--c-content);
-      text-decoration: none;
-      transition: color 400ms cubic-bezier(0.4, 0, 0.2, 1);
-    }
+        .background.page-3 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
 
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-left: auto;
-    }
+        /* Floating orbs for depth */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: float 20s infinite ease-in-out;
+        }
 
-    .user-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 2px solid var(--c-action);
-    }
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.3);
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
 
-    .user-name {
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--c-content);
-    }
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.2);
+            bottom: -50px;
+            right: -50px;
+            animation-delay: 5s;
+        }
 
-    .logout-btn {
-      padding: 8px 16px;
-      border-radius: 20px;
-      background-color: color-mix(in srgb, var(--c-action) 20%, transparent);
-      color: var(--c-content);
-      border: 1px solid var(--c-action);
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 500;
-      transition: all 300ms;
-    }
+        .orb-3 {
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 255, 255, 0.25);
+            top: 50%;
+            left: 50%;
+            animation-delay: 10s;
+        }
 
-    .logout-btn:hover {
-      background-color: color-mix(in srgb, var(--c-action) 40%, transparent);
-    }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -50px) scale(1.1); }
+            66% { transform: translate(-30px, 30px) scale(0.9); }
+        }
 
-    .switcher {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      width: 244px;
-      max-width: 244px;
-      height: 70px;
-      box-sizing: border-box;
-      padding: 8px 12px 10px;
-      border: none;
-      border-radius: 99em;
-      font-size: var(--fz);
-      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
-      backdrop-filter: blur(8px) saturate(var(--saturation));
-      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
-      box-shadow: 
-        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
-        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
-        inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
-        inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent), 
-        inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
-        inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
-        inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
-        0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
-        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
-      transition: 
-        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
-        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1);
-      position: relative;
-    }
+        /* Login container */
+        .login-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 100;
+            opacity: 1;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
 
-    .switcher__legend {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      margin: -1px;
-      border: 0;
-      padding: 0;
-      white-space: nowrap;
-      clip-path: inset(100%);
-      clip: rect(0 0 0 0);
-      overflow: hidden;
-    }
+        .login-container.hidden {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.9);
+            pointer-events: none;
+        }
 
-    .switcher__input {
-      clip: rect(0 0 0 0);
-      clip-path: inset(100%);
-      height: 1px;
-      width: 1px;
-      overflow: hidden;
-      position: absolute;
-      white-space: nowrap;
-    }
+        .login-title {
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            letter-spacing: -1px;
+        }
 
-    .switcher__icon {
-      display: block;
-      width: 100%;
-      transition: scale 200ms cubic-bezier(0.5, 0, 0, 1);
-    }
+        .login-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
 
-    .switcher__option {
-      --c: var(--c-content);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0 16px;
-      width: 68px;
-      height: 100%;
-      box-sizing: border-box;
-      border-radius: 99em;
-      opacity: 1;
-      transition: all 160ms;
-    }
+        /* Premium Google Sign-In Button with Liquid Glass */
+        .google-signin-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 2.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
 
-    .switcher__option:hover {
-      --c: var(--c-action);
-      cursor: pointer;
-    }
+        .google-signin-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
 
-    .switcher__option:hover .switcher__icon {
-      scale: 1.2;
-    }
+        .google-signin-btn:hover::before {
+            left: 100%;
+        }
 
-    .switcher__option:has(input:checked) {
-      --c: var(--c-content);
-      cursor: auto;
-    }
+        .google-signin-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+        }
 
-    .switcher__option:has(input:checked) .switcher__icon {
-      scale: 1;
-    }
+        .google-signin-btn:active {
+            transform: translateY(0);
+            box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
 
-    .switcher::after {
-      content: '';
-      position: absolute;
-      left: 4px;
-      top: 4px;
-      display: block;
-      width: 84px;
-      height: calc(100% - 10px);
-      border-radius: 99em;
-      background-color: color-mix(in srgb, var(--c-glass) 36%, transparent);
-      z-index: -1;
-      box-shadow: 
-        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-        inset 2px 1px 0px -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
-        inset -1.5px -1px 0px -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
-        inset -2px -6px 1px -5px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
-        inset -1px 2px 3px -1px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
-        inset 0px -4px 1px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
-        0px 3px 6px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
-    }
+        .google-icon {
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 4px;
+            padding: 2px;
+        }
 
-    .switcher:has(input[c-option="1"]:checked)::after {
-      translate: 0 0;
-      transform-origin: right;
-      transition: 
-        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
-        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1),
-        translate 400ms cubic-bezier(1, 0.0, 0.4, 1);
-      animation: scaleToggle 440ms ease; 
-    }
+        /* Main content container */
+        .content-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
 
-    .switcher:has(input[c-option="2"]:checked)::after {
-      translate: 76px 0;
-      transition: 
-        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
-        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1),
-        translate 400ms cubic-bezier(1, 0.0, 0.4, 1);
-      animation: scaleToggle2 440ms ease; 
-    }
+        .content-container.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
 
-    .switcher[c-previous="1"]:has(input[c-option="2"]:checked)::after {
-      transform-origin: left;
-    }
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
 
-    .switcher[c-previous="3"]:has(input[c-option="2"]:checked)::after {
-      transform-origin: right;
-    }
+        .nav-btn {
+            padding: 0.8rem 1.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
 
-    .switcher:has(input[c-option="3"]:checked)::after {
-      translate: 152px 0;
-      transform-origin: left;
-      transition: 
-        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
-        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1),
-        translate 400ms cubic-bezier(1, 0.0, 0.4, 1);
-      animation: scaleToggle3 440ms ease; 
-    }
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            transform: translateY(-2px);
+        }
 
-    @keyframes scaleToggle {
-      0% { scale: 1 1; }
-      50% { scale: 1.1 1; }
-      100% { scale: 1 1; }
-    }
+        .nav-btn.active {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
 
-    @keyframes scaleToggle2{
-      0% { scale: 1 1; }
-      50% { scale: 1.2 1; }
-      100% { scale: 1 1; }
-    } 
+        /* Page content */
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
 
-    @keyframes scaleToggle3 {
-      0% { scale: 1 1; }
-      50% { scale: 1.1 1; }
-      100% { scale: 1 1; }
-    }
+        .page.active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: all;
+        }
 
-    main {
-      padding-top: 120px;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+        /* Credit Card Style User Card */
+        .user-card {
+            width: 400px;
+            height: 250px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
 
-    .login-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 30px;
-      padding: 60px 40px;
-      border-radius: 30px;
-      background-color: color-mix(in srgb, var(--c-glass) 15%, transparent);
-      backdrop-filter: blur(12px) saturate(var(--saturation));
-      -webkit-backdrop-filter: blur(12px) saturate(var(--saturation));
-      box-shadow: 
-        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-        0px 10px 40px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
-      max-width: 450px;
-      text-align: center;
-    }
+        .user-card:hover {
+            transform: translateY(-8px) rotateX(5deg);
+            box-shadow: 
+                0 30px 80px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
 
-    .login-container h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--c-content);
-      margin-bottom: 10px;
-    }
+        /* Card shine effect */
+        .user-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%
+            );
+            transform: rotate(45deg);
+            animation: cardShine 3s infinite;
+        }
 
-    .login-container p {
-      font-size: 1.1rem;
-      color: var(--c-content);
-      opacity: 0.8;
-      margin-bottom: 20px;
-    }
+        @keyframes cardShine {
+            0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
 
-    .page-content {
-      display: none;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 600ms cubic-bezier(0.4, 0, 0.2, 1), 
-                  transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
-      max-width: 1000px;
-      width: 100%;
-      padding: 40px;
-    }
+        /* Card holographic effect */
+        .user-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.1) 0%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.05) 100%
+            );
+            pointer-events: none;
+        }
 
-    .page-content.active {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-    }
+        .card-content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: white;
+        }
 
-    .user-card {
-      background-color: color-mix(in srgb, var(--c-glass) 15%, transparent);
-      backdrop-filter: blur(12px) saturate(var(--saturation));
-      -webkit-backdrop-filter: blur(12px) saturate(var(--saturation));
-      border-radius: 30px;
-      padding: 40px;
-      box-shadow: 
-        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-        0px 10px 40px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 15%), transparent);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 25px;
-      text-align: center;
-    }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
 
-    .user-card-avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      border: 4px solid var(--c-action);
-      box-shadow: 0 8px 24px color-mix(in srgb, var(--c-action) 30%, transparent);
-    }
+        .card-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
 
-    .user-card h2 {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--c-content);
-      margin: 0;
-    }
+        .card-chip {
+            width: 50px;
+            height: 40px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+            border-radius: 8px;
+            box-shadow: 
+                0 4px 10px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
 
-    .user-card-info {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      width: 100%;
-      margin-top: 10px;
-    }
+        .card-chip::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            background: linear-gradient(135deg, #e6c200 0%, #ffd700 100%);
+            border-radius: 4px;
+        }
 
-    .info-item {
-      background-color: color-mix(in srgb, var(--c-glass) 20%, transparent);
-      padding: 20px;
-      border-radius: 20px;
-      backdrop-filter: blur(8px);
-      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-light) 8%, transparent);
-    }
+        .card-number {
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            font-family: 'Courier New', monospace;
+        }
 
-    .info-item-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--c-action);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
-    }
+        .card-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
 
-    .info-item-value {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: var(--c-content);
-    }
+        .card-holder {
+            flex: 1;
+        }
 
-    .announcements-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 25px;
-    }
+        .card-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            margin-bottom: 0.3rem;
+        }
 
-    .announcement-card {
-      background-color: color-mix(in srgb, var(--c-glass) 15%, transparent);
-      backdrop-filter: blur(12px) saturate(var(--saturation));
-      -webkit-backdrop-filter: blur(12px) saturate(var(--saturation));
-      border-radius: 25px;
-      padding: 30px;
-      box-shadow: 
-        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-        0px 8px 30px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
-      transition: transform 300ms, box-shadow 300ms;
-    }
+        .card-value {
+            font-size: 1rem;
+            font-weight: 600;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
 
-    .announcement-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 
-        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
-        0px 12px 40px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 18%), transparent);
-    }
+        .card-date {
+            text-align: right;
+        }
 
-    .announcement-date {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--c-action);
-      margin-bottom: 12px;
-    }
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(76, 175, 80, 0.3);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            backdrop-filter: blur(10px);
+        }
 
-    .announcement-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--c-content);
-      margin-bottom: 12px;
-    }
+        /* Announcements and Events */
+        .content-wrapper {
+            max-width: 900px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 2rem;
+        }
 
-    .announcement-text {
-      font-size: 1rem;
-      line-height: 1.6;
-      color: var(--c-content);
-      opacity: 0.85;
-    }
+        .content-wrapper::-webkit-scrollbar {
+            width: 8px;
+        }
 
-    .page-header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
+        .content-wrapper::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
 
-    .page-header h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      color: var(--c-content);
-      margin-bottom: 10px;
-    }
+        .content-wrapper::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
 
-    .page-header p {
-      font-size: 1.2rem;
-      color: var(--c-content);
-      opacity: 0.8;
-    }
+        .content-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
 
-    @media (max-width: 768px) {
-      .header-container {
-        flex-direction: column;
-        gap: 12px;
-      }
+        .item-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 16px;
+            padding: 1.8rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
 
-      .navbar {
-        width: 100%;
-        justify-content: space-between;
-      }
+        .item-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
 
-      .user-info {
-        margin-left: 0;
-      }
+        .item-card:hover::before {
+            left: 100%;
+        }
 
-      .user-name {
-        display: none;
-      }
+        .item-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.18);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
 
-      .switcher {
-        width: 180px;
-        max-width: 180px;
-        height: 54px;
-        padding: 6px 10px 8px;
-      }
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
 
-      .switcher__option {
-        width: 54px;
-        padding: 0 12px;
-      }
+        .item-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
 
-      .switcher::after {
-        width: 60px;
-      }
+        .item-date {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
 
-      .switcher:has(input[c-option="2"]:checked)::after {
-        translate: 54px 0;
-      }
+        .item-description {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
 
-      .switcher:has(input[c-option="3"]:checked)::after {
-        translate: 108px 0;
-      }
+        .event-location {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 0.6rem 1.2rem;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
 
-      .user-card-info {
-        grid-template-columns: 1fr;
-      }
+        /* Logout button */
+        .logout-btn {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
 
-      .announcements-grid {
-        grid-template-columns: 1fr;
-      }
+        .logout-btn:hover {
+            background: rgba(255, 82, 82, 0.3);
+            border-color: rgba(255, 82, 82, 0.5);
+            transform: translateY(-2px);
+        }
 
-      .page-header h1 {
-        font-size: 2rem;
-      }
+        @media (max-width: 768px) {
+            .user-card {
+                width: 90%;
+                max-width: 400px;
+            }
 
-      .login-container h1 {
-        font-size: 2rem;
-      }
-    }
-  </style>
+            .nav-container {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .login-title {
+                font-size: 2rem;
+            }
+
+            .content-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div id="loginScreen" class="login-container" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2000;">
-    <h1>Hoş Geldiniz</h1>
-    <p>Grup üye sistemine giriş yapmak için Google hesabınızla oturum açın</p>
-    <div id="g_id_onload"
-         data-client_id="858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com"
-         data-callback="handleCredentialResponse"
-         data-auto_prompt="false">
+    <!-- Animated background -->
+    <div class="background page-1" id="background">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
     </div>
-    <div class="g_id_signin"
-         data-type="standard"
-         data-size="large"
-         data-theme="filled_blue"
-         data-text="signin_with"
-         data-shape="rectangular"
-         data-logo_alignment="left">
+
+    <!-- Login Screen -->
+    <div class="login-container" id="loginContainer">
+        <h1 class="login-title">Grup Üye Portalı</h1>
+        <p class="login-subtitle">Devam etmek için Google hesabınızla giriş yapın</p>
+        <button class="google-signin-btn" id="googleSignInBtn">
+            <svg class="google-icon" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            Google ile Giriş Yap
+        </button>
     </div>
-  </div>
 
-  <div class="header-container" id="mainHeader" style="display: none;">
-    <nav class="navbar">
-      <a href="#" class="navbar-logo">
-        <span>GRUP ÜYE SİSTEMİ</span>
-      </a>
-      <div class="user-info" id="userInfo">
-        <img id="navUserAvatar" class="user-avatar" src="/placeholder.svg" alt="User">
-        <span id="navUserName" class="user-name"></span>
-        <button class="logout-btn" onclick="logout()">Çıkış</button>
-      </div>
-    </nav>
-    <fieldset class="switcher" id="pageSwitcher">
-      <legend class="switcher__legend">Sayfa Seçin</legend>
-      <label class="switcher__option">
-        <input class="switcher__input" type="radio" name="page" value="page1" c-option="1" checked/>
-        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
-          <path fill="var(--c)" d="M18 6C11.373 6 6 11.373 6 18s5.373 12 12 12 12-5.373 12-12S24.627 6 18 6zm0 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S8 23.523 8 18 12.477 8 18 8zm-1 3v7h-4l5 6 5-6h-4v-7h-2z"/>
-        </svg>
-      </label>
-      <label class="switcher__option">
-        <input class="switcher__input" type="radio" name="page" value="page2" c-option="2"/>
-        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
-          <path fill="var(--c)" d="M8 10h20v2H8v-2zm0 6h20v2H8v-2zm0 6h14v2H8v-2z"/>
-        </svg>
-      </label>
-      <label class="switcher__option">
-        <input class="switcher__input" type="radio" name="page" value="page3" c-option="3"/>
-        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
-          <path fill="var(--c)" d="M18 6l-2.5 7.5H8l6 4.5L11.5 26 18 21.5 24.5 26 22 18l6-4.5h-7.5L18 6z"/>
-        </svg>
-      </label>
-    </fieldset>
-  </div>
+    <!-- Main Content (Hidden initially) -->
+    <div class="content-container" id="contentContainer">
+        <!-- Logout Button -->
+        <button class="logout-btn" id="logoutBtn">Çıkış Yap</button>
 
-  <main id="mainContent" style="display: none;">
-    <div class="page-content active" id="page1">
-      <div class="user-card">
-        <img id="userAvatar" class="user-card-avatar" src="/placeholder.svg" alt="User Avatar">
-        <h2 id="userName"></h2>
-        <div class="user-card-info">
-          <div class="info-item">
-            <div class="info-item-label">Bölüm</div>
-            <div class="info-item-value" id="userDepartment"></div>
-          </div>
-          <div class="info-item">
-            <div class="info-item-label">Gruba Giriş Tarihi</div>
-            <div class="info-item-value" id="userJoinDate"></div>
-          </div>
-          <div class="info-item">
-            <div class="info-item-label">E-posta</div>
-            <div class="info-item-value" id="userEmail"></div>
-          </div>
-          <div class="info-item">
-            <div class="info-item-label">Üyelik Durumu</div>
-            <div class="info-item-value" id="userStatus"></div>
-          </div>
+        <!-- Navigation -->
+        <div class="nav-container">
+            <button class="nav-btn active" onclick="switchPage(1)">Profilim</button>
+            <button class="nav-btn" onclick="switchPage(2)">Duyurular</button>
+            <button class="nav-btn" onclick="switchPage(3)">Etkinlikler</button>
         </div>
-      </div>
+
+        <!-- Page 1: User Profile Card -->
+        <div class="page active" id="page1">
+            <div class="user-card">
+                <div class="card-content">
+                    <div class="card-header">
+                        <div class="card-logo">GRUP</div>
+                        <div class="card-chip"></div>
+                    </div>
+                    
+                    <div class="card-number" id="userEmail">****@****.com</div>
+                    
+                    <div class="card-info">
+                        <div class="card-holder">
+                            <div class="card-label">Üye Adı</div>
+                            <div class="card-value" id="userName">Yükleniyor...</div>
+                            <div class="status-badge" id="userStatus">Aktif Üye</div>
+                        </div>
+                        <div class="card-date">
+                            <div class="card-label">Giriş Tarihi</div>
+                            <div class="card-value" id="joinDate">--/--</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <div style="color: white; font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;" id="userDepartment">Bölüm Yükleniyor...</div>
+            </div>
+        </div>
+
+        <!-- Page 2: Announcements -->
+        <div class="page" id="page2">
+            <div class="content-wrapper">
+                <h2 class="content-title">Duyurular</h2>
+                
+                <div class="item-card">
+                    <div class="item-header">
+                        <div>
+                            <h3 class="item-title">Yeni Dönem Toplantısı</h3>
+                        </div>
+                        <span class="item-date">15 Ocak 2025</span>
+                    </div>
+                    <p class="item-description">
+                        Değerli üyelerimiz, yeni dönem çalışma planımızı belirlemek için 20 Ocak Pazartesi günü saat 18:00'de genel toplantı yapılacaktır. Tüm üyelerimizin katılımı önemlidir.
+                    </p>
+                </div>
+
+                <div class="item-card">
+                    <div class="item-header">
+                        <div>
+                            <h3 class="item-title">Proje Teslim Tarihleri</h3>
+                        </div>
+                        <span class="item-date">12 Ocak 2025</span>
+                    </div>
+                    <p class="item-description">
+                        Devam eden projelerimizin teslim tarihleri güncellendi. Web sitesi projesi 25 Ocak, mobil uygulama projesi ise 5 Şubat tarihine kadar tamamlanmalıdır.
+                    </p>
+                </div>
+
+                <div class="item-card">
+                    <div class="item-header">
+                        <div>
+                            <h3 class="item-title">Yeni Üye Alımları</h3>
+                        </div>
+                        <span class="item-date">8 Ocak 2025</span>
+                    </div>
+                    <p class="item-description">
+                        Grubumuz yeni dönemde genişliyor! Yazılım, tasarım ve pazarlama alanlarında yeni üye başvuruları 30 Ocak tarihine kadar devam edecektir. Başvuru formu web sitemizde yayınlandı.
+                    </p>
+                </div>
+
+                <div class="item-card">
+                    <div class="item-header">
+                        <div>
+                            <h3 class="item-title">Eğitim Programı Duyurusu</h3>
+                        </div>
+                        <span class="item-date">5 Ocak 2025</span>
+                    </div>
+                    <p class="item-description">
+                        Üyelerimizin gelişimi için hazırlanan React ve Node.js eğitim programı başlıyor. Eğitimler her Çarşamba ve Cuma günleri saat 19:00'da online olarak gerçekleştirilecektir.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 3: Events -->
+        <div class="page" id="page3">
+            <div class="content-wrapper">
+                <h2 class="content-title">Etkinlikler</h2>
+                
+                <div class="item-card">
+                    <div class="item-header">
+                        <div>
+                            <h3 class="item-title">Hackathon 2025</h3>
+                        </div>
+                        <span class="item-date">28-29 Ocak 2025</span>
+                    </div>
+                    <p class="item-description">
+                        24 saatlik hackathon etkinliğimizde yapay zeka temalı projeler geliştireceğiz. Ödüllü yarışmamıza tüm üyelerimiz davetlidir. Takımlar 3-4 kişiden oluşacaktır.
+                    </p>
+                    <div class="event-location">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        Teknoloji Merkezi - A Blok
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <div class="item-header">
+                        <div>
+                            <h3 class="item-title">Networking Gecesi</h3>
+                        </div>
+                        <span class="item-date">15 Şubat 2025</span>
+                    </div>
+                    <p class="item-description">
+                        Sektör profesyonelleri ve mezunlarımızla buluşma fırsatı! Kariyer gelişimi, iş fırsatları ve deneyim paylaşımı için harika bir gece olacak.
+                    </p>
+                    <div class="event-location">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        Konferans Salonu
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <div class="item-header">
+                        <div>
+                            <h3 class="item-title">Workshop: UI/UX Tasarım</h3>
+                        </div>
+                        <span class="item-date">22 Şubat 2025</span>
+                    </div>
+                    <p class="item-description">
+                        Profesyonel tasarımcılardan modern UI/UX prensiplerini öğrenin. Figma kullanımı ve kullanıcı deneyimi tasarımı üzerine uygulamalı atölye çalışması.
+                    </p>
+                    <div class="event-location">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        Online - Zoom
+                    </div>
+                </div>
+
+                <div class="item-card">
+                    <div class="item-header">
+                        <div>
+                            <h3 class="item-title">Bahar Şenliği</h3>
+                        </div>
+                        <span class="item-date">15 Mart 2025</span>
+                    </div>
+                    <p class="item-description">
+                        Geleneksel bahar şenliğimizde eğlence, müzik ve lezzetli yemekler! Tüm grup üyeleri ve aileleri için keyifli bir gün.
+                    </p>
+                    <div class="event-location">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        Kampüs Bahçesi
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="page-content" id="page2">
-      <div class="page-header">
-        <h1>Duyurular</h1>
-        <p>Grubumuzun son duyurularını buradan takip edebilirsiniz</p>
-      </div>
-      <div class="announcements-grid" id="announcementsContainer"></div>
-    </div>
-
-    <div class="page-content" id="page3">
-      <div class="page-header">
-        <h1>Etkinlikler</h1>
-        <p>Yaklaşan ve geçmiş etkinliklerimiz</p>
-      </div>
-      <div class="announcements-grid" id="eventsContainer"></div>
-    </div>
-  </main>
-
-  <script>
-    // Kullanıcı verileri (kullanicilar.json simülasyonu)
-    const kullanicilar = {
-      "m.yusufertek@gmail.com": {
-        "isim": "Mehmet Yusuf Ertek",
-        "bolum": "Bilgisayar Mühendisliği",
-        "giris_tarihi": "15 Ocak 2024",
-        "durum": "Aktif Üye"
-      },
-      "test@gmail.com": {
-        "isim": "Test Kullanıcı",
-        "bolum": "Yazılım Mühendisliği",
-        "giris_tarihi": "20 Şubat 2024",
-        "durum": "Aktif Üye"
-      }
-    };
-
-    // Duyurular
-    const duyurular = [
-      {
-        tarih: "10 Mart 2024",
-        baslik: "Yeni Proje Duyurusu",
-        metin: "Grubumuz yeni bir açık kaynak projesine başlıyor. Tüm üyelerimizi katılmaya davet ediyoruz."
-      },
-      {
-        tarih: "5 Mart 2024",
-        baslik: "Haftalık Toplantı",
-        metin: "Bu hafta Cuma günü saat 18:00'de online toplantımız olacak. Katılımınızı bekliyoruz."
-      },
-      {
-        tarih: "1 Mart 2024",
-        baslik: "Yeni Üyeler",
-        metin: "Grubumuza katılan yeni üyelerimize hoş geldiniz! Birlikte harika projeler yapacağız."
-      }
-    ];
-
-    // Etkinlikler
-    const etkinlikler = [
-      {
-        tarih: "25 Mart 2024",
-        baslik: "Hackathon 2024",
-        metin: "24 saatlik hackathon etkinliğimiz düzenlenecek. Ödüllü yarışmamıza katılın!"
-      },
-      {
-        tarih: "18 Mart 2024",
-        baslik: "Workshop: React ile Web Geliştirme",
-        metin: "React framework'ü ile modern web uygulamaları geliştirmeyi öğrenin."
-      },
-      {
-        tarih: "12 Mart 2024",
-        baslik: "Networking Etkinliği",
-        metin: "Sektör profesyonelleri ile tanışma ve networking fırsatı."
-      }
-    ];
-
-    let currentUser = null;
-
-    function handleCredentialResponse(response) {
-      const responsePayload = parseJwt(response.credential);
-      const userEmail = responsePayload.email;
-      
-      console.log('Giriş yapan kullanıcı:', userEmail);
-      
-      // Kullanıcı verilerini kontrol et
-      if (kullanicilar[userEmail]) {
-        currentUser = {
-          email: userEmail,
-          name: kullanicilar[userEmail].isim,
-          picture: responsePayload.picture,
-          ...kullanicilar[userEmail]
+    <script>
+        // User database
+        const users = {
+            "m.yusufertek@gmail.com": {
+                name: "Mehmet Yusuf Ertek",
+                department: "Bilgisayar Mühendisliği",
+                joinDate: "09/2024",
+                status: "Aktif Üye"
+            },
+            "test@example.com": {
+                name: "Test Kullanıcı",
+                department: "Yazılım Geliştirme",
+                joinDate: "01/2025",
+                status: "Yeni Üye"
+            }
         };
-        
-        showMainContent();
-      } else {
-        alert('Bu e-posta adresi sistemde kayıtlı değil. Lütfen yönetici ile iletişime geçin.');
-      }
-    }
 
-    function parseJwt(token) {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-      return JSON.parse(jsonPayload);
-    }
+        let currentUser = null;
 
-    function showMainContent() {
-      document.getElementById('loginScreen').style.display = 'none';
-      document.getElementById('mainHeader').style.display = 'flex';
-      document.getElementById('mainContent').style.display = 'flex';
-      
-      // Kullanıcı bilgilerini doldur
-      document.getElementById('userName').textContent = currentUser.name;
-      document.getElementById('userEmail').textContent = currentUser.email;
-      document.getElementById('userDepartment').textContent = currentUser.bolum;
-      document.getElementById('userJoinDate').textContent = currentUser.giris_tarihi;
-      document.getElementById('userStatus').textContent = currentUser.durum;
-      document.getElementById('userAvatar').src = currentUser.picture;
-      document.getElementById('navUserAvatar').src = currentUser.picture;
-      document.getElementById('navUserName').textContent = currentUser.name;
-      
-      // Duyuruları yükle
-      loadAnnouncements();
-      loadEvents();
-    }
-
-    function loadAnnouncements() {
-      const container = document.getElementById('announcementsContainer');
-      container.innerHTML = '';
-      
-      duyurular.forEach(duyuru => {
-        const card = document.createElement('div');
-        card.className = 'announcement-card';
-        card.innerHTML = `
-          <div class="announcement-date">${duyuru.tarih}</div>
-          <div class="announcement-title">${duyuru.baslik}</div>
-          <div class="announcement-text">${duyuru.metin}</div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function loadEvents() {
-      const container = document.getElementById('eventsContainer');
-      container.innerHTML = '';
-      
-      etkinlikler.forEach(etkinlik => {
-        const card = document.createElement('div');
-        card.className = 'announcement-card';
-        card.innerHTML = `
-          <div class="announcement-date">${etkinlik.tarih}</div>
-          <div class="announcement-title">${etkinlik.baslik}</div>
-          <div class="announcement-text">${etkinlik.metin}</div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function logout() {
-      currentUser = null;
-      document.getElementById('loginScreen').style.display = 'flex';
-      document.getElementById('mainHeader').style.display = 'none';
-      document.getElementById('mainContent').style.display = 'none';
-      
-      // Sayfa 1'e dön
-      document.querySelectorAll('.page-content').forEach(page => {
-        page.classList.remove('active');
-      });
-      document.getElementById('page1').classList.add('active');
-      document.querySelector('input[value="page1"]').checked = true;
-    }
-
-    // Sayfa geçiş sistemi
-    const switcher = document.getElementById('pageSwitcher');
-    const root = document.documentElement;
-
-    const trackPrevious = (el) => {
-      const radios = el.querySelectorAll('input[type="radio"]');
-      let previousValue = null;
-
-      const initiallyChecked = el.querySelector('input[type="radio"]:checked');
-      if (initiallyChecked) {
-        previousValue = initiallyChecked.getAttribute("c-option");
-        el.setAttribute('c-previous', previousValue);
-      }
-
-      radios.forEach(radio => {
-        radio.addEventListener('change', () => {
-          if (radio.checked) {
-            el.setAttribute('c-previous', previousValue ?? '');
-            previousValue = radio.getAttribute("c-option");
-          }
-        });
-      });
-    }
-
-    trackPrevious(switcher);
-
-    const pageRadios = document.querySelectorAll('input[name="page"]');
-    const pages = document.querySelectorAll('.page-content');
-
-    pageRadios.forEach(radio => {
-      radio.addEventListener('change', () => {
-        const selectedPage = radio.value;
-        
-        pages.forEach(page => {
-          page.classList.remove('active');
-        });
-
-        document.getElementById(selectedPage).classList.add('active');
-
-        if (selectedPage === 'page1') {
-          root.style.setProperty('--c-bg', 'var(--page1-bg)');
-          root.style.setProperty('--c-content', 'var(--page1-content)');
-          root.style.setProperty('--c-action', 'var(--page1-action)');
-          root.style.setProperty('--c-glass', 'var(--page1-glass)');
-          root.style.setProperty('--c-light', 'var(--page1-light)');
-          root.style.setProperty('--c-dark', 'var(--page1-dark)');
-        } else if (selectedPage === 'page2') {
-          root.style.setProperty('--c-bg', 'var(--page2-bg)');
-          root.style.setProperty('--c-content', 'var(--page2-content)');
-          root.style.setProperty('--c-action', 'var(--page2-action)');
-          root.style.setProperty('--c-glass', 'var(--page2-glass)');
-          root.style.setProperty('--c-light', 'var(--page2-light)');
-          root.style.setProperty('--c-dark', 'var(--page2-dark)');
-        } else if (selectedPage === 'page3') {
-          root.style.setProperty('--c-bg', 'var(--page3-bg)');
-          root.style.setProperty('--c-content', 'var(--page3-content)');
-          root.style.setProperty('--c-action', 'var(--page3-action)');
-          root.style.setProperty('--c-glass', 'var(--page3-glass)');
-          root.style.setProperty('--c-light', 'var(--page3-light)');
-          root.style.setProperty('--c-dark', 'var(--page3-dark)');
+        // Google Sign-In
+        function handleCredentialResponse(response) {
+            const responsePayload = parseJwt(response.credential);
+            const email = responsePayload.email;
+            
+            console.log("[v0] User logged in:", email);
+            
+            // Check if user exists in database
+            if (users[email]) {
+                currentUser = users[email];
+                showUserProfile(email);
+            } else {
+                // Default user for unknown emails
+                currentUser = {
+                    name: responsePayload.name || "Misafir Kullanıcı",
+                    department: "Genel Üye",
+                    joinDate: new Date().toLocaleDateString('tr-TR', { month: '2-digit', year: 'numeric' }),
+                    status: "Yeni Üye"
+                };
+                showUserProfile(email);
+            }
         }
-      });
-    });
 
-    // Google Sign-In başlatma
-    function initializeGoogleSignIn() {
-      if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-        google.accounts.id.initialize({
-          client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
-          callback: handleCredentialResponse,
-          auto_select: false,
-          cancel_on_tap_outside: true
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        }
+
+        function showUserProfile(email) {
+            // Hide login, show content
+            document.getElementById('loginContainer').classList.add('hidden');
+            document.getElementById('contentContainer').classList.add('visible');
+            
+            // Update user card
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userEmail').textContent = email;
+            document.getElementById('userDepartment').textContent = currentUser.department;
+            document.getElementById('joinDate').textContent = currentUser.joinDate;
+            document.getElementById('userStatus').textContent = currentUser.status;
+        }
+
+        function initializeGoogleSignIn() {
+            if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+                google.accounts.id.initialize({
+                    client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
+                    callback: handleCredentialResponse,
+                    auto_select: false,
+                    cancel_on_tap_outside: true
+                });
+                
+                google.accounts.id.renderButton(
+                    document.getElementById('googleSignInBtn'),
+                    { 
+                        theme: 'filled_blue',
+                        size: 'large',
+                        width: 300,
+                        text: 'signin_with'
+                    }
+                );
+                
+                console.log('[v0] Google Sign-In initialized successfully.');
+            } else {
+                console.warn('[v0] Google Sign-In script not yet loaded. Retrying...');
+                setTimeout(initializeGoogleSignIn, 500);
+            }
+        }
+
+        // Custom button click handler
+        document.getElementById('googleSignInBtn').addEventListener('click', function() {
+            if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+                google.accounts.id.prompt();
+            }
         });
-        console.log('Google Sign-In başarıyla başlatıldı.');
-      } else {
-        console.warn('Google Sign-In scripti henüz yüklenmedi. Tekrar deneniyor...');
-        setTimeout(initializeGoogleSignIn, 500);
-      }
-    }
 
-    window.onload = initializeGoogleSignIn;
-  </script>
+        // Page switching
+        function switchPage(pageNum) {
+            const pages = document.querySelectorAll('.page');
+            const navBtns = document.querySelectorAll('.nav-btn');
+            const background = document.getElementById('background');
+            
+            pages.forEach(page => page.classList.remove('active'));
+            navBtns.forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById('page' + pageNum).classList.add('active');
+            navBtns[pageNum - 1].classList.add('active');
+            
+            background.className = 'background page-' + pageNum;
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            currentUser = null;
+            document.getElementById('contentContainer').classList.remove('visible');
+            document.getElementById('loginContainer').classList.remove('hidden');
+            switchPage(1);
+            
+            if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+                google.accounts.id.disableAutoSelect();
+            }
+        });
+
+        // Initialize on load
+        window.onload = function() {
+            initializeGoogleSignIn();
+        };
+    </script>
 </body>
 </html>
