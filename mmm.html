@@ -7,7 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
-  <!-- Added PDF.js library for PDF rendering -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   
   <style>
@@ -26,7 +25,8 @@
       --c-content: #224;
       --c-action: #0052f5;
       
-      --c-bg: #E8E8E9;
+      /* <CHANGE> Made light theme more yellow/warm to reduce eye strain */
+      --c-bg: #F5F3E8;
       
       --glass-reflex-dark: 1;
       --glass-reflex-light: 1;
@@ -74,7 +74,6 @@
       --saturation: 200%;
     }
 
-    /* Header Container - centered on desktop, separate navbar and switcher */
     .header-container {
       position: fixed;
       top: 0;
@@ -88,7 +87,6 @@
       gap: 20px;
     }
 
-    /*Navbar Styles */
     .navbar {
       display: flex;
       align-items: center;
@@ -124,7 +122,6 @@
       transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1), transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* Updated logo styling for PNG image */
     .navbar-logo img {
       width: 32px;
       height: 32px;
@@ -299,7 +296,6 @@
         transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
       }
 
-      /* Fixed menu items visibility - they should be invisible by default and visible when menu opens */
       .navbar-menu li {
         opacity: 0;
         transform: translateY(-10px);
@@ -312,7 +308,6 @@
         margin-top: 24px;
       }
 
-      /* When menu is open, make items visible with staggered animation */
       .navbar.menu-open .navbar-menu li {
         opacity: 1;
         transform: translateY(0);
@@ -371,7 +366,6 @@
       }
     }
 
-    /* Theme Switcher */
     .switcher {
       display: flex;
       align-items: center;
@@ -547,13 +541,11 @@
       100% { scale: 1 1; }
     }
 
-    /* Main content styles for community website */
     main {
       padding-top: 110px;
       min-height: 100vh;
     }
 
-    /* Hero Carousel */
     .hero-carousel {
       position: relative;
       width: 100%;
@@ -646,14 +638,12 @@
       background-color: var(--c-light);
     }
 
-    /* Container */
     .container {
       max-width: 1400px;
       margin: 0 auto;
       padding: 0 20px;
     }
 
-    /* Section */
     .section {
       margin-bottom: 100px;
     }
@@ -666,7 +656,6 @@
       color: var(--c-content);
     }
 
-    /* Glass Card */
     .glass-card {
       padding: 40px;
       border-radius: 32px;
@@ -690,7 +679,6 @@
         0px 12px 48px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
     }
 
-    /* Added expandable card styles for announcements and who-are-we sections */
     .expandable-card {
       padding: 24px;
       border-radius: 24px;
@@ -785,7 +773,6 @@
       gap: 24px;
     }
 
-    /* Added numbered card styles for who-are-we section */
     .numbered-card {
       position: relative;
       padding: 32px;
@@ -886,7 +873,6 @@
       gap: 30px;
     }
 
-    /* Features Grid */
     .features-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -928,7 +914,6 @@
       color: color-mix(in srgb, var(--c-content) 80%, transparent);
     }
 
-    /* Stats */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -949,7 +934,6 @@
       color: var(--c-content);
     }
 
-    /* CTA Section */
     .cta-section {
       text-align: center;
       padding: 80px 40px;
@@ -997,7 +981,6 @@
       box-shadow: 0px 12px 32px 0px color-mix(in srgb, var(--c-action) 50%, transparent);
     }
 
-    /* Footer */
     footer {
       text-align: center;
       padding: 60px 20px;
@@ -1005,13 +988,14 @@
       font-size: 0.9rem;
     }
 
-    /* Added PDF Library Section Styles */
+    /* <CHANGE> Updated PDF library grid to show 2 cards per row on mobile with fixed 1.6:1 aspect ratio */
     .pdf-library-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 30px;
     }
 
+    /* <CHANGE> Removed borders and set fixed 1.6:1 aspect ratio for PDF cards */
     .pdf-card {
       position: relative;
       padding: 0;
@@ -1020,66 +1004,103 @@
       backdrop-filter: blur(8px) saturate(var(--saturation));
       -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
       box-shadow: 
-        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
-        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
         0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
       cursor: pointer;
       transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
       overflow: hidden;
+      aspect-ratio: 1 / 1.6;
     }
 
     .pdf-card:hover {
       transform: translateY(-8px);
       box-shadow: 
-        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
-        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
         0px 16px 56px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 16%), transparent);
     }
 
+    /* <CHANGE> Added liquid glass effect to PDF card covers */
     .pdf-card-cover {
       width: 100%;
-      height: 360px;
+      height: 100%;
       position: relative;
       overflow: hidden;
-      border-radius: 24px 24px 0 0;
+      border-radius: 24px;
+    }
+
+    .pdf-card-cover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 30%), transparent) 0%,
+        transparent 50%,
+        color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent) 100%
+      );
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .pdf-card-cover::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(
+        circle at center,
+        color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 40%), transparent) 0%,
+        transparent 70%
+      );
+      opacity: 0;
+      transition: opacity 600ms cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .pdf-card:hover .pdf-card-cover::after {
+      opacity: 1;
     }
 
     .pdf-card-cover img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      position: relative;
+      z-index: 1;
     }
 
-    .pdf-card-cover::after {
-      content: '';
+    .pdf-card-info {
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      height: 50%;
-      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-    }
-
-    .pdf-card-info {
       padding: 24px;
+      background: linear-gradient(to top, 
+        color-mix(in srgb, var(--c-dark) 90%, transparent), 
+        color-mix(in srgb, var(--c-dark) 60%, transparent) 50%,
+        transparent);
+      z-index: 4;
     }
 
     .pdf-card-title {
       font-size: 1.2rem;
       font-weight: 700;
-      color: var(--c-content);
+      color: var(--c-light);
       margin-bottom: 8px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     }
 
     .pdf-card-description {
-      font-size: 0.9rem;
-      color: color-mix(in srgb, var(--c-content) 70%, transparent);
+      font-size: 0.85rem;
+      color: color-mix(in srgb, var(--c-light) 85%, transparent);
       line-height: 1.5;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
     }
 
-    /* Redesigned PDF Viewer Modal with floating island controls */
     .pdf-viewer-modal {
       position: fixed;
       top: 0;
@@ -1108,7 +1129,6 @@
       position: relative;
     }
 
-    /* Top controls as floating islands */
     .pdf-viewer-top-controls {
       position: absolute;
       top: 16px;
@@ -1152,7 +1172,6 @@
       text-overflow: ellipsis;
     }
 
-    /* Page info with click-to-jump functionality */
     .pdf-page-info {
       padding: 12px 20px;
       border-radius: 99em;
@@ -1196,7 +1215,6 @@
       background-color: color-mix(in srgb, var(--c-glass) 45%, transparent);
     }
 
-    /* Search button as floating island */
     .pdf-search-btn {
       width: 48px;
       height: 48px;
@@ -1226,7 +1244,6 @@
       fill: var(--c-content);
     }
 
-    /* Search panel */
     .pdf-search-panel {
       position: absolute;
       top: 80px;
@@ -1277,7 +1294,6 @@
       opacity: 0.8;
     }
 
-    /* Search navigation controls */
     .pdf-search-nav {
       display: flex;
       gap: 8px;
@@ -1318,7 +1334,6 @@
       fill: var(--c-content);
     }
 
-    /* Text highlight overlay styles */
     .pdf-text-highlight {
       position: absolute;
       background-color: rgba(255, 255, 0, 0.4);
@@ -1362,7 +1377,6 @@
       fill: var(--c-content);
     }
 
-    /* Content area with zero padding for full-screen PDF */
     .pdf-viewer-content {
       position: absolute;
       top: 0;
@@ -1395,7 +1409,6 @@
       transform-origin: center center;
     }
 
-    /* Bottom controls as floating island */
     .pdf-viewer-controls {
       position: absolute;
       bottom: 16px;
@@ -1522,7 +1535,6 @@
         font-size: 1rem;
       }
 
-      /* Mobile-optimized PDF viewer controls */
       .pdf-viewer-top-controls {
         top: 10px;
         left: 10px;
@@ -1586,25 +1598,44 @@
         height: 28px;
       }
 
-      /* Responsive styles for PDF library */
+      /* <CHANGE> Mobile grid shows 2 cards per row with 1.6:1 aspect ratio */
       .pdf-library-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
       }
 
-      .pdf-card-cover {
-        height: 300px;
+      .pdf-card {
+        aspect-ratio: 1 / 1.6;
+      }
+
+      .pdf-card-info {
+        padding: 16px;
+      }
+
+      .pdf-card-title {
+        font-size: 0.95rem;
+        margin-bottom: 6px;
+      }
+
+      .pdf-card-description {
+        font-size: 0.75rem;
       }
     }
   </style>
 </head>
 <body>
   
+  <audio id="menuSound" preload="auto">
+    <source src="ses.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="themeSound" preload="auto">
+    <source src="ses2.mp3" type="audio/mpeg">
+  </audio>
+
   <div class="header-container">
     <nav class="navbar" id="navbar">
       <div class="navbar-header">
         <a href="#" class="navbar-logo">
-          <!-- Replaced SVG with PNG logo -->
           <img src="logo.jpg" alt="Liquid Glass Logo">
           <span>THE LENG</span>
         </a>
@@ -1634,7 +1665,7 @@
         <input class="switcher__input" type="radio" name="theme" value="light" c-option="1" checked/>
         <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
           <path fill="var(--c)" fill-rule="evenodd" d="M18 12a6 6 0 1 1 0 12 6 6 0 0 1 0-12Zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" clip-rule="evenodd"/>
-          <path fill="var(--c)" d="M17 6.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3 ModInt17 6.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3ZM24.244 7.742a1 1 0 1 1 1.618 1.176L24.1 11.345a1 1 0 1 1-1.618-1.176l1.763-2.427ZM29.104 13.379a1 1 0 0 1 .618 1.902l-2.854.927a1 1 0 1 1-.618-1.902l2.854-.927ZM29.722 20.795a1 1 0 0 1-.619 1.902l-1.763-2.427a1 1 0 1 1 1.618-1.175l1.763 2.427ZM19 30.038a1 1 0 0 1-2 0v-3a1 1 0 1 1 2 0v3 ModInt19 30.038a1 1 0 0 1-2 0v-3a1 1 0 1 1 2 0v3ZM11.755 28.334a1 1 0 0 1-1.618-1.175l1.764-2.427a1 1 0 1 1 1.618 1.175l-1.764 2.427ZM6.896 22.697a1 1 0 1 1-.618-1.902l2.853-.927a1 1 0 1 1 .618 1.902l-2.853.927ZM6.278 15.28a1 1 0 1 1 .618-1.901l2.853.927a1 1 0 1 1-.618 1.902l-2.853-.927ZM10.137 8.918a1 1 0 0 1 1.618-1.176l1.764 2.427a1 1 0 0 1-1.618 1.176l-1.764-2.427Z"/>
+          <path fill="var(--c)" d="M17 6.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3ZM24.244 7.742a1 1 0 1 1 1.618 1.176L24.1 11.345a1 1 0 1 1-1.618-1.176l1.763-2.427ZM29.104 13.379a1 1 0 0 1 .618 1.902l-2.854.927a1 1 0 1 1-.618-1.902l2.854-.927ZM29.722 20.795a1 1 0 0 1-.619 1.902l-2.853-.927a1 1 0 1 1 .618-1.902l2.854.927ZM19 30.038a1 1 0 0 1-2 0v-3a1 1 0 1 1 2 0v3ZM11.755 28.334a1 1 0 0 1-1.618-1.175l1.764-2.427a1 1 0 1 1 1.618 1.175l-1.764 2.427ZM6.896 22.697a1 1 0 1 1-.618-1.902l2.853-.927a1 1 0 1 1 .618 1.902l-2.853.927ZM6.278 15.28a1 1 0 1 1 .618-1.901l2.853.927a1 1 0 1 1-.618 1.902l-2.853-.927ZM10.137 8.918a1 1 0 0 1 1.618-1.176l1.764 2.427a1 1 0 0 1-1.618 1.176l-1.764-2.427Z"/>
         </svg>
       </label>
       <label class="switcher__option">
@@ -1646,7 +1677,7 @@
       <label class="switcher__option">
         <input class="switcher__input" type="radio" name="theme" value="dim" c-option="3"/>
         <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
-          <path fill="var(--c)" d="M5 21a1 1 0 0 1 1-1h24a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1ZM12 25a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H13a1 1 0 0 1-1-1ZM15 29a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1ZM18 13a6 6 0 0 1 5.915 7h-2.041A4.005 4.005 0 0 0 18 15a4 4 0 0 0-3.874 5h-2.041A6 6 0 0 1 18 13 ModInt18 13a6 6 0 0 1 5.915 7h-2.041A4.005 4.005 0 0 0 18 15a4 4 0 0 0-3.874 5h-2.041A6 6 0 0 1 18 13ZM17 7.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3 ModInt17 7.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3ZM24.244 8.742a1 1 0 1 1 1.618 1.176L24.1 12.345a1 1 0 1 1-1.618-1.176l1.763-2.427ZM29.104 14.379a1 1 0 0 1 .618 1.902l-2.854.927a1 1 0 1 1-.618-1.902l2.854-.927ZM6.278 16.28a1 1 0 1 1 .618-1.901l2.853.927a1 1 0 1 1-.618 1.902l-2.853-.927ZM10.137 9.918a1 1 0 0 1 1.618-1.176l1.764 2.427a1 1 0 0 1-1.618 1.176l-1.764-2.427Z"/>
+          <path fill="var(--c)" d="M5 21a1 1 0 0 1 1-1h24a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1ZM12 25a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H13a1 1 0 0 1-1-1ZM15 29a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1ZM18 13a6 6 0 0 1 5.915 7h-2.041A4.005 4.005 0 0 0 18 15a4 4 0 0 0-3.874 5h-2.041A6 6 0 0 1 18 13ZM17 7.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3ZM24.244 8.742a1 1 0 1 1 1.618 1.176L24.1 12.345a1 1 0 1 1-1.618-1.176l1.763-2.427ZM29.104 14.379a1 1 0 0 1 .618 1.902l-2.854.927a1 1 0 1 1-.618-1.902l2.854-.927ZM6.278 16.28a1 1 0 1 1 .618-1.901l2.853.927a1 1 0 1 1-.618 1.902l-2.853-.927ZM10.137 9.918a1 1 0 0 1 1.618-1.176l1.764 2.427a1 1 0 0 1-1.618 1.176l-1.764-2.427Z"/>
         </svg>
       </label>
     </fieldset>
@@ -1655,23 +1686,22 @@
   <main>
     <div class="container">
       
-      <!-- Hero Carousel -->
       <div class="hero-carousel">
         <div class="carousel-track" id="carouselTrack">
           <div class="carousel-slide active">
-            <img src="/placeholder.svg?height=600&width=1400" alt="Topluluk Buluşması">
+            <img src="/test6.jpeg" alt="Topluluk Buluşması">
             <h2 class="carousel-title">Birlikte Daha Güçlüyüz</h2>
           </div>
           <div class="carousel-slide">
-            <img src="/placeholder.svg?height=600&width=1400" alt="İşbirliği">
+            <img src="/test3.jpg" alt="İşbirliği">
             <h2 class="carousel-title">Yaratıcı İşbirlikleri</h2>
           </div>
           <div class="carousel-slide">
-            <img src="/placeholder.svg?height=600&width=1400" alt="Etkinlikler">
+            <img src="/test5.jpg" alt="Etkinlikler">
             <h2 class="carousel-title">Unutulmaz Anılar</h2>
           </div>
           <div class="carousel-slide">
-            <img src="/placeholder.svg?height=600&width=1400" alt="Öğrenme">
+            <img src="/test2.jpg" alt="Öğrenme">
             <h2 class="carousel-title">Sürekli Gelişim</h2>
           </div>
         </div>
@@ -1683,7 +1713,6 @@
         </div>
       </div>
 
-      <!-- Added Announcements Section -->
       <section class="section">
         <h2 class="section-title">Duyurular</h2>
         <div class="announcements-grid">
@@ -1740,7 +1769,6 @@
         </div>
       </section>
 
-      <!-- Added Who Are We Section with numbered cards -->
       <section class="section">
         <h2 class="section-title">Biz Kimiz?</h2>
         <div class="who-are-we-grid">
@@ -1816,7 +1844,41 @@
         </div>
       </section>
 
-      <!-- Features Section -->
+      <section class="section">
+        <h2 class="section-title">Paylaşım Deposu</h2>
+        <div class="pdf-library-grid">
+          <div class="pdf-card" data-pdf="test.pdf" data-title="Temel Programlama Rehberi">
+            <div class="pdf-card-cover">
+              <img src="/grs1.webp" alt="Temel Programlama Rehberi">
+            </div>
+            <div class="pdf-card-info">
+              <h3 class="pdf-card-title">Temel Programlama Rehberi</h3>
+              <p class="pdf-card-description">Programlamaya başlayanlar için kapsamlı bir rehber.</p>
+            </div>
+          </div>
+
+          <div class="pdf-card" data-pdf="test2.pdf" data-title="Web Geliştirme İleri Seviye">
+            <div class="pdf-card-cover">
+              <img src="/grs2.jpg" alt="Web Geliştirme İleri Seviye">
+            </div>
+            <div class="pdf-card-info">
+              <h3 class="pdf-card-title">Web Geliştirme İleri Seviye</h3>
+              <p class="pdf-card-description">Modern web teknolojileri ve ileri seviye konular.</p>
+            </div>
+          </div>
+
+          <div class="pdf-card" data-pdf="test3.pdf" data-title="Veri Bilimi ve Analitik">
+            <div class="pdf-card-cover">
+              <img src="/grs3.jpg" alt="Veri Bilimi ve Analitik">
+            </div>
+            <div class="pdf-card-info">
+              <h3 class="pdf-card-title">Veri Bilimi ve Analitik</h3>
+              <p class="pdf-card-description">Veri analizi, makine öğrenmesi ve istatistik temelleri.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="section">
         <h2 class="section-title">Neden Bize Katılmalısınız?</h2>
         <div class="features-grid">
@@ -1852,7 +1914,6 @@
         </div>
       </section>
 
-      <!-- Stats Section -->
       <section class="section">
         <div class="glass-card">
           <div class="stats-grid">
@@ -1876,49 +1937,11 @@
         </div>
       </section>
 
-      <!-- CTA Section -->
       <section class="section">
         <div class="cta-section">
           <h2 class="cta-title">Topluluğumuza Katılın</h2>
           <p class="cta-description">Hemen üye olun ve bu harika deneyimin bir parçası olun!</p>
           <a href="/join" class="cta-button">Üye Ol</a>
-        </div>
-      </section>
-
-      <!-- Added PDF Library Section -->
-      <section class="section">
-        <h2 class="section-title">Paylaşım Deposu</h2>
-        <div class="pdf-library-grid">
-          <!-- Added cover images to PDF cards -->
-          <div class="pdf-card" data-pdf="test.pdf" data-title="Temel Programlama Rehberi">
-            <div class="pdf-card-cover">
-              <img src="/placeholder.svg?height=360&width=280" alt="Temel Programlama Rehberi">
-            </div>
-            <div class="pdf-card-info">
-              <h3 class="pdf-card-title">Temel Programlama Rehberi</h3>
-              <p class="pdf-card-description">Programlamaya başlayanlar için kapsamlı bir rehber. Temel kavramlar ve uygulamalar.</p>
-            </div>
-          </div>
-
-          <div class="pdf-card" data-pdf="test2.pdf" data-title="Web Geliştirme İleri Seviye">
-            <div class="pdf-card-cover">
-              <img src="/placeholder.svg?height=360&width=280" alt="Web Geliştirme İleri Seviye">
-            </div>
-            <div class="pdf-card-info">
-              <h3 class="pdf-card-title">Web Geliştirme İleri Seviye</h3>
-              <p class="pdf-card-description">Modern web teknolojileri ve ileri seviye konular. Framework'ler ve best practices.</p>
-            </div>
-          </div>
-
-          <div class="pdf-card" data-pdf="test3.pdf" data-title="Veri Bilimi ve Analitik">
-            <div class="pdf-card-cover">
-              <img src="/placeholder.svg?height=360&width=280" alt="Veri Bilimi ve Analitik">
-            </div>
-            <div class="pdf-card-info">
-              <h3 class="pdf-card-title">Veri Bilimi ve Analitik</h3>
-              <p class="pdf-card-description">Veri analizi, makine öğrenmesi ve istatistik temelleri. Pratik uygulamalar.</p>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -1929,7 +1952,6 @@
     <p>© 2025 Liquid Glass Topluluğu. Tüm hakları saklıdır.</p>
   </footer>
 
-  <!-- Updated PDF Viewer Modal with search and page jump -->
   <div class="pdf-viewer-modal" id="pdfViewerModal">
     <div class="pdf-viewer-container">
       <div class="pdf-viewer-top-controls">
@@ -1951,10 +1973,8 @@
         </button>
       </div>
       
-      <!-- Search panel -->
       <div class="pdf-search-panel" id="pdfSearchPanel">
         <input type="text" class="pdf-search-input" id="pdfSearchInput" placeholder="Kelime ara...">
-        <!-- Added navigation controls for search results -->
         <div class="pdf-search-nav" id="pdfSearchNav" style="display: none;">
           <button class="pdf-search-nav-btn" id="pdfSearchPrev" title="Önceki">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -2010,7 +2030,20 @@
   </div>
 
   <script>
-    // Theme Switcher
+    // <CHANGE> Added sound effect functions
+    const menuSound = document.getElementById('menuSound');
+    const themeSound = document.getElementById('themeSound');
+
+    function playMenuSound() {
+      menuSound.currentTime = 0;
+      menuSound.play().catch(e => console.log('Audio play failed:', e));
+    }
+
+    function playThemeSound() {
+      themeSound.currentTime = 0;
+      themeSound.play().catch(e => console.log('Audio play failed:', e));
+    }
+
     const switcher = document.querySelector('.switcher');
 
     const trackPrevious = (el) => {
@@ -2028,6 +2061,8 @@
           if (radio.checked) {
             el.setAttribute('c-previous', previousValue ?? '');
             previousValue = radio.getAttribute("c-option");
+            // <CHANGE> Play theme sound when theme changes
+            playThemeSound();
           }
         });
       });
@@ -2035,27 +2070,29 @@
 
     trackPrevious(switcher);
 
-    // Mobile Menu Toggle
     const navbar = document.getElementById('navbar');
     const menuToggle = document.getElementById('menuToggle');
     const closeMenuBtn = document.getElementById('closeMenuBtn');
 
+    // <CHANGE> Added sound effects to menu toggle
     menuToggle.addEventListener('click', () => {
       navbar.classList.add('menu-open');
+      playMenuSound();
     });
 
     closeMenuBtn.addEventListener('click', () => {
       navbar.classList.remove('menu-open');
+      playMenuSound();
     });
 
     const menuLinks = document.querySelectorAll('.navbar-menu a');
     menuLinks.forEach(link => {
       link.addEventListener('click', () => {
         navbar.classList.remove('menu-open');
+        playMenuSound();
       });
     });
 
-    // Carousel functionality
     const track = document.getElementById('carouselTrack');
     const slides = document.querySelectorAll('.carousel-slide');
     const dots = document.querySelectorAll('.carousel-dot');
@@ -2087,21 +2124,18 @@
 
     setInterval(nextSlide, 5000);
 
-    // Expandable cards functionality
     const expandableCards = document.querySelectorAll('[data-expandable]');
     
     expandableCards.forEach(card => {
       card.addEventListener('click', () => {
         const isExpanded = card.classList.contains('expanded');
         
-        // Close all other cards
         expandableCards.forEach(otherCard => {
           if (otherCard !== card) {
             otherCard.classList.remove('expanded');
           }
         });
         
-        // Toggle current card
         if (isExpanded) {
           card.classList.remove('expanded');
         } else {
@@ -2227,7 +2261,6 @@
       currentSearchQuery = query;
       searchMatches = [];
       
-      // Search through all pages and collect matches
       for (let pageIndex = 0; pageIndex < pdfTextContent.length; pageIndex++) {
         const text = pdfTextContent[pageIndex].toLowerCase();
         let startIndex = 0;
@@ -2280,7 +2313,6 @@
       
       const match = searchMatches[matchIndex];
       
-      // Navigate to page if different
       if (match.pageNum !== pageNum) {
         pageNum = match.pageNum;
         await queueRenderPage(pageNum);
@@ -2288,7 +2320,6 @@
         resetZoomAndPan();
       }
       
-      // Highlight all matches on current page
       await highlightSearchMatches();
     }
 
