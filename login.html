@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grup Üye Sistemi</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --fz: 16px;
+      --saturation: 1.8;
+      
+      --page1-bg: #0a1628;
+      --page1-content: #e8f0ff;
+      --page1-action: #3b82f6;
+      --page1-glass: #1e3a5f;
+      --page1-light: #ffffff;
+      --page1-dark: #000000;
+      
+      --page2-bg: #1a0a2e;
+      --page2-content: #f0e8ff;
+      --page2-action: #a855f7;
+      --page2-glass: #3d1e5f;
+      --page2-light: #ffffff;
+      --page2-dark: #000000;
+      
+      --page3-bg: #0a2e1a;
+      --page3-content: #e8fff0;
+      --page3-action: #10b981;
+      --page3-glass: #1e5f3d;
+      --page3-light: #ffffff;
+      --page3-dark: #000000;
+      
+      --c-bg: var(--page1-bg);
+      --c-content: var(--page1-content);
+      --c-action: var(--page1-action);
+      --c-glass: var(--page1-glass);
+      --c-light: var(--page1-light);
+      --c-dark: var(--page1-dark);
+      
+      --glass-reflex-light: 1;
+      --glass-reflex-dark: 1;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background-color: var(--c-bg);
+      color: var(--c-content);
+      min-height: 100vh;
+      transition: background-color 600ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .header-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 70px;
+      padding: 8px 20px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
+        inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent), 
+        inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--c-content);
+      text-decoration: none;
+      transition: color 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-left: auto;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--c-action);
+    }
+
+    .user-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--c-content);
+    }
+
+    .logout-btn {
+      padding: 8px 16px;
+      border-radius: 20px;
+      background-color: color-mix(in srgb, var(--c-action) 20%, transparent);
+      color: var(--c-content);
+      border: 1px solid var(--c-action);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 300ms;
+    }
+
+    .logout-btn:hover {
+      background-color: color-mix(in srgb, var(--c-action) 40%, transparent);
+    }
+
+    .switcher {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 244px;
+      max-width: 244px;
+      height: 70px;
+      box-sizing: border-box;
+      padding: 8px 12px 10px;
+      border: none;
+      border-radius: 99em;
+      font-size: var(--fz);
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
+        inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent), 
+        inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      transition: 
+        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      position: relative;
+    }
+
+    .switcher__legend {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      border: 0;
+      padding: 0;
+      white-space: nowrap;
+      clip-path: inset(100%);
+      clip: rect(0 0 0 0);
+      overflow: hidden;
+    }
+
+    .switcher__input {
+      clip: rect(0 0 0 0);
+      clip-path: inset(100%);
+      height: 1px;
+      width: 1px;
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+    }
+
+    .switcher__icon {
+      display: block;
+      width: 100%;
+      transition: scale 200ms cubic-bezier(0.5, 0, 0, 1);
+    }
+
+    .switcher__option {
+      --c: var(--c-content);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 16px;
+      width: 68px;
+      height: 100%;
+      box-sizing: border-box;
+      border-radius: 99em;
+      opacity: 1;
+      transition: all 160ms;
+    }
+
+    .switcher__option:hover {
+      --c: var(--c-action);
+      cursor: pointer;
+    }
+
+    .switcher__option:hover .switcher__icon {
+      scale: 1.2;
+    }
+
+    .switcher__option:has(input:checked) {
+      --c: var(--c-content);
+      cursor: auto;
+    }
+
+    .switcher__option:has(input:checked) .switcher__icon {
+      scale: 1;
+    }
+
+    .switcher::after {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      display: block;
+      width: 84px;
+      height: calc(100% - 10px);
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 36%, transparent);
+      z-index: -1;
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 2px 1px 0px -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -1.5px -1px 0px -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        inset -2px -6px 1px -5px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
+        inset -1px 2px 3px -1px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 0px -4px 1px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 3px 6px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+    }
+
+    .switcher:has(input[c-option="1"]:checked)::after {
+      translate: 0 0;
+      transform-origin: right;
+      transition: 
+        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        translate 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      animation: scaleToggle 440ms ease; 
+    }
+
+    .switcher:has(input[c-option="2"]:checked)::after {
+      translate: 76px 0;
+      transition: 
+        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        translate 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      animation: scaleToggle2 440ms ease; 
+    }
+
+    .switcher[c-previous="1"]:has(input[c-option="2"]:checked)::after {
+      transform-origin: left;
+    }
+
+    .switcher[c-previous="3"]:has(input[c-option="2"]:checked)::after {
+      transform-origin: right;
+    }
+
+    .switcher:has(input[c-option="3"]:checked)::after {
+      translate: 152px 0;
+      transform-origin: left;
+      transition: 
+        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        translate 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      animation: scaleToggle3 440ms ease; 
+    }
+
+    @keyframes scaleToggle {
+      0% { scale: 1 1; }
+      50% { scale: 1.1 1; }
+      100% { scale: 1 1; }
+    }
+
+    @keyframes scaleToggle2{
+      0% { scale: 1 1; }
+      50% { scale: 1.2 1; }
+      100% { scale: 1 1; }
+    } 
+
+    @keyframes scaleToggle3 {
+      0% { scale: 1 1; }
+      50% { scale: 1.1 1; }
+      100% { scale: 1 1; }
+    }
+
+    main {
+      padding-top: 120px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      padding: 60px 40px;
+      border-radius: 30px;
+      background-color: color-mix(in srgb, var(--c-glass) 15%, transparent);
+      backdrop-filter: blur(12px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(12px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        0px 10px 40px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+      max-width: 450px;
+      text-align: center;
+    }
+
+    .login-container h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--c-content);
+      margin-bottom: 10px;
+    }
+
+    .login-container p {
+      font-size: 1.1rem;
+      color: var(--c-content);
+      opacity: 0.8;
+      margin-bottom: 20px;
+    }
+
+    .page-content {
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 600ms cubic-bezier(0.4, 0, 0.2, 1), 
+                  transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: 1000px;
+      width: 100%;
+      padding: 40px;
+    }
+
+    .page-content.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .user-card {
+      background-color: color-mix(in srgb, var(--c-glass) 15%, transparent);
+      backdrop-filter: blur(12px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(12px) saturate(var(--saturation));
+      border-radius: 30px;
+      padding: 40px;
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        0px 10px 40px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 15%), transparent);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+      text-align: center;
+    }
+
+    .user-card-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid var(--c-action);
+      box-shadow: 0 8px 24px color-mix(in srgb, var(--c-action) 30%, transparent);
+    }
+
+    .user-card h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--c-content);
+      margin: 0;
+    }
+
+    .user-card-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .info-item {
+      background-color: color-mix(in srgb, var(--c-glass) 20%, transparent);
+      padding: 20px;
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-light) 8%, transparent);
+    }
+
+    .info-item-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--c-action);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .info-item-value {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--c-content);
+    }
+
+    .announcements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .announcement-card {
+      background-color: color-mix(in srgb, var(--c-glass) 15%, transparent);
+      backdrop-filter: blur(12px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(12px) saturate(var(--saturation));
+      border-radius: 25px;
+      padding: 30px;
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        0px 8px 30px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+      transition: transform 300ms, box-shadow 300ms;
+    }
+
+    .announcement-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 12px 40px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 18%), transparent);
+    }
+
+    .announcement-date {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--c-action);
+      margin-bottom: 12px;
+    }
+
+    .announcement-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--c-content);
+      margin-bottom: 12px;
+    }
+
+    .announcement-text {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--c-content);
+      opacity: 0.85;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .page-header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--c-content);
+      margin-bottom: 10px;
+    }
+
+    .page-header p {
+      font-size: 1.2rem;
+      color: var(--c-content);
+      opacity: 0.8;
+    }
+
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .navbar {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .user-info {
+        margin-left: 0;
+      }
+
+      .user-name {
+        display: none;
+      }
+
+      .switcher {
+        width: 180px;
+        max-width: 180px;
+        height: 54px;
+        padding: 6px 10px 8px;
+      }
+
+      .switcher__option {
+        width: 54px;
+        padding: 0 12px;
+      }
+
+      .switcher::after {
+        width: 60px;
+      }
+
+      .switcher:has(input[c-option="2"]:checked)::after {
+        translate: 54px 0;
+      }
+
+      .switcher:has(input[c-option="3"]:checked)::after {
+        translate: 108px 0;
+      }
+
+      .user-card-info {
+        grid-template-columns: 1fr;
+      }
+
+      .announcements-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .page-header h1 {
+        font-size: 2rem;
+      }
+
+      .login-container h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="loginScreen" class="login-container" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2000;">
+    <h1>Hoş Geldiniz</h1>
+    <p>Grup üye sistemine giriş yapmak için Google hesabınızla oturum açın</p>
+    <div id="g_id_onload"
+         data-client_id="858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse"
+         data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="filled_blue"
+         data-text="signin_with"
+         data-shape="rectangular"
+         data-logo_alignment="left">
+    </div>
+  </div>
+
+  <div class="header-container" id="mainHeader" style="display: none;">
+    <nav class="navbar">
+      <a href="#" class="navbar-logo">
+        <span>GRUP ÜYE SİSTEMİ</span>
+      </a>
+      <div class="user-info" id="userInfo">
+        <img id="navUserAvatar" class="user-avatar" src="/placeholder.svg" alt="User">
+        <span id="navUserName" class="user-name"></span>
+        <button class="logout-btn" onclick="logout()">Çıkış</button>
+      </div>
+    </nav>
+    <fieldset class="switcher" id="pageSwitcher">
+      <legend class="switcher__legend">Sayfa Seçin</legend>
+      <label class="switcher__option">
+        <input class="switcher__input" type="radio" name="page" value="page1" c-option="1" checked/>
+        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
+          <path fill="var(--c)" d="M18 6C11.373 6 6 11.373 6 18s5.373 12 12 12 12-5.373 12-12S24.627 6 18 6zm0 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S8 23.523 8 18 12.477 8 18 8zm-1 3v7h-4l5 6 5-6h-4v-7h-2z"/>
+        </svg>
+      </label>
+      <label class="switcher__option">
+        <input class="switcher__input" type="radio" name="page" value="page2" c-option="2"/>
+        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
+          <path fill="var(--c)" d="M8 10h20v2H8v-2zm0 6h20v2H8v-2zm0 6h14v2H8v-2z"/>
+        </svg>
+      </label>
+      <label class="switcher__option">
+        <input class="switcher__input" type="radio" name="page" value="page3" c-option="3"/>
+        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
+          <path fill="var(--c)" d="M18 6l-2.5 7.5H8l6 4.5L11.5 26 18 21.5 24.5 26 22 18l6-4.5h-7.5L18 6z"/>
+        </svg>
+      </label>
+    </fieldset>
+  </div>
+
+  <main id="mainContent" style="display: none;">
+    <div class="page-content active" id="page1">
+      <div class="user-card">
+        <img id="userAvatar" class="user-card-avatar" src="/placeholder.svg" alt="User Avatar">
+        <h2 id="userName"></h2>
+        <div class="user-card-info">
+          <div class="info-item">
+            <div class="info-item-label">Bölüm</div>
+            <div class="info-item-value" id="userDepartment"></div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Gruba Giriş Tarihi</div>
+            <div class="info-item-value" id="userJoinDate"></div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">E-posta</div>
+            <div class="info-item-value" id="userEmail"></div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-label">Üyelik Durumu</div>
+            <div class="info-item-value" id="userStatus"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-content" id="page2">
+      <div class="page-header">
+        <h1>Duyurular</h1>
+        <p>Grubumuzun son duyurularını buradan takip edebilirsiniz</p>
+      </div>
+      <div class="announcements-grid" id="announcementsContainer"></div>
+    </div>
+
+    <div class="page-content" id="page3">
+      <div class="page-header">
+        <h1>Etkinlikler</h1>
+        <p>Yaklaşan ve geçmiş etkinliklerimiz</p>
+      </div>
+      <div class="announcements-grid" id="eventsContainer"></div>
+    </div>
+  </main>
+
+  <script>
+    // Kullanıcı verileri (kullanicilar.json simülasyonu)
+    const kullanicilar = {
+      "m.yusufertek@gmail.com": {
+        "isim": "Mehmet Yusuf Ertek",
+        "bolum": "Bilgisayar Mühendisliği",
+        "giris_tarihi": "15 Ocak 2024",
+        "durum": "Aktif Üye"
+      },
+      "test@gmail.com": {
+        "isim": "Test Kullanıcı",
+        "bolum": "Yazılım Mühendisliği",
+        "giris_tarihi": "20 Şubat 2024",
+        "durum": "Aktif Üye"
+      }
+    };
+
+    // Duyurular
+    const duyurular = [
+      {
+        tarih: "10 Mart 2024",
+        baslik: "Yeni Proje Duyurusu",
+        metin: "Grubumuz yeni bir açık kaynak projesine başlıyor. Tüm üyelerimizi katılmaya davet ediyoruz."
+      },
+      {
+        tarih: "5 Mart 2024",
+        baslik: "Haftalık Toplantı",
+        metin: "Bu hafta Cuma günü saat 18:00'de online toplantımız olacak. Katılımınızı bekliyoruz."
+      },
+      {
+        tarih: "1 Mart 2024",
+        baslik: "Yeni Üyeler",
+        metin: "Grubumuza katılan yeni üyelerimize hoş geldiniz! Birlikte harika projeler yapacağız."
+      }
+    ];
+
+    // Etkinlikler
+    const etkinlikler = [
+      {
+        tarih: "25 Mart 2024",
+        baslik: "Hackathon 2024",
+        metin: "24 saatlik hackathon etkinliğimiz düzenlenecek. Ödüllü yarışmamıza katılın!"
+      },
+      {
+        tarih: "18 Mart 2024",
+        baslik: "Workshop: React ile Web Geliştirme",
+        metin: "React framework'ü ile modern web uygulamaları geliştirmeyi öğrenin."
+      },
+      {
+        tarih: "12 Mart 2024",
+        baslik: "Networking Etkinliği",
+        metin: "Sektör profesyonelleri ile tanışma ve networking fırsatı."
+      }
+    ];
+
+    let currentUser = null;
+
+    function handleCredentialResponse(response) {
+      const responsePayload = parseJwt(response.credential);
+      const userEmail = responsePayload.email;
+      
+      console.log('Giriş yapan kullanıcı:', userEmail);
+      
+      // Kullanıcı verilerini kontrol et
+      if (kullanicilar[userEmail]) {
+        currentUser = {
+          email: userEmail,
+          name: kullanicilar[userEmail].isim,
+          picture: responsePayload.picture,
+          ...kullanicilar[userEmail]
+        };
+        
+        showMainContent();
+      } else {
+        alert('Bu e-posta adresi sistemde kayıtlı değil. Lütfen yönetici ile iletişime geçin.');
+      }
+    }
+
+    function parseJwt(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonPayload);
+    }
+
+    function showMainContent() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('mainHeader').style.display = 'flex';
+      document.getElementById('mainContent').style.display = 'flex';
+      
+      // Kullanıcı bilgilerini doldur
+      document.getElementById('userName').textContent = currentUser.name;
+      document.getElementById('userEmail').textContent = currentUser.email;
+      document.getElementById('userDepartment').textContent = currentUser.bolum;
+      document.getElementById('userJoinDate').textContent = currentUser.giris_tarihi;
+      document.getElementById('userStatus').textContent = currentUser.durum;
+      document.getElementById('userAvatar').src = currentUser.picture;
+      document.getElementById('navUserAvatar').src = currentUser.picture;
+      document.getElementById('navUserName').textContent = currentUser.name;
+      
+      // Duyuruları yükle
+      loadAnnouncements();
+      loadEvents();
+    }
+
+    function loadAnnouncements() {
+      const container = document.getElementById('announcementsContainer');
+      container.innerHTML = '';
+      
+      duyurular.forEach(duyuru => {
+        const card = document.createElement('div');
+        card.className = 'announcement-card';
+        card.innerHTML = `
+          <div class="announcement-date">${duyuru.tarih}</div>
+          <div class="announcement-title">${duyuru.baslik}</div>
+          <div class="announcement-text">${duyuru.metin}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function loadEvents() {
+      const container = document.getElementById('eventsContainer');
+      container.innerHTML = '';
+      
+      etkinlikler.forEach(etkinlik => {
+        const card = document.createElement('div');
+        card.className = 'announcement-card';
+        card.innerHTML = `
+          <div class="announcement-date">${etkinlik.tarih}</div>
+          <div class="announcement-title">${etkinlik.baslik}</div>
+          <div class="announcement-text">${etkinlik.metin}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function logout() {
+      currentUser = null;
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('mainHeader').style.display = 'none';
+      document.getElementById('mainContent').style.display = 'none';
+      
+      // Sayfa 1'e dön
+      document.querySelectorAll('.page-content').forEach(page => {
+        page.classList.remove('active');
+      });
+      document.getElementById('page1').classList.add('active');
+      document.querySelector('input[value="page1"]').checked = true;
+    }
+
+    // Sayfa geçiş sistemi
+    const switcher = document.getElementById('pageSwitcher');
+    const root = document.documentElement;
+
+    const trackPrevious = (el) => {
+      const radios = el.querySelectorAll('input[type="radio"]');
+      let previousValue = null;
+
+      const initiallyChecked = el.querySelector('input[type="radio"]:checked');
+      if (initiallyChecked) {
+        previousValue = initiallyChecked.getAttribute("c-option");
+        el.setAttribute('c-previous', previousValue);
+      }
+
+      radios.forEach(radio => {
+        radio.addEventListener('change', () => {
+          if (radio.checked) {
+            el.setAttribute('c-previous', previousValue ?? '');
+            previousValue = radio.getAttribute("c-option");
+          }
+        });
+      });
+    }
+
+    trackPrevious(switcher);
+
+    const pageRadios = document.querySelectorAll('input[name="page"]');
+    const pages = document.querySelectorAll('.page-content');
+
+    pageRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        const selectedPage = radio.value;
+        
+        pages.forEach(page => {
+          page.classList.remove('active');
+        });
+
+        document.getElementById(selectedPage).classList.add('active');
+
+        if (selectedPage === 'page1') {
+          root.style.setProperty('--c-bg', 'var(--page1-bg)');
+          root.style.setProperty('--c-content', 'var(--page1-content)');
+          root.style.setProperty('--c-action', 'var(--page1-action)');
+          root.style.setProperty('--c-glass', 'var(--page1-glass)');
+          root.style.setProperty('--c-light', 'var(--page1-light)');
+          root.style.setProperty('--c-dark', 'var(--page1-dark)');
+        } else if (selectedPage === 'page2') {
+          root.style.setProperty('--c-bg', 'var(--page2-bg)');
+          root.style.setProperty('--c-content', 'var(--page2-content)');
+          root.style.setProperty('--c-action', 'var(--page2-action)');
+          root.style.setProperty('--c-glass', 'var(--page2-glass)');
+          root.style.setProperty('--c-light', 'var(--page2-light)');
+          root.style.setProperty('--c-dark', 'var(--page2-dark)');
+        } else if (selectedPage === 'page3') {
+          root.style.setProperty('--c-bg', 'var(--page3-bg)');
+          root.style.setProperty('--c-content', 'var(--page3-content)');
+          root.style.setProperty('--c-action', 'var(--page3-action)');
+          root.style.setProperty('--c-glass', 'var(--page3-glass)');
+          root.style.setProperty('--c-light', 'var(--page3-light)');
+          root.style.setProperty('--c-dark', 'var(--page3-dark)');
+        }
+      });
+    });
+
+    // Google Sign-In başlatma
+    function initializeGoogleSignIn() {
+      if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+        google.accounts.id.initialize({
+          client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
+          callback: handleCredentialResponse,
+          auto_select: false,
+          cancel_on_tap_outside: true
+        });
+        console.log('Google Sign-In başarıyla başlatıldı.');
+      } else {
+        console.warn('Google Sign-In scripti henüz yüklenmedi. Tekrar deneniyor...');
+        setTimeout(initializeGoogleSignIn, 500);
+      }
+    }
+
+    window.onload = initializeGoogleSignIn;
+  </script>
+</body>
+</html>
