@@ -20,29 +20,30 @@
       --fz: 16px;
       --saturation: 1.8;
       
-      /* Page 1 - Blue Theme */
-      --page1-bg: #0a1628;
-      --page1-content: #e8f0ff;
-      --page1-action: #3b82f6;
-      --page1-glass: #1e3a5f;
+      /* Updated to sandy/light color scheme */
+      /* Page 1 - Sandy Beige Theme */
+      --page1-bg: #f5e6d3;
+      --page1-content: #3d2f1f;
+      --page1-action: #d4a574;
+      --page1-glass: #e8d4b8;
       --page1-light: #ffffff;
-      --page1-dark: #000000;
+      --page1-dark: #2a1f15;
       
-      /* Page 2 - Purple Theme */
-      --page2-bg: #1a0a2e;
-      --page2-content: #f0e8ff;
-      --page2-action: #a855f7;
-      --page2-glass: #3d1e5f;
+      /* Page 2 - Warm Sand Theme */
+      --page2-bg: #f0dcc4;
+      --page2-content: #4a3828;
+      --page2-action: #c9965f;
+      --page2-glass: #e0c9a8;
       --page2-light: #ffffff;
-      --page2-dark: #000000;
+      --page2-dark: #2f2318;
       
-      /* Page 3 - Green Theme */
-      --page3-bg: #0a2e1a;
-      --page3-content: #e8fff0;
-      --page3-action: #10b981;
-      --page3-glass: #1e5f3d;
+      /* Page 3 - Light Desert Theme */
+      --page3-bg: #f8ead8;
+      --page3-content: #3a2e20;
+      --page3-action: #b8956a;
+      --page3-glass: #ecdfc8;
       --page3-light: #ffffff;
-      --page3-dark: #000000;
+      --page3-dark: #251a10;
       
       /* Active colors */
       --c-bg: var(--page1-bg);
@@ -58,7 +59,8 @@
 
     body {
       font-family: "DM Sans", sans-serif;
-      background: linear-gradient(135deg, #0a1628 0%, #1a0a2e 50%, #0a2e1a 100%);
+      /* Updated background to sandy gradient */
+      background: linear-gradient(135deg, #f5e6d3 0%, #f0dcc4 50%, #f8ead8 100%);
       color: var(--c-content);
       min-height: 100vh;
       transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -66,7 +68,7 @@
       overflow-x: hidden;
     }
 
-    /* Animated background particles */
+    /* Updated particles to match sandy theme */
     body::before {
       content: '';
       position: fixed;
@@ -75,9 +77,9 @@
       width: 100%;
       height: 100%;
       background: 
-        radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+        radial-gradient(circle at 20% 30%, rgba(212, 165, 116, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(201, 150, 95, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(184, 149, 106, 0.1) 0%, transparent 50%);
       animation: particleFloat 20s ease-in-out infinite;
       pointer-events: none;
       z-index: 0;
@@ -89,12 +91,11 @@
       66% { transform: translate(-20px, 20px) scale(0.9); }
     }
 
-    /* SVG Filter for Glass Distortion */
     svg {
       display: none;
     }
 
-    /* Login screen now has solid background to completely hide main page */
+    /* Updated login screen background to sandy */
     .login-screen {
       position: fixed;
       top: 0;
@@ -106,7 +107,7 @@
       justify-content: center;
       z-index: 9999;
       transition: opacity 600ms ease, visibility 600ms ease;
-      background: linear-gradient(135deg, #0a1628 0%, #1a0a2e 50%, #0a2e1a 100%);
+      background: linear-gradient(135deg, #f5e6d3 0%, #f0dcc4 50%, #f8ead8 100%);
     }
 
     .login-screen::before {
@@ -116,7 +117,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+      background: radial-gradient(circle at 50% 50%, rgba(212, 165, 116, 0.2) 0%, transparent 70%);
       animation: pulseGlow 4s ease-in-out infinite;
     }
 
@@ -131,14 +132,14 @@
       pointer-events: none;
     }
 
-    /* Glass Form Styles */
+    /* Updated glass form colors for sandy theme */
     .glass-form {
-      --bg-color: rgba(30, 58, 95, 0.25);
-      --highlight: rgba(255, 255, 255, 0.75);
-      --text: #e8f0ff;
-      --input-bg: rgba(255, 255, 255, 0.1);
-      --input-border: rgba(255, 255, 255, 0.2);
-      --input-focus: rgba(255, 255, 255, 0.3);
+      --bg-color: rgba(232, 212, 184, 0.4);
+      --highlight: rgba(255, 255, 255, 0.9);
+      --text: #3d2f1f;
+      --input-bg: rgba(255, 255, 255, 0.5);
+      --input-border: rgba(212, 165, 116, 0.3);
+      --input-focus: rgba(212, 165, 116, 0.5);
       
       position: relative;
       width: 420px;
@@ -147,8 +148,8 @@
       border-radius: 24px;
       overflow: hidden;
       box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.3),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+        0 8px 32px rgba(61, 47, 31, 0.2),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.5);
       animation: fadeInUp 800ms ease;
       z-index: 10;
     }
@@ -214,7 +215,6 @@
       line-height: 1.5;
     }
 
-    /* Custom Google Sign-In Button */
     .google-signin-wrapper {
       margin: 24px 0;
     }
@@ -222,8 +222,8 @@
     .custom-google-btn {
       width: 100%;
       padding: 14px 20px;
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(212, 165, 116, 0.4);
       border-radius: 12px;
       color: var(--text);
       font-size: 16px;
@@ -235,17 +235,17 @@
       justify-content: center;
       gap: 12px;
       box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        0 4px 12px rgba(0, 0, 0, 0.2);
+        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+        0 4px 12px rgba(61, 47, 31, 0.15);
     }
 
     .custom-google-btn:hover {
-      background: rgba(255, 255, 255, 0.25);
-      border-color: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.9);
+      border-color: rgba(212, 165, 116, 0.6);
       transform: translateY(-2px);
       box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        0 6px 20px rgba(0, 0, 0, 0.3);
+        inset 0 1px 0 rgba(255, 255, 255, 1),
+        0 6px 20px rgba(61, 47, 31, 0.2);
     }
 
     .custom-google-btn:active {
@@ -273,7 +273,7 @@
       content: '';
       flex: 1;
       height: 1px;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(212, 165, 116, 0.3);
     }
 
     .divider span {
@@ -306,27 +306,27 @@
       color: var(--text);
       font-size: 16px;
       transition: all 300ms ease;
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+      box-shadow: inset 0 2px 4px rgba(61, 47, 31, 0.08);
     }
 
     .form-group input:focus {
       outline: none;
-      background: var(--input-focus);
-      border-color: var(--highlight);
+      background: rgba(255, 255, 255, 0.8);
+      border-color: var(--c-action);
       box-shadow: 
-        inset 0 2px 4px rgba(0, 0, 0, 0.1),
-        0 0 0 3px rgba(255, 255, 255, 0.1);
+        inset 0 2px 4px rgba(61, 47, 31, 0.08),
+        0 0 0 3px rgba(212, 165, 116, 0.2);
     }
 
     .form-group input::placeholder {
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(61, 47, 31, 0.5);
     }
 
     button[type="submit"] {
       width: 100%;
       padding: 14px;
-      background: rgba(59, 130, 246, 0.3);
-      border: 1px solid rgba(59, 130, 246, 0.5);
+      background: rgba(212, 165, 116, 0.5);
+      border: 1px solid rgba(212, 165, 116, 0.7);
       border-radius: 12px;
       color: var(--text);
       font-size: 16px;
@@ -335,17 +335,17 @@
       transition: all 300ms ease;
       margin-top: 12px;
       box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        0 4px 12px rgba(59, 130, 246, 0.2);
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 4px 12px rgba(212, 165, 116, 0.3);
     }
 
     button[type="submit"]:hover {
-      background: rgba(59, 130, 246, 0.4);
-      border-color: rgba(59, 130, 246, 0.7);
+      background: rgba(212, 165, 116, 0.7);
+      border-color: rgba(212, 165, 116, 0.9);
       transform: translateY(-2px);
       box-shadow: 
-        inset 0 1px 0 rgba(255, 255, 255, 0.3),
-        0 6px 20px rgba(59, 130, 246, 0.3);
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 6px 20px rgba(212, 165, 116, 0.4);
     }
 
     .form-switch {
@@ -356,14 +356,14 @@
     }
 
     .form-switch a {
-      color: #3b82f6;
+      color: #c9965f;
       text-decoration: none;
       font-weight: 600;
       transition: all 200ms ease;
     }
 
     .form-switch a:hover {
-      color: #60a5fa;
+      color: #d4a574;
       text-decoration: underline;
     }
 
@@ -380,12 +380,14 @@
       transform: translateX(0);
     }
 
+    /* Made header fullscreen and navbar items horizontal on mobile */
     .header-container {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       display: flex;
+      flex-direction: row;
       justify-content: center;
       align-items: center;
       gap: 16px;
@@ -400,25 +402,19 @@
       height: 70px;
       padding: 8px 20px;
       border-radius: 99em;
-      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      background-color: color-mix(in srgb, var(--c-glass) 30%, transparent);
       backdrop-filter: blur(8px) saturate(var(--saturation));
       -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
       box-shadow: 
-        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 20%), transparent),
         inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
-        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
       transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
+    /* Removed navbar logo text */
     .navbar-logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 600;
-      font-size: 1.1rem;
-      color: var(--c-content);
-      text-decoration: none;
-      transition: color 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      display: none;
     }
 
     .user-info {
@@ -427,7 +423,7 @@
       gap: 12px;
       padding: 8px 16px;
       border-radius: 99em;
-      background-color: color-mix(in srgb, var(--c-glass) 20%, transparent);
+      background-color: color-mix(in srgb, var(--c-glass) 40%, transparent);
       backdrop-filter: blur(8px);
       font-size: 0.9rem;
       color: var(--c-content);
@@ -452,12 +448,12 @@
       border: none;
       border-radius: 99em;
       font-size: var(--fz);
-      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      background-color: color-mix(in srgb, var(--c-glass) 30%, transparent);
       backdrop-filter: blur(8px) saturate(var(--saturation));
       -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
       box-shadow: 
-        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 20%), transparent),
+        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
       transition: all 400ms cubic-bezier(1, 0.0, 0.4, 1);
       position: relative;
     }
@@ -528,11 +524,11 @@
       width: 84px;
       height: calc(100% - 10px);
       border-radius: 99em;
-      background-color: color-mix(in srgb, var(--c-glass) 36%, transparent);
+      background-color: color-mix(in srgb, var(--c-glass) 60%, transparent);
       z-index: -1;
       box-shadow: 
-        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-        0px 3px 6px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 30%), transparent),
+        0px 3px 6px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 15%), transparent);
     }
 
     .switcher:has(input[c-option="1"]:checked)::after {
@@ -573,13 +569,14 @@
       100% { scale: 1 1; }
     }
 
+    /* Made main fullscreen */
     main {
-      padding-top: 120px;
+      padding-top: 100px;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding-bottom: 60px;
+      padding-bottom: 20px;
       position: relative;
       z-index: 1;
     }
@@ -601,32 +598,114 @@
       transform: translateY(0);
     }
 
-    /* Enhanced Membership Card */
-    .membership-card {
+    /* Added card flip container and 3D perspective */
+    .card-flip-container {
+      perspective: 1500px;
       width: 460px;
       max-width: 100%;
       height: 280px;
       margin: 0 auto;
+      cursor: pointer;
+    }
+
+    .card-flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 800ms cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+
+    .card-flip-container.flipped .card-flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .membership-card,
+    .membership-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    /* Enhanced membership card with sandy theme */
+    .membership-card {
       padding: 36px;
       border-radius: 24px;
       background: linear-gradient(135deg, 
-        color-mix(in srgb, var(--c-glass) 50%, transparent) 0%,
-        color-mix(in srgb, var(--c-glass) 25%, transparent) 100%);
+        color-mix(in srgb, var(--c-glass) 70%, transparent) 0%,
+        color-mix(in srgb, var(--c-glass) 40%, transparent) 100%);
       backdrop-filter: blur(20px) saturate(1.8);
       -webkit-backdrop-filter: blur(20px) saturate(1.8);
       box-shadow: 
-        inset 0 0 0 1px color-mix(in srgb, var(--c-light) 20%, transparent),
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) 40%, transparent),
         inset 3px 4px 0px -1px color-mix(in srgb, var(--c-light) 90%, transparent), 
-        inset -3px -3px 0px -1px color-mix(in srgb, var(--c-light) 60%, transparent), 
-        0px 12px 40px 0px color-mix(in srgb, var(--c-dark) 40%, transparent),
+        inset -3px -3px 0px -1px color-mix(in srgb, var(--c-light) 70%, transparent), 
+        0px 12px 40px 0px color-mix(in srgb, var(--c-dark) 25%, transparent),
         0px 4px 12px 0px color-mix(in srgb, var(--c-action) 30%, transparent);
-      position: relative;
-      overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       animation: cardFloat 1000ms cubic-bezier(0.4, 0, 0.2, 1);
-      transform-style: preserve-3d;
+      overflow: hidden;
+    }
+
+    /* Added back side of card with QR code */
+    .membership-card-back {
+      padding: 36px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, 
+        color-mix(in srgb, var(--c-glass) 70%, transparent) 0%,
+        color-mix(in srgb, var(--c-glass) 40%, transparent) 100%);
+      backdrop-filter: blur(20px) saturate(1.8);
+      -webkit-backdrop-filter: blur(20px) saturate(1.8);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) 40%, transparent),
+        inset 3px 4px 0px -1px color-mix(in srgb, var(--c-light) 90%, transparent), 
+        inset -3px -3px 0px -1px color-mix(in srgb, var(--c-light) 70%, transparent), 
+        0px 12px 40px 0px color-mix(in srgb, var(--c-dark) 25%, transparent),
+        0px 4px 12px 0px color-mix(in srgb, var(--c-action) 30%, transparent);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transform: rotateY(180deg);
+      overflow: hidden;
+    }
+
+    .qr-code-container {
+      background: white;
+      padding: 16px;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(61, 47, 31, 0.2);
+      margin-bottom: 20px;
+    }
+
+    .qr-code-container img {
+      display: block;
+      width: 160px;
+      height: 160px;
+    }
+
+    .qr-code-label {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--c-content);
+      opacity: 0.8;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+    }
+
+    .qr-member-code {
+      text-align: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--c-content);
+      letter-spacing: 3px;
     }
 
     @keyframes cardFloat {
@@ -688,7 +767,7 @@
       color: var(--c-content);
       text-transform: uppercase;
       letter-spacing: 3px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      text-shadow: 0 2px 8px rgba(61, 47, 31, 0.2);
     }
 
     .card-chip {
@@ -699,8 +778,8 @@
         color-mix(in srgb, var(--c-action) 40%, transparent));
       border-radius: 10px;
       box-shadow: 
-        inset 0 2px 6px rgba(0,0,0,0.4),
-        0 2px 8px rgba(0,0,0,0.3);
+        inset 0 2px 6px rgba(61, 47, 31, 0.3),
+        0 2px 8px rgba(61, 47, 31, 0.2);
       position: relative;
     }
 
@@ -711,7 +790,7 @@
       left: 8px;
       right: 8px;
       bottom: 8px;
-      border: 1px solid rgba(255,255,255,0.3);
+      border: 1px solid rgba(255,255,255,0.4);
       border-radius: 4px;
     }
 
@@ -723,7 +802,7 @@
       letter-spacing: 6px;
       margin: 24px 0;
       text-shadow: 
-        0 2px 4px rgba(0,0,0,0.3),
+        0 2px 4px rgba(61, 47, 31, 0.2),
         0 4px 12px color-mix(in srgb, var(--c-action) 40%, transparent);
       position: relative;
       z-index: 1;
@@ -757,7 +836,7 @@
       font-weight: 600;
       color: var(--c-content);
       text-transform: uppercase;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      text-shadow: 0 1px 4px rgba(61, 47, 31, 0.15);
     }
 
     .card-date {
@@ -770,7 +849,6 @@
       z-index: 1;
     }
 
-    /* Content Sections */
     .content-section {
       text-align: center;
     }
@@ -781,7 +859,7 @@
       margin-bottom: 40px;
       color: var(--c-content);
       transition: color 400ms cubic-bezier(0.4, 0, 0.2, 1);
-      text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      text-shadow: 0 2px 12px rgba(61, 47, 31, 0.15);
     }
 
     .cards-grid {
@@ -794,13 +872,13 @@
     .info-card {
       padding: 32px;
       border-radius: 20px;
-      background-color: color-mix(in srgb, var(--c-glass) 15%, transparent);
+      background-color: color-mix(in srgb, var(--c-glass) 40%, transparent);
       backdrop-filter: blur(12px) saturate(var(--saturation));
       -webkit-backdrop-filter: blur(12px) saturate(var(--saturation));
       box-shadow: 
-        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 30%), transparent),
         inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
-        0px 4px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 15%), transparent);
+        0px 4px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
       transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
       text-align: left;
     }
@@ -808,9 +886,9 @@
     .info-card:hover {
       transform: translateY(-4px);
       box-shadow: 
-        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 40%), transparent),
         inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
-        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 25%), transparent);
     }
 
     .info-card-icon {
@@ -819,7 +897,7 @@
       margin-bottom: 16px;
       padding: 12px;
       border-radius: 12px;
-      background-color: color-mix(in srgb, var(--c-action) 20%, transparent);
+      background-color: color-mix(in srgb, var(--c-action) 30%, transparent);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -853,9 +931,12 @@
     }
 
     @media (max-width: 768px) {
+      /* Keep header items horizontal on mobile */
       .header-container {
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
         gap: 12px;
+        padding: 12px;
       }
 
       .glass-form {
@@ -891,16 +972,25 @@
         translate: 108px 0;
       }
 
-      .membership-card {
+      .card-flip-container {
         width: 100%;
         max-width: 400px;
         height: 260px;
+      }
+
+      .membership-card,
+      .membership-card-back {
         padding: 28px;
       }
 
       .card-number {
         font-size: 2.2rem;
         letter-spacing: 4px;
+      }
+
+      .qr-code-container img {
+        width: 140px;
+        height: 140px;
       }
 
       .section-title {
@@ -914,12 +1004,10 @@
   </style>
 </head>
 <body>
-  <!-- Added audio element for button click sound -->
   <audio id="clickSound" preload="auto">
     <source src="ses.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- SVG Filter for Glass Distortion -->
   <svg>
     <filter id="glass-distortion">
       <feTurbulence type="turbulence" baseFrequency="0.008" numOctaves="2" result="noise" />
@@ -927,7 +1015,6 @@
     </filter>
   </svg>
 
-  <!-- Login Screen with Glass Form -->
   <div class="login-screen" id="loginScreen">
     <div class="glass-form">
       <div class="glass-filter"></div>
@@ -938,7 +1025,6 @@
           <h3>Hoş Geldiniz</h3>
           <p class="subtitle">Üyelik sistemine giriş yapmak için Google hesabınızla oturum açın</p>
           
-          <!-- Custom Google Sign-In Button -->
           <div class="google-signin-wrapper">
             <button class="custom-google-btn" id="customGoogleBtn">
               <svg class="google-icon" viewBox="0 0 24 24">
@@ -997,12 +1083,9 @@
     </div>
   </div>
 
-  <!-- Main App -->
   <div class="header-container">
     <nav class="navbar">
-      <a href="#" class="navbar-logo">
-        <span>ÜYELİK SİSTEMİ</span>
-      </a>
+      <!-- Removed navbar logo text -->
       <div class="user-info" id="userInfo" style="display: none;">
         <img id="userAvatar" class="user-avatar" src="/placeholder.svg" alt="User">
         <span id="userName"></span>
@@ -1032,32 +1115,43 @@
   </div>
 
   <main>
-    <!-- Page 1: Membership Card -->
     <div class="page-content active" id="page1">
-      <div class="membership-card">
-        <div class="card-header">
-          <div class="card-logo">MEMBER</div>
-          <div class="card-chip"></div>
-        </div>
-        <div class="card-number" id="memberNumber">0000 0000</div>
-        <div class="card-info">
-          <div class="card-holder">
-            <div class="card-label">Üye Adı</div>
-            <div class="card-value" id="memberName">-</div>
+      <!-- Added card flip container with QR code on back -->
+      <div class="card-flip-container" id="cardFlipContainer">
+        <div class="card-flip-inner">
+          <div class="membership-card">
+            <div class="card-header">
+              <div class="card-logo">MEMBER</div>
+              <div class="card-chip"></div>
+            </div>
+            <div class="card-number" id="memberNumber">0000 0000</div>
+            <div class="card-info">
+              <div class="card-holder">
+                <div class="card-label">Üye Adı</div>
+                <div class="card-value" id="memberName">-</div>
+              </div>
+              <div class="card-date">
+                <div class="card-label">Bölüm</div>
+                <div class="card-value" id="memberDepartment">-</div>
+              </div>
+            </div>
+            <div class="card-extra-info">
+              <div class="card-label">Giriş Tarihi</div>
+              <div class="card-value" id="memberJoinDate">-</div>
+            </div>
           </div>
-          <div class="card-date">
-            <div class="card-label">Bölüm</div>
-            <div class="card-value" id="memberDepartment">-</div>
+          
+          <div class="membership-card-back">
+            <div class="qr-code-label">Üye QR Kodu</div>
+            <div class="qr-code-container">
+              <img id="qrCodeImage" src="/placeholder.svg" alt="QR Code">
+            </div>
+            <div class="qr-member-code" id="qrMemberCode">0000 0000</div>
           </div>
-        </div>
-        <div class="card-extra-info">
-          <div class="card-label">Giriş Tarihi</div>
-          <div class="card-value" id="memberJoinDate">-</div>
         </div>
       </div>
     </div>
 
-    <!-- Page 2: Announcements -->
     <div class="page-content" id="page2">
       <div class="content-section">
         <h1 class="section-title">Duyurular</h1>
@@ -1096,7 +1190,6 @@
       </div>
     </div>
 
-    <!-- Page 3: Events -->
     <div class="page-content" id="page3">
       <div class="content-section">
         <h1 class="section-title">Etkinlikler</h1>
@@ -1146,7 +1239,6 @@
       }
     }
 
-    // User database
     const usersDatabase = {
       "m.yusufertek@gmail.com": {
         name: "Mehmet Yusuf Ertek",
@@ -1166,7 +1258,6 @@
 
     let currentUser = null;
 
-    // Glass form mouse effects
     const glassForm = document.querySelector('.glass-form');
     const glassSpecular = document.querySelector('.glass-specular');
 
@@ -1178,8 +1269,8 @@
         
         glassSpecular.style.background = `radial-gradient(
           circle at ${x}px ${y}px,
-          rgba(255,255,255,0.2) 0%,
-          rgba(255,255,255,0.08) 30%,
+          rgba(255,255,255,0.3) 0%,
+          rgba(255,255,255,0.1) 30%,
           rgba(255,255,255,0) 60%
         )`;
       });
@@ -1189,7 +1280,6 @@
       });
     }
 
-    // Form switching
     const switchToRegister = document.querySelector('.switch-to-register');
     const switchToLogin = document.querySelector('.switch-to-login');
     const loginForm = document.querySelector('.form-container.login');
@@ -1198,7 +1288,7 @@
     if (switchToRegister && switchToLogin && loginForm && registerForm) {
       switchToRegister.addEventListener('click', (e) => {
         e.preventDefault();
-        playClickSound(); // Play sound on form switch
+        playClickSound();
         loginForm.style.opacity = '0';
         loginForm.style.transform = 'translateX(-20px)';
         
@@ -1215,7 +1305,7 @@
       
       switchToLogin.addEventListener('click', (e) => {
         e.preventDefault();
-        playClickSound(); // Play sound on form switch
+        playClickSound();
         registerForm.style.opacity = '0';
         registerForm.style.transform = 'translateX(-20px)';
         
@@ -1231,11 +1321,10 @@
       });
     }
 
-    // Custom Google Sign-In Button
     const customGoogleBtn = document.getElementById('customGoogleBtn');
     if (customGoogleBtn) {
       customGoogleBtn.addEventListener('click', () => {
-        playClickSound(); // Play sound on Google button click
+        playClickSound();
         if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
           google.accounts.id.prompt();
         }
@@ -1249,7 +1338,24 @@
       });
     });
 
-    // Google Sign-In Handler
+    const cardFlipContainer = document.getElementById('cardFlipContainer');
+    if (cardFlipContainer) {
+      cardFlipContainer.addEventListener('click', () => {
+        playClickSound();
+        cardFlipContainer.classList.toggle('flipped');
+      });
+    }
+
+    function generateQRCode(memberNumber) {
+      const qrCodeImage = document.getElementById('qrCodeImage');
+      const qrMemberCode = document.getElementById('qrMemberCode');
+      
+      // Using QR Code API to generate QR code
+      const qrData = encodeURIComponent(memberNumber);
+      qrCodeImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${qrData}`;
+      qrMemberCode.textContent = memberNumber;
+    }
+
     function handleCredentialResponse(response) {
       const responsePayload = parseJwt(response.credential);
       const userEmail = responsePayload.email;
@@ -1271,6 +1377,8 @@
         document.getElementById('memberName').textContent = currentUser.name;
         document.getElementById('memberDepartment').textContent = currentUser.department;
         document.getElementById('memberJoinDate').textContent = currentUser.joinDate;
+        
+        generateQRCode(currentUser.memberNumber);
         
         document.getElementById('loginScreen').classList.add('hidden');
       } else {
@@ -1305,7 +1413,6 @@
 
     window.onload = initializeGoogleSignIn;
 
-    // Page switching
     const switcher = document.getElementById('pageSwitcher');
     const root = document.documentElement;
 
