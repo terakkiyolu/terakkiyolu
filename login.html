@@ -14,6 +14,9 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      /* Remove touch highlight effect on all elements */
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
     }
 
     :root {
@@ -429,6 +432,11 @@
       color: var(--c-content);
     }
 
+    /* Hide user name, only show avatar */
+    .user-info span {
+      display: none;
+    }
+
     .user-avatar {
       width: 36px;
       height: 36px;
@@ -794,9 +802,10 @@
       border-radius: 4px;
     }
 
+    /* Made card number fixed size instead of responsive */
     .card-number {
       font-family: 'Space Mono', monospace;
-      font-size: 3rem;
+      font-size: 48px;
       font-weight: 700;
       color: var(--c-content);
       letter-spacing: 6px;
@@ -821,8 +830,9 @@
       flex: 1;
     }
 
+    /* Made card labels fixed size */
     .card-label {
-      font-size: 0.7rem;
+      font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 1.5px;
       color: var(--c-content);
@@ -831,8 +841,9 @@
       font-weight: 500;
     }
 
+    /* Made card values fixed size */
     .card-value {
-      font-size: 1.05rem;
+      font-size: 17px;
       font-weight: 600;
       color: var(--c-content);
       text-transform: uppercase;
@@ -843,14 +854,9 @@
       text-align: right;
     }
 
+    /* Removed card extra info section (join date) */
     .card-extra-info {
-      margin-top: 16px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .content-section {
-      text-align: center;
+      display: none;
     }
 
     .section-title {
@@ -983,9 +989,10 @@
         padding: 28px;
       }
 
+      /* Removed responsive font size for card number on mobile */
       .card-number {
-        font-size: 2.2rem;
-        letter-spacing: 4px;
+        font-size: 48px;
+        letter-spacing: 6px;
       }
 
       .qr-code-container img {
@@ -1135,10 +1142,7 @@
                 <div class="card-value" id="memberDepartment">-</div>
               </div>
             </div>
-            <div class="card-extra-info">
-              <div class="card-label">Giriş Tarihi</div>
-              <div class="card-value" id="memberJoinDate">-</div>
-            </div>
+            <!-- Removed card-extra-info section with join date -->
           </div>
           
           <div class="membership-card-back">
@@ -1376,7 +1380,6 @@
         document.getElementById('memberNumber').textContent = currentUser.memberNumber;
         document.getElementById('memberName').textContent = currentUser.name;
         document.getElementById('memberDepartment').textContent = currentUser.department;
-        document.getElementById('memberJoinDate').textContent = currentUser.joinDate;
         
         generateQRCode(currentUser.memberNumber);
         
