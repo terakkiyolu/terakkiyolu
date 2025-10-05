@@ -15,7 +15,6 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      /* Remove touch highlight effect on all elements */
       -webkit-tap-highlight-color: transparent;
       -webkit-touch-callout: none;
     }
@@ -24,8 +23,6 @@
       --fz: 16px;
       --saturation: 1.8;
       
-      /* Updated to sandy/light color scheme */
-      /* Page 1 - Sandy Beige Theme */
       --page1-bg: #f5e6d3;
       --page1-content: #3d2f1f;
       --page1-action: #d4a574;
@@ -33,7 +30,6 @@
       --page1-light: #ffffff;
       --page1-dark: #2a1f15;
       
-      /* Page 2 - Warm Sand Theme */
       --page2-bg: #f0dcc4;
       --page2-content: #4a3828;
       --page2-action: #c9965f;
@@ -41,7 +37,6 @@
       --page2-light: #ffffff;
       --page2-dark: #2f2318;
       
-      /* Page 3 - Light Desert Theme */
       --page3-bg: #f8ead8;
       --page3-content: #3a2e20;
       --page3-action: #b8956a;
@@ -49,7 +44,6 @@
       --page3-light: #ffffff;
       --page3-dark: #251a10;
       
-      /* Active colors */
       --c-bg: var(--page1-bg);
       --c-content: var(--page1-content);
       --c-action: var(--page1-action);
@@ -63,7 +57,6 @@
 
     body {
       font-family: "DM Sans", sans-serif;
-      /* Updated background to sandy gradient */
       background: linear-gradient(135deg, #f5e6d3 0%, #f0dcc4 50%, #f8ead8 100%);
       color: var(--c-content);
       min-height: 100vh;
@@ -72,7 +65,6 @@
       overflow-x: hidden;
     }
 
-    /* Updated particles to match sandy theme */
     body::before {
       content: '';
       position: fixed;
@@ -99,7 +91,6 @@
       display: none;
     }
 
-    /* Updated login screen background to sandy */
     .login-screen {
       position: fixed;
       top: 0;
@@ -136,7 +127,6 @@
       pointer-events: none;
     }
 
-    /* Updated glass form colors for sandy theme */
     .glass-form {
       --bg-color: rgba(232, 212, 184, 0.4);
       --highlight: rgba(255, 255, 255, 0.9);
@@ -384,7 +374,6 @@
       transform: translateX(0);
     }
 
-    /* Updated header to only show profile info, removed switcher */
     .header-container {
       position: fixed;
       top: 0;
@@ -416,7 +405,6 @@
       transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* Removed navbar logo text */
     .navbar-logo {
       display: none;
     }
@@ -433,7 +421,6 @@
       color: var(--c-content);
     }
 
-    /* Show user name in navbar */
     .user-info span {
       display: block;
       font-weight: 600;
@@ -446,7 +433,6 @@
       border: 2px solid var(--c-action);
     }
 
-    /* Moved switcher to bottom center of screen */
     .bottom-nav {
       position: fixed;
       bottom: 20px;
@@ -455,6 +441,7 @@
       z-index: 1000;
     }
 
+    /* Fixed mobile navigation sizing - removed responsive shrinking */
     .switcher {
       display: flex;
       align-items: center;
@@ -588,7 +575,6 @@
       100% { scale: 1 1; }
     }
 
-    /* Made main fullscreen */
     main {
       padding-top: 100px;
       min-height: 100vh;
@@ -617,7 +603,6 @@
       transform: translateY(0);
     }
 
-    /* Added card flip container and 3D perspective */
     .card-flip-container {
       perspective: 1500px;
       width: 460px;
@@ -648,7 +633,6 @@
       -webkit-backface-visibility: hidden;
     }
 
-    /* Enhanced membership card with sandy theme */
     .membership-card {
       padding: 36px;
       border-radius: 24px;
@@ -670,7 +654,6 @@
       overflow: hidden;
     }
 
-    /* Added back side of card with QR code */
     .membership-card-back {
       padding: 36px;
       border-radius: 24px;
@@ -813,7 +796,6 @@
       border-radius: 4px;
     }
 
-    /* Made card number fixed size instead of responsive */
     .card-number {
       font-family: 'Space Mono', monospace;
       font-size: 48px;
@@ -841,7 +823,6 @@
       flex: 1;
     }
 
-    /* Made card labels fixed size */
     .card-label {
       font-size: 11px;
       text-transform: uppercase;
@@ -852,7 +833,6 @@
       font-weight: 500;
     }
 
-    /* Made card values fixed size */
     .card-value {
       font-size: 17px;
       font-weight: 600;
@@ -865,7 +845,6 @@
       text-align: right;
     }
 
-    /* Removed card extra info section (join date) */
     .card-extra-info {
       display: none;
     }
@@ -908,6 +887,125 @@
         0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 25%), transparent);
     }
 
+    /* Added community card styles with background images */
+    .community-card {
+      position: relative;
+      padding: 32px;
+      border-radius: 20px;
+      min-height: 280px;
+      overflow: hidden;
+      backdrop-filter: blur(12px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(12px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 30%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 4px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .community-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.3;
+      z-index: 0;
+      transition: opacity 400ms ease;
+    }
+
+    .community-card:hover::before {
+      opacity: 0.5;
+    }
+
+    .community-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 40%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 25%), transparent);
+    }
+
+    .community-card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .community-logo {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      margin-bottom: 16px;
+      background: white;
+      padding: 8px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(61, 47, 31, 0.2);
+    }
+
+    .community-card h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--c-content);
+      text-shadow: 0 2px 8px rgba(255, 255, 255, 0.8);
+    }
+
+    .community-code {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(212, 165, 116, 0.4);
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      color: var(--c-content);
+    }
+
+    .community-card p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--c-content);
+      opacity: 0.9;
+      margin-bottom: 20px;
+      text-shadow: 0 1px 4px rgba(255, 255, 255, 0.6);
+    }
+
+    .community-website-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: rgba(212, 165, 116, 0.6);
+      border: 1px solid rgba(212, 165, 116, 0.8);
+      border-radius: 12px;
+      color: var(--c-content);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 300ms ease;
+      text-decoration: none;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 4px 12px rgba(212, 165, 116, 0.3);
+    }
+
+    .community-website-btn:hover {
+      background: rgba(212, 165, 116, 0.8);
+      border-color: rgba(212, 165, 116, 1);
+      transform: translateY(-2px);
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 6px 20px rgba(212, 165, 116, 0.4);
+    }
+
     .info-card-icon {
       width: 48px;
       height: 48px;
@@ -947,7 +1045,6 @@
       opacity: 0.8;
     }
 
-    /* Added admin scanner styles */
     .scanner-container {
       max-width: 600px;
       margin: 0 auto;
@@ -1040,7 +1137,6 @@
     }
 
     @media (max-width: 768px) {
-      /* Keep header items horizontal on mobile */
       .header-container {
         flex-direction: row;
         flex-wrap: wrap;
@@ -1057,33 +1153,31 @@
         padding: 32px 24px;
       }
 
-      /* Updated mobile switcher styles for bottom nav */
       .bottom-nav {
         bottom: 12px;
       }
 
+      /* Removed mobile responsive shrinking for switcher */
       .switcher {
-        width: 180px;
-        max-width: 180px;
-        height: 54px;
-        padding: 6px 10px 8px;
+        width: 244px;
+        max-width: 244px;
+        height: 70px;
       }
 
       .switcher__option {
-        width: 54px;
-        padding: 0 12px;
+        width: 68px;
       }
 
       .switcher::after {
-        width: 60px;
+        width: 84px;
       }
 
       .switcher:has(input[c-option="2"]:checked)::after {
-        translate: 54px 0;
+        translate: 76px 0;
       }
 
       .switcher:has(input[c-option="3"]:checked)::after {
-        translate: 108px 0;
+        translate: 152px 0;
       }
 
       .card-flip-container {
@@ -1097,7 +1191,6 @@
         padding: 28px;
       }
 
-      /* Removed responsive font size for card number on mobile */
       .card-number {
         font-size: 48px;
         letter-spacing: 6px;
@@ -1119,8 +1212,13 @@
   </style>
 </head>
 <body>
+   Changed audio source to ses2.mp3 for page switching 
   <audio id="clickSound" preload="auto">
     <source src="ses.mp3" type="audio/mpeg">
+  </audio>
+
+  <audio id="pageSwitchSound" preload="auto">
+    <source src="ses2.mp3" type="audio/mpeg">
   </audio>
 
   <svg>
@@ -1264,46 +1362,16 @@
       </div>
     </div>
 
+     Replaced announcements with communities for regular users 
     <div class="page-content" id="page2">
       <div class="content-section" id="adminMembersView" style="display: none;">
         <h1 class="section-title">Kayıtlı Üyeler <span class="admin-badge">Admin</span></h1>
         <div class="cards-grid" id="membersCardsGrid"></div>
       </div>
       
-      <div class="content-section" id="announcementsView">
-        <h1 class="section-title">Duyurular</h1>
-        <div class="cards-grid">
-          <div class="info-card">
-            <div class="info-card-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-              </svg>
-            </div>
-            <div class="info-card-date">15 Mart 2025</div>
-            <h3>Yeni Dönem Başlangıcı</h3>
-            <p>Yeni dönem etkinliklerimiz 1 Nisan'da başlayacaktır. Tüm üyelerimizin katılımını bekliyoruz.</p>
-          </div>
-          <div class="info-card">
-            <div class="info-card-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
-              </svg>
-            </div>
-            <div class="info-card-date">10 Mart 2025</div>
-            <h3>Üyelik Yenileme</h3>
-            <p>2025 yılı üyelik yenileme işlemleri başlamıştır. Lütfen üyelik bilgilerinizi güncelleyin.</p>
-          </div>
-          <div class="info-card">
-            <div class="info-card-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-              </svg>
-            </div>
-            <div class="info-card-date">5 Mart 2025</div>
-            <h3>Sistem Güncellemesi</h3>
-            <p>Üyelik sistemimiz yeni özelliklerle güncellendi. Artık daha hızlı ve güvenli bir deneyim sunuyoruz.</p>
-          </div>
-        </div>
+      <div class="content-section" id="communitiesView">
+        <h1 class="section-title">Topluluklar</h1>
+        <div class="cards-grid" id="communitiesGrid"></div>
       </div>
     </div>
 
@@ -1361,6 +1429,7 @@
 
   <script>
     const clickSound = document.getElementById('clickSound');
+    const pageSwitchSound = document.getElementById('pageSwitchSound');
     
     function playClickSound() {
       if (clickSound) {
@@ -1369,41 +1438,36 @@
       }
     }
 
-    const usersDatabase = {
-      "m.yusufertek@gmail.com": {
-        name: "Muhammed Yusuf Ertek",
-        memberNumber: "2024 1453",
-        department: "Bilgisayar Mühendisliği",
-        joinDate: "15.09.2024",
-        avatar: "https://lh3.googleusercontent.com/a/default-user"
-      },
-      "samiertek@gmail.com": {
-        name: "Sami Ertek",
-        memberNumber: "565656",
-        department: "Personel Sorumlusu",
-        joinDate: "15.09.2024",
-        avatar: "https://lh3.googleusercontent.com/a/default-user"
-      },
-      "timurertek@gmail.com": {
-        name: "Admin User",
-        memberNumber: "ADMIN 001",
-        department: "Yönetim",
-        joinDate: "01.01.2024",
-        avatar: "https://lh3.googleusercontent.com/a/default-user",
-        isAdmin: true
-      },
-      "test@example.com": {
-        name: "Test Kullanıcı",
-        memberNumber: "2024 0001",
-        department: "Yazılım Geliştirme",
-        joinDate: "01.01.2024",
-        avatar: "https://lh3.googleusercontent.com/a/default-user"
+    function playPageSwitchSound() {
+      if (pageSwitchSound) {
+        pageSwitchSound.currentTime = 0;
+        pageSwitchSound.play().catch(err => console.log('Audio play failed:', err));
       }
-    };
+    }
 
+    let usersDatabase = {};
+    let communitiesDatabase = {};
     let currentUser = null;
     let scannedMembers = [];
     let html5QrCode = null;
+
+    // Fetch users data
+    fetch('users.json')
+      .then(response => response.json())
+      .then(data => {
+        usersDatabase = data;
+        console.log('Users database loaded:', usersDatabase);
+      })
+      .catch(err => console.error('Error loading users:', err));
+
+    // Fetch communities data
+    fetch('communities.json')
+      .then(response => response.json())
+      .then(data => {
+        communitiesDatabase = data;
+        console.log('Communities database loaded:', communitiesDatabase);
+      })
+      .catch(err => console.error('Error loading communities:', err));
 
     const glassForm = document.querySelector('.glass-form');
     const glassSpecular = document.querySelector('.glass-specular');
@@ -1497,10 +1561,41 @@
       const qrCodeImage = document.getElementById('qrCodeImage');
       const qrMemberCode = document.getElementById('qrMemberCode');
       
-      // Using QR Code API to generate QR code
       const qrData = encodeURIComponent(memberNumber);
       qrCodeImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${qrData}`;
       qrMemberCode.textContent = memberNumber;
+    }
+
+    function displayUserCommunities() {
+      const communitiesGrid = document.getElementById('communitiesGrid');
+      
+      if (!currentUser || !currentUser.communities || currentUser.communities.length === 0) {
+        communitiesGrid.innerHTML = '<p style="opacity: 0.6; text-align: center; grid-column: 1/-1;">Henüz bir topluluğa üye değilsiniz.</p>';
+        return;
+      }
+
+      const userCommunitiesHTML = currentUser.communities.map(code => {
+        const community = communitiesDatabase[code];
+        if (!community) return '';
+        
+        return `
+          <div class="community-card" style="background-color: color-mix(in srgb, var(--c-glass) 40%, transparent);">
+            <div style="background-image: url('${community.backgroundImage}'); position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-size: cover; background-position: center; opacity: 0.3; z-index: 0;"></div>
+            <div class="community-card-content">
+              <img src="${community.logo}" alt="${community.name}" class="community-logo">
+              <h3>${community.name}</h3>
+              <span class="community-code">${community.code}</span>
+              <p>${community.description}</p>
+            </div>
+            <a href="${community.website}" target="_blank" class="community-website-btn" style="position: relative; z-index: 1;">
+              <i class="fas fa-external-link-alt"></i>
+              Web Sitesine Git
+            </a>
+          </div>
+        `;
+      }).join('');
+      
+      communitiesGrid.innerHTML = userCommunitiesHTML;
     }
 
     function displayRegisteredMembers() {
@@ -1519,6 +1614,7 @@
             <p style="margin: 0;"><strong>Üye No:</strong> ${user.memberNumber}</p>
             <p style="margin: 0;"><strong>Bölüm:</strong> ${user.department}</p>
             <p style="margin: 0;"><strong>E-posta:</strong> ${email}</p>
+            <p style="margin: 0;"><strong>Topluluklar:</strong> ${user.communities && user.communities.length > 0 ? user.communities.join(', ') : 'Yok'}</p>
           </div>
         </div>
       `).join('');
@@ -1551,7 +1647,6 @@
     function handleQRScan(memberNumber) {
       playClickSound();
       
-      // Find member in database
       const member = Object.values(usersDatabase).find(
         user => user.memberNumber === memberNumber
       );
@@ -1611,7 +1706,6 @@
       URL.revokeObjectURL(url);
     });
 
-
     function handleCredentialResponse(response) {
       const responsePayload = parseJwt(response.credential);
       const userEmail = responsePayload.email;
@@ -1638,12 +1732,14 @@
         document.getElementById('loginScreen').classList.add('hidden');
 
         if (currentUser.isAdmin) {
-          document.getElementById('announcementsView').style.display = 'none';
+          document.getElementById('communitiesView').style.display = 'none';
           document.getElementById('adminMembersView').style.display = 'block';
           document.getElementById('eventsView').style.display = 'none';
           document.getElementById('adminScannerView').style.display = 'block';
           
           displayRegisteredMembers();
+        } else {
+          displayUserCommunities();
         }
       } else {
         alert('Bu e-posta adresi sistemde kayıtlı değil. Lütfen yöneticinizle iletişime geçin.');
@@ -1707,7 +1803,7 @@
 
     pageRadios.forEach(radio => {
       radio.addEventListener('change', () => {
-        playClickSound();
+        playPageSwitchSound();
         const selectedPage = radio.value;
         
         pages.forEach(page => {
