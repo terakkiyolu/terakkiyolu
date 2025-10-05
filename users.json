@@ -1,0 +1,38 @@
+{
+  "m.yusufertek@gmail.com": {
+    "name": "Mehmet Yusuf Ertek",
+    "memberNumber": "2024 1453",
+    "department": "Bilgisayar Mühendisliği",
+    "avatar": "https://lh3.googleusercontent.com/a/default-user",
+    "communities": ["IEEE", "ACM", "ROBOTICS"]
+  },
+  "ertek036gmail.com": {
+    "name": "Admin User",
+    "memberNumber": "ADMIN 001",
+    "department": "Yönetim",
+    "avatar": "https://lh3.googleusercontent.com/a/default-user",
+    "isAdmin": true,
+    "communities": []
+  },
+  "test@example.com": {
+    "name": "Test Kullanıcı",
+    "memberNumber": "2024 0001",
+    "department": "Yazılım Geliştirme",
+    "avatar": "https://lh3.googleusercontent.com/a/default-user",
+    "communities": ["ACM", "GAMEDEV"]
+  },
+  "ahmet.yilmaz@example.com": {
+    "name": "Ahmet Yılmaz",
+    "memberNumber": "2024 0234",
+    "department": "Elektrik-Elektronik Mühendisliği",
+    "avatar": "https://lh3.googleusercontent.com/a/default-user",
+    "communities": ["IEEE", "ROBOTICS"]
+  },
+  "ayse.kaya@example.com": {
+    "name": "Ayşe Kaya",
+    "memberNumber": "2024 0567",
+    "department": "Endüstri Mühendisliği",
+    "avatar": "https://lh3.googleusercontent.com/a/default-user",
+    "communities": ["ENTREPRENEUR", "AI"]
+  }
+}
