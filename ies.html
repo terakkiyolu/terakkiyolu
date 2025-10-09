@@ -1,2065 +1,2746 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#3B82F6">
-    <title>IES - Industrial Engineering Society | Türk Hava Kurumu Üniversitesi</title>
-    <meta name="description" content="Türk Hava Kurumu Üniversitesi Industrial Engineering Society - Öğrenci topluluğu, projeler, etkinlikler ve daha fazlası">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        :root {
-            --c-glass: #bbbbbc;
-            --c-light: #fff;
-            --c-dark: #000;
-            --c-content: #224;
-            --c-action: #3B82F6;
-            --c-bg: #E8E8E9;
-            --glass-reflex-dark: 1;
-            --glass-reflex-light: 1;
-            --saturation: 150%;
-            --text-muted: #6b7280;
-        }
-
-        body {
-            font-family: "DM Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            font-optical-sizing: auto;
-            background: var(--c-bg);
-            color: var(--c-content);
-            line-height: 1.6;
-            overflow-x: hidden;
-            position: relative;
-            transition: background 400ms cubic-bezier(1, 0.0, 0.4, 1), color 400ms cubic-bezier(1, 0.0, 0.4, 1);
-        }
-
-        /* Animated wave background effect */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
-                linear-gradient(225deg, rgba(147, 51, 234, 0.05) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-            animation: waveShift 20s ease-in-out infinite;
-        }
-
-        @keyframes waveShift {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-20px) scale(1.05); }
-        }
-
-        /* Animated airplane vector background */
-        .airplane-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            overflow: hidden;
-        }
-
-        .airplane {
-            position: absolute;
-            opacity: 0.12;
-            filter: drop-shadow(0 4px 8px rgba(59, 130, 246, 0.2));
-        }
-
-        .airplane:nth-child(1) {
-            top: 12%;
-            animation: flyAcross 35s linear infinite;
-        }
-
-        .airplane:nth-child(2) {
-            top: 42%;
-            animation: flyAcross 40s linear infinite 10s;
-        }
-
-        .airplane:nth-child(3) {
-            top: 72%;
-            animation: flyAcross 32s linear infinite 20s;
-        }
-
-        @keyframes flyAcross {
-            0% {
-                left: -10%;
-                transform: translateY(0) rotate(-3deg);
-            }
-            25% {
-                transform: translateY(-15px) rotate(-3deg);
-            }
-            50% {
-                transform: translateY(-25px) rotate(-3deg);
-            }
-            75% {
-                transform: translateY(-15px) rotate(-3deg);
-            }
-            100% {
-                left: 110%;
-                transform: translateY(0) rotate(-3deg);
-            }
-        }
-
-        /* SVG Filter for Professional Liquid Glass Distortion */
-        .glass-filter-svg {
-            position: absolute;
-            width: 0;
-            height: 0;
-            z-index: -1;
-        }
-
-        /* Professional iOS 26 Liquid Glass Effect */
-        .glass-card {
-            position: relative;
-            border-radius: 20px;
-            overflow: visible;
-            background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
-            backdrop-filter: blur(16px) saturate(var(--saturation));
-            -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
-            box-shadow: 
-                inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-                inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
-                inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
-                inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
-                inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent), 
-                inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
-                inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
-                inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
-                0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
-                0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
-            transition: 
-                background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
-                box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1),
-                transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.08) 0%, transparent 60%),
-                        radial-gradient(circle at 70% 80%, rgba(255,255,255,0.05) 0%, transparent 60%);
-            pointer-events: none;
-            z-index: 1;
-            animation: glassShimmer 8s ease-in-out infinite;
-        }
-
-        @keyframes glassShimmer {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        .glass-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        header, section, footer, .page {
-            position: relative;
-            z-index: 2;
-        }
-
-        .page {
-            display: none;
-            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Ripple effect for interactions */
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(59, 130, 246, 0.4);
-            transform: scale(0);
-            animation: rippleEffect 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            pointer-events: none;
-            z-index: 100;
-        }
-
-        @keyframes rippleEffect {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-
-        /* Header with Liquid Glass navbar */
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            padding: 1rem;
-        }
-
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-        }
-
-        /* Softer, more elegant logo animation */
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-weight: 600;
-            font-size: 1.1rem;
-            text-decoration: none;
-            color: var(--c-content);
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            z-index: 5;
-        }
-
-        .logo:hover {
-            transform: translateY(-2px);
-        }
-
-        .logo img {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
-        }
-
-        .logo:hover img {
-            transform: rotate(3deg) scale(1.08);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
-        }
-
-        /* Visible navbar with liquid glass transitions */
-        nav {
-            display: flex;
-            gap: 2.5rem;
-            position: relative;
-            z-index: 5;
-        }
-
-        nav a {
-            color: var(--c-content);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            padding: 0.5rem 0;
-            opacity: 1;
-        }
-
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 2px;
-            background: var(--c-action);
-            border-radius: 2px;
-            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        nav a:hover::after, nav a.active::after {
-            width: 100%;
-        }
-
-        nav a:hover, nav a.active {
-            color: var(--c-action);
-        }
-
-        .cta-button {
-            background: var(--c-action);
-            color: white;
-            padding: 0.7rem 1.8rem;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            border: none;
-            cursor: pointer;
-            position: relative;
-            z-index: 5;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
-        }
-
-        /* Mobile menu with liquid glass design */
-        .mobile-menu-btn {
-            display: none;
-            background: color-mix(in srgb, var(--c-action) 15%, transparent);
-            border: 1px solid color-mix(in srgb, var(--c-action) 25%, transparent);
-            color: var(--c-content);
-            padding: 0.6rem 0.8rem;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            position: relative;
-            z-index: 5;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .mobile-menu-btn:hover {
-            background: color-mix(in srgb, var(--c-action) 25%, transparent);
-            transform: scale(1.05);
-        }
-
-        /* Improved mobile menu organization with liquid glass cards */
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            z-index: 9999;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 1.5rem;
-            animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            padding: 2rem;
-        }
-
-        .mobile-menu.active {
-            display: flex;
-        }
-
-        /* Mobile menu items as liquid glass cards */
-        .mobile-menu a {
-            color: var(--c-content);
-            text-decoration: none;
-            font-size: 1.3rem;
-            font-weight: 600;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: visible;
-            padding: 1.2rem 2.5rem;
-            opacity: 1;
-            width: 80%;
-            max-width: 400px;
-            text-align: center;
-            border-radius: 16px;
-            background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
-            backdrop-filter: blur(16px) saturate(var(--saturation));
-            -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
-            box-shadow: 
-                inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-                inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
-                0px 4px 12px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
-        }
-
-        .mobile-menu a::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.08) 0%, transparent 60%);
-            pointer-events: none;
-            z-index: 1;
-            animation: glassShimmer 8s ease-in-out infinite;
-        }
-
-        .mobile-menu a:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 
-                inset 0 0 0 1px color-mix(in srgb, var(--c-action) 30%, transparent),
-                inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
-                0px 8px 24px 0px color-mix(in srgb, var(--c-action) 20%, transparent);
-            background-color: color-mix(in srgb, var(--c-action) 15%, transparent);
-        }
-
-        .mobile-menu-close {
-            position: absolute;
-            top: 2rem;
-            right: 2rem;
-            background: color-mix(in srgb, var(--c-action) 15%, transparent);
-            border: 1px solid color-mix(in srgb, var(--c-action) 25%, transparent);
-            color: var(--c-content);
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.8rem;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .mobile-menu-close:hover {
-            background: var(--c-action);
-            color: white;
-            transform: rotate(90deg);
-        }
-
-        .hero-carousel {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            height: 500px;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
-            touch-action: pan-y;
-        }
-
-        .carousel-slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .carousel-slide.active {
-            opacity: 1;
-        }
-
-        .carousel-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .carousel-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 3rem 2rem;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-            color: white;
-        }
-
-        .carousel-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .carousel-subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .carousel-indicators {
-            position: absolute;
-            bottom: 1.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 0.5rem;
-            z-index: 10;
-        }
-
-        .carousel-indicator {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .carousel-indicator.active {
-            background: white;
-            width: 30px;
-            border-radius: 5px;
-        }
-
-        .hero {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 1rem;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 2rem;
-        }
-
-        .hero .accent-text {
-            color: var(--c-action);
-            text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 3rem;
-            padding: 0 0.75rem;
-        }
-
-        .project-card {
-            border-radius: 20px;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: pointer;
-        }
-
-        .project-card:hover {
-            transform: translateY(-8px) scale(1.02);
-        }
-
-        .project-card .glass-content {
-            padding: 1rem;
-        }
-
-        .project-image {
-            width: 100%;
-            aspect-ratio: 3/4;
-            border-radius: 16px;
-            background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .project-card:hover .project-image {
-            transform: scale(1.05);
-        }
-
-        .project-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .project-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--c-content);
-        }
-
-        .project-desc {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* Added project detail page styles with liquid glass theme */
-        .project-detail {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 2rem 1rem;
-        }
-
-        .project-detail-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .project-detail-title {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 800;
-            margin-bottom: 1rem;
-            color: var(--c-content);
-        }
-
-        .project-detail-subtitle {
-            font-size: 1.3rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-        }
-
-        .project-detail-image {
-            width: 100%;
-            height: 400px;
-            border-radius: 24px;
-            overflow: hidden;
-            margin-bottom: 3rem;
-            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
-        }
-
-        .project-detail-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .project-detail-content {
-            border-radius: 24px;
-            padding: 3rem;
-            margin-bottom: 2rem;
-        }
-
-        .project-detail-section {
-            margin-bottom: 2.5rem;
-        }
-
-        .project-detail-section h3 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--c-action);
-        }
-
-        .project-detail-section p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--c-content);
-            margin-bottom: 1rem;
-        }
-
-        .project-detail-section ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .project-detail-section ul li {
-            padding: 0.75rem 0;
-            padding-left: 2rem;
-            position: relative;
-            font-size: 1.05rem;
-            color: var(--c-content);
-        }
-
-        .project-detail-section ul li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--c-action);
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        /* Added about page styles with liquid glass theme */
-        .about-section {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 2rem 1rem;
-        }
-
-        .about-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .about-title {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 800;
-            margin-bottom: 1rem;
-            color: var(--c-content);
-        }
-
-        .about-subtitle {
-            font-size: 1.3rem;
-            color: var(--text-muted);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 4rem;
-        }
-
-        .about-text-card {
-            border-radius: 24px;
-            padding: 3rem;
-        }
-
-        .about-text-card h3 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: var(--c-action);
-        }
-
-        .about-text-card p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: var(--c-content);
-            margin-bottom: 1.5rem;
-        }
-
-        .about-image-card {
-            border-radius: 24px;
-            overflow: hidden;
-            height: 100%;
-            min-height: 400px;
-        }
-
-        .about-image-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .about-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 4rem;
-        }
-
-        .stat-card {
-            border-radius: 20px;
-            padding: 2.5rem;
-            text-align: center;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .stat-card:hover {
-            transform: translateY(-8px);
-        }
-
-        .stat-number {
-            font-size: 3.5rem;
-            font-weight: 800;
-            color: var(--c-action);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 1.1rem;
-            color: var(--c-content);
-            font-weight: 600;
-        }
-
-        .features {
-            max-width: 1200px;
-            margin: 4rem auto;
-            padding: 0 1rem;
-        }
-
-        .features h2 {
-            text-align: center;
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 800;
-            margin-bottom: 3rem;
-            color: var(--c-content);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .feature-card {
-            border-radius: 20px;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-8px);
-        }
-
-        .feature-card .glass-content {
-            padding: 2rem;
-        }
-
-        .feature-label {
-            font-size: 0.7rem;
-            letter-spacing: 0.2em;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-        }
-
-        .feature-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--c-content);
-        }
-
-        .feature-list {
-            list-style: none;
-            padding: 0;
-            margin-top: 1rem;
-        }
-
-        .feature-list li {
-            padding: 0.5rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .feature-list li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--c-action);
-            font-weight: bold;
-        }
-
-        .rating {
-            display: flex;
-            align-items: flex-end;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .rating-number {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--c-action);
-        }
-
-        .stars {
-            display: flex;
-            gap: 0.25rem;
-            padding-bottom: 0.5rem;
-        }
-
-        .star {
-            color: var(--c-action);
-            font-size: 1.25rem;
-        }
-
-        .members-section {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 2rem 1rem;
-        }
-
-        .members-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .members-title {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 800;
-            margin-bottom: 1rem;
-            color: var(--c-content);
-        }
-
-        .members-subtitle {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-        }
-
-        /* Redesigned member cards with professional liquid glass effect */
-        .members-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .member-card {
-            position: relative;
-            border-radius: 24px;
-            overflow: visible;
-            aspect-ratio: 3/4;
-            cursor: pointer;
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
-            backdrop-filter: blur(20px) saturate(var(--saturation));
-            -webkit-backdrop-filter: blur(20px) saturate(var(--saturation));
-            box-shadow: 
-                inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
-                inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
-                inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
-                0px 6px 20px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
-                0px 12px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
-        }
-
-        .member-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.1) 0%, transparent 60%),
-                        radial-gradient(circle at 70% 80%, rgba(255,255,255,0.06) 0%, transparent 60%);
-            pointer-events: none;
-            z-index: 1;
-            animation: glassShimmer 10s ease-in-out infinite;
-        }
-
-        .member-card:hover {
-            transform: translateY(-12px) scale(1.03);
-            box-shadow: 
-                inset 0 0 0 1px color-mix(in srgb, var(--c-action) 30%, transparent),
-                inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 100%), transparent), 
-                0px 16px 40px 0px color-mix(in srgb, var(--c-action) 25%, transparent), 
-                0px 24px 60px 0px color-mix(in srgb, var(--c-action) 15%, transparent);
-        }
-
-        .member-image {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            overflow: hidden;
-            z-index: 0;
-        }
-
-        .member-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .member-card:hover .member-image img {
-            transform: scale(1.08);
-        }
-
-        .member-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 40%, transparent 70%);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 2rem 1.5rem;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 2;
-            border-radius: inherit;
-        }
-
-        .member-card:hover .member-overlay {
-            background: linear-gradient(
-                to top, 
-                color-mix(in srgb, var(--c-action) 95%, transparent) 0%, 
-                color-mix(in srgb, var(--c-action) 70%, transparent) 40%, 
-                color-mix(in srgb, var(--c-action) 30%, transparent) 70%,
-                transparent 100%
-            );
-        }
-
-        .member-name {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 0.4rem;
-            color: white;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            z-index: 3;
-        }
-
-        .member-card:hover .member-name {
-            transform: translateY(-4px);
-        }
-
-        .member-department {
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.95);
-            font-weight: 500;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            z-index: 3;
-        }
-
-        .member-card:hover .member-department {
-            transform: translateY(-2px);
-        }
-
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: color-mix(in srgb, var(--c-action) 15%, transparent);
-            color: var(--c-action);
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            border: 1px solid color-mix(in srgb, var(--c-action) 25%, transparent);
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 2rem; /* Added margin */
-        }
-
-        .back-button:hover {
-            background: var(--c-action);
-            color: white;
-            transform: translateX(-5px);
-        }
-
-        footer {
-            max-width: 1200px;
-            margin: 4rem auto 2rem;
-            padding: 2rem 1rem;
-            text-align: center;
-            border-top: 1px solid color-mix(in srgb, var(--c-action) 20%, transparent);
-        }
-
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .footer-logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--c-content);
-        }
-
-        .footer-text {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            max-width: 600px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-link {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: color-mix(in srgb, var(--c-action) 15%, transparent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            color: var(--c-content);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .social-link:hover {
-            background: var(--c-action);
-            transform: translateY(-3px);
-        }
-
-        .social-link svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-            transition: fill 0.3s;
-        }
-
-        .social-link:hover svg {
-            fill: white;
-        }
-
-        @media (max-width: 768px) {
-            nav, .cta-button {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .hero {
-                padding: 2rem 0.75rem;
-            }
-
-            .carousel-container {
-                height: 400px;
-            }
-
-            .carousel-title {
-                font-size: 1.8rem;
-            }
-
-            .carousel-subtitle {
-                font-size: 0.9rem;
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-                padding: 0 0.75rem;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .members-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-
-            .project-detail-content {
-                padding: 2rem 1.5rem;
-            }
-
-            .about-text-card {
-                padding: 2rem 1.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .carousel-container {
-                height: 300px;
-            }
-
-            .carousel-title {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liquid Glass - Topluluk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      --c-glass: #bbbbbc;
+      --c-light: #fff;
+      --c-dark: #000;
+
+      --c-content: #224;
+      --c-action: #0052f5;
+
+      --c-bg: #F5F3E8;
+
+      --glass-reflex-dark: 1;
+      --glass-reflex-light: 1;
+
+      --saturation: 150%;
+
+      font-size: 20px;
+      font-family: "DM Sans", sans-serif;
+      font-optical-sizing: auto;
+      background: var(--c-bg);
+      color: var(--c-content);
+
+      transition: background 400ms cubic-bezier(1, 0.0, 0.4, 1), color 400ms cubic-bezier(1, 0.0, 0.4, 1);
+    }
+
+    body:has(input[value="dark"]:checked) {
+      --c-glass: #bbbbbc;
+      --c-light: #fff;
+      --c-dark: #000;
+
+      --c-content: #e1e1e1;
+      --c-action: #03d5ff;
+
+      --c-bg: #1b1b1d;
+
+      --glass-reflex-dark: 2;
+      --glass-reflex-light: 0.3;
+
+      --saturation: 150%;
+    }
+
+    body:has(input[value="dim"]:checked) {
+      --c-light: #99deff;
+      --c-dark: #20001b;
+      --c-glass: hsl(335 250% 74% / 1);
+
+      --c-content: #d5dbe2;
+      --c-action: #ff48a9;
+
+      --c-bg: #152433;
+
+      --glass-reflex-dark: 2;
+      --glass-reflex-light: 0.7;
+
+      --saturation: 200%;
+    }
+
+    .header-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 70px;
+      padding: 8px 20px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
+        inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent), 
+        inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--c-content);
+      text-decoration: none;
+      transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1), transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .navbar-logo img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+    }
+
+    .navbar-menu {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .navbar-menu li a {
+      display: block;
+      padding: 10px 18px;
+      border-radius: 99em;
+      color: var(--c-content);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .navbar-menu li a:hover {
+      color: var(--c-action);
+      background-color: color-mix(in srgb, var(--c-action) 10%, transparent);
+    }
+
+    .menu-toggle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border: none;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 2px 8px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      cursor: pointer;
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .menu-toggle svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--c-content);
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .menu-toggle:hover {
+      background-color: color-mix(in srgb, var(--c-glass) 20%, transparent);
+    }
+
+    .close-menu-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 20%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        0px 2px 8px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      color: var(--c-content);
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .close-menu-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--c-content);
+    }
+
+    .close-menu-btn:hover {
+      background-color: color-mix(in srgb, var(--c-glass) 30%, transparent);
+      color: var(--c-action);
+    }
+
+    .close-menu-btn:hover svg {
+      fill: var(--c-action);
+    }
+
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px;
+        gap: 0;
+      }
+
+      .navbar {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        padding: 16px;
+        border-radius: 24px;
+        overflow: visible;
+        transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+      }
+
+      .navbar.menu-open {
+        border-radius: 24px;
+      }
+
+      .navbar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        gap: 12px;
+      }
+
+      .navbar-logo span {
+        display: none;
+      }
+
+      .navbar-logo {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .navbar.menu-open .navbar-logo {
+        opacity: 0;
+        transform: translateX(-20px);
+        pointer-events: none;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      .navbar.menu-open .menu-toggle {
+        opacity: 0;
+        transform: scale(0.8);
+        pointer-events: none;
+      }
+
+      .navbar.menu-open .close-menu-btn {
+        display: flex;
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .navbar-menu {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 4px;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        margin-top: 0;
+        transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .navbar-menu li {
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .navbar.menu-open .navbar-menu {
+        max-height: 500px;
+        opacity: 1;
+        margin-top: 24px;
+      }
+
+      .navbar.menu-open .navbar-menu li {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .navbar.menu-open .navbar-menu li:nth-child(1) { transition-delay: 100ms; }
+      .navbar.menu-open .navbar-menu li:nth-child(2) { transition-delay: 150ms; }
+      .navbar.menu-open .navbar-menu li:nth-child(3) { transition-delay: 200ms; }
+      .navbar.menu-open .navbar-menu li:nth-child(4) { transition-delay: 250ms; }
+      .navbar.menu-open .navbar-menu li:nth-child(5) { transition-delay: 300ms; }
+
+      .navbar-menu li a {
+        width: 100%;
+        padding: 14px 20px;
+        border-radius: 16px;
+      }
+
+      .switcher {
+        position: absolute;
+        top: calc(100% + 12px);
+        right: 0;
+        width: auto;
+        min-width: 180px;
+        max-width: 180px;
+        height: 54px;
+        padding: 6px 10px 8px;
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+        pointer-events: none;
+        transition: opacity 500ms cubic-bezier(0.4, 0, 0.2, 1), 
+                    transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .navbar.menu-open ~ .switcher {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+        transition-delay: 350ms;
+      }
+
+      .switcher__option {
+        width: 54px;
+        padding: 0 12px;
+      }
+
+      .switcher::after {
+        width: 60px;
+      }
+
+      .switcher:has(input[c-option="2"]:checked)::after {
+        translate: 54px 0;
+      }
+
+      .switcher:has(input[c-option="3"]:checked)::after {
+        translate: 108px 0;
+      }
+    }
+
+    .switcher {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 244px;
+      max-width: 244px;
+      height: 70px;
+      box-sizing: border-box;
+      padding: 8px 12px 10px;
+      border: none;
+      border-radius: 99em;
+      font-size: var(--fz);
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
+        inset -0.3px -1px 4px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent), 
+        inset -1.5px 2.5px 0px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 0px 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 1px 5px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      transition: 
+        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1);
+    }
+
+    .switcher__legend {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      border: 0;
+      padding: 0;
+      white-space: nowrap;
+      clip-path: inset(100%);
+      clip: rect(0 0 0 0);
+      overflow: hidden;
+    }
+
+    .switcher__input {
+      clip: rect(0 0 0 0);
+      clip-path: inset(100%);
+      height: 1px;
+      width: 1px;
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+    }
+
+    .switcher__icon {
+      display: block;
+      width: 100%;
+      transition: scale 200ms cubic-bezier(0.5, 0, 0, 1);
+    }
+
+    .switcher__filter {
+      position: absolute;
+      width: 0;
+      height: 0;
+      z-index: -1;
+    }
+
+    .switcher__option {
+      --c: var(--c-content);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 16px;
+      width: 68px;
+      height: 100%;
+      box-sizing: border-box;
+      border-radius: 99em;
+      opacity: 1;
+      transition: all 160ms;
+    }
+
+    .switcher__option:hover {
+      --c: var(--c-action);
+      cursor: pointer;
+    }
+
+    .switcher__option:hover .switcher__icon {
+      scale: 1.2;
+    }
+
+    .switcher__option:has(input:checked) {
+      --c: var(--c-content);
+      cursor: auto;
+    }
+
+    .switcher__option:has(input:checked) .switcher__icon {
+      scale: 1;
+    }
+
+    .switcher::after {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      display: block;
+      width: 84px;
+      height: calc(100% - 10px);
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 36%, transparent);
+      z-index: -1;
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 2px 1px 0px -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -1.5px -1px 0px -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        inset -2px -6px 1px -5px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent), 
+        inset -1px 2px 3px -1px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent), 
+        inset 0px -4px 1px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent), 
+        0px 3px 6px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+    }
+
+    .switcher:has(input[c-option="1"]:checked)::after {
+      translate: 0 0;
+      transform-origin: right;
+      transition: 
+        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        translate 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      animation: scaleToggle 440ms ease; 
+    }
+
+    .switcher:has(input[c-option="2"]:checked)::after {
+      translate: 76px 0;
+      transition: 
+        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        translate 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      animation: scaleToggle2 440ms ease; 
+    }
+
+    .switcher[c-previous="1"]:has(input[c-option="2"]:checked)::after {
+      transform-origin: left;
+    }
+
+    .switcher[c-previous="3"]:has(input[c-option="2"]:checked)::after {
+      transform-origin: right;
+    }
+
+    .switcher:has(input[c-option="3"]:checked)::after {
+      translate: 152px 0;
+      transform-origin: left;
+      transition: 
+        background-color 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        box-shadow 400ms cubic-bezier(1, 0.0, 0.4, 1),
+        translate 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      animation: scaleToggle3 440ms ease; 
+    }
+
+    @keyframes scaleToggle {
+      0% { scale: 1 1; }
+      50% { scale: 1.1 1; }
+      100% { scale: 1 1; }
+    }
+
+    @keyframes scaleToggle2{
+      0% { scale: 1 1; }
+      50% { scale: 1.2 1; }
+      100% { scale: 1 1; }
+    } 
+
+    @keyframes scaleToggle3 {
+      0% { scale: 1 1; }
+      50% { scale: 1.1 1; }
+      100% { scale: 1 1; }
+    }
+
+    main {
+      padding-top: 110px;
+      min-height: 100vh;
+    }
+
+    .hero-carousel {
+      position: relative;
+      width: 100%;
+      height: 600px;
+      overflow: hidden;
+      border-radius: 32px;
+      margin: 0 auto 80px;
+      max-width: 1400px;
+      background-color: color-mix(in srgb, var(--c-glass) 8%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+    }
+
+    .carousel-track {
+      display: flex;
+      height: 100%;
+      transition: transform 800ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 800ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .carousel-slide.active img {
+      transform: scale(1.05);
+    }
+
+    .carousel-title {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--c-light);
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      padding: 20px 32px;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, var(--c-glass) 20%, transparent);
+      backdrop-filter: blur(12px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(12px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 24px 0px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 600ms cubic-bezier(0.4, 0, 0.2, 1) 200ms,
+                  transform 600ms cubic-bezier(0.4, 0, 0.2, 1) 200ms;
+    }
+
+    .carousel-slide.active .carousel-title {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .carousel-nav {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      gap: 12px;
+      z-index: 10;
+    }
+
+    .carousel-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: color-mix(in srgb, var(--c-light) 40%, transparent);
+      border: none;
+      cursor: pointer;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .carousel-dot.active {
+      width: 40px;
+      border-radius: 6px;
+      background-color: var(--c-light);
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .section {
+      margin-bottom: 100px;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 60px;
+      color: var(--c-content);
+    }
+
+    .glass-card {
+      padding: 40px;
+      border-radius: 32px;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 12px 48px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+    }
+
+    /* Added styles for Instagram posts section */
+    .instagram-posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      align-items: start;
+    }
+
+    .instagram-post-wrapper {
+      padding: 24px;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .instagram-post-wrapper:hover {
+      transform: translateY(-4px);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 12px 48px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+    }
+
+    .instagram-post-wrapper blockquote {
+      margin: 0 !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+      width: 100% !important;
+    }
+
+    @media (max-width: 768px) {
+      .instagram-posts-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .instagram-post-wrapper {
+        padding: 16px;
+        border-radius: 20px;
+      }
+    }
+
+    .expandable-card {
+      padding: 24px;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      cursor: pointer;
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .expandable-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 12px 48px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+    }
+
+    .expandable-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .expandable-card-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--c-content);
+      margin: 0;
+    }
+
+    .expandable-card-icon {
+      width: 24px;
+      height: 24px;
+      fill: var(--c-action);
+      transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+    }
+
+    .expandable-card.expanded .expandable-card-icon {
+      transform: rotate(180deg);
+    }
+
+    .expandable-card-preview {
+      margin-top: 12px;
+      font-size: 0.95rem;
+      color: color-mix(in srgb, var(--c-content) 70%, transparent);
+      line-height: 1.6;
+    }
+
+    .expandable-card-content {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 500ms cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 500ms cubic-bezier(0.4, 0, 0.2, 1),
+                  margin-top 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .expandable-card.expanded .expandable-card-content {
+      max-height: 1000px;
+      opacity: 1;
+      margin-top: 20px;
+    }
+
+    .expandable-card.expanded .expandable-card-preview {
+      opacity: 0;
+      max-height: 0;
+      margin: 0;
+      transition: opacity 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                  max-height 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                  margin 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .expandable-card-text {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--c-content);
+    }
+
+    .announcements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 24px;
+    }
+
+    .numbered-card {
+      position: relative;
+      padding: 32px;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      cursor: pointer;
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .numbered-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        inset -2px -2px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 12px 48px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+    }
+
+    .numbered-card-number {
+      position: absolute;
+      top: -20px;
+      right: 20px;
+      font-size: 8rem;
+      font-weight: 900;
+      color: color-mix(in srgb, var(--c-action) 15%, transparent);
+      line-height: 1;
+      pointer-events: none;
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .numbered-card.expanded .numbered-card-number {
+      opacity: 0.5;
+      transform: scale(0.8);
+    }
+
+    .numbered-card-header {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .numbered-card-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--c-content);
+      margin: 0;
+    }
+
+    .numbered-card-icon {
+      width: 28px;
+      height: 28px;
+      fill: var(--c-action);
+      transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .numbered-card.expanded .numbered-card-icon {
+      transform: rotate(180deg);
+    }
+
+    .numbered-card-content {
+      position: relative;
+      z-index: 1;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 500ms cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .numbered-card.expanded .numbered-card-content {
+      max-height: 1000px;
+      opacity: 1;
+    }
+
+    .numbered-card-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--c-content);
+    }
+
+    .who-are-we-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      text-align: center;
+    }
+
+    .feature-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 24px;
+      padding: 20px;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, var(--c-action) 15%, transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .feature-icon svg {
+      width: 40px;
+      height: 40px;
+      fill: var(--c-action);
+    }
+
+    .feature-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--c-content);
+    }
+
+    .feature-description {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: color-mix(in srgb, var(--c-content) 80%, transparent);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--c-action);
+      margin-bottom: 12px;
+    }
+
+    .stat-label {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--c-content);
+    }
+
+    .cta-section {
+      text-align: center;
+      padding: 80px 40px;
+      border-radius: 32px;
+      background: linear-gradient(135deg, 
+        color-mix(in srgb, var(--c-action) 20%, transparent),
+        color-mix(in srgb, var(--c-action) 5%, transparent));
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+    }
+
+    .cta-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: var(--c-content);
+    }
+
+    .cta-description {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      color: color-mix(in srgb, var(--c-content) 85%, transparent);
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 25px 48px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--c-light);
+      background-color: var(--c-action);
+      border: none;
+      border-radius: 99em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0px 8px 24px 0px color-mix(in srgb, var() 40%, transparent);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0px 12px 32px 0px color-mix(in srgb, var(--ion) 50%, transparent);
+    }
+
+    footer {
+      text-align: center;
+      padding: 60px 20px;
+      color: color-mix(in srgb, var(--c-content) 60%, transparent);
+      font-size: 0.9rem;
+    }
+
+    .pdf-library-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .pdf-card {
+      position: relative;
+      padding: 0;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        0px 8px 32px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+      cursor: pointer;
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      aspect-ratio: 1 / 1.6;
+    }
+
+    .pdf-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 
+        0px 16px 56px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 16%), transparent);
+    }
+
+    .pdf-card-cover {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+    }
+
+    .pdf-card-cover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 30%), transparent) 0%,
+        transparent 50%,
+        color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent) 100%
+      );
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .pdf-card-cover::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(
+        circle at center,
+        color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 40%), transparent) 0%,
+        transparent 70%
+      );
+      opacity: 0;
+      transition: opacity 600ms cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .pdf-card:hover .pdf-card-cover::after {
+      opacity: 1;
+    }
+
+    .pdf-card-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pdf-card-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 24px;
+      background: linear-gradient(to top, 
+        color-mix(in srgb, var(--c-dark) 90%, transparent), 
+        color-mix(in srgb, var(--c-dark) 60%, transparent) 50%,
+        transparent);
+      z-index: 4;
+    }
+
+    .pdf-card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--c-light);
+      margin-bottom: 8px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .pdf-card-description {
+      font-size: 0.85rem;
+      color: color-mix(in srgb, var(--c-light) 85%, transparent);
+      line-height: 1.5;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .pdf-viewer-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: color-mix(in srgb, var(--c-dark) 85%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      z-index: 10000;
+      display: none;
+      opacity: 0;
+      transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .pdf-viewer-modal.active {
+      display: block;
+      opacity: 1;
+    }
+
+    .pdf-viewer-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .pdf-viewer-top-controls {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      right: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+      pointer-events: none;
+      gap: 12px;
+    }
+
+    .pdf-viewer-top-controls > * {
+      pointer-events: auto;
+    }
+
+    .pdf-viewer-info-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .pdf-viewer-title {
+      padding: 12px 24px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--c-content);
+      max-width: 300px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .pdf-page-info {
+      padding: 12px 20px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+      color: var(--c-content);
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pdf-page-info:hover {
+      background-color: color-mix(in srgb, var(--c-glass) 35%, transparent);
+      transform: scale(1.05);
+    }
+
+    .pdf-page-input {
+      width: 50px;
+      padding: 8px 12px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 35%, transparent);
+      border: 1px solid color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 20%), transparent);
+      color: var(--c-content);
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-align: center;
+      outline: none;
+    }
+
+    .pdf-page-input:focus {
+      background-color: color-mix(in srgb, var(--c-glass) 45%, transparent);
+    }
+
+    .pdf-search-btn {
+      width: 48px;
+      height: 48px;
+      border: none;
+      border-radius: 50%;
+      background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .pdf-search-btn:hover {
+      background-color: color-mix(in srgb, var(--c-glass) 35%, transparent);
+      transform: scale(1.1);
+    }
+
+    .pdf-search-btn svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--c-content);
+    }
+
+    .pdf-search-panel {
+      position: absolute;
+      top: 80px;
+      right: 16px;
+      padding: 16px;
+      border-radius: 24px;
+      background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+      z-index: 10;
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 280px;
+    }
+
+    .pdf-search-panel.active {
+      display: flex;
+    }
+
+    .pdf-search-input {
+      padding: 12px 16px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 35%, transparent);
+      border: 1px solid color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 20%), transparent);
+      color: var(--c-content);
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      width: 100%;
+    }
+
+    .pdf-search-input::placeholder {
+      color: color-mix(in srgb, var(--c-content) 60%, transparent);
+    }
+
+    .pdf-search-input:focus {
+      background-color: color-mix(in srgb, var(--c-glass) 45%, transparent);
+    }
+
+    .pdf-search-results {
+      color: var(--c-content);
+      font-size: 0.85rem;
+      text-align: center;
+      opacity: 0.8;
+    }
+
+    .pdf-search-nav {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pdf-search-nav-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 50%;
+      background-color: color-mix(in srgb, var(--c-glass) 35%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .pdf-search-nav-btn:hover:not(:disabled) {
+      background-color: color-mix(in srgb, var(--c-glass) 45%, transparent);
+      transform: scale(1.1);
+    }
+
+    .pdf-search-nav-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .pdf-search-nav-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--c-content);
+    }
+
+    .pdf-text-highlight {
+      position: absolute;
+      background-color: rgba(255, 255, 0, 0.4);
+      pointer-events: none;
+      z-index: 5;
+      transition: background-color 200ms ease;
+    }
+
+    .pdf-text-highlight.current {
+      background-color: rgba(255, 200, 0, 0.6);
+      box-shadow: 0 0 0 2px rgba(255, 200, 0, 0.8);
+    }
+
+    .pdf-viewer-close {
+      width: 48px;
+      height: 48px;
+      border: none;
+      border-radius: 50%;
+      background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+    }
+
+    .pdf-viewer-close:hover {
+      background-color: color-mix(in srgb, var(--c-glass) 35%, transparent);
+      transform: rotate(90deg) scale(1.1);
+    }
+
+    .pdf-viewer-close svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--c-content);
+    }
+
+    .pdf-viewer-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .pdf-canvas-wrapper {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #pdfCanvas {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      box-shadow: 0px 16px 64px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 40%), transparent);
+      transition: transform 100ms cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: center center;
+    }
+
+    .pdf-viewer-controls {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+      padding: 8px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 25%, transparent);
+      backdrop-filter: blur(16px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(16px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent),
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+    }
+
+    .pdf-control-btn {
+      width: 48px;
+      height: 48px;
+      border: none;
+      border-radius: 50%;
+      background-color: color-mix(in srgb, var(--c-glass) 20%, transparent);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent);
+    }
+
+    .pdf-control-btn:hover {
+      background-color: color-mix(in srgb, var(--c-glass) 35%, transparent);
+      transform: scale(1.1);
+    }
+
+    .pdf-control-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .pdf-control-btn:disabled:hover {
+      transform: scale(1);
+    }
+
+    .pdf-control-btn svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--c-content);
+    }
+
+    .pdf-control-divider {
+      width: 1px;
+      height: 32px;
+      background-color: color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 15%), transparent);
+      margin: 0 4px;
+      align-self: center;
+    }
+
+    @media (max-width: 768px) {
+      .hero-carousel {
+        height: 400px;
+        border-radius: 24px;
+        margin-bottom: 60px;
+      }
+
+      .carousel-title {
+        font-size: 1.8rem;
+        bottom: 20px;
+        left: 20px;
+        padding: 16px 24px;
+      }
+
+      .section-title {
+        font-size: 2rem;
+        margin-bottom: 40px;
+      }
+
+      .glass-card {
+        padding: 24px;
+        border-radius: 24px;
+      }
+
+      .announcements-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .who-are-we-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .numbered-card-number {
+        font-size: 5rem;
+        top: -10px;
+        right: 10px;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+      }
+
+      .cta-section {
+        padding: 60px 24px;
+      }
+
+      .cta-title {
+        font-size: 1.8rem;
+      }
+
+      .cta-description {
+        font-size: 1rem;
+      }
+
+      .pdf-viewer-top-controls {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        flex-wrap: wrap;
+      }
+
+      .pdf-viewer-title {
+        max-width: 120px;
+        font-size: 0.85rem;
+        padding: 10px 16px;
+      }
+
+      .pdf-page-info {
+        font-size: 0.8rem;
+        padding: 10px 14px;
+      }
+
+      .pdf-page-input {
+        width: 40px;
+        font-size: 0.8rem;
+        padding: 6px 10px;
+      }
+
+      .pdf-search-btn,
+      .pdf-viewer-close {
+        width: 44px;
+        height: 44px;
+      }
+
+      .pdf-search-btn svg,
+      .pdf-viewer-close svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .pdf-search-panel {
+        top: 70px;
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+      }
+
+      .pdf-viewer-controls {
+        bottom: 10px;
+        gap: 6px;
+        padding: 6px;
+      }
+
+      .pdf-control-btn {
+        width: 44px;
+        height: 44px;
+      }
+
+      .pdf-control-btn svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .pdf-control-divider {
+        height: 28px;
+      }
+
+      .pdf-library-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .pdf-card {
+        aspect-ratio: 1 / 1.6;
+      }
+
+      .pdf-card-info {
+        padding: 16px;
+      }
+
+      .pdf-card-title {
+        font-size: 0.95rem;
+        margin-bottom: 6px;
+      }
+
+      .pdf-card-description {
+        font-size: 0.75rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- SVG Filter for Liquid Glass Distortion -->
-    <svg class="glass-filter-svg">
-        <filter id="glass-distortion" primitiveUnits="objectBoundingBox">
-            <feTurbulence type="turbulence" baseFrequency="0.008" numOctaves="2" result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" />
-        </filter>
-    </svg>
 
-    <!-- Animated airplane vector background -->
-    <div class="airplane-bg">
-        <svg class="airplane" width="70" height="70" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="#3B82F6" opacity="0.6"/>
+  <audio id="menuSound" preload="auto">
+    <source src="ses.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="themeSound" preload="auto">
+    <source src="ses2.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="header-container">
+    <nav class="navbar" id="navbar">
+      <div class="navbar-header">
+        <a href="#" class="navbar-logo">
+          <img src="logo.jpg" alt="Liquid Glass Logo">
+          <span>THE LENG</span>
+        </a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Menüyü Aç">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+          </svg>
+        </button>
+        <button class="close-menu-btn" id="closeMenuBtn">
+          <span>CLOSE MENU</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+      </div>
+      <ul class="navbar-menu">
+        <li><a href="/">Ana Sayfa</a></li>
+        <li><a href="/about">Hakkımızda</a></li>
+        <li><a href="/mmm">Üye Giriş</a></li>
+        <li><a href="/portfolio">Portföy</a></li>
+        <li><a href="/contact">İletişim</a></li>
+      </ul>
+    </nav>
+    <fieldset class="switcher">
+      <legend class="switcher__legend">Tema Seçin</legend>
+      <label class="switcher__option">
+        <input class="switcher__input" type="radio" name="theme" value="light" c-option="1" checked/>
+        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
+          <path fill="var(--c)" fill-rule="evenodd" d="M18 12a6 6 0 1 1 0 12 6 6 0 0 1 0-12Zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z" clip-rule="evenodd"/>
+          <path fill="var(--c)" d="M17 6.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3ZM24.244 7.742a1 1 0 1 1 1.618 1.176L24.1 11.345a1 1 0 1 1-1.618-1.176l1.763-2.427ZM29.104 13.379a1 1 0 0 1 .618 1.902l-2.854.927a1 1 0 1 1-.618-1.902l2.854-.927ZM29.722 20.795a1 1 0 0 1-.619 1.902l-2.853-.927a1 1 0 1 1 .618-1.902l2.854.927ZM19 30.038a1 1 0 0 1-2 0v-3a1 1 0 1 1 2 0v3ZM11.755 28.334a1 1 0 0 1-1.618-1.175l1.764-2.427a1 1 0 1 1 1.618 1.175l-1.764 2.427ZM6.896 22.697a1 1 0 1 1-.618-1.902l2.853-.927a1 1 0 1 1 .618 1.902l-2.853.927ZM6.278 15.28a1 1 0 1 1 .618-1.901l2.853.927a1 1 0 1 1-.618 1.902l-2.853-.927ZM10.137 8.918a1 1 0 0 1 1.618-1.176l1.764 2.427a1 1 0 0 1-1.618 1.176l-1.764-2.427Z"/>
         </svg>
-        <svg class="airplane" width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="#3B82F6" opacity="0.6"/>
+      </label>
+      <label class="switcher__option">
+        <input class="switcher__input" type="radio" name="theme" value="dark" c-option="2"/>
+        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
+          <path fill="var(--c)" d="M12.5 8.473a10.968 10.968 0 0 1 8.785-.97 7.435 7.435 0 0 0-3.737 4.672l-.09.373A7.454 7.454 0 0 0 28.732 20.4a10.97 10.97 0 0 1-5.232 7.125l-.497.27c-5.014 2.566-11.175.916-14.234-3.813l-.295-.483C5.53 18.403 7.13 11.93 12.017 8.77l.483-.297Zm4.234.616a8.946 8.946 0 0 0-2.805.883l-.429.234A9 9 0 0 0 10.206 22.5l.241.395A9 9 0 0 0 22.5 25.794l.416-.255a8.94 8.94 0 0 0 2.167-1.99 9.433 9.433 0 0 1-2.782-.313c-5.043-1.352-8.036-6.535-6.686-11.578l.147-.491c.242-.745.573-1.44.972-2.078Z"/>
         </svg>
-        <svg class="airplane" width="65" height="65" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="#3B82F6" opacity="0.6"/>
+      </label>
+      <label class="switcher__option">
+        <input class="switcher__input" type="radio" name="theme" value="dim" c-option="3"/>
+        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
+          <path fill="var(--c)" d="M5 21a1 1 0 0 1 1-1h24a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1ZM12 25a1 1 0 0 1 1-1h10a1 1 0 1 1 0 2H13a1 1 0 0 1-1-1ZM15 29a1 1 0 0 1 1-1h4a1 1 0 1 1 0 2h-4a1 1 0 0 1-1-1ZM18 13a6 6 0 0 1 5.915 7h-2.041A4.005 4.005 0 0 0 18 15a4 4 0 0 0-3.874 5h-2.041A6 6 0 0 1 18 13ZM17 7.038a1 1 0 1 1 2 0v3a1 1 0 0 1-2 0v-3ZM24.244 8.742a1 1 0 1 1 1.618 1.176L24.1 12.345a1 1 0 1 1-1.618-1.176l1.763-2.427ZM29.104 14.379a1 1 0 0 1 .618 1.902l-2.854.927a1 1 0 1 1-.618-1.902l2.854-.927ZM6.278 16.28a1 1 0 1 1 .618-1.901l2.853.927a1 1 0 1 1-.618 1.902l-2.853-.927ZM10.137 9.918a1 1 0 0 1 1.618-1.176l1.764 2.427a1 1 0 0 1-1.618 1.176l-1.764-2.427Z"/>
         </svg>
-    </div>
+      </label>
+    </fieldset>
+  </div>
 
-    <header>
-        <div class="header-container glass-card">
-            <div class="glass-content" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-                <a href="#home" class="logo">
-                    <img src="logo.jpg" alt="IES Logo">
-                    <span>IES</span>
+  <main>
+    <div class="container">
+
+      <div class="hero-carousel">
+        <div class="carousel-track" id="carouselTrack">
+          <div class="carousel-slide active">
+            <img src="/test6.jpeg" alt="Topluluk Buluşması">
+            <h2 class="carousel-title">Birlikte Daha Güçlüyüz</h2>
+          </div>
+          <div class="carousel-slide">
+            <img src="/test3.jpg" alt="İşbirliği">
+            <h2 class="carousel-title">Yaratıcı İşbirlikleri</h2>
+          </div>
+          <div class="carousel-slide">
+            <img src="/test5.jpg" alt="Etkinlikler">
+            <h2 class="carousel-title">Unutulmaz Anılar</h2>
+          </div>
+          <div class="carousel-slide">
+            <img src="/test2.jpg" alt="Öğrenme">
+            <h2 class="carousel-title">Sürekli Gelişim</h2>
+          </div>
+        </div>
+        <div class="carousel-nav">
+          <button class="carousel-dot active" data-slide="0"></button>
+          <button class="carousel-dot" data-slide="1"></button>
+          <button class="carousel-dot" data-slide="2"></button>
+          <button class="carousel-dot" data-slide="3"></button>
+        </div>
+      </div>
+
+      <!-- Added new FORMLAR section with same design as Biz Kimiz -->
+      <section class="section">
+        <h2 class="section-title">FORMLAR</h2>
+        <div class="who-are-we-grid">
+          <div class="numbered-card" data-expandable="form1">
+            <div class="numbered-card-number">!</div>
+            <div class="numbered-card-header">
+              <h3 class="numbered-card-title">Üye Olma</h3>
+              <svg class="numbered-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <div class="numbered-card-content">
+              <p class="numbered-card-text">
+                Topluluğumuzla ilgili tüm başvuru, kayıt ve bilgi formlarına buradan ulaşabilirsiniz. 
+                Üyelik başvurusu, etkinlik katılım formu, mentorluk programı başvurusu ve daha fazlası için 
+                aşağıdaki butona tıklayarak form sayfamıza yönlenebilirsiniz. Tüm formlarımız güvenli ve 
+                kullanıcı dostu bir arayüze sahiptir. Sorularınız için bizimle iletişime geçebilirsiniz.
+              </p>
+              <div style="margin-top: 24px; text-align: center;">
+                <a href="https://l.instagram.com/?u=https%3A%2F%2Fforms.gle%2FM49FmQRp37QLWRiu8%3Ffbclid%3DPAZXh0bgNhZW0CMTEAAaci4s8CQ1-abXrBvJtosOuYQH0SAQT_Plmnr01eX_UDOZ05z0PPd0dLaEIVdQ_aem_rXbKBNP2uqAGsluHjLW4eg&e=AT3f7y7iG90_mXmkg_3mqXBWZXU-EUNfrXaXt0y9KqMxLn7-mFHynAXeNqMXhOJe3eeviu5MSvGyY87APjClA3X1LQ9_KAGuhUi8q2LumA" class="cta-button" style="display: inline-block; padding: 16px 40px; font-size: 1rem;">
+                  FORMA YÖNLENDİR
                 </a>
-                <nav>
-                    <a href="#home" class="nav-link">Ana Sayfa</a>
-                    <a href="#projects" class="nav-link">Projeler</a>
-                    <a href="#members" class="nav-link">Üyeler</a>
-                    <a href="#about" class="nav-link">Hakkımızda</a>
-                    <a href="#contact" class="nav-link">İletişim</a>
-                </nav>
-                <a href="#contact" class="cta-button">Bize Ulaşın</a>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+              </div>
             </div>
-        </div>
-    </header>
-
-    <!-- Removed close button from mobile menu -->
-    <div class="mobile-menu glass-card" id="mobileMenu">
-        <a href="#home" onclick="toggleMobileMenu()">Ana Sayfa</a>
-        <a href="#projects" onclick="toggleMobileMenu()">Projeler</a>
-        <a href="#members" onclick="toggleMobileMenu()">Üyeler</a>
-        <a href="#about" onclick="toggleMobileMenu()">Hakkımızda</a>
-        <a href="#contact" onclick="toggleMobileMenu()">İletişim</a>
-    </div>
-
-    <!-- Home Page -->
-    <div id="page-home" class="page active">
-        <div class="hero-carousel">
-            <div class="carousel-container" id="carouselContainer">
-                <div class="carousel-slide active">
-                    <img src="/test3.jpg" alt="Endüstri 4.0">
-                    <div class="carousel-content">
-                        <h2 class="carousel-title">Endüstri 4.0</h2>
-                        <p class="carousel-subtitle">Geleceğin üretim teknolojilerini keşfedin</p>
-                    </div>
-                </div>
-                <div class="carousel-slide">
-                    <img src="/test2.jpg" alt="Takım Çalışması">
-                    <div class="carousel-content">
-                        <h2 class="carousel-title">Takım Çalışması</h2>
-                        <p class="carousel-subtitle">Birlikte daha güçlüyüz</p>
-                    </div>
-                </div>
-                <div class="carousel-slide">
-                    <img src="/test.jpg" alt="Veri Analizi">
-                    <div class="carousel-content">
-                        <h2 class="carousel-title">Veri Analizi</h2>
-                        <p class="carousel-subtitle">Veriye dayalı kararlar alın</p>
-                    </div>
-                </div>
-                <div class="carousel-slide">
-                    <img src="/test1.jpg" alt="Sürdürülebilirlik">
-                    <div class="carousel-content">
-                        <h2 class="carousel-title">Sürdürülebilirlik</h2>
-                        <p class="carousel-subtitle">Yeşil üretim için çalışıyoruz</p>
-                    </div>
-                </div>
-                <div class="carousel-indicators">
-                    <div class="carousel-indicator active" onclick="goToSlide(0)"></div>
-                    <div class="carousel-indicator" onclick="goToSlide(1)"></div>
-                    <div class="carousel-indicator" onclick="goToSlide(2)"></div>
-                    <div class="carousel-indicator" onclick="goToSlide(3)"></div>
-                </div>
+          </div>
+            <div class="numbered-card" data-expandable="form1">
+            <div class="numbered-card-number">*</div>
+            <div class="numbered-card-header">
+              <h3 class="numbered-card-title">Form Bilgilendirme</h3>
+              <svg class="numbered-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
             </div>
-        </div>
-
-        <section class="hero">
-            <h1>
-                <span class="block">ENDÜSTRİ MÜHENDİSLİĞİ</span>
-                <span class="block accent-text">ÖĞRENCİ TOPLULUĞU</span>
-                <span class="block">THKÜ</span>
-            </h1>
-            <a href="#contact" class="cta-button">Topluluğa Katıl</a>
-
-            <div class="projects-grid" id="projects">
-                <div class="project-card glass-card" onclick="navigateTo('project-1')">
-                    <div class="glass-content">
-                        <div class="project-image">
-                            <img src="/test.jpg" alt="Üretim Optimizasyonu">
-                        </div>
-                        <h3 class="project-title">Üretim Optimizasyonu</h3>
-                        <p class="project-desc">Akıllı üretim sistemleri ve verimlilik analizi</p>
-                    </div>
-                </div>
-
-                <div class="project-card glass-card" onclick="navigateTo('project-2')">
-                    <div class="glass-content">
-                        <div class="project-image">
-                            <img src="/test1.jpg" alt="Veri Analizi">
-                        </div>
-                        <h3 class="project-title">Veri Analizi</h3>
-                        <p class="project-desc">Büyük veri ile karar destek sistemleri</p>
-                    </div>
-                </div>
-
-                <div class="project-card glass-card" onclick="navigateTo('project-3')">
-                    <div class="glass-content">
-                        <div class="project-image">
-                            <img src="/test2.jpg" alt="Otomasyon">
-                        </div>
-                        <h3 class="project-title">Otomasyon</h3>
-                        <p class="project-desc">Endüstri 4.0 ve akıllı fabrika çözümleri</p>
-                    </div>
-                </div>
-
-                <div class="project-card glass-card" onclick="navigateTo('project-4')">
-                    <div class="glass-content">
-                        <div class="project-image">
-                            <img src="/test3.jpg" alt="Süreç İyileştirme">
-                        </div>
-                        <h3 class="project-title">Süreç İyileştirme</h3>
-                        <p class="project-desc">Lean ve Six Sigma metodolojileri</p>
-                    </div>
-                </div>
-
-                <div class="project-card glass-card" onclick="navigateTo('project-5')">
-                    <div class="glass-content">
-                        <div class="project-image">
-                            <img src="/test4.jpg" alt="Sürdürülebilirlik">
-                        </div>
-                        <h3 class="project-title">Sürdürülebilirlik</h3>
-                        <p class="project-desc">Yeşil üretim ve çevre dostu çözümler</p>
-                    </div>
-                </div>
-
-                <div class="project-card glass-card" onclick="navigateTo('project-6')">
-                    <div class="glass-content">
-                        <div class="project-image">
-                            <img src="/test5.jpg" alt="Tedarik Zinciri">
-                        </div>
-                        <h3 class="project-title">Tedarik Zinciri</h3>
-                        <p class="project-desc">Lojistik ve tedarik zinciri optimizasyonu</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="features" id="about">
-            <h2>Neden IES?</h2>
-            <div class="features-grid">
-                <div class="feature-card glass-card">
-                    <div class="glass-content">
-                        <p class="feature-label">ETKİNLİKLER</p>
-                        <h3 class="feature-title">Düzenli seminerler, workshoplar ve saha gezileri</h3>
-                        <ul class="feature-list">
-                            <li>Haftalık teknik workshoplar</li>
-                            <li>Sektör profesyonelleri ile seminerler</li>
-                            <li>Fabrika ve tesis gezileri</li>
-                            <li>Hackathon ve yarışmalar</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="feature-card glass-card">
-                    <div class="glass-content">
-                        <p class="feature-label">TOPLULUK</p>
-                        <h3 class="feature-title">Endüstri mühendisliği alanında kariyer yapmak isteyen öğrenciler</h3>
-                        <div class="rating">
-                            <div class="rating-number">4.9</div>
-                            <div class="stars">
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                                <span class="star">★</span>
-                            </div>
-                        </div>
-                        <ul class="feature-list">
-                            <li>200+ aktif üye</li>
-                            <li>Mentörlük programları</li>
-                            <li>Networking etkinlikleri</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="feature-card glass-card">
-                    <div class="glass-content">
-                        <p class="feature-label">PROJELER</p>
-                        <h3 class="feature-title">Gerçek dünya problemlerine çözümler üretin</h3>
-                        <ul class="feature-list">
-                            <li>Endüstri 4.0 projeleri</li>
-                            <li>Veri analizi çalışmaları</li>
-                            <li>Süreç optimizasyonu</li>
-                            <li>Otomasyon sistemleri</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="feature-card glass-card">
-                    <div class="glass-content">
-                        <p class="feature-label">KARİYER</p>
-                        <h3 class="feature-title">Sektörün önde gelen firmalarıyla tanışın</h3>
-                        <ul class="feature-list">
-                            <li>Kariyer günleri ve fuarlar</li>
-                            <li>Staj ve iş fırsatları</li>
-                            <li>CV ve mülakat hazırlığı</li>
-                            <li>Şirket ziyaretleri</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="feature-card glass-card">
-                    <div class="glass-content">
-                        <p class="feature-label">EĞİTİM</p>
-                        <h3 class="feature-title">Teknik becerilerinizi geliştirin</h3>
-                        <ul class="feature-list">
-                            <li>Python ve veri analizi eğitimleri</li>
-                            <li>Simülasyon yazılımları</li>
-                            <li>Lean ve Six Sigma sertifikaları</li>
-                            <li>CAD ve modelleme araçları</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="feature-card glass-card">
-                    <div class="glass-content">
-                        <p class="feature-label">NETWORK</p>
-                        <h3 class="feature-title">Geniş bir profesyonel ağ oluşturun</h3>
-                        <ul class="feature-list">
-                            <li>Mezun üyeler ile bağlantı</li>
-                            <li>Sektör liderleri ile görüşmeler</li>
-                            <li>Uluslararası işbirlikleri</li>
-                            <li>Sosyal etkinlikler</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Added project detail pages with liquid glass styling -->
-    <!-- Project 1 Detail Page -->
-    <div id="page-project-1" class="page">
-        <div class="project-detail">
-            <a href="#home" class="back-button">← Geri Dön</a>
-            <div class="project-detail-header">
-                <h1 class="project-detail-title">Üretim Optimizasyonu</h1>
-                <p class="project-detail-subtitle">Akıllı üretim sistemleri ve verimlilik analizi</p>
-            </div>
-            <div class="project-detail-image">
-                <img src="/test.jpg" alt="Üretim Optimizasyonu">
-            </div>
-            <div class="project-detail-content glass-card">
-                <div class="glass-content">
-                    <div class="project-detail-section">
-                        <h3>Proje Hakkında</h3>
-                        <p>Üretim Optimizasyonu projemiz, modern üretim tesislerinde verimliliği artırmak ve maliyetleri düşürmek için gelişmiş analitik yöntemler kullanmaktadır. Yapay zeka ve makine öğrenmesi algoritmalarıyla üretim süreçlerini optimize ediyoruz.</p>
-                        <p>Bu proje kapsamında, gerçek zamanlı veri toplama sistemleri, tahminsel bakım modelleri ve dinamik üretim planlama araçları geliştiriyoruz.</p>
-                    </div>
-                    <div class="project-detail-section">
-                        <h3>Kullanılan Teknolojiler</h3>
-                        <ul>
-                            <li>Python ve TensorFlow ile makine öğrenmesi modelleri</li>
-                            <li>IoT sensörler ve gerçek zamanlı veri toplama</li>
-                            <li>Simülasyon yazılımları (Arena, FlexSim)</li>
-                            <li>Veri görselleştirme araçları (Power BI, Tableau)</li>
-                            <li>Optimizasyon algoritmaları ve doğrusal programlama</li>
-                        </ul>
-                    </div>
-                    <div class="project-detail-section">
-                        <h3>Proje Hedefleri</h3>
-                        <ul>
-                            <li>Üretim verimliliğini %25 artırmak</li>
-                            <li>Makine arıza sürelerini %40 azaltmak</li>
-                            <li>Enerji tüketimini optimize etmek</li>
-                            <li>Kalite kontrol süreçlerini otomatikleştirmek</li>
-                            <li>Gerçek zamanlı karar destek sistemi oluşturmak</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Project 2 Detail Page -->
-    <div id="page-project-2" class="page">
-        <div class="project-detail">
-            <a href="#home" class="back-button">← Geri Dön</a>
-            <div class="project-detail-header">
-                <h1 class="project-detail-title">Veri Analizi</h1>
-                <p class="project-detail-subtitle">Büyük veri ile karar destek sistemleri</p>
-            </div>
-            <div class="project-detail-image">
-                <img src="/test3.jpg" alt="Veri Analizi">
-            </div>
-            <div class="project-detail-content glass-card">
-                <div class="glass-content">
-                    <div class="project-detail-section">
-                        <h3>Proje Hakkında</h3>
-                        <p>Veri Analizi projemiz, büyük veri setlerinden anlamlı içgörüler çıkarmak ve stratejik kararları desteklemek için gelişmiş analitik teknikler kullanmaktadır. Endüstriyel verileri işleyerek işletmelere rekabet avantajı sağlıyoruz.</p>
-                        <p>Tahminsel analitik, istatistiksel modelleme ve veri madenciliği yöntemleriyle geleceğe yönelik öngörüler sunuyoruz.</p>
-                    </div>
-                    <div class="project-detail-section">
-                        <h3>Kullanılan Teknolojiler</h3>
-                        <ul>
-                            <li>Python (Pandas, NumPy, Scikit-learn)</li>
-                            <li>R programlama dili ve istatistiksel analiz</li>
-                            <li>SQL ve NoSQL veritabanları</li>
-                            <li>Apache Spark ve Hadoop</li>
-                            <li>Veri görselleştirme (Matplotlib, Seaborn, Plotly)</li>
-                        </ul>
-                    </div>
-                    <div class="project-detail-section">
-                        <h3>Proje Hedefleri</h3>
-                        <ul>
-                            <li>Tahminsel bakım modelleri geliştirmek</li>
-                            <li>Müşteri davranış analizi yapmak</li>
-                            <li>Talep tahmini sistemleri oluşturmak</li>
-                            <li>Anomali tespiti ve erken uyarı sistemleri</li>
-                            <li>İnteraktif veri görselleştirme panoları</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Project 3 Detail Page -->
-    <div id="page-project-3" class="page">
-        <div class="project-detail">
-            <a href="#home" class="back-button">← Geri Dön</a>
-            <div class="project-detail-header">
-                <h1 class="project-detail-title">Otomasyon</h1>
-                <p class="project-detail-subtitle">Endüstri 4.0 ve akıllı fabrika çözümleri</p>
-            </div>
-            <div class="project-detail-image">
-                <img src="/placeholder.svg?height=400&width=1000" alt="Otomasyon">
-            </div>
-            <div class="project-detail-content glass-card">
-                <div class="glass-content">
-                    <div class="project-detail-section">
-                        <h3>Proje Hakkında</h3>
-                        <p>Otomasyon projemiz, Endüstri 4.0 teknolojilerini kullanarak akıllı fabrika çözümleri geliştirmektedir. Robotik sistemler, IoT entegrasyonu ve yapay zeka ile üretim süreçlerini tamamen otomatikleştiriyoruz.</p>
-                        <p>Siber-fiziksel sistemler, bulut bilişim ve nesnelerin interneti teknolojileriyle geleceğin fabrikalarını bugünden inşa ediyoruz.</p>
-                    </div>
-                    <div class="project-detail-section">
-                        <h3>Kullanılan Teknolojiler</h3>
-                        <ul>
-                            <li>PLC programlama ve SCADA sistemleri</li>
-                            <li>Endüstriyel robotlar ve otomasyon</li>
-                            <li>IoT platformları ve sensör ağları</li>
-                            <li>Dijital ikiz teknolojisi</li>
-                            <li>Bulut tabanlı üretim yönetim sistemleri</li>
-                        </ul>
-                    </div>
-                    <div class="project-detail-section">
-                        <h3>Proje Hedefleri</h3>
-                        <ul>
-                            <li>Tam otomatik üretim hatları tasarlamak</li>
-                            <li>İnsan-robot işbirliği sistemleri geliştirmek</li>
-                            <li>Gerçek zamanlı üretim izleme</li>
-                            <li>Esnek üretim sistemleri oluşturmak</li>
-                            <li>Dijital dönüşüm danışmanlığı sunmak</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Project 4 Detail Page -->
-    <div id="page-project-4" class="page">
-        <div class="project-detail">
-            <a href="#home" class="back-button">← Geri Dön</a>
-            <div class="project-detail-header">
-                <h1 class="project-detail-title">Süreç İyileştirme</h1>
-                <p class="project-detail-subtitle">Lean ve Six Sigma metodolojileri</p>
-            </div>
-            <div class="project-detail-image">
-                <img src="/placeholder.svg?height=400&width=1000" alt="Süreç İyileştirme">
-            </div>
-            <div class="project-detail-content glass-card">
-                <div class="glass-content">
-                    <div class="project-detail-section">
-                        <h3>Proje Hakkında</h3>
-                        <p>Süreç İyileştirme projemiz, Lean Manufacturing ve Six Sigma metodolojilerini kullanarak işletmelerin operasyonel mükemmelliğe ulaşmasını sağlamaktadır. İsrafı elimine ederek değer akışını optimize ediyoruz.</p>
-                        <p>DMAIC (Define, Measure, Analyze, Improve, Control) yaklaşımıyla süreçleri sistematik olarak iyileştiriyoruz.</p>
-                    </div>
-                    <div class="project-detail-section">
-                        <h3>Kullanılan Metodolojiler</h3>
-                        <ul>
-                            <li>Lean Manufacturing prensipleri</li>
-                            <li>Six Sigma ve DMAIC metodolojisi</li>
-                            <li>Değer akış haritalama (VSM)</li>
-                            <li>5S ve Kaizen uygulamaları</li>
-                            <li>İstatistiksel proses kontrolü (SPC)</li>
-                        </ul>
-                    </div>
-                    <div class="project-detail-section">
-                        <h3>Proje Hedefleri</h3>
-                        <ul>
-                            <li>Üretim süreçlerinde israfı %30 azaltmak</li>
-                            <li>Çevrim sürelerini kısaltmak</li>
-                            <li>Kalite maliyetlerini düşürmek</li>
-                            <li>Süreç varyasyonunu minimize etmek</li>
-                            <li>Sürekli iyileştirme kültürü oluşturmak</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Project 5 Detail Page -->
-    <div id="page-project-5" class="page">
-        <div class="project-detail">
-            <a href="#home" class="back-button">← Geri Dön</a>
-            <div class="project-detail-header">
-                <h1 class="project-detail-title">Sürdürülebilirlik</h1>
-                <p class="project-detail-subtitle">Yeşil üretim ve çevre dostu çözümler</p>
-            </div>
-            <div class="project-detail-image">
-                <img src="/placeholder.svg?height=400&width=1000" alt="Sürdürülebilirlik">
-            </div>
-            <div class="project-detail-content glass-card">
-                <div class="glass-content">
-                    <div class="project-detail-section">
-                        <h3>Proje Hakkında</h3>
-                        <p>Sürdürülebilirlik projemiz, çevre dostu üretim yöntemleri geliştirerek hem ekonomik hem de ekolojik değer yaratmayı hedeflemektedir. Karbon ayak izini azaltırken operasyonel verimliliği artırıyoruz.</p>
-                        <p>Döngüsel ekonomi prensipleri, yenilenebilir enerji kullanımı ve atık yönetimi konularında çözümler sunuyoruz.</p>
-                    </div>
-                    <div class="project-detail-section">
-                        <h3>Odak Alanları</h3>
-                        <ul>
-                            <li>Enerji verimliliği ve yenilenebilir enerji</li>
-                            <li>Atık azaltma ve geri dönüşüm sistemleri</li>
-                            <li>Karbon ayak izi hesaplama ve azaltma</li>
-                            <li>Yeşil tedarik zinciri yönetimi</li>
-                            <li>Sürdürülebilirlik raporlama ve sertifikasyon</li>
-                        </ul>
-                    </div>
-                    <div class="project-detail-section">
-                        <h3>Proje Hedefleri</h3>
-                        <ul>
-                            <li>Karbon emisyonlarını %50 azaltmak</li>
-                            <li>Enerji tüketimini optimize etmek</li>
-                            <li>Sıfır atık hedefine ulaşmak</li>
-                            <li>Döngüsel ekonomi modelleri geliştirmek</li>
-                            <li>Sürdürülebilirlik standartlarına uyum sağlamak</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Project 6 Detail Page -->
-    <div id="page-project-6" class="page">
-        <div class="project-detail">
-            <a href="#home" class="back-button">← Geri Dön</a>
-            <div class="project-detail-header">
-                <h1 class="project-detail-title">Tedarik Zinciri</h1>
-                <p class="project-detail-subtitle">Lojistik ve tedarik zinciri optimizasyonu</p>
-            </div>
-            <div class="project-detail-image">
-                <img src="/placeholder.svg?height=400&width=1000" alt="Tedarik Zinciri">
-            </div>
-            <div class="project-detail-content glass-card">
-                <div class="glass-content">
-                    <div class="project-detail-section">
-                        <h3>Proje Hakkında</h3>
-                        <p>Tedarik Zinciri projemiz, lojistik süreçleri optimize ederek maliyetleri düşürürken müşteri memnuniyetini artırmayı hedeflemektedir. Gelişmiş analitik ve optimizasyon teknikleriyle tedarik zincirini uçtan uca yönetiyoruz.</p>
-                        <p>Talep tahmini, envanter optimizasyonu, rota planlama ve tedarikçi yönetimi konularında çözümler geliştiriyoruz.</p>
-                    </div>
-                    <div class="project-detail-section">
-                        <h3>Kullanılan Teknolojiler</h3>
-                        <ul>
-                            <li>Tedarik zinciri yönetim yazılımları (SAP, Oracle)</li>
-                            <li>Rota optimizasyonu algoritmaları</li>
-                            <li>Envanter yönetim sistemleri</li>
-                            <li>Blockchain teknolojisi ve izlenebilirlik</li>
-                            <li>Tahminsel analitik ve talep tahmini</li>
-                        </ul>
-                    </div>
-                    <div class="project-detail-section">
-                        <h3>Proje Hedefleri</h3>
-                        <ul>
-                            <li>Lojistik maliyetlerini %20 azaltmak</li>
-                            <li>Teslimat sürelerini kısaltmak</li>
-                            <li>Envanter seviyelerini optimize etmek</li>
-                            <li>Tedarik zinciri görünürlüğünü artırmak</li>
-                            <li>Risk yönetimi ve dayanıklılık oluşturmak</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Members Page -->
-    <div id="page-members" class="page">
-        <div class="members-section">
-            <a href="#home" class="back-button">← Geri Dön</a>
-            <div class="members-header">
-                <h1 class="members-title">Üyelerimiz</h1>
-                <p class="members-subtitle">IES ailesinin değerli üyeleri</p>
-            </div>
-            <div class="members-grid">
-                <div class="member-card">
-                    <div class="member-image">
-                        <img src="/placeholder.svg?height=400&width=300" alt="Ahmet Yılmaz">
-                    </div>
-                    <div class="member-overlay">
-                        <h3 class="member-name">Ahmet Yılmaz</h3>
-                        <p class="member-department">Endüstri Mühendisliği</p>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="member-image">
-                        <img src="/placeholder.svg?height=400&width=300" alt="Ayşe Demir">
-                    </div>
-                    <div class="member-overlay">
-                        <h3 class="member-name">Ayşe Demir</h3>
-                        <p class="member-department">Endüstri Mühendisliği</p>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="member-image">
-                        <img src="/placeholder.svg?height=400&width=300" alt="Mehmet Kaya">
-                    </div>
-                    <div class="member-overlay">
-                        <h3 class="member-name">Mehmet Kaya</h3>
-                        <p class="member-department">Endüstri Mühendisliği</p>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="member-image">
-                        <img src="/placeholder.svg?height=400&width=300" alt="Zeynep Şahin">
-                    </div>
-                    <div class="member-overlay">
-                        <h3 class="member-name">Zeynep Şahin</h3>
-                        <p class="member-department">Endüstri Mühendisliği</p>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="member-image">
-                        <img src="/placeholder.svg?height=400&width=300" alt="Can Öztürk">
-                    </div>
-                    <div class="member-overlay">
-                        <h3 class="member-name">Can Öztürk</h3>
-                        <p class="member-department">Endüstri Mühendisliği</p>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="member-image">
-                        <img src="/placeholder.svg?height=400&width=300" alt="Elif Arslan">
-                    </div>
-                    <div class="member-overlay">
-                        <h3 class="member-name">Elif Arslan</h3>
-                        <p class="member-department">Endüstri Mühendisliği</p>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="member-image">
-                        <img src="/placeholder.svg?height=400&width=300" alt="Burak Çelik">
-                    </div>
-                    <div class="member-overlay">
-                        <h3 class="member-name">Burak Çelik</h3>
-                        <p class="member-department">Endüstri Mühendisliği</p>
-                    </div>
-                </div>
-                <div class="member-card">
-                    <div class="member-image">
-                        <img src="/placeholder.svg?height=400&width=300" alt="Selin Aydın">
-                    </div>
-                    <div class="member-overlay">
-                        <h3 class="member-name">Selin Aydın</h3>
-                        <p class="member-department">Endüstri Mühendisliği</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Added comprehensive About page with liquid glass styling -->
-    <!-- About Page -->
-    <div id="page-about" class="page">
-        <div class="about-section">
-            <a href="#home" class="back-button">← Geri Dön</a>
-            <div class="about-header">
-                <h1 class="about-title">Hakkımızda</h1>
-                <p class="about-subtitle">Türk Hava Kurumu Üniversitesi Endüstri Mühendisliği Öğrenci Topluluğu olarak geleceğin mühendislerini bugünden yetiştiriyoruz</p>
-            </div>
-
-            <div class="about-content">
-                <div class="about-text-card glass-card">
-                    <div class="glass-content">
-                        <h3>Vizyonumuz</h3>
-                        <p>Endüstri mühendisliği alanında Türkiye'nin en yenilikçi ve etkili öğrenci topluluğu olmak. Üyelerimize dünya standartlarında eğitim ve deneyim fırsatları sunarak, sektörün geleceğini şekillendiren liderler yetiştirmek.</p>
-                        <p>Teknoloji ve inovasyonu merkeze alarak, sürdürülebilir ve verimli üretim sistemleri geliştiren bir topluluk oluşturmak istiyoruz.</p>
-                    </div>
-                </div>
-                <div class="about-image-card glass-card">
-                    <img src="/placeholder.svg?height=400&width=500" alt="Takım Çalışması">
-                </div>
-            </div>
-
-            <div class="about-content">
-                <div class="about-image-card glass-card">
-                    <img src="/placeholder.svg?height=400&width=500" alt="Laboratuvar">
-                </div>
-                <div class="about-text-card glass-card">
-                    <div class="glass-content">
-                        <h3>Misyonumuz</h3>
-                        <p>Endüstri mühendisliği öğrencilerine teorik bilgilerini pratiğe dönüştürebilecekleri bir platform sunmak. Sektör profesyonelleri ile buluşturarak, gerçek dünya problemlerine çözümler üretmelerini sağlamak.</p>
-                        <p>Workshoplar, seminerler, fabrika gezileri ve projeler aracılığıyla üyelerimizin teknik ve sosyal becerilerini geliştirmek. Kariyer hedeflerine ulaşmaları için gerekli tüm desteği sağlamak.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="about-content">
-                <div class="about-text-card glass-card">
-                    <div class="glass-content">
-                        <h3>Değerlerimiz</h3>
-                        <p><strong>İnovasyon:</strong> Sürekli yenilik ve gelişim peşinde koşuyoruz. Geleneksel yöntemleri sorgulayarak, daha iyi çözümler üretiyoruz.</p>
-                        <p><strong>İşbirliği:</strong> Takım çalışmasına inanıyoruz. Birlikte daha güçlü olduğumuzu biliyoruz.</p>
-                        <p><strong>Sürdürülebilirlik:</strong> Çevre dostu ve sosyal sorumlu projeler geliştiriyoruz.</p>
-                        <p><strong>Mükemmellik:</strong> Her projede en yüksek kalite standartlarını hedefliyoruz.</p>
-                    </div>
-                </div>
-                <div class="about-image-card glass-card">
-                    <img src="/placeholder.svg?height=400&width=500" alt="Sunum">
-                </div>
-            </div>
-
-            <div class="about-stats">
-                <div class="stat-card glass-card">
-                    <div class="glass-content">
-                        <div class="stat-number">200+</div>
-                        <div class="stat-label">Aktif Üye</div>
-                    </div>
-                </div>
-                <div class="stat-card glass-card">
-                    <div class="glass-content">
-                        <div class="stat-number">50+</div>
-                        <div class="stat-label">Tamamlanan Proje</div>
-                    </div>
-                </div>
-                <div class="stat-card glass-card">
-                    <div class="glass-content">
-                        <div class="stat-number">30+</div>
-                        <div class="stat-label">Etkinlik/Yıl</div>
-                    </div>
-                </div>
-                <div class="stat-card glass-card">
-                    <div class="glass-content">
-                        <div class="stat-number">15+</div>
-                        <div class="stat-label">Sektör Ortağı</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer id="contact">
-        <div class="footer-content">
-            <div class="footer-logo">IES - Industrial Engineering Society</div>
-            <p class="footer-text">
-                Türk Hava Kurumu Üniversitesi Endüstri Mühendisliği Öğrenci Topluluğu. 
-                Geleceğin mühendislerini bugünden yetiştiriyoruz.
-            </p>
-            <div class="social-links">
-                <a href="https://instagram.com/ies_thku" class="social-link" aria-label="Instagram" target="_blank">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                    </svg>
+            <div class="numbered-card-content">
+              <p class="numbered-card-text">
+                Topluluğumuzla ilgili tüm başvuru, kayıt ve bilgi formlarına buradan ulaşabilirsiniz. 
+                Üyelik başvurusu, etkinlik katılım formu, mentorluk programı başvurusu ve daha fazlası için 
+                aşağıdaki butona tıklayarak form sayfamıza yönlenebilirsiniz. Tüm formlarımız güvenli ve 
+                kullanıcı dostu bir arayüze sahiptir. Sorularınız için bizimle iletişime geçebilirsiniz.
+              </p>
+              <div style="margin-top: 24px; text-align: center;">
+                <a href="/formlar" class="cta-button" style="display: inline-block; padding: 16px 40px; font-size: 1rem;">
+                  FORMA YÖNLENDİR
                 </a>
-                <a href="https://linkedin.com/company/ies-thku" class="social-link" aria-label="LinkedIn" target="_blank">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                    </svg>
-                </a>
-                <a href="https://twitter.com/ies_thku" class="social-link" aria-label="Twitter" target="_blank">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-                    </svg>
-                </a>
-                <a href="mailto:ies@thk.edu.tr" class="social-link" aria-label="Email">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                    </svg>
-                </a>
+              </div>
             </div>
-            <p style="margin-top: 2rem; color: var(--text-muted); font-size: 0.85rem;">
-                © 2025 IES THKÜ. Tüm hakları saklıdır.
-            </p>
+          </div>
         </div>
-    </footer>
+      </section>
 
-    <script>
-        function createRipple(event) {
-            const element = event.currentTarget;
-            const ripple = document.createElement('span');
-            const rect = element.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = event.clientX - rect.left - size / 2;
-            const y = event.clientY - rect.top - size / 2;
+      <!-- Added new "Son Gönderiler" section with Instagram embeds -->
+      <section class="section">
+        <h2 class="section-title">Son Gönderiler</h2>
+        <div class="instagram-posts-grid">
+          <div class="instagram-post-wrapper">
+            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DPONQ3dAuMI/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/p/DPONQ3dAuMI/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">Bu gönderiyi Instagram'da gör</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/DPONQ3dAuMI/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">Liquid Glass (@liquidglass.tr) tarafından paylaşılan bir gönderi</a></p></div></blockquote>
+          </div>
 
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            ripple.classList.add('ripple');
+          <div class="instagram-post-wrapper">
+            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/p/DPjiP2Tgs7V/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/p/DPjiP2Tgs7V/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">Bu gönderiyi Instagram'da gör</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/DPjiP2Tgs7V/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">Liquid Glass (@liquidglass.tr) tarafından paylaşılan bir gönderi</a></p></div></blockquote>
+          </div>
 
-            element.appendChild(ripple);
+          <div class="instagram-post-wrapper">
+            <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="https://www.instagram.com/reel/DA5YRVjN1J8/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/reel/DA5YRVjN1J8/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">Bu gönderiyi Instagram'da gör</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/reel/DA5YRVjN1J8/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">Liquid Glass (@liquidglass.tr) tarafından paylaşılan bir gönderi</a></p></div></blockquote>
+          </div>
+        </div>
+      </section>
 
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
-        }
+      <section class="section">
+        <h2 class="section-title">Duyurular</h2>
+        <div class="announcements-grid">
+          <div class="expandable-card" data-expandable="announcement1">
+            <div class="expandable-card-header">
+              <h3 class="expandable-card-title">Yeni Etkinlik Duyurusu</h3>
+              <svg class="expandable-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <p class="expandable-card-preview">Bu hafta sonu düzenlenecek olan topluluk buluşmasına davetlisiniz...</p>
+            <div class="expandable-card-content">
+              <p class="expandable-card-text">
+                Bu hafta sonu düzenlenecek olan topluluk buluşmasına davetlisiniz! Etkinliğimizde birçok workshop, panel ve networking fırsatı sizi bekliyor. 
+                Alanında uzman konuşmacılarımız deneyimlerini paylaşacak ve sorularınızı yanıtlayacak. Katılım ücretsizdir ancak kayıt zorunludur. 
+                Etkinlik 15 Mart Cumartesi günü saat 10:00'da başlayacak ve 18:00'e kadar devam edecektir. Kahvaltı ve öğle yemeği ikramlarımız olacaktır.
+              </p>
+            </div>
+          </div>
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const interactiveElements = document.querySelectorAll(
-                '.cta-button, .back-button, .project-card, .feature-card, .member-card, ' +
-                '.social-link, .carousel-indicator, .mobile-menu-btn, .mobile-menu-close, ' +
-                'nav a, .mobile-menu a'
-            );
+          <div class="expandable-card" data-expandable="announcement2">
+            <div class="expandable-card-header">
+              <h3 class="expandable-card-title">Mentorluk Programı Başlıyor</h3>
+              <svg class="expandable-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <p class="expandable-card-preview">Kariyerinizi bir üst seviyeye taşımak için mentorluk programımıza katılın...</p>
+            <div class="expandable-card-content">
+              <p class="expandable-card-text">
+                Kariyerinizi bir üst seviyeye taşımak için mentorluk programımıza katılın! Alanında deneyimli mentorlarımız ile birebir görüşme fırsatı yakalayın. 
+                Program 3 ay sürecek ve her hafta düzenli olarak mentorunuzla görüşeceksiniz. Başvurular 20 Mart tarihine kadar devam edecektir. 
+                Program tamamen ücretsizdir ve tüm üyelerimize açıktır. Başvuru formunu web sitemizden doldurabilirsiniz.
+              </p>
+            </div>
+          </div>
 
-            interactiveElements.forEach(element => {
-                element.style.position = 'relative';
-                element.style.overflow = 'hidden';
-                element.addEventListener('click', createRipple);
-            });
+          <div class="expandable-card" data-expandable="announcement3">
+            <div class="expandable-card-header">
+              <h3 class="expandable-card-title">Yeni Kurslar Açıldı</h3>
+              <svg class="expandable-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <p class="expandable-card-preview">Web geliştirme, tasarım ve dijital pazarlama alanlarında yeni kurslarımız başladı...</p>
+            <div class="expandable-card-content">
+              <p class="expandable-card-text">
+                Web geliştirme, tasarım ve dijital pazarlama alanlarında yeni kurslarımız başladı! Uzman eğitmenlerimiz eşliğinde teorik ve pratik bilgiler edineceksiniz. 
+                Kurslar hem online hem de yüz yüze olarak düzenlenecektir. Her kurs 8 hafta sürecek ve haftada 2 gün, 2'şer saat olacaktır. 
+                Kurs sonunda sertifika verilecektir. Kayıtlar sınırlı sayıdadır, hemen başvurun!
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            const glassCards = document.querySelectorAll('.glass-card');
-            
-            glassCards.forEach(card => {
-                card.addEventListener('mousemove', function(e) {
-                    const rect = this.getBoundingClientRect();
-                    const x = ((e.clientX - rect.left) / rect.width) * 100;
-                    const y = ((e.clientY - rect.top) / rect.height) * 100;
-                    
-                    this.style.setProperty('--mouse-x', x + '%');
-                    this.style.setProperty('--mouse-y', y + '%');
-                });
+      <section class="section">
+        <h2 class="section-title">Biz Kimiz?</h2>
+        <div class="who-are-we-grid">
+          <div class="numbered-card" data-expandable="who1">
+            <div class="numbered-card-number">1</div>
+            <div class="numbered-card-header">
+              <h3 class="numbered-card-title">Misyonumuz</h3>
+              <svg class="numbered-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <div class="numbered-card-content">
+              <p class="numbered-card-text">
+                Misyonumuz, teknoloji ve yaratıcılık alanlarında tutkulu bireyleri bir araya getirerek, bilgi paylaşımını ve işbirliğini teşvik etmektir. 
+                Herkesin potansiyelini en üst düzeye çıkarabileceği, destekleyici ve kapsayıcı bir topluluk oluşturmayı hedefliyoruz. 
+                Üyelerimize sürekli öğrenme ve gelişim fırsatları sunarak, sektörde fark yaratan profesyoneller yetiştirmeyi amaçlıyoruz.
+              </p>
+            </div>
+          </div>
 
-                card.addEventListener('mouseleave', function() {
-                    this.style.removeProperty('--mouse-x');
-                    this.style.removeProperty('--mouse-y');
-                });
-            });
+          <div class="numbered-card" data-expandable="who2">
+            <div class="numbered-card-number">2</div>
+            <div class="numbered-card-header">
+              <h3 class="numbered-card-title">Vizyonumuz</h3>
+              <svg class="numbered-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <div class="numbered-card-content">
+              <p class="numbered-card-text">
+                Vizyonumuz, Türkiye'nin en büyük ve en etkili teknoloji topluluğu olmaktır. Yenilikçi projelere imza atan, 
+                sektöre değer katan ve birbirini destekleyen binlerce üyeyle, teknoloji ekosisteminin merkezinde yer almayı hedefliyoruz. 
+                Gelecekte, uluslararası arenada da tanınan, global işbirlikleri kuran bir topluluk olmayı amaçlıyoruz.
+              </p>
+            </div>
+          </div>
+
+          <div class="numbered-card" data-expandable="who3">
+            <div class="numbered-card-number">3</div>
+            <div class="numbered-card-header">
+              <h3 class="numbered-card-title">Değerlerimiz</h3>
+              <svg class="numbered-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <div class="numbered-card-content">
+              <p class="numbered-card-text">
+                Değerlerimiz, topluluğumuzun temelini oluşturur: Şeffaflık, dürüstlük ve açık iletişim; 
+                kapsayıcılık ve çeşitlilik; sürekli öğrenme ve gelişim; işbirliği ve dayanışma; 
+                yenilikçilik ve yaratıcılık. Bu değerler doğrultusunda hareket ederek, 
+                herkesin kendini değerli hissettiği ve potansiyelini gerçekleştirebileceği bir ortam yaratıyoruz.
+              </p>
+            </div>
+          </div>
+
+          <div class="numbered-card" data-expandable="who4">
+            <div class="numbered-card-number">4</div>
+            <div class="numbered-card-header">
+              <h3 class="numbered-card-title">Hikayemiz</h3>
+              <svg class="numbered-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+              </svg>
+            </div>
+            <div class="numbered-card-content">
+              <p class="numbered-card-text">
+                Topluluğumuz 2020 yılında, teknoloji tutkunu bir grup arkadaşın bir araya gelmesiyle kuruldu. 
+                Başlangıçta küçük bir grup olarak başladık, ancak zamanla büyüyerek bugünkü haline geldik. 
+                Şu anda 50'den fazla şehirde binlerce üyemiz var ve her geçen gün büyümeye devam ediyoruz. 
+                Yolculuğumuz boyunca yüzlerce etkinlik düzenledik, binlerce kişiye ulaştık ve sayısız başarı hikayesine tanıklık ettik.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Paylaşım Deposu</h2>
+        <div class="pdf-library-grid">
+          <div class="pdf-card" data-pdf="test.pdf" data-title="Temel Programlama Rehberi">
+            <div class="pdf-card-cover">
+              <img src="/grs1.webp" alt="Temel Programlama Rehberi">
+            </div>
+            <div class="pdf-card-info">
+              <h3 class="pdf-card-title">Temel Programlama Rehberi</h3>
+              <p class="pdf-card-description">Programlamaya başlayanlar için kapsamlı bir rehber.</p>
+            </div>
+          </div>
+
+          <div class="pdf-card" data-pdf="test2.pdf" data-title="Web Geliştirme İleri Seviye">
+            <div class="pdf-card-cover">
+              <img src="/grs2.jpg" alt="Web Geliştirme İleri Seviye">
+            </div>
+            <div class="pdf-card-info">
+              <h3 class="pdf-card-title">Web Geliştirme İleri Seviye</h3>
+              <p class="pdf-card-description">Modern web teknolojileri ve ileri seviye konular.</p>
+            </div>
+          </div>
+
+          <div class="pdf-card" data-pdf="test3.pdf" data-title="Veri Bilimi ve Analitik">
+            <div class="pdf-card-cover">
+              <img src="/grs3.jpg" alt="Veri Bilimi ve Analitik">
+            </div>
+            <div class="pdf-card-info">
+              <h3 class="pdf-card-title">Veri Bilimi ve Analitik</h3>
+              <p class="pdf-card-description">Veri analizi, makine öğrenmesi ve istatistik temelleri.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Neden Bize Katılmalısınız?</h2>
+        <div class="features-grid">
+          <div class="glass-card feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Güçlü Topluluk</h3>
+            <p class="feature-description">Binlerce aktif üye ile tanışın, fikir alışverişinde bulunun ve birlikte büyüyün.</p>
+          </div>
+
+          <div class="glass-card feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Özel Etkinlikler</h3>
+            <p class="feature-description">Düzenli olarak organize edilen workshoplar, seminerler ve sosyal etkinliklere katılın.</p>
+          </div>
+
+          <div class="glass-card feature-card">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+              </svg>
+            </div>
+            <h3 class="feature-title">Eğitim İmkanları</h3>
+            <p class="feature-description">Uzman eğitmenlerden ücretsiz kurslar ve mentorluk programlarından faydalanın.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="glass-card">
+          <div class="stats-grid">
+            <div>
+              <div class="stat-number">5,000+</div>
+              <div class="stat-label">Aktif Üye</div>
+            </div>
+            <div>
+              <div class="stat-number">250+</div>
+              <div class="stat-label">Etkinlik</div>
+            </div>
+            <div>
+              <div class="stat-number">50+</div>
+              <div class="stat-label">Şehir</div>
+            </div>
+            <div>
+              <div class="stat-number">98%</div>
+              <div class="stat-label">Memnuniyet</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="cta-section">
+          <h2 class="cta-title">Topluluğumuza Katılın</h2>
+          <p class="cta-description">Hemen üye olun ve bu harika deneyimin bir parçası olun!</p>
+          <a href="/join" class="cta-button">Üye Ol</a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Liquid Glass Topluluğu. Tüm hakları saklıdır.</p>
+  </footer>
+
+  <div class="pdf-viewer-modal" id="pdfViewerModal">
+    <div class="pdf-viewer-container">
+      <div class="pdf-viewer-top-controls">
+        <div class="pdf-viewer-info-group">
+          <h3 class="pdf-viewer-title" id="pdfViewerTitle">PDF Görüntüleyici</h3>
+          <div class="pdf-page-info" id="pdfPageInfo">
+            <span id="pdfPageNum">1</span> / <span id="pdfPageCount">1</span>
+          </div>
+        </div>
+        <button class="pdf-search-btn" id="pdfSearchBtn" title="Ara">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+          </svg>
+        </button>
+        <button class="pdf-viewer-close" id="pdfViewerClose">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="pdf-search-panel" id="pdfSearchPanel">
+        <input type="text" class="pdf-search-input" id="pdfSearchInput" placeholder="Kelime ara...">
+        <div class="pdf-search-nav" id="pdfSearchNav" style="display: none;">
+          <button class="pdf-search-nav-btn" id="pdfSearchPrev" title="Önceki">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+          </button>
+          <span class="pdf-search-results" id="pdfSearchResults"></span>
+          <button class="pdf-search-nav-btn" id="pdfSearchNext" title="Sonraki">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg>
+          </button>
+        </div>
+        <div class="pdf-search-results" id="pdfSearchResultsText"></div>
+      </div>
+
+      <div class="pdf-viewer-content" id="pdfViewerContent">
+        <div class="pdf-canvas-wrapper">
+          <canvas id="pdfCanvas"></canvas>
+        </div>
+      </div>
+
+      <div class="pdf-viewer-controls">
+        <button class="pdf-control-btn" id="pdfPrevPage" title="Önceki Sayfa">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+          </svg>
+        </button>
+        <button class="pdf-control-btn" id="pdfZoomOut" title="Uzaklaştır">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 13H5v-2h14v2z"/>
+          </svg>
+        </button>
+        <button class="pdf-control-btn" id="pdfZoomIn" title="Yakınlaştır">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+          </svg>
+        </button>
+        <div class="pdf-control-divider"></div>
+        <button class="pdf-control-btn pdf-download-btn" id="pdfDownload" title="İndir">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+          </svg>
+        </button>
+        <div class="pdf-control-divider"></div>
+        <button class="pdf-control-btn" id="pdfNextPage" title="Sonraki Sayfa">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+   Added Instagram embed script at the end of body 
+  <script async src="//www.instagram.com/embed.js"></script>
+
+  <script>
+    const menuSound = document.getElementById('menuSound');
+    const themeSound = document.getElementById('themeSound');
+
+    function playMenuSound() {
+      menuSound.currentTime = 0;
+      menuSound.play().catch(e => console.log('Audio play failed:', e));
+    }
+
+    function playThemeSound() {
+      themeSound.currentTime = 0;
+      themeSound.play().catch(e => console.log('Audio play failed:', e));
+    }
+
+    const switcher = document.querySelector('.switcher');
+
+    const trackPrevious = (el) => {
+      const radios = el.querySelectorAll('input[type="radio"]');
+      let previousValue = null;
+
+      const initiallyChecked = el.querySelector('input[type="radio"]:checked');
+      if (initiallyChecked) {
+        previousValue = initiallyChecked.getAttribute("c-option");
+        el.setAttribute('c-previous', previousValue);
+      }
+
+      radios.forEach(radio => {
+        radio.addEventListener('change', () => {
+          if (radio.checked) {
+            el.setAttribute('c-previous', previousValue ?? '');
+            previousValue = radio.getAttribute("c-option");
+            playThemeSound();
+          }
+        });
+      });
+    }
+
+    trackPrevious(switcher);
+
+    const navbar = document.getElementById('navbar');
+    const menuToggle = document.getElementById('menuToggle');
+    const closeMenuBtn = document.getElementById('closeMenuBtn');
+
+    menuToggle.addEventListener('click', () => {
+      navbar.classList.add('menu-open');
+      playMenuSound();
+    });
+
+    closeMenuBtn.addEventListener('click', () => {
+      navbar.classList.remove('menu-open');
+      playMenuSound();
+    });
+
+    const menuLinks = document.querySelectorAll('.navbar-menu a');
+    menuLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        navbar.classList.remove('menu-open');
+        playMenuSound();
+      });
+    });
+
+    const track = document.getElementById('carouselTrack');
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.carousel-dot');
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    function goToSlide(index) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      dots.forEach(dot => dot.classList.remove('active'));
+
+      slides[index].classList.add('active');
+      dots[index].classList.add('active');
+
+      track.style.transform = `translateX(-${index * 100}%)`;
+      currentSlide = index;
+    }
+
+    function nextSlide() {
+      const next = (currentSlide + 1) % totalSlides;
+      goToSlide(next);
+    }
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const slideIndex = parseInt(dot.getAttribute('data-slide'));
+        goToSlide(slideIndex);
+      });
+    });
+
+    setInterval(nextSlide, 5000);
+
+    const expandableCards = document.querySelectorAll('[data-expandable]');
+
+    expandableCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const isExpanded = card.classList.contains('expanded');
+
+        expandableCards.forEach(otherCard => {
+          if (otherCard !== card) {
+            otherCard.classList.remove('expanded');
+          }
         });
 
-        function navigateTo(pageId) {
-            window.location.hash = pageId;
+        if (isExpanded) {
+          card.classList.remove('expanded');
+        } else {
+          card.classList.add('expanded');
         }
+      });
+    });
 
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            const targetPage = document.getElementById('page-' + pageId);
-            if (targetPage) {
-                targetPage.classList.add('active');
-                window.scrollTo(0, 0);
-            }
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + pageId) {
-                    link.classList.add('active');
-                }
-            });
+    let pdfDoc = null;
+    let pageNum = 1;
+    let pageRendering = false;
+    let pageNumPending = null;
+    let scale = 1.5;
+    let currentPdfUrl = '';
+    let currentPdfTitle = '';
+    let currentZoomScale = 1;
+    let panX = 0;
+    let panY = 0;
+    let isPinching = false;
+    let isPanning = false;
+    let initialPinchDistance = 0;
+    let lastTouchX = 0;
+    let lastTouchY = 0;
+    let pdfTextContent = [];
+
+    const canvas = document.getElementById('pdfCanvas');
+    const ctx = canvas.getContext('2d');
+    const canvasWrapper = document.querySelector('.pdf-canvas-wrapper');
+    const modal = document.getElementById('pdfViewerModal');
+    const pdfContent = document.getElementById('pdfViewerContent');
+    const closeBtn = document.getElementById('pdfViewerClose');
+    const prevBtn = document.getElementById('pdfPrevPage');
+    const nextBtn = document.getElementById('pdfNextPage');
+    const zoomInBtn = document.getElementById('pdfZoomIn');
+    const zoomOutBtn = document.getElementById('pdfZoomOut');
+    const downloadBtn = document.getElementById('pdfDownload');
+    const pageNumSpan = document.getElementById('pdfPageNum');
+    const pageCountSpan = document.getElementById('pdfPageCount');
+    const titleSpan = document.getElementById('pdfViewerTitle');
+    const pageInfo = document.getElementById('pdfPageInfo');
+    const searchBtn = document.getElementById('pdfSearchBtn');
+    const searchPanel = document.getElementById('pdfSearchPanel');
+    const searchInput = document.getElementById('pdfSearchInput');
+    const searchResults = document.getElementById('pdfSearchResults');
+    const searchResultsText = document.getElementById('pdfSearchResultsText');
+    const searchNav = document.getElementById('pdfSearchNav');
+    const searchPrevBtn = document.getElementById('pdfSearchPrev');
+    const searchNextBtn = document.getElementById('pdfSearchNext');
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const swipeThreshold = 50;
+
+    let searchMatches = [];
+    let currentMatchIndex = -1;
+    let currentSearchQuery = '';
+
+    let isEditingPage = false;
+    pageInfo.addEventListener('click', function() {
+      if (isEditingPage) return;
+
+      isEditingPage = true;
+      const currentPage = pageNum;
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.min = 1;
+      input.max = pdfDoc.numPages;
+      input.value = currentPage;
+      input.className = 'pdf-page-input';
+
+      pageInfo.innerHTML = '';
+      pageInfo.appendChild(input);
+      input.focus();
+      input.select();
+
+      const finishEdit = () => {
+        const newPage = parseInt(input.value);
+        if (newPage >= 1 && newPage <= pdfDoc.numPages && newPage !== currentPage) {
+          pageNum = newPage;
+          queueRenderPage(pageNum);
+          updateButtons();
+          resetZoomAndPan();
         }
+        pageInfo.innerHTML = `<span id="pdfPageNum">${pageNum}</span> / <span id="pdfPageCount">${pdfDoc.numPages}</span>`;
+        isEditingPage = false;
+      };
 
-        function handleHashChange() {
-            const hash = window.location.hash.slice(1) || 'home';
-            showPage(hash);
+      input.addEventListener('blur', finishEdit);
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          finishEdit();
+        } else if (e.key === 'Escape') {
+          pageInfo.innerHTML = `<span id="pdfPageNum">${currentPage}</span> / <span id="pdfPageCount">${pdfDoc.numPages}</span>`;
+          isEditingPage = false;
         }
+      });
+    });
 
-        window.addEventListener('hashchange', handleHashChange);
-        window.addEventListener('load', handleHashChange);
+    searchBtn.addEventListener('click', function() {
+      searchPanel.classList.toggle('active');
+      if (searchPanel.classList.contains('active')) {
+        searchInput.focus();
+      } else {
+        clearSearchHighlights();
+      }
+    });
 
-        // Carousel functionality
-        let touchStartX = 0;
-        let touchEndX = 0;
-        const carouselContainer = document.getElementById('carouselContainer');
+    searchInput.addEventListener('input', async function() {
+      const query = searchInput.value.trim().toLowerCase();
 
-        carouselContainer.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
+      if (!query) {
+        searchResultsText.textContent = '';
+        searchNav.style.display = 'none';
+        clearSearchHighlights();
+        searchMatches = [];
+        currentMatchIndex = -1;
+        currentSearchQuery = '';
+        return;
+      }
 
-        carouselContainer.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
+      currentSearchQuery = query;
+      searchMatches = [];
 
-        function handleSwipe() {
-            const swipeThreshold = 50;
-            const diff = touchStartX - touchEndX;
+      for (let pageIndex = 0; pageIndex < pdfTextContent.length; pageIndex++) {
+        const text = pdfTextContent[pageIndex].toLowerCase();
+        let startIndex = 0;
 
-            if (Math.abs(diff) > swipeThreshold) {
-                if (diff > 0) {
-                    nextSlide();
-                } else {
-                    previousSlide();
-                }
-            }
+        while ((startIndex = text.indexOf(query, startIndex)) !== -1) {
+          searchMatches.push({
+            pageNum: pageIndex + 1,
+            textIndex: startIndex
+          });
+          startIndex += query.length;
         }
+      }
 
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.carousel-slide');
-        const indicators = document.querySelectorAll('.carousel-indicator');
+      if (searchMatches.length > 0) {
+        currentMatchIndex = 0;
+        searchNav.style.display = 'flex';
+        updateSearchResults();
+        goToSearchMatch(0);
+      } else {
+        searchResultsText.textContent = 'Sonuç bulunamadı';
+        searchNav.style.display = 'none';
+        clearSearchHighlights();
+      }
+    });
 
-        function showSlide(index) {
-            slides.forEach((slide, i) => {
-                slide.classList.remove('active');
-                indicators[i].classList.remove('active');
-            });
-            
-            slides[index].classList.add('active');
-            indicators[index].classList.add('active');
-            currentSlide = index;
+    searchPrevBtn.addEventListener('click', function() {
+      if (currentMatchIndex > 0) {
+        currentMatchIndex--;
+        updateSearchResults();
+        goToSearchMatch(currentMatchIndex);
+      }
+    });
+
+    searchNextBtn.addEventListener('click', function() {
+      if (currentMatchIndex < searchMatches.length - 1) {
+        currentMatchIndex++;
+        updateSearchResults();
+        goToSearchMatch(currentMatchIndex);
+      }
+    });
+
+    function updateSearchResults() {
+      searchResults.textContent = `${currentMatchIndex + 1} / ${searchMatches.length}`;
+      searchPrevBtn.disabled = currentMatchIndex === 0;
+      searchNextBtn.disabled = currentMatchIndex === searchMatches.length - 1;
+    }
+
+    async function goToSearchMatch(matchIndex) {
+      if (matchIndex < 0 || matchIndex >= searchMatches.length) return;
+
+      const match = searchMatches[matchIndex];
+
+      if (match.pageNum !== pageNum) {
+        pageNum = match.pageNum;
+        await queueRenderPage(pageNum);
+        updateButtons();
+        resetZoomAndPan();
+      }
+
+      await highlightSearchMatches();
+    }
+
+    async function highlightSearchMatches() {
+      clearSearchHighlights();
+
+      if (!currentSearchQuery || searchMatches.length === 0) return;
+
+      const page = await pdfDoc.getPage(pageNum);
+      const textContent = await page.getTextContent();
+      const viewport = page.getViewport({ scale: scale });
+
+      const canvasRect = canvas.getBoundingClientRect();
+      const canvasWrapper = canvas.parentElement;
+
+      const pageMatches = searchMatches.filter(m => m.pageNum === pageNum);
+
+      textContent.items.forEach((item, itemIndex) => {
+        const itemText = item.str.toLowerCase();
+        const query = currentSearchQuery.toLowerCase();
+        let startIndex = 0;
+
+        while ((startIndex = itemText.indexOf(query, startIndex)) !== -1) {
+          const transform = pdfjsLib.Util.transform(
+            viewport.transform,
+            item.transform
+          );
+
+          const x = transform[4];
+          const y = transform[5];
+          const height = Math.sqrt(transform[2] * transform[2] + transform[3] * transform[3]) * item.height;
+          const width = item.width * (query.length / item.str.length);
+
+          const highlight = document.createElement('div');
+          highlight.className = 'pdf-text-highlight';
+          highlight.style.left = `${x}px`;
+          highlight.style.top = `${viewport.height - y - height}px`;
+          highlight.style.width = `${width}px`;
+          highlight.style.height = `${height}px`;
+
+          const isCurrentMatch = pageMatches.some(m => {
+            const pageText = pdfTextContent[pageNum - 1].toLowerCase();
+            const matchPos = pageText.indexOf(query, m.textIndex);
+            return matchPos === m.textIndex && m === searchMatches[currentMatchIndex];
+          });
+
+          if (isCurrentMatch) {
+            highlight.classList.add('current');
+          }
+
+          canvasWrapper.appendChild(highlight);
+
+          startIndex += query.length;
         }
+      });
+    }
 
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % slides.length;
-            showSlide(currentSlide);
+    function clearSearchHighlights() {
+      const highlights = document.querySelectorAll('.pdf-text-highlight');
+      highlights.forEach(h => h.remove());
+    }
+
+    function getDistance(touch1, touch2) {
+      const dx = touch1.clientX - touch2.clientX;
+      const dy = touch1.clientY - touch2.clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    function applyTransform() {
+      canvas.style.transform = `scale(${currentZoomScale}) translate(${panX}px, ${panY}px)`;
+    }
+
+    canvasWrapper.addEventListener('touchstart', function(e) {
+      if (e.touches.length === 2) {
+        isPinching = true;
+        isPanning = false;
+        initialPinchDistance = getDistance(e.touches[0], e.touches[1]);
+      } else if (e.touches.length === 1 && currentZoomScale > 1) {
+        isPanning = true;
+        isPinching = false;
+        lastTouchX = e.touches[0].clientX;
+        lastTouchY = e.touches[0].clientY;
+      } else {
+        touchStartX = e.touches[0].clientX;
+      }
+    }, { passive: true });
+
+    canvasWrapper.addEventListener('touchmove', function(e) {
+      if (isPinching && e.touches.length === 2) {
+        e.preventDefault();
+        const currentDistance = getDistance(e.touches[0], e.touches[1]);
+        const scaleDelta = currentDistance / initialPinchDistance;
+
+        let newScale = currentZoomScale * scaleDelta;
+        newScale = Math.max(0.5, Math.min(8, newScale));
+
+        currentZoomScale = newScale;
+        initialPinchDistance = currentDistance;
+        applyTransform();
+      } else if (isPanning && e.touches.length === 1 && currentZoomScale > 1) {
+        e.preventDefault();
+        const deltaX = e.touches[0].clientX - lastTouchX;
+        const deltaY = e.touches[0].clientY - lastTouchY;
+
+        panX += deltaX / currentZoomScale;
+        panY += deltaY / currentZoomScale;
+
+        lastTouchX = e.touches[0].clientX;
+        lastTouchY = e.touches[0].clientY;
+        applyTransform();
+      }
+    }, { passive: false });
+
+    canvasWrapper.addEventListener('touchend', function(e) {
+      if (isPinching) {
+        isPinching = false;
+      } else if (isPanning) {
+        isPanning = false;
+      } else if (e.changedTouches.length === 1 && currentZoomScale <= 1) {
+        touchEndX = e.changedTouches[0].clientX;
+        handleSwipe();
+      }
+    }, { passive: true });
+
+    function handleSwipe() {
+      const swipeDistance = touchEndX - touchStartX;
+      if (Math.abs(swipeDistance) > swipeThreshold) {
+        if (swipeDistance > 0) {
+          onPrevPage();
+        } else {
+          onNextPage();
         }
+      }
+    }
 
-        function previousSlide() {
-            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-            showSlide(currentSlide);
+    async function renderPage(num) {
+      pageRendering = true;
+      const page = await pdfDoc.getPage(num);
+      const viewport = page.getViewport({ scale: scale });
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      const renderContext = {
+        canvasContext: ctx,
+        viewport: viewport
+      };
+
+      const renderTask = page.render(renderContext);
+      await renderTask.promise;
+      pageRendering = false;
+
+      if (pageNumPending !== null) {
+        renderPage(pageNumPending);
+        pageNumPending = null;
+      }
+
+      if (currentSearchQuery && searchMatches.length > 0) {
+        await highlightSearchMatches();
+      }
+    }
+
+    function queueRenderPage(num) {
+      if (pageRendering) {
+        pageNumPending = num;
+      } else {
+        renderPage(num);
+      }
+    }
+
+    function onPrevPage() {
+      if (pageNum <= 1) {
+        return;
+      }
+      pageNum--;
+      queueRenderPage(pageNum);
+      updateButtons();
+      resetZoomAndPan();
+    }
+
+    function onNextPage() {
+      if (pageNum >= pdfDoc.numPages) {
+        return;
+      }
+      pageNum++;
+      queueRenderPage(pageNum);
+      updateButtons();
+      resetZoomAndPan();
+    }
+
+    function resetZoomAndPan() {
+      currentZoomScale = 1;
+      panX = 0;
+      panY = 0;
+      applyTransform();
+    }
+
+    function onZoomIn() {
+      scale += 0.25;
+      queueRenderPage(pageNum);
+    }
+
+    function onZoomOut() {
+      if (scale <= 0.5) return;
+      scale -= 0.25;
+      queueRenderPage(pageNum);
+    }
+
+    function updateButtons() {
+      prevBtn.disabled = pageNum <= 1;
+      nextBtn.disabled = pageNum >= pdfDoc.numPages;
+    }
+
+    async function extractTextContent(pdf) {
+      pdfTextContent = [];
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items.map(item => item.str).join(' ');
+        pdfTextContent.push(pageText);
+      }
+    }
+
+    function openPdfViewer(pdfUrl, title) {
+      currentPdfUrl = pdfUrl;
+      currentPdfTitle = title;
+      titleSpan.textContent = title;
+
+      resetZoomAndPan();
+      searchPanel.classList.remove('active');
+      searchInput.value = '';
+      searchResults.textContent = '';
+      searchResultsText.textContent = '';
+      searchNav.style.display = 'none';
+
+      pdfjsLib.getDocument(pdfUrl).promise.then(function(pdfDoc_) {
+        pdfDoc = pdfDoc_;
+        pageCountSpan.textContent = pdfDoc.numPages;
+        pageNum = 1;
+        renderPage(pageNum);
+        updateButtons();
+        extractTextContent(pdfDoc);
+
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    }
+
+    function closePdfViewer() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+      resetZoomAndPan();
+      searchPanel.classList.remove('active');
+      pdfDoc = null;
+      pdfTextContent = [];
+      clearSearchHighlights();
+      searchMatches = [];
+      currentMatchIndex = -1;
+      currentSearchQuery = '';
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function downloadPdf() {
+      const link = document.createElement('a');
+      link.href = currentPdfUrl;
+      link.download = currentPdfTitle + '.pdf';
+      link.click();
+    }
+
+    closeBtn.addEventListener('click', closePdfViewer);
+    prevBtn.addEventListener('click', onPrevPage);
+    nextBtn.addEventListener('click', onNextPage);
+    zoomInBtn.addEventListener('click', onZoomIn);
+    zoomOutBtn.addEventListener('click', onZoomOut);
+    downloadBtn.addEventListener('click', downloadPdf);
+
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closePdfViewer();
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (modal.classList.contains('active')) {
+        if (e.key === 'Escape') {
+          closePdfViewer();
+        } else if (e.key === 'ArrowLeft') {
+          onPrevPage();
+        } else if (e.key === 'ArrowRight') {
+          onNextPage();
+        } else if (e.key === 'f' && !isEditingPage && !searchPanel.classList.contains('active')) {
+            searchBtn.click();
+            searchInput.focus();
+            e.preventDefault();
         }
+      }
+    });
 
-        function goToSlide(index) {
-            showSlide(index);
-        }
+    const pdfCards = document.querySelectorAll('.pdf-card');
+    pdfCards.forEach(card => {
+      card.addEventListener('click', function() {
+        const pdfUrl = this.getAttribute('data-pdf');
+        const title = this.getAttribute('data-title');
+        openPdfViewer(pdfUrl, title);
+      });
+    });
+  </script>
 
-        let carouselInterval = setInterval(nextSlide, 5000);
-
-        carouselContainer.addEventListener('touchstart', () => {
-            clearInterval(carouselInterval);
-        });
-
-        carouselContainer.addEventListener('touchend', () => {
-            carouselInterval = setInterval(nextSlide, 5000);
-        });
-
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            mobileMenu.classList.toggle('active');
-        }
-
-        document.addEventListener('click', function(event) {
-            const mobileMenu = document.getElementById('mobileMenu');
-            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-            
-            if (mobileMenu.classList.contains('active')) {
-                const isClickInsideMenu = Array.from(mobileMenu.querySelectorAll('a')).some(link => 
-                    link.contains(event.target)
-                );
-                
-                if (!isClickInsideMenu && !mobileMenuBtn.contains(event.target)) {
-                    mobileMenu.classList.remove('active');
-                }
-            }
-        });
-    </script>
 </body>
 </html>
