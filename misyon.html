@@ -153,7 +153,6 @@
             transform: translateY(-2px);
         }
         
-        /* <CHANGE> Google Sign-In Modal Styles */
         .login-modal {
             position: fixed;
             top: 0;
@@ -226,7 +225,6 @@
             transform: scale(1.05);
         }
 
-        /* <CHANGE> Custom Google Sign-In Button */
         .google-signin-btn {
             width: 100%;
             background: linear-gradient(135deg, #ffffff, #f0f0f0);
@@ -271,7 +269,6 @@
             height: 20px;
         }
 
-        /* <CHANGE> User Panel Styles */
         .user-panel {
             display: none;
         }
@@ -280,7 +277,6 @@
             display: block;
         }
 
-        /* <CHANGE> Credit Card Flip Animation */
         .card-container {
             perspective: 1000px;
             width: 100%;
@@ -394,6 +390,80 @@
             transform: translateY(-2px);
         }
 
+        /* <CHANGE> Added styles for user panel sections */
+        .panel-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .panel-section h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .order-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .order-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .order-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-delivered {
+            background: rgba(34, 197, 94, 0.2);
+            color: rgb(34, 197, 94);
+        }
+
+        .status-shipping {
+            background: rgba(59, 130, 246, 0.2);
+            color: rgb(59, 130, 246);
+        }
+
+        .status-processing {
+            background: rgba(251, 191, 36, 0.2);
+            color: rgb(251, 191, 36);
+        }
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -437,7 +507,6 @@
     </style>
 </head>
 <body class="bg-neutral-950 text-white font-sans">
-     <CHANGE> Google Sign-In Modal 
     <div id="loginModal" class="login-modal">
         <div class="login-panel">
             <div class="login-content">
@@ -469,7 +538,6 @@
     <main class="bg-neutral-950 text-white min-h-screen">
         <section class="px-4 pt-4 pb-16 lg:pb-4">
             <div class="grid h-full grid-cols-1 gap-4 lg:grid-cols-[420px_1fr]">
-                 LEFT: sticky and full height 
                 <aside class="lg:sticky lg:top-4 lg-h-screen-minus-2rem">
                     <div class="reveal-element relative flex h-full flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-neutral-900/60 p-6 sm:p-8 backdrop-blur-sm">
                         <div class="dot-grid-pattern"></div>
@@ -501,7 +569,6 @@
                                 THE LENG is a product designer based in New York. He helps early‑stage startups ship beautiful, usable software fast.
                             </p>
 
-                             <CHANGE> Updated CTAs with login/logout button 
                             <div class="mt-6 flex flex-wrap items-center gap-3">
                                 <a href="mailto:contact@theleng.dev" class="magnetic-btn inline-flex items-center gap-2 rounded-full bg-white text-black px-6 py-3 text-sm font-medium">
                                     Hire me
@@ -518,7 +585,6 @@
                                 </button>
                             </div>
 
-                             <CHANGE> Companies section - will be hidden after login 
                             <div class="mt-10" id="companiesSection">
                                 <p class="mb-3 text-xs font-semibold tracking-widest text-white/50">
                                     COMPANIES I'VE WORKED WITH
@@ -536,9 +602,7 @@
                     </div>
                 </aside>
 
-                 RIGHT: Project cards / User Panel 
                 <div>
-                     <CHANGE> Projects Container - will be hidden after login 
                     <div class="space-y-4" id="projectsContainer">
                         <article class="group relative lg-h-screen-minus-2rem">
                             <div class="reveal-element project-card rounded-3xl border border-white/10 p-1 shadow-[0_10px_60px_-10px_rgba(0,0,0,0.6)] lg:h-full" style="--gradient-from: #0f172a; --gradient-to: #6d28d9;">
@@ -651,49 +715,128 @@
                         </footer>
                     </div>
 
-                     <CHANGE> User Panel - shown after login 
+                    <!-- <CHANGE> Enhanced User Panel with all sections -->
                     <div class="user-panel" id="userPanel">
-                        <div class="reveal-element rounded-3xl border border-white/10 bg-neutral-900/60 backdrop-blur-sm p-8 sm:p-12">
+                        <div class="reveal-element rounded-3xl border border-white/10 bg-neutral-900/60 backdrop-blur-sm p-8 sm:p-12 fade-in-up">
                             <div class="text-center mb-8">
                                 <h2 class="text-3xl font-black mb-2">Kullanıcı Paneli</h2>
                                 <p class="text-white/60" id="userEmail">user@example.com</p>
                             </div>
 
-                            <div class="card-container mb-8">
-                                <div class="credit-card" id="creditCard" onclick="flipCard()">
-                                     Front of card 
-                                    <div class="card-face card-front">
-                                        <div>
-                                            <div class="card-chip"></div>
-                                        </div>
-                                        
-                                        <div>
-                                            <div class="card-number" id="userCode">XXXX-XXXX-XXXX</div>
-                                        </div>
-                                        
-                                        <div class="flex justify-between items-end">
-                                            <div>
-                                                <div class="card-label">Kullanıcı Adı</div>
-                                                <div class="card-info" id="userName">User Name</div>
-                                            </div>
-                                            <div class="text-right">
-                                                <div class="card-label">Üyelik</div>
-                                                <div class="card-info">Premium</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                     Back of card 
-                                    <div class="card-face card-back">
-                                        <div class="qr-container">
-                                            <canvas id="qrCode"></canvas>
-                                        </div>
-                                    </div>
+                            <!-- <CHANGE> User Info Section -->
+                            <div class="panel-section">
+                                <h3>👤 Kullanıcı Bilgileri</h3>
+                                <div class="info-row">
+                                    <span class="info-label">Ad Soyad</span>
+                                    <span class="info-value" id="userFullName">-</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">E-posta</span>
+                                    <span class="info-value" id="userEmailInfo">-</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Kullanıcı Kodu</span>
+                                    <span class="info-value" id="userCodeInfo">-</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Üyelik Tipi</span>
+                                    <span class="info-value">Premium</span>
                                 </div>
                             </div>
 
+                            <!-- <CHANGE> Order Tracking Section -->
+                            <div class="panel-section">
+                                <h3>📦 Sipariş Takibi</h3>
+                                <div class="order-item">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div>
+                                            <div class="font-semibold text-white">Sipariş #12345</div>
+                                            <div class="text-sm text-white/60">15 Ocak 2025</div>
+                                        </div>
+                                        <span class="order-status status-delivered">Teslim Edildi</span>
+                                    </div>
+                                    <div class="text-sm text-white/70">Premium Design Package</div>
+                                </div>
+                                <div class="order-item">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div>
+                                            <div class="font-semibold text-white">Sipariş #12344</div>
+                                            <div class="text-sm text-white/60">10 Ocak 2025</div>
+                                        </div>
+                                        <span class="order-status status-shipping">Kargoda</span>
+                                    </div>
+                                    <div class="text-sm text-white/70">UI/UX Consultation</div>
+                                </div>
+                                <div class="order-item">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div>
+                                            <div class="font-semibold text-white">Sipariş #12343</div>
+                                            <div class="text-sm text-white/60">5 Ocak 2025</div>
+                                        </div>
+                                        <span class="order-status status-processing">Hazırlanıyor</span>
+                                    </div>
+                                    <div class="text-sm text-white/70">Brand Identity Design</div>
+                                </div>
+                            </div>
+
+                            <!-- <CHANGE> Customer Service Section -->
+                            <div class="panel-section">
+                                <h3>💬 Özel Müşteri Hizmetleri</h3>
+                                <div class="info-row">
+                                    <span class="info-label">Destek Hattı</span>
+                                    <span class="info-value">+90 555 123 4567</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">E-posta Desteği</span>
+                                    <span class="info-value">support@theleng.dev</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Çalışma Saatleri</span>
+                                    <span class="info-value">09:00 - 18:00</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Özel Danışman</span>
+                                    <span class="info-value">Ahmet Yılmaz</span>
+                                </div>
+                            </div>
+
+                            <!-- <CHANGE> Credit Card with QR Code -->
+                            <div class="panel-section">
+                                <h3>💳 Üyelik Kartı</h3>
+                                <div class="card-container mb-4">
+                                    <div class="credit-card" id="creditCard" onclick="flipCard()">
+                                        <div class="card-face card-front">
+                                            <div>
+                                                <div class="card-chip"></div>
+                                            </div>
+                                            
+                                            <div>
+                                                <div class="card-number" id="userCode">XXXX-XXXX-XXXX</div>
+                                            </div>
+                                            
+                                            <div class="flex justify-between items-end">
+                                                <div>
+                                                    <div class="card-label">Kullanıcı Adı</div>
+                                                    <div class="card-info" id="userName">User Name</div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="card-label">Üyelik</div>
+                                                    <div class="card-info">Premium</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="card-face card-back">
+                                            <div class="qr-container">
+                                                <canvas id="qrCode"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-white/60 text-center">Kartı çevirmek için üzerine tıklayın</p>
+                            </div>
+
                             <div class="text-center">
-                                <p class="text-sm text-white/60 mb-4">Kartı çevirmek için üzerine tıklayın</p>
                                 <button onclick="handleLogout()" class="logout-btn">
                                     Çıkış Yap
                                 </button>
@@ -706,7 +849,14 @@
     </main>
 
     <script>
-        // <CHANGE> Google Sign-In Implementation
+        // <CHANGE> Allowed email addresses - add your authorized emails here
+        const ALLOWED_EMAILS = [
+            'user@example.com',
+            'admin@example.com',
+            'test@example.com',
+            'demo@theleng.dev'
+        ];
+
         let currentUser = null;
         
         function initializeGoogleSignIn() {
@@ -726,49 +876,68 @@
 
         window.addEventListener('load', initializeGoogleSignIn);
 
+        // <CHANGE> Enhanced credential response handler with email validation
         function handleCredentialResponse(response) {
             try {
+                if (!response || !response.credential) {
+                    throw new Error('Invalid credential response');
+                }
+
                 const payload = JSON.parse(atob(response.credential.split('.')[1]));
+                
+                // <CHANGE> Check if email is in allowed list
+                if (!ALLOWED_EMAILS.includes(payload.email)) {
+                    alert('Bu e-posta adresi ile giriş yapma yetkiniz bulunmamaktadır. Lütfen yetkili bir hesap kullanın.');
+                    console.log('[v0] Unauthorized email attempt:', payload.email);
+                    return;
+                }
                 
                 currentUser = {
                     name: payload.name,
                     email: payload.email,
                     picture: payload.picture,
                     given_name: payload.given_name,
+                    family_name: payload.family_name || '',
                     sub: payload.sub
                 };
                 
-                console.log('[v0] User signed in:', currentUser.email);
+                console.log('[v0] User signed in successfully:', currentUser.email);
                 updateUIForSignedInUser();
             } catch (error) {
-                console.error('[v0] Error decoding JWT:', error);
+                console.error('[v0] Error during sign-in:', error);
                 alert('Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin.');
             }
         }
 
+        // <CHANGE> Enhanced UI update with all user information
         function updateUIForSignedInUser() {
             closeLoginModal();
             
-            // Hide projects and companies
             document.getElementById('projectsContainer').style.display = 'none';
             document.getElementById('companiesSection').style.display = 'none';
             
-            // Show user panel
             const userPanel = document.getElementById('userPanel');
             userPanel.classList.add('active');
             
-            // Update user info
+            // <CHANGE> Update all user information fields
             document.getElementById('userEmail').textContent = currentUser.email;
             document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userFullName').textContent = currentUser.name;
+            document.getElementById('userEmailInfo').textContent = currentUser.email;
             
-            // Generate user code from email
             const userCode = generateUserCode(currentUser.sub);
             document.getElementById('userCode').textContent = userCode;
+            document.getElementById('userCodeInfo').textContent = userCode;
             
-            // Generate QR code
-            generateQRCode(userCode);
+            // <CHANGE> Generate QR code with proper error handling
+            setTimeout(() => {
+                try {
+                    generateQRCode(userCode);
+                } catch (error) {
+                    console.error('[v0] QR Code generation failed:', error);
+                }
+            }, 100);
             
-            // Update auth button
             const authButton = document.getElementById('authButton');
             authButton.innerHTML = `
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -780,24 +949,42 @@
         }
 
         function generateUserCode(userId) {
-            // Generate a formatted user code from user ID
             const hash = userId.substring(0, 12).toUpperCase();
             return `${hash.substring(0, 4)}-${hash.substring(4, 8)}-${hash.substring(8, 12)}`;
         }
 
+        // <CHANGE> Enhanced QR code generation with error handling
         function generateQRCode(text) {
             const canvas = document.getElementById('qrCode');
-            QRCode.toCanvas(canvas, text, {
-                width: 200,
-                margin: 2,
-                color: {
-                    dark: '#000000',
-                    light: '#ffffff'
-                }
-            }, function (error) {
-                if (error) console.error('[v0] QR Code generation error:', error);
-                else console.log('[v0] QR Code generated successfully');
-            });
+            if (!canvas) {
+                console.error('[v0] QR Code canvas not found');
+                return;
+            }
+
+            if (typeof QRCode === 'undefined') {
+                console.error('[v0] QRCode library not loaded');
+                setTimeout(() => generateQRCode(text), 500);
+                return;
+            }
+
+            try {
+                QRCode.toCanvas(canvas, text, {
+                    width: 200,
+                    margin: 2,
+                    color: {
+                        dark: '#000000',
+                        light: '#ffffff'
+                    }
+                }, function (error) {
+                    if (error) {
+                        console.error('[v0] QR Code generation error:', error);
+                    } else {
+                        console.log('[v0] QR Code generated successfully');
+                    }
+                });
+            } catch (error) {
+                console.error('[v0] QR Code generation exception:', error);
+            }
         }
 
         function flipCard() {
@@ -808,14 +995,11 @@
         function handleLogout() {
             currentUser = null;
             
-            // Show projects and companies
             document.getElementById('projectsContainer').style.display = 'block';
             document.getElementById('companiesSection').style.display = 'block';
             
-            // Hide user panel
             document.getElementById('userPanel').classList.remove('active');
             
-            // Reset auth button
             const authButton = document.getElementById('authButton');
             authButton.innerHTML = `
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -833,7 +1017,6 @@
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
             
-            // Trigger Google Sign-In
             setTimeout(() => {
                 if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
                     google.accounts.id.prompt();
@@ -847,7 +1030,6 @@
             document.body.style.overflow = '';
         }
 
-        // Custom Google Sign-In button handler
         document.getElementById('googleSignInButton').addEventListener('click', function() {
             if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
                 google.accounts.id.prompt();
@@ -856,21 +1038,18 @@
             }
         });
 
-        // Close modal on escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeLoginModal();
             }
         });
 
-        // Close modal on backdrop click
         document.getElementById('loginModal').addEventListener('click', (e) => {
             if (e.target.id === 'loginModal') {
                 closeLoginModal();
             }
         });
 
-        // Intersection Observer for animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
