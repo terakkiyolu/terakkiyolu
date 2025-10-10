@@ -3,911 +3,1589 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Misyon & Vizyon - Terakki Yolu</title>
-    <link rel="icon" type="image/png" href="/terakki1.jpg">
-    <link rel="apple-touch-icon" href="/terakki1.jpg">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>THE LENG - İDDİA EDİYORUZ EN İYİSİYİZ</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#f8f8f8">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <link rel="manifest" href="/manifest.json">
+
     <style>
         :root {
             --primary-color: #000;
             --secondary-color: #333;
-            --accent-color: #fff;
-            --text-color: #fff;
-            --text-dark: #000;
-            --bg-color: #000;
-            --bg-light: #111;
-            --bg-lighter: #222;
-            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --text-color: #666;
+            --background-color: #f8f8f8;
+            --border-radius-sm: 10px;
+            --border-radius-md: 25px;
+            --border-radius-lg: 60px;
+            --transition-speed: 0.3s;
+            --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 5px 20px rgba(0, 0, 0, 0.15);
+            --shadow-strong: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --accent-gradient: linear-gradient(135deg, #667eea, #764ba2);
+            --card-border-color: #e4e4e7;
+            --card-bg-light: #fafafa;
+            --card-bg-gradient-from: #f4f4f5;
+            --card-bg-gradient-to: white;
+            --card-text-dark: #18181b;
+            --card-text-medium: #666;
+            --card-accent-color: #ff8c00;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 80px;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: var(--bg-color);
-            color: var(--text-color);
-            overflow-x: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
+            color: var(--secondary-color);
+            overflow-x: hidden;
+            background-color: var(--background-color);
+            scroll-behavior: smooth;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        *:focus {
+            outline: none;
+            box-shadow: none;
         }
 
-        /* Header & Navigation */
+        /* Header Styles */
         .header {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: transparent;
+            backdrop-filter: none;
             z-index: 1000;
-            transition: var(--transition);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all var(--transition-speed) ease;
         }
 
         .header.scrolled {
-            background: rgba(0, 0, 0, 0.95);
+            background: transparent;
+            box-shadow: none;
         }
 
-        .navbar {
+        .nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 800;
+            font-size: clamp(1.5rem, 3.5vw, 1.8rem);
+            color: var(--primary-color);
+            letter-spacing: -0.8px;
+            text-transform: uppercase;
+            background: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-light);
+            transition: all var(--transition-speed) ease;
+            cursor: pointer;
+        }
+
+        .logo:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .logo-dots {
+            display: flex;
+            gap: 0.2rem;
+        }
+
+        .dot {
+            width: clamp(8px, 1.8vw, 10px);
+            height: clamp(8px, 1.8vw, 10px);
+            border-radius: 50%;
+            background: var(--primary-color);
+            transition: transform var(--transition-speed) ease;
+        }
+        .logo:hover .dot:nth-child(1) { transform: translateY(-3px); }
+        .logo:hover .dot:nth-child(2) { transform: translateY(3px); }
+
+        .nav-right {
             display: flex;
             align-items: center;
-            text-decoration: none;
+            gap: 1rem;
         }
 
-        .logo-text {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            font-family: 'Poppins', sans-serif;
-            letter-spacing: 1px;
-            transition: var(--transition);
-        }
-
-        .logo-text:hover {
-            color: #ff5e5e; /* Kırmızımsı renk */
-        }
-
-        .logo-text span {
-            color: #888;
-            transition: var(--transition);
-        }
-
-        .logo-text:hover span {
-            color: #5e9fff; /* Mavimsi renk */
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-
-        .nav-links li {
-            margin: 0 15px;
-        }
-
-        .nav-links a {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1rem;
-            transition: var(--transition);
+        .user-info {
             position: relative;
-            padding: 5px 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .nav-links a:hover {
-            color: #888;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent-color);
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .hamburger {
-            display: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.6rem 1.2rem;
+            background: white;
+            border-radius: var(--border-radius-lg);
+            font-size: clamp(0.88rem, 2vw, 0.98rem);
+            font-weight: 600;
+            color: var(--secondary-color);
             cursor: pointer;
-            z-index: 1100;
+            transition: all var(--transition-speed) ease;
+            user-select: none;
+            box-shadow: var(--shadow-light);
         }
 
-        .hamburger span {
-            display: block;
-            width: 25px;
-            height: 2px;
-            background: var(--accent-color);
-            margin: 6px 0;
-            transition: var(--transition);
+        .user-info:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: var(--shadow-medium);
         }
 
-        /* Page Header */
-        .page-header {
-            height: 40vh;
-            min-height: 300px;
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            position: relative;
-            margin-top: 80px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+            flex-shrink: 0;
         }
 
-        .page-header-content {
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: var(--background-color);
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            text-align: left;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
             position: relative;
             z-index: 2;
+            width: 100%;
+            text-align: left;
         }
 
-        .page-title {
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--accent-color);
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .breadcrumbs {
-            color: #888;
-            font-size: 1rem;
-        }
-
-        .breadcrumbs a {
-            color: var(--accent-color);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .breadcrumbs a:hover {
-            color: #888;
-        }
-
-        /* Section Styles */
-        .section {
-            padding: 100px 0;
-            position: relative;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-            position: relative;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            color: var(--accent-color);
-            margin-bottom: 15px;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
+        .gradient-blob {
             position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: var(--accent-color);
+            right: -10%;
+            top: 10%;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb);
+            border-radius: 50%;
+            opacity: 0.7;
+            filter: blur(80px);
+            animation: float 8s ease-in-out infinite;
         }
 
-        .section-description {
-            max-width: 800px;
-            margin: 0 auto;
-            color: #888;
-            font-size: 1.1rem;
+        .gradient-blob-2 {
+            position: absolute;
+            left: -15%;
+            bottom: 20%;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            border-radius: 50%;
+            opacity: 0.5;
+            filter: blur(60px);
+            animation: float 6s ease-in-out infinite reverse;
         }
 
-        /* Mission & Vision */
-        .mission-vision {
-            background: var(--bg-light);
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            33% { transform: translateY(-30px) rotate(120deg) scale(1.1); }
+            66% { transform: translateY(20px) rotate(240deg) scale(0.9); }
         }
 
-        .cards {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: center;
-        }
-
-        .card {
-            background: var(--bg-lighter);
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            padding: 40px 30px;
-            flex: 1;
-            min-width: 300px;
-            max-width: 380px;
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        .hero-title {
+            font-size: clamp(4rem, 12vw, 8rem);
+            font-weight: 300;
+            line-height: 0.9;
+            margin-bottom: 3rem;
+            letter-spacing: -3px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             position: relative;
             overflow: hidden;
         }
 
-        .card::before {
+        .hero-title::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--accent-color);
-            transition: var(--transition);
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .card:hover::before {
+            left: -100%;
             width: 100%;
-            opacity: 0.1;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: shimmer 2.5s infinite linear;
         }
 
-        .card-icon {
-            font-size: 3rem;
-            color: var(--accent-color);
-            margin-bottom: 20px;
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--accent-color);
-            font-weight: 700;
-            position: relative;
-            z-index: 1;
-        }
-
-        .card p {
-            color: #888;
-            position: relative;
-            z-index: 1;
-            font-weight: 300;
-        }
-
-        /* Goals Section */
-        .goals {
-            background: var(--bg-color);
-        }
-
-        .goals-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 40px;
-        }
-
-        .goals-text {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .goals-text h3 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: var(--accent-color);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .goals-list {
-            list-style: none;
-        }
-
-        .goals-list li {
-            margin-bottom: 15px;
-            padding-left: 30px;
-            position: relative;
-            color: #888;
-            font-weight: 300;
-        }
-
-        .goals-list li::before {
-            content: '\f00c';
-            font-family: 'Font Awesome 5 Free';
-            font-weight: 900;
-            position: absolute;
-            left: 0;
-            color: var(--accent-color);
-        }
-
-        .goals-image {
-            flex: 1;
-            min-width: 300px;
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            color: var(--text-color);
+            margin-bottom: 4rem;
+            max-width: 700px;
+            line-height: 1.4;
             position: relative;
             overflow: hidden;
-            border-radius: 10px;
         }
 
-        .goals-image img {
-            width: 100%;
-            transition: var(--transition);
-            filter: grayscale(100%);
-        }
-
-        .goals-image:hover img {
-            transform: scale(1.05);
-            filter: grayscale(0%);
-        }
-
-        /* Strategy Section */
-        .strategy {
-            background: var(--bg-light);
-        }
-
-        .strategy-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .strategy-item {
-            background: var(--bg-lighter);
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .strategy-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .strategy-icon {
-            font-size: 2.5rem;
-            color: var(--accent-color);
-            margin-bottom: 20px;
-        }
-
-        .strategy-item h3 {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-            color: var(--accent-color);
-            font-weight: 600;
-        }
-
-        .strategy-item p {
-            color: #888;
-            font-weight: 300;
-        }
-
-        /* Newsletter */
-        .newsletter {
-            background: var(--accent-color);
-            color: var(--text-dark);
-            padding: 60px 0;
-            text-align: center;
-        }
-
-        .newsletter h3 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .newsletter p {
-            max-width: 600px;
-            margin: 0 auto 30px;
-            opacity: 0.7;
-        }
-
-        .newsletter-form {
-            display: flex;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .newsletter-input {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 30px 0 0 30px;
-            font-size: 1rem;
-            background: rgba(0, 0, 0, 0.1);
-            color: var(--text-dark);
-        }
-
-        .newsletter-input::placeholder {
-            color: rgba(0, 0, 0, 0.5);
-        }
-
-        .newsletter-btn {
-            padding: 0 25px;
-            background: var(--bg-color);
-            color: var(--accent-color);
-            border: none;
-            border-radius: 0 30px 30px 0;
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .newsletter-btn:hover {
-            background: #333;
-        }
-
-        /* Footer */
-        .footer {
-            background: var(--bg-color);
-            color: var(--accent-color);
-            padding: 60px 0 30px;
-        }
-
-        .footer-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-col {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .footer-col h4 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            position: relative;
-            padding-bottom: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .footer-col h4::after {
+        .hero-subtitle::before {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 2px;
-            background: var(--accent-color);
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2.5s infinite linear 0.5s;
         }
 
-        .footer-links {
-            list-style: none;
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
 
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-
-        .footer-links a {
-            color: #888;
-            text-decoration: none;
-            transition: var(--transition);
-            font-weight: 300;
-        }
-
-        .footer-links a:hover {
-            color: var(--accent-color);
-            padding-left: 5px;
-        }
-
-        .footer-social {
+        .hero-actions {
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .footer-social a {
-            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
             align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-            color: var(--accent-color);
-            transition: var(--transition);
         }
 
-        .footer-social a:hover {
-            background: var(--accent-color);
-            color: var(--text-dark);
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem 3rem;
+            background: var(--primary-color);
+            border: 3px solid var(--primary-color);
+            border-radius: var(--border-radius-lg);
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            min-height: 70px;
+        }
+
+        .cta-button:hover {
+            background: var(--secondary-color);
+            border-color: var(--secondary-color);
             transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
         }
 
-        .footer-bottom {
+        .cta-button.secondary {
+            background: transparent;
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .cta-button.secondary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .cta-button svg {
+            stroke: currentColor;
+        }
+
+        /* Company Cards Section */
+        .company-cards-section {
+            padding: 6rem 2rem;
+            background-color: var(--background-color);
             text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            color: #888;
-            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Back to Top */
-        .back-to-top {
+        .company-cards-section h2 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 4rem;
+            letter-spacing: -2px;
+        }
+
+        .company-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            justify-items: center;
+        }
+
+        /* Card Flip Styles */
+        .card-flip-container {
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            height: 360px;
+            perspective: 2000px;
+            cursor: pointer;
+        }
+
+        .card-flip-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .card-flip-container.flipped .card-flip-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-flip-front,
+        .card-flip-back {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            overflow: hidden;
+            border-radius: 16px;
+            border: 1px solid var(--card-border-color);
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
+            transition: all 0.7s;
+        }
+
+        .card-flip-front {
+            transform: rotateY(0deg);
+            background: var(--card-bg-light);
+            background: linear-gradient(to bottom, var(--card-bg-gradient-from), var(--card-bg-gradient-to));
+        }
+
+        .card-flip-container.flipped .card-flip-front {
+            opacity: 0;
+        }
+
+        .card-flip-back {
+            transform: rotateY(180deg);
+            padding: 24px;
+            background: var(--card-bg-light);
+            background: linear-gradient(to bottom, var(--card-bg-gradient-from), var(--card-bg-gradient-to));
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-flip-container.flipped .card-flip-back {
+            opacity: 1;
+        }
+
+        /* Front Card Content */
+        .card-front-content {
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+        }
+
+        .card-front-logo {
+            position: absolute;
+            top: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: filter 0.3s, opacity 0.3s;
+        }
+
+        .card-flip-container:hover .card-front-logo {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+        .card-front-text {
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .card-front-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--card-text-dark);
+            line-height: 1.375;
+            letter-spacing: -0.03em;
+            transition: transform 0.5s ease-out;
+        }
+
+        .card-flip-container:hover .card-front-title {
+            transform: translateY(-4px);
+        }
+
+        .card-front-subtitle {
+            font-size: 0.875rem;
+            color: var(--card-text-medium);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            letter-spacing: -0.02em;
+            transition: transform 0.5s ease-out 50ms;
+        }
+
+        .card-flip-container:hover .card-front-subtitle {
+            transform: translateY(-4px);
+        }
+
+        .card-front-icon-wrapper {
+            position: relative;
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .card-front-icon {
+            position: relative;
+            z-index: 10;
+            width: 16px;
+            height: 16px;
+            color: var(--card-accent-color);
+            transition: transform 0.3s, rotate 0.3s;
+        }
+
+        .card-flip-container:hover .card-front-icon {
+            transform: scale(1.1) rotate(-12deg);
+        }
+
+        /* Back Card Content */
+        .card-back-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-back-text-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .card-back-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--card-text-dark);
+            line-height: 1.375;
+            letter-spacing: -0.02em;
+            transition: transform 0.5s ease-out;
+        }
+
+        .card-flip-container.flipped .card-back-title {
+            transform: translateY(-2px);
+        }
+
+        .card-back-description {
+            font-size: 0.875rem;
+            color: var(--card-text-medium);
+            letter-spacing: -0.02em;
+            line-height: 1.5;
+            margin-top: 0.5rem;
+            transition: transform 0.5s ease-out;
+        }
+
+        .card-flip-container.flipped .card-back-description {
+            transform: translateY(-2px);
+        }
+
+        .card-back-features {
+            margin-top: 1rem;
+        }
+
+        .card-back-feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--card-text-medium);
+            transition: all 0.5s;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-back-feature-icon {
+            width: 12px;
+            height: 12px;
+            color: var(--card-accent-color);
+        }
+
+        /* <CHANGE> New Liquid Glass User Panel Styles */
+        .user-panel-overlay {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background: var(--accent-color);
-            color: var(--text-dark);
-            border-radius: 50%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
             display: flex;
             align-items: center;
             justify-content: center;
-            text-decoration: none;
-            font-size: 1.5rem;
+            z-index: 3000;
             opacity: 0;
             visibility: hidden;
-            transition: var(--transition);
-            z-index: 999;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
         }
 
-        .back-to-top.active {
+        .user-panel-overlay.active {
             opacity: 1;
             visibility: visible;
         }
 
-        .back-to-top:hover {
-            background: #888;
+        .user-panel-container {
+            position: relative;
+            width: 90%;
+            max-width: 1100px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(40px) saturate(180%);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4), 
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transform: scale(0.8) translateY(50px);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .user-panel-overlay.active .user-panel-container {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        .user-panel-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            font-size: 1.5rem;
+            z-index: 10;
+        }
+
+        .user-panel-close:hover {
+            background: rgba(255, 71, 87, 0.8);
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 5px 20px rgba(255, 71, 87, 0.5);
+        }
+
+        .user-panel-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .user-panel-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .user-panel-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Credit Card Styles with Liquid Glass */
+        .credit-card-container {
+            perspective: 2000px;
+            width: 100%;
+            max-width: 450px;
+            height: 280px;
+            margin: 0 auto 3rem;
+            cursor: pointer;
+        }
+
+        .credit-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .credit-card-container.flipped .credit-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .credit-card-front,
+        .credit-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            padding: 2rem;
+            background: linear-gradient(135deg, 
+                rgba(102, 126, 234, 0.3) 0%, 
+                rgba(118, 75, 162, 0.3) 100%);
+            backdrop-filter: blur(30px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+        }
+
+        .credit-card-front::before,
+        .credit-card-back::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: liquid-move 15s ease-in-out infinite;
+        }
+
+        @keyframes liquid-move {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(10%, 10%) rotate(120deg); }
+            66% { transform: translate(-10%, 5%) rotate(240deg); }
+        }
+
+        .credit-card-back {
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-chip {
+            width: 50px;
+            height: 40px;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-chip::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.1) 2px,
+                rgba(0, 0, 0, 0.1) 4px
+            );
+        }
+
+        .card-number {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-info-row {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .card-info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-info-label {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+        }
+
+        .card-info-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-qr-container {
+            position: relative;
+            z-index: 2;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 1rem;
+        }
+
+        .card-qr-code {
+            width: 150px;
+            height: 150px;
+        }
+
+        .card-user-code {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+            text-align: center;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-flip-hint {
+            position: absolute;
+            bottom: 1rem;
+            right: 1.5rem;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: pulse-hint 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-hint {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        /* User Panel Stats */
+        .user-panel-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.12);
             transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
-        /* Responsive Styles */
-        @media (max-width: 992px) {
-            .section-title {
-                font-size: 2.2rem;
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        /* <CHANGE> Enhanced Contact Panel with Liquid Glass */
+        .contact-panel-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .contact-panel-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .contact-panel {
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(40px) saturate(180%);
+            padding: 3rem;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            max-width: 550px;
+            width: 90%;
+            text-align: left;
+            transform: scale(0.7) translateY(100px);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+        }
+
+        .contact-panel::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+            animation: liquid-move 15s ease-in-out infinite;
+        }
+
+        .contact-panel-overlay.active .contact-panel {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        .contact-panel-icon {
+            width: 80px;
+            height: 80px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            animation: icon-pulse 2s infinite ease-in-out;
+            filter: drop-shadow(0 4px 20px rgba(102, 126, 234, 0.5));
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes icon-pulse {
+            0%, 100% { 
+                transform: scale(1) rotate(0deg); 
+                filter: drop-shadow(0 4px 20px rgba(102, 126, 234, 0.5));
             }
-            .goals-container {
-                flex-direction: column;
+            50% { 
+                transform: scale(1.1) rotate(5deg); 
+                filter: drop-shadow(0 8px 30px rgba(102, 126, 234, 0.7));
             }
         }
 
-        @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 250px;
-                height: 100vh;
-                background: rgba(0, 0, 0, 0.95);
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
-                transition: var(--transition);
-                z-index: 1000;
-                backdrop-filter: blur(10px);
+        .contact-panel h2 {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            margin-bottom: 1.5rem;
+            color: white;
+            letter-spacing: -1px;
+            font-weight: 700;
+            text-align: left;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-panel p {
+            font-size: clamp(1.1rem, 3vw, 1.2rem);
+            margin-bottom: 2.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            text-align: left;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-panel .contact-info {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-panel .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 1rem;
+            font-size: clamp(1rem, 2.8vw, 1.1rem);
+            color: white;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 1.2rem 1.5rem;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transform: translateX(-20px);
+            opacity: 0;
+            animation: slide-in-left 0.6s ease-out forwards;
+        }
+
+        .contact-panel .contact-item:nth-child(1) { animation-delay: 0.1s; }
+        .contact-panel .contact-item:nth-child(2) { animation-delay: 0.2s; }
+        .contact-panel .contact-item:nth-child(3) { animation-delay: 0.3s; }
+        .contact-panel .contact-item:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slide-in-left {
+            to {
+                transform: translateX(0);
+                opacity: 1;
             }
-            .nav-links.active {
-                right: 0;
-            }
-            .nav-links li {
-                margin: 15px 0;
-            }
-            .hamburger {
-                display: block;
-            }
-            .hamburger.active span:nth-child(1) {
-                transform: rotate(45deg) translate(5px, 5px);
-            }
-            .hamburger.active span:nth-child(2) {
+        }
+
+        .contact-panel .contact-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .contact-panel .contact-item:hover::before {
+            left: 100%;
+        }
+
+        .contact-panel .contact-item:hover {
+            background: rgba(102, 126, 234, 0.3);
+            transform: translateX(10px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .contact-panel .contact-item svg {
+            width: clamp(22px, 4.5vw, 26px);
+            height: clamp(22px, 4.5vw, 26px);
+            stroke: currentColor;
+            stroke-width: 2;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .contact-panel .contact-item:hover svg {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .contact-panel .close-button {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 2rem;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 50%;
+            line-height: 1;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .contact-panel .close-button:hover {
+            background: rgba(255, 71, 87, 0.8);
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 5px 20px rgba(255, 71, 87, 0.5);
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--background-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Ripple Effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            animation: ripple-animation 0.6s linear forwards;
+            transform: scale(0);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .cta-button.secondary .ripple,
+        .contact-panel .contact-item .ripple,
+        .profile-drawer-item .ripple {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(2.5);
                 opacity: 0;
             }
-            .hamburger.active span:nth-child(3) {
-                transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Scroll Animation */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Profile Drawer Styles */
+        .profile-drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
+        }
+
+        .profile-drawer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .profile-drawer {
+            background: white;
+            width: clamp(280px, 80vw, 380px);
+            height: auto;
+            max-height: 90vh;
+            border-top-left-radius: var(--border-radius-md);
+            border-top-right-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-medium);
+            transform: translateY(100%);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease-out;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+        }
+
+        .profile-drawer-overlay.active .profile-drawer {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .profile-drawer-header {
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .profile-drawer-header .user-avatar {
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+        }
+
+        .profile-drawer-title {
+            font-size: clamp(1.4rem, 4vw, 1.8rem);
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .profile-drawer-description {
+            font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+            color: var(--text-color);
+            margin-top: 0.5rem;
+        }
+
+        .profile-drawer-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .profile-drawer-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: var(--border-radius-sm);
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: background var(--transition-speed) ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-drawer-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-drawer-item svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            stroke-width: 2;
+            flex-shrink: 0;
+        }
+
+        .profile-drawer-item span {
+            font-size: clamp(0.95rem, 2.8vw, 1.05rem);
+            font-weight: 500;
+        }
+
+        .profile-drawer-footer {
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .profile-drawer-close-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-drawer-close-button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-light);
+        }
+
+        /* Mobile Responsive Adjustments */
+        @media (max-width: 768px) {
+            .nav {
+                padding: 0.75rem 1.25rem;
             }
-            .section-title {
+
+            .nav-right {
+                gap: 0.5rem;
+            }
+
+            .hero {
+                padding: 7rem 1.25rem 3rem;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: none;
+            }
+
+            .company-cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                max-width: 100%;
+            }
+
+            .card-flip-container {
+                max-width: 100%;
+                height: 300px;
+            }
+
+            .profile-drawer {
+                width: 100%;
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+
+            .contact-panel {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .contact-panel h2 {
                 font-size: 2rem;
             }
-            .newsletter-form {
-                flex-direction: column;
+
+            .user-panel-container {
+                padding: 2rem 1.5rem;
             }
-            .newsletter-input {
-                border-radius: 30px;
-                margin-bottom: 10px;
+
+            .credit-card-container {
+                height: 240px;
             }
-            .newsletter-btn {
-                border-radius: 30px;
-                padding: 15px;
-            }
-            .page-title {
-                font-size: 2.5rem;
+
+            .user-panel-stats {
+                grid-template-columns: 1fr;
             }
         }
 
-        @media (max-width: 576px) {
-            .section-title {
-                font-size: 1.8rem;
+        @media (max-width: 480px) {
+            .nav {
+                padding: 0.5rem 1rem;
             }
-            .page-title {
-                font-size: 2rem;
+
+            .hero {
+                padding: 6rem 1rem 2rem;
+            }
+
+            .company-cards-grid {
+                gap: 0.8rem;
+            }
+
+            .card-flip-container {
+                height: 280px;
+            }
+
+            .contact-panel {
+                padding: 1.5rem;
+            }
+
+            .user-panel-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .credit-card-container {
+                height: 220px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .company-cards-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
     <!-- Header -->
     <header class="header" id="header">
-        <div class="container">
-            <nav class="navbar">
-                <a href="index.html" class="logo">
-                    <span class="logo-text">TERAKKİ <span>YOLU</span></span>
-                </a>
-                <div class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+        <nav class="nav">
+            <div class="logo">
+                <div class="logo-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
                 </div>
-                <ul class="nav-links">
-                    <li><a href="hakkimizda.html">Hakkımızda</a></li>
-                    <li><a href="misyon.html">Misyon</a></li>
-                    <li><a href="projeler.html">Projeler</a></li>
-                    <li><a href="ekip.html">Ekip</a></li>
-                    <li><a href="etkinlikler.html">Etkinlikler</a></li>
-                    <li><a href="arsiv.html">Arşiv</a></li>
-                    <li><a href="iletisim.html">İletişim</a></li>
-                </ul>
-            </nav>
-        </div>
+                THE LENG
+            </div>
+            <div class="nav-right">
+                <div id="userInfoElement" class="user-info" style="display: none;">
+                    <div class="user-avatar" id="userAvatar"></div>
+                    <span id="userName"></span>
+                </div>
+            </div>
+        </nav>
     </header>
 
-    <!-- Page Header -->
-    <section class="page-header" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://source.unsplash.com/random/1920x1080/?vision,mission') no-repeat center center/cover;">
-        <div class="page-header-content">
-            <h1 class="page-title">Misyon & Vizyon</h1>
-            <div class="breadcrumbs">
-                <a href="index.html">Ana Sayfa</a> / <span>Misyon & Vizyon</span>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="gradient-blob"></div>
+        <div class="gradient-blob-2"></div>
+        <div class="hero-content scroll-animate" id="heroContent">
+            <h1 class="hero-title">
+                İDDİA EDİYORUZ<br>
+                EN İYİSİYİZ.
+            </h1>
+            <p class="hero-subtitle">
+                Dijital dünyada fark yaratan, sınırları zorlayan ve her projede mükemmelliği hedefleyen 
+                teknoloji şirketi. Hayallerinizi gerçeğe dönüştürüyoruz.
+            </p>
+            <div class="hero-actions">
+                <button id="googleSignInButton" class="cta-button google-signin">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    Google ile Giriş Yap
+                </button>
             </div>
         </div>
     </section>
 
-    <!-- Mission & Vision Section -->
-    <section class="section mission-vision" id="mission">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Misyon & Vizyon</h2>
-                <p class="section-description">Terakki Yolu'nun temel değerleri, misyonu ve vizyonu.</p>
+    <!-- <CHANGE> New User Panel with Liquid Glass Effect -->
+    <div class="user-panel-overlay" id="userPanelOverlay">
+        <div class="user-panel-container">
+            <button class="user-panel-close" id="closeUserPanel">&times;</button>
+            
+            <div class="user-panel-header">
+                <h2 class="user-panel-title">Kullanıcı Paneli</h2>
+                <p class="user-panel-subtitle">Hesap bilgileriniz ve istatistikleriniz</p>
             </div>
-            <div class="cards">
-                <div class="card">
-                    <div class="card-icon">
-                        <i class="fas fa-bullseye"></i>
+
+            <!-- Credit Card with Flip Animation -->
+            <div class="credit-card-container" id="creditCard">
+                <div class="credit-card-inner">
+                    <!-- Front of Card -->
+                    <div class="credit-card-front">
+                        <div class="card-chip"></div>
+                        <div class="card-number" id="cardNumber">**** **** **** ****</div>
+                        <div class="card-info-row">
+                            <div class="card-info-item">
+                                <div class="card-info-label">Kart Sahibi</div>
+                                <div class="card-info-value" id="cardHolderName">-</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="card-info-label">Kullanıcı No</div>
+                                <div class="card-info-value" id="cardUserNumber">-</div>
+                            </div>
+                        </div>
+                        <div class="card-flip-hint">
+                            <span>Çevirmek için tıklayın</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+                            </svg>
+                        </div>
                     </div>
-                    <h3>MİSYONUMUZ</h3>
-                    <p>Toplumsal sorunlara yenilikçi ve sürdürülebilir çözümler üretmek, eğitim ve kültür alanında fırsat eşitliğini sağlamak, çevre bilincini artırmak ve sosyal adaleti güçlendirmek için çalışmak.</p>
+                    <!-- Back of Card -->
+                    <div class="credit-card-back">
+                        <div class="card-qr-container">
+                            <canvas class="card-qr-code" id="qrCode"></canvas>
+                        </div>
+                        <div class="card-user-code" id="userCodeDisplay">-</div>
+                    </div>
                 </div>
-                <div class="card">
-                    <div class="card-icon">
-                        <i class="fas fa-eye"></i>
+            </div>
+
+            <!-- User Stats -->
+            <div class="user-panel-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
                     </div>
-                    <h3>VİZYONUMUZ</h3>
-                    <p>Herkesin eşit fırsatlara sahip olduğu, sürdürülebilir, adil ve kapsayıcı bir toplum oluşturmak için öncü bir sivil toplum örgütü olmak.</p>
+                    <div class="stat-label">Aktif Projeler</div>
+                    <div class="stat-value">3</div>
                 </div>
-                <div class="card">
-                    <div class="card-icon">
-                        <i class="fas fa-handshake"></i>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect width="20" height="14" x="2" y="5" rx="2"/>
+                            <line x1="2" x2="22" y1="10" y2="10"/>
+                        </svg>
                     </div>
-                    <h3>DEĞERLERİMİZ</h3>
-                    <p>Şeffaflık, hesap verebilirlik, katılımcılık, dayanışma, çeşitlilik ve kapsayıcılık temel değerlerimizdir.</p>
+                    <div class="stat-label">Toplam Harcama</div>
+                    <div class="stat-value">₺12.5K</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                        </svg>
+                    </div>
+                    <div class="stat-label">Üyelik Süresi</div>
+                    <div class="stat-value">6 Ay</div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Goals Section -->
-    <section class="section goals" id="goals">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Hedeflerimiz</h2>
-                <p class="section-description">Terakki Yolu'nun kısa ve uzun vadeli hedefleri.</p>
-            </div>
-            <div class="goals-container">
-                <div class="goals-text">
-                    <h3>NELER YAPMAK İSTİYORUZ?</h3>
-                    <ul class="goals-list">
-                        <li>Eğitimde fırsat eşitliğini sağlamak için dezavantajlı bölgelerdeki gençlere eğitim desteği sunmak.</li>
-                        <li>Çevre bilincini artırmak ve sürdürülebilir yaşam pratiklerini yaygınlaştırmak.</li>
-                        <li>Toplumsal dayanışmayı güçlendirmek ve sosyal adaleti sağlamak için projeler geliştirmek.</li>
-                        <li>Kültürel mirasımızı korumak ve gelecek nesillere aktarmak için çalışmalar yürütmek.</li>
-                        <li>Gençlerin toplumsal sorunlara çözüm üretme kapasitelerini artırmak için eğitimler düzenlemek.</li>
-                        <li>Ulusal ve uluslararası sivil toplum örgütleri ile işbirliği yaparak projelerimizi genişletmek.</li>
-                        <li>Savunuculuk faaliyetleri yürüterek toplumsal sorunlara dikkat çekmek ve politika değişikliklerine katkı sağlamak.</li>
-                        <li>Gönüllülük kültürünü yaygınlaştırmak ve gençlerin sivil toplum çalışmalarına katılımını artırmak.</li>
-                    </ul>
-                </div>
-                <div class="goals-image">
-                    <img src="https://source.unsplash.com/random/600x400/?goals,achievement" alt="Hedeflerimiz">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Strategy Section -->
-    <section class="section strategy" id="strategy">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Stratejimiz</h2>
-                <p class="section-description">Terakki Yolu'nun çalışma stratejisi ve yaklaşımı.</p>
-            </div>
-            <div class="strategy-grid">
-                <div class="strategy-item">
-                    <div class="strategy-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3>Katılımcı Yaklaşım</h3>
-                    <p>Tüm projelerimizde katılımcı bir yaklaşım benimseyerek, toplumun farklı kesimlerinin görüş ve önerilerini dikkate alıyoruz.</p>
-                </div>
-                <div class="strategy-item">
-                    <div class="strategy-icon">
-                        <i class="fas fa-lightbulb"></i>
-                    </div>
-                    <h3>Yenilikçi Çözümler</h3>
-                    <p>Toplumsal sorunlara yenilikçi ve sürdürülebilir çözümler üretmek için sürekli araştırma ve geliştirme çalışmaları yapıyoruz.</p>
-                </div>
-                <div class="strategy-item">
-                    <div class="strategy-icon">
-                        <i class="fas fa-hands-helping"></i>
-                    </div>
-                    <h3>İşbirliği ve Ortaklık</h3>
-                    <p>Ulusal ve uluslararası sivil toplum örgütleri, kamu kurumları ve özel sektör ile işbirliği yaparak projelerimizin etkisini artırıyoruz.</p>
-                </div>
-                <div class="strategy-item">
-                    <div class="strategy-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Etki Odaklı Çalışma</h3>
-                    <p>Projelerimizin toplumsal etkisini ölçmek ve değerlendirmek için düzenli izleme ve değerlendirme çalışmaları yapıyoruz.</p>
-                </div>
-                <div class="strategy-item">
-                    <div class="strategy-icon">
-                        <i class="fas fa-bullhorn"></i>
-                    </div>
-                    <h3>Savunuculuk</h3>
-                    <p>Toplumsal sorunlara dikkat çekmek ve politika değişikliklerine katkı sağlamak için savunuculuk faaliyetleri yürütüyoruz.</p>
-                </div>
-                <div class="strategy-item">
-                    <div class="strategy-icon">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                    <h3>Kapasite Geliştirme</h3>
-                    <p>Gençlerin ve sivil toplum örgütlerinin kapasitelerini geliştirmek için eğitimler ve atölye çalışmaları düzenliyoruz.</p>
-                </div>
+    <!-- Enhanced Contact Panel with Liquid Glass -->
+    <div class="contact-panel-overlay" id="contactPanelOverlay">
+        <div class="contact-panel">
+            <button class="close-button" id="closeContactPanel">&times;</button>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headphones contact-panel-icon"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7A9 9 0 0 1 21 12V7a2 2 0 0 0-2-2h-3a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2h-1.5"/></svg>
+            <h2>Müşteri Danışmanına Ulaşın</h2>
+            <p>Size yardımcı olmaktan mutluluk duyarız. Aşağıdaki iletişim kanallarından bize ulaşabilirsiniz:</p>
+            <div class="contact-info">
+                <a href="tel:+905551234567" class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    +90 555 123 45 67
+                </a>
+                <a href="mailto:info@theleng.com" class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    info@theleng.com
+                </a>
+                <a href="https://wa.me/905551234567" target="_blank" rel="noopener noreferrer" class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                    WhatsApp
+                </a>
+                <a href="https://twitter.com/theleng" target="_blank" rel="noopener noreferrer" class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17-18 11.6 2.2.1 4.4-.6 6-2 1.1-.9 1.8-2.2 2.1-3.7C3.2 15.2 2 13 2 12c2.1 1.2 4.4 1.8 6.7 1.7-1.1-3.9 1.5-7.5 5.4-8.5 3.6-.8 7.1 2 7.1 2z"/></svg>
+                    Twitter
+                </a>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Newsletter Section -->
-    <section class="newsletter">
-        <div class="container">
-            <h3>BÜLTENİMİZE ABONE OLUN</h3>
-            <p>Terakki Yolu'nun faaliyetleri, etkinlikleri ve duyuruları hakkında düzenli bilgi almak için bültenimize abone olun.</p>
-            <form class="newsletter-form">
-                <input type="email" class="newsletter-input" placeholder="E-posta Adresiniz" required>
-                <button type="submit" class="newsletter-btn">ABONE OL</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-container">
-                <div class="footer-col">
-                    <h4>TERAKKİ YOLU</h4>
-                    <p>Toplumsal ilerleme ve kalkınma için çalışan genç ve dinamik bir sivil toplum örgütü.</p>
-                    <div class="footer-social">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                <div class="footer-col">
-                    <h4>HIZLI ERİŞİM</h4>
-                    <ul class="footer-links">
-                        <li><a href="hakkimizda.html">Hakkımızda</a></li>
-                        <li><a href="misyon.html">Misyon & Vizyon</a></li>
-                        <li><a href="projeler.html">Projelerimiz</a></li>
-                        <li><a href="ekip.html">Ekibimiz</a></li>
-                        <li><a href="etkinlikler.html">Etkinlikler</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>FAALİYETLERİMİZ</h4>
-                    <ul class="footer-links">
-                        <li><a href="projeler.html">Eğitim Projeleri</a></li>
-                        <li><a href="projeler.html">Çevre Çalışmaları</a></li>
-                        <li><a href="projeler.html">Sosyal Sorumluluk</a></li>
-                        <li><a href="projeler.html">Kültürel Faaliyetler</a></li>
-                        <li><a href="arsiv.html">Arşiv</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>İLETİŞİM</h4>
-                    <ul class="footer-links">
-                        <li><a href="iletisim.html">Bize Ulaşın</a></li>
-                        <li><a href="iletisim.html#volunteer">Gönüllü Ol</a></li>
-                        <li><a href="iletisim.html#donate">Bağış Yap</a></li>
-                        <li><a href="iletisim.html#faq">Sıkça Sorulan Sorular</a></li>
-                        <li><a href="iletisim.html#privacy">Gizlilik Politikası</a></li>
-                    </ul>
+    <!-- Profile Drawer Overlay -->
+    <div class="profile-drawer-overlay" id="profileDrawerOverlay">
+        <div class="profile-drawer" id="profileDrawer">
+            <div class="profile-drawer-header">
+                <div class="user-avatar" id="drawerUserAvatar"></div>
+                <div>
+                    <h3 class="profile-drawer-title" id="drawerUserName"></h3>
+                    <p class="profile-drawer-description" id="drawerUserEmail"></p>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2023 Terakki Yolu. Tüm hakları saklıdır.</p>
+            <div class="profile-drawer-content">
+                <a href="#" class="profile-drawer-item" id="drawerUserPanelLink">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                    <span>Kullanıcı Paneli</span>
+                </a>
+                <a href="#" class="profile-drawer-item" id="drawerPanelLink" style="display: none;" target="_blank" rel="noopener noreferrer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-external-link"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                    <span>Panele Yönlendir</span>
+                </a>
+                <a href="#" class="profile-drawer-item" id="drawerMakePayment">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                    <span>Ödeme Yap</span>
+                </a>
+                <a href="#" class="profile-drawer-item" id="drawerEditProfile">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-cog"><circle cx="18" cy="15" r="3"/><path d="M6 21v-2a4 4 0 0 1 4-4h4"/><path d="M19.07 4.93a10 10 0 0 0-16.28 6.86"/><path d="M22 17v.01"/><path d="M22 20v.01"/><path d="M22 14v.01"/><path d="M15 22v.01"/><path d="M18 22v.01"/><path d="M21 22v.01"/></svg>
+                    <span>Profili Düzenle</span>
+                </a>
+            </div>
+            <div class="profile-drawer-footer">
+                <button class="profile-drawer-close-button" id="drawerSignOutButton">
+                    Çıkış Yap
+                </button>
             </div>
         </div>
-    </footer>
+    </div>
 
-    <!-- Back to Top Button -->
-    <a href="#" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
-
-    <!-- JavaScript -->
     <script>
-        // Mobile Menu Toggle
-        const hamburger = document.querySelector('.hamburger');
-        const navLinks = document.querySelector('.nav-links');
-        const body = document.querySelector('body');
-
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-            body.classList.toggle('no-scroll');
-        });
-
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('active');
-                body.classList.remove('no-scroll');
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registered with scope:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.error('Service Worker registration failed:', error);
+                    });
             });
+        }
+
+        // Loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1000);
         });
 
-        // Sticky Header
-        const header = document.getElementById('header');
+        // Header scroll effect
         window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
             if (window.scrollY > 100) {
                 header.classList.add('scrolled');
             } else {
@@ -915,19 +1593,557 @@
             }
         });
 
-        // Back to Top Button
-        const backToTopButton = document.getElementById('backToTop');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTopButton.classList.add('active');
+        // Google Sign-In Implementation
+        let currentUser = null;
+        const heroContentDiv = document.getElementById('heroContent');
+        
+        const googleSignInButton = document.getElementById('googleSignInButton');
+        const userInfoElement = document.getElementById('userInfoElement');
+        const userName = document.getElementById('userName');
+        const userAvatar = document.getElementById('userAvatar');
+        
+        let contactAdvisorButton = null;
+
+        const userConfigurations = {
+            "m.yusufertek@gmail.com": {
+                name: "Yusuf Ertek",
+                panelLink: "https://terakkiyolu.org/new1",
+                welcomeTitle: "HOŞGELDİNİZ Yusuf BEY",
+                welcomeSubtitle: "Aşağıdaki butonda panele giriş yapabilirsiniz."
+            }
+        };
+
+        function initializeGoogleSignIn() {
+            if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+                google.accounts.id.initialize({
+                    client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
+                    callback: handleCredentialResponse,
+                    auto_select: false,
+                    cancel_on_tap_outside: true
+                });
+                console.log('Google Sign-In initialized successfully.');
             } else {
-                backToTopButton.classList.remove('active');
+                console.warn('Google Sign-In script not yet loaded. Retrying initialization...');
+                setTimeout(initializeGoogleSignIn, 500);
+            }
+        }
+
+        window.addEventListener('load', initializeGoogleSignIn);
+
+        function handleCredentialResponse(response) {
+            try {
+                const payload = JSON.parse(atob(response.credential.split('.')[1]));
+                
+                currentUser = {
+                    name: payload.name,
+                    email: payload.email,
+                    picture: payload.picture,
+                    given_name: payload.given_name
+                };
+                console.log('User signed in:', currentUser.email);
+                updateUIForSignedInUser();
+            } catch (error) {
+                console.error('Error decoding JWT or processing credential response:', error);
+                alert('Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin.');
+            }
+        }
+
+        function updateUIForSignedInUser() {
+            googleSignInButton.style.display = 'none';
+            userInfoElement.style.display = 'flex';
+            
+            userName.textContent = currentUser.given_name || currentUser.name;
+            
+            if (currentUser.picture) {
+                userAvatar.innerHTML = `<img src="${currentUser.picture}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+            } else {
+                userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
+            }
+
+            userInfoElement.removeEventListener('click', showProfileDrawer);
+            userInfoElement.addEventListener('click', showProfileDrawer);
+
+            const userConfig = userConfigurations[currentUser.email];
+            if (userConfig) {
+                displayPersonalizedContent(userConfig);
+            } else {
+                displayUnregisteredUserContent();
+            }
+            ensureContactButtonInHeroActions();
+        }
+
+        function displayPersonalizedContent(config) {
+            heroContentDiv.innerHTML = `
+                <h1 class="hero-title">
+                    ${config.welcomeTitle}
+                </h1>
+                <p class="hero-subtitle">
+                    ${config.welcomeSubtitle}
+                </p>
+                <div class="hero-actions">
+                    <a href="${config.panelLink}" class="cta-button" target="_blank" rel="noopener noreferrer">
+                        PANELE GİRİŞ
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="m9 18 6-6-6-6"/>
+                        </svg>
+                    </a>
+                </div>
+            `;
+            applyShimmerToText();
+            ensureContactButtonInHeroActions();
+            addRippleEffect(heroContentDiv.querySelector('.cta-button:not(.secondary)'));
+        }
+
+        function displayUnregisteredUserContent() {
+            heroContentDiv.innerHTML = `
+                <h1 class="hero-title">
+                    BİZİMLE ÇALIŞMAYA<br>
+                    NE DERSİNİZ?
+                </h1>
+                <p class="hero-subtitle">
+                    Siz de dijital dönüşüm yolculuğunuzda bize katılın ve hayallerinizi gerçeğe dönüştürelim.
+                </p>
+                <div class="hero-actions">
+                </div>
+            `;
+            applyShimmerToText();
+            ensureContactButtonInHeroActions();
+        }
+
+        function restoreDefaultHeroContent() {
+            heroContentDiv.innerHTML = `
+                <h1 class="hero-title">
+                    İDDİA EDİYORUZ<br>
+                    EN İYİSİYİZ.
+                </h1>
+                <p class="hero-subtitle">
+                    Dijital dünyada fark yaratan, sınırları zorlayan ve her projede mükemmelliği hedefleyen 
+                    teknoloji şirketi. Hayallerinizi gerçeğe dönüştürüyoruz.
+                </p>
+                <div class="hero-actions">
+                </div>
+            `;
+            const heroActionsDiv = heroContentDiv.querySelector('.hero-actions');
+
+            if (!currentUser) {
+                googleSignInButton.style.display = 'flex';
+                heroActionsDiv.appendChild(googleSignInButton);
+                addRippleEffect(googleSignInButton);
+                removeContactButtonFromHeroActions();
+            } else {
+                googleSignInButton.style.display = 'none';
+                ensureContactButtonInHeroActions();
+            }
+            
+            initializeScrollAnimations();
+            applyShimmerToText();
+        }
+
+        function signOut() {
+            if (confirm('Çıkış yapmak istediğinizden emin misiniz?')) {
+                google.accounts.id.disableAutoSelect();
+                currentUser = null;
+                
+                googleSignInButton.style.display = 'flex';
+                userInfoElement.style.display = 'none';
+                hideProfileDrawer();
+                
+                removeContactButtonFromHeroActions();
+                restoreDefaultHeroContent();
+
+                const toast = document.createElement('div');
+                toast.style.cssText = `
+                    position: fixed;
+                    top: 100px;
+                    right: 20px;
+                    background: #dc3545;
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border-radius: 10px;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                    z-index: 10000;
+                    font-weight: 600;
+                    transform: translateX(100%);
+                    transition: transform 0.3s ease;
+                `;
+                toast.textContent = 'Başarıyla çıkış yaptınız! 👋';
+                
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.style.transform = 'translateX(0)';
+                }, 100);
+                
+                setTimeout(() => {
+                    toast.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        document.body.removeChild(toast);
+                    }, 300);
+                }, 2000);
+            }
+        }
+
+        googleSignInButton.addEventListener('click', () => {
+            google.accounts.id.prompt();
+        });
+
+        // <CHANGE> User Panel Logic with Credit Card and QR Code
+        const userPanelOverlay = document.getElementById('userPanelOverlay');
+        const closeUserPanelButton = document.getElementById('closeUserPanel');
+        const creditCard = document.getElementById('creditCard');
+        const cardNumber = document.getElementById('cardNumber');
+        const cardHolderName = document.getElementById('cardHolderName');
+        const cardUserNumber = document.getElementById('cardUserNumber');
+        const userCodeDisplay = document.getElementById('userCodeDisplay');
+        const qrCodeCanvas = document.getElementById('qrCode');
+
+        function showUserPanel() {
+            if (!currentUser) return;
+
+            // Generate user number (simple hash from email)
+            const userNumber = generateUserNumber(currentUser.email);
+            const userCode = `USER-${userNumber}`;
+
+            // Update card information
+            cardNumber.textContent = formatCardNumber(userNumber);
+            cardHolderName.textContent = currentUser.name.toUpperCase();
+            cardUserNumber.textContent = userNumber;
+            userCodeDisplay.textContent = userCode;
+
+            // Generate QR Code
+            if (typeof QRCode !== 'undefined') {
+                QRCode.toCanvas(qrCodeCanvas, userCode, {
+                    width: 150,
+                    margin: 1,
+                    color: {
+                        dark: '#000000',
+                        light: '#ffffff'
+                    }
+                }, function (error) {
+                    if (error) console.error('QR Code generation error:', error);
+                });
+            }
+
+            userPanelOverlay.classList.add('active');
+        }
+
+        function hideUserPanel() {
+            userPanelOverlay.classList.remove('active');
+            // Reset card flip
+            setTimeout(() => {
+                creditCard.classList.remove('flipped');
+            }, 300);
+        }
+
+        function generateUserNumber(email) {
+            // Simple hash function to generate a consistent number from email
+            let hash = 0;
+            for (let i = 0; i < email.length; i++) {
+                const char = email.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return Math.abs(hash).toString().substring(0, 8);
+        }
+
+        function formatCardNumber(number) {
+            // Format as credit card number (4 digits each)
+            const padded = number.padEnd(16, '0');
+            return padded.match(/.{1,4}/g).join(' ');
+        }
+
+        // Credit card flip functionality
+        creditCard.addEventListener('click', () => {
+            creditCard.classList.toggle('flipped');
+        });
+
+        closeUserPanelButton.addEventListener('click', hideUserPanel);
+        userPanelOverlay.addEventListener('click', (e) => {
+            if (e.target === userPanelOverlay) {
+                hideUserPanel();
             }
         });
 
-        backToTopButton.addEventListener('click', (e) => {
+        // Contact Panel Logic
+        const contactPanelOverlay = document.getElementById('contactPanelOverlay');
+        const closeContactPanelButton = document.getElementById('closeContactPanel');
+
+        function showContactPanel() {
+            contactPanelOverlay.classList.add('active');
+        }
+
+        function hideContactPanel() {
+            contactPanelOverlay.classList.remove('active');
+        }
+
+        closeContactPanelButton.addEventListener('click', hideContactPanel);
+        contactPanelOverlay.addEventListener('click', (e) => {
+            if (e.target === contactPanelOverlay) {
+                hideContactPanel();
+            }
+        });
+
+        // Profile Drawer Logic
+        const profileDrawerOverlay = document.getElementById('profileDrawerOverlay');
+        const profileDrawer = document.getElementById('profileDrawer');
+        const drawerUserAvatar = document.getElementById('drawerUserAvatar');
+        const drawerUserName = document.getElementById('drawerUserName');
+        const drawerUserEmail = document.getElementById('drawerUserEmail');
+        const drawerUserPanelLink = document.getElementById('drawerUserPanelLink');
+        const drawerPanelLink = document.getElementById('drawerPanelLink');
+        const drawerMakePayment = document.getElementById('drawerMakePayment');
+        const drawerEditProfile = document.getElementById('drawerEditProfile');
+        const drawerSignOutButton = document.getElementById('drawerSignOutButton');
+
+        function showProfileDrawer() {
+            if (!currentUser) return;
+
+            if (currentUser.picture) {
+                drawerUserAvatar.innerHTML = `<img src="${currentUser.picture}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+            } else {
+                drawerUserAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
+            }
+            drawerUserName.textContent = currentUser.name;
+            drawerUserEmail.textContent = currentUser.email;
+
+            const userConfig = userConfigurations[currentUser.email];
+            if (userConfig && userConfig.panelLink) {
+                drawerPanelLink.href = userConfig.panelLink;
+                drawerPanelLink.style.display = 'flex';
+            } else {
+                drawerPanelLink.style.display = 'none';
+            }
+
+            profileDrawerOverlay.classList.add('active');
+        }
+
+        function hideProfileDrawer() {
+            profileDrawerOverlay.classList.remove('active');
+        }
+
+        profileDrawerOverlay.addEventListener('click', (e) => {
+            if (e.target === profileDrawerOverlay) {
+                hideProfileDrawer();
+            }
+        });
+
+        // <CHANGE> User Panel Link in Drawer
+        drawerUserPanelLink.addEventListener('click', (e) => {
             e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            hideProfileDrawer();
+            showUserPanel();
+        });
+
+        drawerMakePayment.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Ödeme sayfası yakında eklenecek!');
+            hideProfileDrawer();
+        });
+
+        drawerEditProfile.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Profil düzenleme sayfası yakında eklenecek!');
+            hideProfileDrawer();
+        });
+
+        drawerSignOutButton.addEventListener('click', signOut);
+
+        // Ripple Effect Functionality
+        function createRipple(event) {
+            const button = event.currentTarget;
+            const circle = document.createElement('span');
+            const diameter = Math.max(button.clientWidth, button.clientHeight);
+            const radius = diameter / 2;
+
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
+            circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+            circle.classList.add('ripple');
+
+            const ripple = button.getElementsByClassName('ripple')[0];
+
+            if (ripple) {
+                ripple.remove();
+            }
+
+            button.appendChild(circle);
+        }
+
+        function addRippleEffect(element) {
+            if (element) {
+                element.removeEventListener('click', createRipple);
+                element.addEventListener('click', createRipple);
+            }
+        }
+
+        document.querySelectorAll('.google-signin, .cta-button, .contact-panel .contact-item, .close-button, .profile-drawer-item, .profile-drawer-close-button, .logo').forEach(element => {
+            addRippleEffect(element);
+        });
+
+        function ensureContactButtonInHeroActions() {
+            const heroActionsDiv = heroContentDiv.querySelector('.hero-actions');
+            if (!contactAdvisorButton) {
+                contactAdvisorButton = document.createElement('button');
+                contactAdvisorButton.id = 'contactAdvisorButton';
+                contactAdvisorButton.className = 'cta-button secondary';
+                contactAdvisorButton.innerHTML = `
+                    MÜŞTERİ DANIŞMANINA ULAŞ
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                `;
+                contactAdvisorButton.addEventListener('click', showContactPanel);
+                addRippleEffect(contactAdvisorButton);
+            }
+            if (!heroActionsDiv.contains(contactAdvisorButton)) {
+                heroActionsDiv.appendChild(contactAdvisorButton);
+            }
+            contactAdvisorButton.style.display = 'inline-flex';
+        }
+
+        function removeContactButtonFromHeroActions() {
+            if (contactAdvisorButton && contactAdvisorButton.parentNode) {
+                contactAdvisorButton.parentNode.removeChild(contactAdvisorButton);
+            }
+            if (contactAdvisorButton) {
+                contactAdvisorButton.style.display = 'none';
+            }
+        }
+
+        // Scroll Animation (Intersection Observer)
+        function initializeScrollAnimations() {
+            const animateOnScrollElements = document.querySelectorAll('.scroll-animate');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            animateOnScrollElements.forEach(element => {
+                element.classList.remove('visible');
+                observer.observe(element);
+            });
+        }
+        window.addEventListener('load', initializeScrollAnimations);
+
+        // Apply Shimmer to Hero Text
+        function applyShimmerToText() {
+            const heroTitle = document.querySelector('.hero-title');
+            const heroSubtitle = document.querySelector('.hero-subtitle');
+            if (heroTitle) heroTitle.style.animation = 'none';
+            if (heroSubtitle) heroSubtitle.style.animation = 'none';
+            
+            void heroTitle.offsetWidth; 
+            void heroSubtitle.offsetWidth;
+
+            if (heroTitle) heroTitle.style.animation = '';
+            if (heroSubtitle) heroSubtitle.style.animation = '';
+        }
+        window.addEventListener('load', applyShimmerToText);
+
+        // Company Data for Card Flip
+        const companies = [
+            {
+                logo: "/placeholder.svg?height=80&width=80",
+                name: "Tech Solutions A.Ş.",
+                industry: "Yazılım Geliştirme",
+                reason: "Yenilikçi ve ölçeklenebilir yazılım çözümleri sunarak iş süreçlerimizi optimize ettiler. Hızlı teslimat ve mükemmel destekleri sayesinde projelerimiz zamanında tamamlandı.",
+                benefits: ["Ölçeklenebilir Yazılım", "Hızlı Teslimat", "Mükemmel Destek", "İş Süreç Optimizasyonu"]
+            },
+            {
+                logo: "/placeholder.svg?height=80&width=80",
+                name: "Global Pazarlama Ltd.",
+                industry: "Dijital Pazarlama",
+                reason: "Dijital pazarlama stratejilerimizi baştan sona yenilediler. Hedef kitlemize ulaşmamızı sağlayan yaratıcı kampanyalar ve detaylı analizlerle satışlarımızı %40 artırdık.",
+                benefits: ["Yaratıcı Kampanyalar", "Detaylı Analiz", "Satış Artışı", "Hedef Kitleye Ulaşım"]
+            },
+            {
+                logo: "/placeholder.svg?height=80&width=80",
+                name: "E-Ticaret Devi",
+                industry: "Online Perakendecilik",
+                reason: "Kullanıcı dostu ve güvenli e-commerce altyapısı sayesinde müşteri deneyimimizi üst seviyeye taşıdık. Entegrasyon süreçleri sorunsuzdu ve teknik ekip her zaman yanımızdaydı.",
+                benefits: ["Kullanıcı Dostu Arayüz", "Güvenli Altyapı", "Sorunsuz Entegrasyon", "Müşteri Deneyimi"]
+            },
+            {
+                logo: "/placeholder.svg?height=80&width=80",
+                name: "Finansal Çözümler A.Ş.",
+                industry: "Finans ve Danışmanlık",
+                reason: "Karmaşık finansal verilerimizi anlaşılır raporlara dönüştüren özel bir analiz platformu geliştirdiler. Bu sayede daha bilinçli kararlar alabiliyor ve riskleri minimize edebiliyoruz.",
+                benefits: ["Veri Analizi", "Özel Platform", "Bilinçli Kararlar", "Risk Yönetimi"]
+            }
+        ];
+
+        function createCardFlip(company) {
+            const cardContainer = document.createElement('div');
+            cardContainer.className = 'card-flip-container scroll-animate';
+
+            const cardInner = document.createElement('div');
+            cardInner.className = 'card-flip-inner';
+
+            // Front of the card
+            const cardFront = document.createElement('div');
+            cardFront.className = 'card-flip-front';
+            cardFront.innerHTML = `
+                <div class="card-front-content">
+                    <img src="${company.logo}" alt="${company.name} Logo" class="card-front-logo">
+                    <div class="card-front-text">
+                        <h3 class="card-front-title">${company.name}</h3>
+                        <p class="card-front-subtitle">${company.industry}</p>
+                    </div>
+                    <div class="card-front-icon-wrapper">
+                        <svg class="card-front-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 12Z"/><path d="M15 6v6h6"/></svg>
+                    </div>
+                </div>
+            `;
+
+            // Back of the card
+            const cardBack = document.createElement('div');
+            cardBack.className = 'card-flip-back';
+            cardBack.innerHTML = `
+                <div class="card-back-content">
+                    <div class="card-back-text-section">
+                        <h3 class="card-back-title">${company.name}</h3>
+                        <p class="card-back-description">${company.reason}</p>
+                    </div>
+                    <div class="card-back-features">
+                        ${company.benefits.map(benefit => `
+                            <div class="card-back-feature-item">
+                                <svg class="card-back-feature-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                                <span>${benefit}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            cardInner.appendChild(cardFront);
+            cardInner.appendChild(cardBack);
+            cardContainer.appendChild(cardInner);
+
+            // Add flip functionality
+            cardContainer.addEventListener('mouseenter', () => {
+                cardContainer.classList.add('flipped');
+            });
+            cardContainer.addEventListener('mouseleave', () => {
+                cardContainer.classList.remove('flipped');
+            });
+
+            return cardContainer;
+        }
+
+        // Populate company cards
+        window.addEventListener('load', () => {
+            const companyCardsGrid = document.getElementById('companyCardsGrid');
+            companies.forEach(company => {
+                companyCardsGrid.appendChild(createCardFlip(company));
+            });
+            initializeScrollAnimations();
         });
     </script>
 </body>
