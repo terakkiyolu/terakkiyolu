@@ -1,456 +1,299 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE LENG - Product Designer</title>
+    <title>THE LENG - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Geist', 'ui-sans-serif', 'system-ui'],
+                        mono: ['Geist Mono', 'ui-monospace', 'SFMono-Regular']
+                    },
+                    colors: {
+                        neutral: {
+                            950: '#0a0a0a',
+                            900: '#171717',
+                            800: '#262626',
+                            700: '#404040',
+                            600: '#525252',
+                            500: '#737373',
+                            400: '#a3a3a3',
+                            300: '#d4d4d4',
+                            200: '#e5e5e5',
+                            100: '#f5f5f5',
+                            50: '#fafafa'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-            color: #ffffff;
-            line-height: 1.6;
-            min-height: 100vh;
+            background-color: #0a0a0a;
+            overflow-x: hidden;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
+        
+        html {
+            scroll-behavior: smooth;
         }
-
-        /* Header */
-        header {
-            padding: 30px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 40px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #667eea;
-        }
-
-        .auth-buttons {
-            display: flex;
-            gap: 15px;
-        }
-
-        .btn {
-            padding: 12px 30px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-
-        .btn-login {
-            background: transparent;
-            color: #ffffff;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-login:hover {
-            border-color: #667eea;
-            color: #667eea;
-        }
-
-        .btn-logout {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #ffffff;
-        }
-
-        .btn-logout:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 100px 0;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 72px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 24px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 40px;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #ffffff;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: #ffffff;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-secondary:hover {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.1);
-        }
-
-        /* Companies Section */
-        .companies {
-            padding: 60px 0;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .companies h3 {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 30px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .company-logos {
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            flex-wrap: wrap;
-        }
-
-        .company-logos span {
-            font-size: 24px;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        /* Projects Section */
-        .projects {
-            padding: 100px 0;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .section-header h2 {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        .section-header p {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-        }
-
-        .project-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .project-image {
+        
+        .dot-grid-pattern {
+            background-color: #000000;
+            background-image: 
+                radial-gradient(circle at 25% 25%, #3a3a3a 1.3px, transparent 1.3px),
+                radial-gradient(circle at 75% 75%, #3a3a3a 1px, transparent 1px);
+            background-size: 10px 10px;
+            background-position: 0 0, 5px 5px;
+            opacity: 0.05;
+            mix-blend-mode: soft-light;
             width: 100%;
-            height: 250px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            animation: dotFloat 20s ease-in-out infinite;
+        }
+        
+        @keyframes dotFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-2px); }
+        }
+        
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+        
+        .reveal-element.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .animated-word {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s ease-out;
+        }
+        
+        .animated-word.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .project-card {
+            background: linear-gradient(135deg, var(--gradient-from), var(--gradient-to));
+            transition: transform 0.3s ease-out;
+            will-change: transform;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .project-image {
+            transition: transform 0.4s ease-out;
+        }
+        
+        .project-card:hover .project-image {
+            transform: scale(1.02);
+        }
+        
+        @media (min-width: 1024px) {
+            .lg-h-screen-minus-2rem {
+                height: calc(100vh - 2rem);
+            }
         }
 
-        .project-content {
-            padding: 30px;
+        .bg-neutral-950 {
+            background-color: #0a0a0a !important;
         }
-
-        .project-content h3 {
-            font-size: 24px;
-            margin-bottom: 10px;
+        
+        .bg-neutral-900 {
+            background-color: #171717 !important;
         }
-
-        .project-content p {
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 20px;
+        
+        .bg-black {
+            background-color: #000000 !important;
         }
-
-        .project-tags {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+        
+        .scroll-fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
         }
-
-        .tag {
-            padding: 6px 12px;
-            background: rgba(102, 126, 234, 0.2);
-            border-radius: 20px;
-            font-size: 12px;
-            color: #667eea;
+        
+        .scroll-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
-
-        /* Footer */
-        footer {
-            padding: 60px 0 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 100px;
+        
+        .magnetic-btn {
+            transition: transform 0.2s ease-out;
         }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
+        
+        .magnetic-btn:hover {
+            transform: translateY(-2px);
         }
-
-        .footer-section h4 {
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 10px;
-        }
-
-        .footer-section a {
-            color: rgba(255, 255, 255, 0.6);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: #667eea;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
+        
+        /* <CHANGE> Google Sign-In Modal Styles */
+        .login-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
             z-index: 1000;
+            display: flex;
             align-items: center;
             justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 1rem;
         }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-            padding: 50px;
-            border-radius: 20px;
-            max-width: 450px;
-            width: 90%;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .modal-header h2 {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .modal-header p {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: #ffffff;
-            font-size: 30px;
-            cursor: pointer;
-            opacity: 0.6;
-            transition: opacity 0.3s;
-        }
-
-        .close-modal:hover {
+        
+        .login-modal.active {
             opacity: 1;
+            visibility: visible;
         }
-
-        /* Custom Google Sign-In Button */
-        .google-signin-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-
-        .custom-google-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
+        
+        .login-panel {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            backdrop-filter: blur(40px);
             width: 100%;
-            padding: 16px 24px;
-            background: #ffffff;
-            color: #1f1f1f;
+            max-width: 420px;
+            position: relative;
+            overflow: hidden;
+            transform: scale(0.95) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.8),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+        
+        .login-modal.active .login-panel {
+            transform: scale(1) translateY(0);
+        }
+        
+        .login-content {
+            padding: 2.5rem;
+            position: relative;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(255, 255, 255, 0.08);
             border: none;
             border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
+            width: 40px;
+            height: 40px;
+            color: rgba(255, 255, 255, 0.6);
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            transform: scale(1.05);
         }
 
-        .custom-google-btn:hover {
+        /* <CHANGE> Custom Google Sign-In Button */
+        .google-signin-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ffffff, #f0f0f0);
+            color: #000;
+            border: none;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        
+        .google-signin-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .google-signin-btn:hover::before {
+            left: 100%;
+        }
+        
+        .google-signin-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
         }
 
-        .custom-google-btn svg {
-            width: 24px;
-            height: 24px;
+        .google-icon {
+            width: 20px;
+            height: 20px;
         }
 
-        /* User Panel */
+        /* <CHANGE> User Panel Styles */
         .user-panel {
             display: none;
-            padding: 60px 0;
         }
 
         .user-panel.active {
             display: block;
         }
 
-        .panel-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .panel-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .panel-card h3 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .panel-card-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-
-        /* Credit Card */
+        /* <CHANGE> Credit Card Flip Animation */
         .card-container {
             perspective: 1000px;
-            height: 240px;
-            margin-bottom: 20px;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
         }
 
         .credit-card {
             width: 100%;
-            height: 100%;
+            height: 240px;
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.6s;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
         }
 
@@ -463,10 +306,17 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            border-radius: 16px;
-            padding: 25px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-front {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .card-back {
@@ -474,386 +324,379 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-            gap: 15px;
+            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
         }
 
         .card-chip {
             width: 50px;
             height: 40px;
-            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            background: linear-gradient(135deg, #d4af37 0%, #f4e5b0 50%, #d4af37 100%);
             border-radius: 8px;
-            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-chip::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            background: linear-gradient(135deg, #c9a227 0%, #e8d89f 50%, #c9a227 100%);
+            border-radius: 4px;
         }
 
         .card-number {
-            font-size: 24px;
+            font-family: 'Geist Mono', monospace;
+            font-size: 1.5rem;
             font-weight: 600;
-            letter-spacing: 3px;
-            margin-bottom: 20px;
-        }
-
-        .card-info {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-        }
-
-        .card-holder, .card-expiry {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
+            letter-spacing: 0.1em;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .card-label {
-            font-size: 10px;
-            opacity: 0.8;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
         }
 
-        .card-value {
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        #qrcode {
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-        }
-
-        .qr-label {
-            color: white;
-            font-size: 14px;
-            font-weight: 600;
-            text-align: center;
-        }
-
-        /* User Info */
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .info-row:last-child {
-            border-bottom: none;
-        }
-
-        .info-label {
-            color: rgba(255, 255, 255, 0.6);
+        .card-info {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
             font-weight: 500;
         }
 
-        .info-value {
-            font-weight: 600;
-        }
-
-        /* Orders */
-        .order-item {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 20px;
+        .qr-container {
+            background: white;
+            padding: 1rem;
             border-radius: 12px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .order-id {
+        .logout-btn {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: rgba(239, 68, 68, 0.9);
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
             font-weight: 600;
-            color: #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
         }
 
-        .order-status {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .status-completed {
-            background: rgba(34, 197, 94, 0.2);
-            color: #22c55e;
-        }
-
-        .status-processing {
-            background: rgba(251, 191, 36, 0.2);
-            color: #fbbf24;
-        }
-
-        .status-pending {
+        .logout-btn:hover {
             background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.5);
+            transform: translateY(-2px);
         }
 
-        .order-details {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 14px;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
         }
 
-        /* Customer Service */
-        .service-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .service-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-
-        .service-info h4 {
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-
-        .service-info p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 14px;
-        }
-
-        .error-message {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 20px;
-            text-align: center;
-            display: none;
-        }
-
-        .error-message.active {
-            display: block;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 48px;
+        @media (max-width: 640px) {
+            .login-panel {
+                margin: 1rem;
+                max-width: none;
+            }
+            
+            .login-content {
+                padding: 2rem;
+            }
+            
+            .close-btn {
+                top: 1rem;
+                right: 1rem;
+                width: 36px;
+                height: 36px;
             }
 
-            .nav-links {
-                display: none;
+            .credit-card {
+                height: 200px;
             }
 
-            .project-grid, .panel-grid {
-                grid-template-columns: 1fr;
+            .card-number {
+                font-size: 1.2rem;
             }
         }
     </style>
 </head>
-<body>
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">THE LENG</div>
-                <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-                <div class="auth-buttons">
-                    <button class="btn btn-login" id="loginBtn">Panel Girişi</button>
-                    <button class="btn btn-logout" id="logoutBtn" style="display: none;">Çıkış Yap</button>
+<body class="bg-neutral-950 text-white font-sans">
+     <CHANGE> Google Sign-In Modal 
+    <div id="loginModal" class="login-modal">
+        <div class="login-panel">
+            <div class="login-content">
+                <button class="close-btn" onclick="closeLoginModal()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+                
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold mb-3">Panel Girişi</h2>
+                    <p class="text-white/60 text-sm leading-relaxed">Google hesabınızla giriş yapın</p>
                 </div>
-            </nav>
+                
+                <button id="googleSignInButton" class="google-signin-btn">
+                    <svg class="google-icon" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    Google ile Giriş Yap
+                </button>
+            </div>
         </div>
-    </header>
+    </div>
 
-    <main>
-        <section class="hero">
-            <div class="container">
-                <h1>THE LENG</h1>
-                <p>Product Designer & Creative Developer</p>
-                <div class="hero-buttons">
-                    <button class="btn btn-primary">View Projects</button>
-                    <button class="btn btn-secondary">Get in Touch</button>
-                </div>
-            </div>
-        </section>
+    <main class="bg-neutral-950 text-white min-h-screen">
+        <section class="px-4 pt-4 pb-16 lg:pb-4">
+            <div class="grid h-full grid-cols-1 gap-4 lg:grid-cols-[420px_1fr]">
+                 LEFT: sticky and full height 
+                <aside class="lg:sticky lg:top-4 lg-h-screen-minus-2rem">
+                    <div class="reveal-element relative flex h-full flex-col justify-between overflow-hidden rounded-3xl border border-white/10 bg-neutral-900/60 p-6 sm:p-8 backdrop-blur-sm">
+                        <div class="dot-grid-pattern"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="mb-8 flex items-center gap-2">
+                                <div class="text-2xl font-extrabold tracking-tight">THE LENG</div>
+                                <div class="h-2 w-2 rounded-full bg-white/60 animate-pulse" aria-hidden="true"></div>
+                            </div>
 
-        <section class="companies" id="companiesSection">
-            <div class="container">
-                <h3>Trusted by Leading Companies</h3>
-                <div class="company-logos">
-                    <span>APPLE</span>
-                    <span>GOOGLE</span>
-                    <span>MICROSOFT</span>
-                    <span>AMAZON</span>
-                    <span>META</span>
-                </div>
-            </div>
-        </section>
+                            <h1 class="text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl mb-4" id="animated-heading">
+                                <span class="block">
+                                    <span class="animated-word">I</span>
+                                    <span class="animated-word"> </span>
+                                    <span class="animated-word">design</span>
+                                    <span class="animated-word"> </span>
+                                    <span class="animated-word">products</span>
+                                </span>
+                                <span class="block">
+                                    <span class="animated-word">that</span>
+                                    <span class="animated-word"> </span>
+                                    <span class="animated-word">people</span>
+                                    <span class="animated-word"> </span>
+                                    <span class="animated-word">love</span>
+                                </span>
+                            </h1>
 
-        <section class="projects" id="projectsSection">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Featured Projects</h2>
-                    <p>Explore my latest design work</p>
-                </div>
-                <div class="project-grid">
-                    <div class="project-card">
-                        <div class="project-image">🎨</div>
-                        <div class="project-content">
-                            <h3>E-Commerce Platform</h3>
-                            <p>A modern e-commerce platform with seamless user experience and beautiful UI design.</p>
-                            <div class="project-tags">
-                                <span class="tag">UI/UX</span>
-                                <span class="tag">Web Design</span>
-                                <span class="tag">Branding</span>
+                            <p class="mt-4 max-w-[42ch] text-lg text-white/70">
+                                THE LENG is a product designer based in New York. He helps early‑stage startups ship beautiful, usable software fast.
+                            </p>
+
+                             <CHANGE> Updated CTAs with login/logout button 
+                            <div class="mt-6 flex flex-wrap items-center gap-3">
+                                <a href="mailto:contact@theleng.dev" class="magnetic-btn inline-flex items-center gap-2 rounded-full bg-white text-black px-6 py-3 text-sm font-medium">
+                                    Hire me
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7-7 7"/>
+                                    </svg>
+                                </a>
+                                
+                                <button id="authButton" onclick="openLoginModal()" class="panel-btn magnetic-btn inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium text-white" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12); backdrop-filter: blur(10px);">
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                    </svg>
+                                    PANELE GİRİŞ
+                                </button>
+                            </div>
+
+                             <CHANGE> Companies section - will be hidden after login 
+                            <div class="mt-10" id="companiesSection">
+                                <p class="mb-3 text-xs font-semibold tracking-widest text-white/50">
+                                    COMPANIES I'VE WORKED WITH
+                                </p>
+                                <ul class="grid grid-cols-2 gap-x-6 gap-y-3 text-2xl font-black text-white/25 sm:grid-cols-3">
+                                    <li class="hover:text-white/40 transition-colors duration-300">Space Y</li>
+                                    <li class="hover:text-white/40 transition-colors duration-300">Melta</li>
+                                    <li class="hover:text-white/40 transition-colors duration-300">ClosedAI</li>
+                                    <li class="hover:text-white/40 transition-colors duration-300">Booble</li>
+                                    <li class="hover:text-white/40 transition-colors duration-300">Lentflix</li>
+                                    <li class="hover:text-white/40 transition-colors duration-300">Xwitter</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="project-card">
-                        <div class="project-image">📱</div>
-                        <div class="project-content">
-                            <h3>Mobile Banking App</h3>
-                            <p>Intuitive mobile banking application with focus on security and ease of use.</p>
-                            <div class="project-tags">
-                                <span class="tag">Mobile</span>
-                                <span class="tag">Fintech</span>
-                                <span class="tag">iOS</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-image">💼</div>
-                        <div class="project-content">
-                            <h3>SaaS Dashboard</h3>
-                            <p>Comprehensive dashboard for managing business operations and analytics.</p>
-                            <div class="project-tags">
-                                <span class="tag">Dashboard</span>
-                                <span class="tag">Analytics</span>
-                                <span class="tag">SaaS</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+                </aside>
 
-         User Panel 
-        <section class="user-panel" id="userPanel">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Kullanıcı Paneli</h2>
-                    <p>Hoş geldiniz, <span id="userNameDisplay"></span></p>
-                </div>
-                <div class="panel-grid">
-                     User Card 
-                    <div class="panel-card">
-                        <h3>
-                            <span class="panel-card-icon">💳</span>
-                            Kullanıcı Kartı
-                        </h3>
-                        <div class="card-container">
-                            <div class="credit-card" id="creditCard">
-                                <div class="card-face card-front">
-                                    <div class="card-chip"></div>
-                                    <div class="card-number" id="cardUserCode">XXXX XXXX XXXX</div>
-                                    <div class="card-info">
-                                        <div class="card-holder">
-                                            <div class="card-label">Kart Sahibi</div>
-                                            <div class="card-value" id="cardUserName">User Name</div>
-                                        </div>
-                                        <div class="card-expiry">
-                                            <div class="card-label">Üyelik</div>
-                                            <div class="card-value" id="cardMemberSince">2024</div>
+                 RIGHT: Project cards / User Panel 
+                <div>
+                     <CHANGE> Projects Container - will be hidden after login 
+                    <div class="space-y-4" id="projectsContainer">
+                        <article class="group relative lg-h-screen-minus-2rem">
+                            <div class="reveal-element project-card rounded-3xl border border-white/10 p-1 shadow-[0_10px_60px_-10px_rgba(0,0,0,0.6)] lg:h-full" style="--gradient-from: #0f172a; --gradient-to: #6d28d9;">
+                                <div class="relative overflow-hidden rounded-[1.35rem] bg-black lg:h-full">
+                                    <div class="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-auto lg:h-full overflow-hidden">
+                                        <img src="/placeholder.svg?height=900&width=1600" alt="Walletly Project" class="project-image w-full h-full object-cover">
+                                        <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/30"></div>
+                                    </div>
+
+                                    <div class="pointer-events-none absolute left-4 top-4 flex flex-wrap gap-2">
+                                        <span class="pointer-events-auto bg-black/50 text-white border border-white/20 backdrop-blur-sm rounded-full px-2 py-1 text-xs hover:bg-black/70 transition-colors duration-200">Mobile</span>
+                                        <span class="pointer-events-auto bg-black/50 text-white border border-white/20 backdrop-blur-sm rounded-full px-2 py-1 text-xs hover:bg-black/70 transition-colors duration-200">Fintech</span>
+                                        <span class="pointer-events-auto bg-black/50 text-white border border-white/20 backdrop-blur-sm rounded-full px-2 py-1 text-xs hover:bg-black/70 transition-colors duration-200">UI/UX</span>
+                                    </div>
+
+                                    <div class="absolute inset-x-0 bottom-0 p-4 sm:p-5">
+                                        <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                                            <div>
+                                                <h3 class="text-lg font-semibold sm:text-xl">Walletly — Multi‑account mobile banking</h3>
+                                                <p class="text-sm text-white/70">End‑to‑end product design</p>
+                                            </div>
+                                            <a href="#project-1" class="magnetic-btn inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-sm font-medium backdrop-blur hover:bg-white/20 self-start sm:self-auto">
+                                                Case study
+                                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7-7 7"/>
+                                                </svg>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-face card-back">
-                                    <div id="qrcode"></div>
-                                    <div class="qr-label">Kullanıcı Kodu QR</div>
+                            </div>
+                        </article>
+
+                        <article class="group relative lg-h-screen-minus-2rem">
+                            <div class="reveal-element project-card rounded-3xl border border-white/10 p-1 shadow-[0_10px_60px_-10px_rgba(0,0,0,0.6)] lg:h-full" style="--gradient-from: #111827; --gradient-to: #2563eb;">
+                                <div class="relative overflow-hidden rounded-[1.35rem] bg-black lg:h-full">
+                                    <div class="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-auto lg:h-full overflow-hidden">
+                                        <img src="/placeholder.svg?height=900&width=1600" alt="Nimbus Project" class="project-image w-full h-full object-cover">
+                                        <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/30"></div>
+                                    </div>
+
+                                    <div class="pointer-events-none absolute left-4 top-4 flex flex-wrap gap-2">
+                                        <span class="pointer-events-auto bg-black/50 text-white border border-white/20 backdrop-blur-sm rounded-full px-2 py-1 text-xs hover:bg-black/70 transition-colors duration-200">SaaS</span>
+                                        <span class="pointer-events-auto bg-black/50 text-white border border-white/20 backdrop-blur-sm rounded-full px-2 py-1 text-xs hover:bg-black/70 transition-colors duration-200">Design System</span>
+                                        <span class="pointer-events-auto bg-black/50 text-white border border-white/20 backdrop-blur-sm rounded-full px-2 py-1 text-xs hover:bg-black/70 transition-colors duration-200">Web</span>
+                                    </div>
+
+                                    <div class="absolute inset-x-0 bottom-0 p-4 sm:p-5">
+                                        <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                                            <div>
+                                                <h3 class="text-lg font-semibold sm:text-xl">Nimbus — SaaS analytics</h3>
+                                                <p class="text-sm text-white/70">Design system & web app</p>
+                                            </div>
+                                            <a href="#project-2" class="magnetic-btn inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-sm font-medium backdrop-blur hover:bg-white/20 self-start sm:self-auto">
+                                                Case study
+                                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7-7 7"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <p style="text-align: center; color: rgba(255, 255, 255, 0.6); font-size: 14px;">Kartın arkasını görmek için tıklayın</p>
-                    </div>
+                        </article>
 
-                     User Info 
-                    <div class="panel-card">
-                        <h3>
-                            <span class="panel-card-icon">👤</span>
-                            Kullanıcı Bilgileri
-                        </h3>
-                        <div class="info-row">
-                            <span class="info-label">Ad Soyad</span>
-                            <span class="info-value" id="infoName">-</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">E-posta</span>
-                            <span class="info-value" id="infoEmail">-</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Kullanıcı Kodu</span>
-                            <span class="info-value" id="infoUserCode">-</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Üyelik Tarihi</span>
-                            <span class="info-value" id="infoMemberSince">-</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Hesap Durumu</span>
-                            <span class="info-value" style="color: #22c55e;">Aktif</span>
-                        </div>
-                    </div>
+                        <footer class="scroll-fade-in mt-16 lg:mt-8">
+                            <div class="rounded-3xl border border-white/10 bg-neutral-900/60 backdrop-blur-sm p-8 sm:p-12">
+                                <div class="text-center">
+                                    <h2 class="text-3xl sm:text-4xl font-black mb-4">Let's work together</h2>
+                                    <p class="text-lg text-white/70 mb-8 max-w-2xl mx-auto">
+                                        Ready to bring your next project to life? Let's discuss how we can create something amazing together.
+                                    </p>
+                                    
+                                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                                        <a href="mailto:contact@theleng.dev" class="magnetic-btn inline-flex items-center gap-2 rounded-full bg-white text-black px-8 py-4 text-lg font-medium">
+                                            Get in touch
+                                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7-7 7"/>
+                                            </svg>
+                                        </a>
+                                        <a href="#" class="magnetic-btn inline-flex items-center gap-2 rounded-full border border-white/20 px-8 py-4 text-lg font-medium hover:bg-white/10 transition-colors duration-300">
+                                            View resume
+                                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
 
-                     Order Tracking 
-                    <div class="panel-card">
-                        <h3>
-                            <span class="panel-card-icon">📦</span>
-                            Sipariş Takibi
-                        </h3>
-                        <div id="ordersContainer">
-                             Orders will be populated here 
-                        </div>
-                    </div>
-
-                     Customer Service 
-                    <div class="panel-card">
-                        <h3>
-                            <span class="panel-card-icon">💬</span>
-                            Özel Müşteri Hizmetleri
-                        </h3>
-                        <div class="service-item">
-                            <div class="service-icon">📞</div>
-                            <div class="service-info">
-                                <h4>Telefon Desteği</h4>
-                                <p>+90 555 123 4567</p>
+                                    <div class="border-t border-white/10 pt-8">
+                                        <div class="flex flex-col sm:flex-row justify-between items-center gap-6">
+                                            <div class="flex items-center gap-2">
+                                                <div class="text-xl font-extrabold tracking-tight">THE LENG</div>
+                                                <div class="h-2 w-2 rounded-full bg-white/60" aria-hidden="true"></div>
+                                            </div>
+                                            
+                                            <div class="flex gap-6">
+                                                <a href="#" class="text-white/60 hover:text-white transition-colors duration-200">Twitter</a>
+                                                <a href="#" class="text-white/60 hover:text-white transition-colors duration-200">LinkedIn</a>
+                                                <a href="#" class="text-white/60 hover:text-white transition-colors duration-200">Dribbble</a>
+                                                <a href="#" class="text-white/60 hover:text-white transition-colors duration-200">Instagram</a>
+                                            </div>
+                                            
+                                            <p class="text-sm text-white/40">
+                                                © 2025 THE LENG. All rights reserved.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="service-item">
-                            <div class="service-icon">✉️</div>
-                            <div class="service-info">
-                                <h4>E-posta Desteği</h4>
-                                <p>destek@theleng.com</p>
+                        </footer>
+                    </div>
+
+                     <CHANGE> User Panel - shown after login 
+                    <div class="user-panel" id="userPanel">
+                        <div class="reveal-element rounded-3xl border border-white/10 bg-neutral-900/60 backdrop-blur-sm p-8 sm:p-12">
+                            <div class="text-center mb-8">
+                                <h2 class="text-3xl font-black mb-2">Kullanıcı Paneli</h2>
+                                <p class="text-white/60" id="userEmail">user@example.com</p>
                             </div>
-                        </div>
-                        <div class="service-item">
-                            <div class="service-icon">💬</div>
-                            <div class="service-info">
-                                <h4>Canlı Destek</h4>
-                                <p>7/24 Aktif</p>
+
+                            <div class="card-container mb-8">
+                                <div class="credit-card" id="creditCard" onclick="flipCard()">
+                                     Front of card 
+                                    <div class="card-face card-front">
+                                        <div>
+                                            <div class="card-chip"></div>
+                                        </div>
+                                        
+                                        <div>
+                                            <div class="card-number" id="userCode">XXXX-XXXX-XXXX</div>
+                                        </div>
+                                        
+                                        <div class="flex justify-between items-end">
+                                            <div>
+                                                <div class="card-label">Kullanıcı Adı</div>
+                                                <div class="card-info" id="userName">User Name</div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="card-label">Üyelik</div>
+                                                <div class="card-info">Premium</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                     Back of card 
+                                    <div class="card-face card-back">
+                                        <div class="qr-container">
+                                            <canvas id="qrCode"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center">
+                                <p class="text-sm text-white/60 mb-4">Kartı çevirmek için üzerine tıklayın</p>
+                                <button onclick="handleLogout()" class="logout-btn">
+                                    Çıkış Yap
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -862,367 +705,237 @@
         </section>
     </main>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>THE LENG</h4>
-                    <p style="color: rgba(255, 255, 255, 0.6);">Creating beautiful digital experiences through thoughtful design and development.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#projects">Projects</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Services</h4>
-                    <ul>
-                        <li><a href="#">UI/UX Design</a></li>
-                        <li><a href="#">Web Development</a></li>
-                        <li><a href="#">Mobile Apps</a></li>
-                        <li><a href="#">Branding</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Contact</h4>
-                    <ul>
-                        <li><a href="mailto:hello@theleng.com">hello@theleng.com</a></li>
-                        <li><a href="tel:+1234567890">+1 (234) 567-890</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 THE LENG. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-     Login Modal 
-    <div class="modal" id="loginModal">
-        <div class="modal-content" style="position: relative;">
-            <button class="close-modal" id="closeModal">&times;</button>
-            <div class="modal-header">
-                <h2>Panel Girişi</h2>
-                <p>Google hesabınızla giriş yapın</p>
-            </div>
-            <div class="google-signin-container">
-                <button class="custom-google-btn" id="customGoogleBtn">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                    </svg>
-                    Google ile Giriş Yap
-                </button>
-            </div>
-            <div class="error-message" id="errorMessage">
-                Bu e-posta adresi sisteme kayıtlı değil. Lütfen yetkili bir hesap kullanın.
-            </div>
-        </div>
-    </div>
-
     <script>
-        // User Database - Whitelist
-        const authorizedUsers = {
-            'ahmet@example.com': {
-                name: 'Ahmet Yılmaz',
-                email: 'ahmet@example.com',
-                userCode: 'USR-2024-001',
-                memberSince: '2024',
-                orders: [
-                    { id: 'ORD-001', status: 'completed', description: 'Premium Tasarım Paketi', date: '15.01.2024' },
-                    { id: 'ORD-002', status: 'processing', description: 'Web Geliştirme Hizmeti', date: '20.01.2024' }
-                ]
-            },
-            'mehmet@example.com': {
-                name: 'Mehmet Demir',
-                email: 'mehmet@example.com',
-                userCode: 'USR-2024-002',
-                memberSince: '2023',
-                orders: [
-                    { id: 'ORD-003', status: 'completed', description: 'Logo Tasarımı', date: '10.12.2023' },
-                    { id: 'ORD-004', status: 'pending', description: 'Mobil Uygulama UI', date: '25.01.2024' }
-                ]
-            },
-            'ayse@example.com': {
-                name: 'Ayşe Kaya',
-                email: 'ayse@example.com',
-                userCode: 'USR-2024-003',
-                memberSince: '2024',
-                orders: [
-                    { id: 'ORD-005', status: 'processing', description: 'E-Ticaret Sitesi', date: '18.01.2024' }
-                ]
-            }
-        };
-
+        // <CHANGE> Google Sign-In Implementation
         let currentUser = null;
-        let isCardFlipped = false;
-
-        // DOM Elements
-        const loginBtn = document.getElementById('loginBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const loginModal = document.getElementById('loginModal');
-        const closeModal = document.getElementById('closeModal');
-        const customGoogleBtn = document.getElementById('customGoogleBtn');
-        const projectsSection = document.getElementById('projectsSection');
-        const companiesSection = document.getElementById('companiesSection');
-        const userPanel = document.getElementById('userPanel');
-        const creditCard = document.getElementById('creditCard');
-        const errorMessage = document.getElementById('errorMessage');
-
-        // Initialize Google Sign-In
+        
         function initializeGoogleSignIn() {
-            console.log('[v0] Initializing Google Sign-In');
-            
-            window.google.accounts.id.initialize({
-                client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
-                callback: handleCredentialResponse,
-                auto_select: false,
-                cancel_on_tap_outside: true
-            });
+            if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+                google.accounts.id.initialize({
+                    client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
+                    callback: handleCredentialResponse,
+                    auto_select: false,
+                    cancel_on_tap_outside: true
+                });
+                console.log('[v0] Google Sign-In initialized successfully');
+            } else {
+                console.warn('[v0] Google Sign-In script not yet loaded. Retrying...');
+                setTimeout(initializeGoogleSignIn, 500);
+            }
         }
 
-        // Handle Google Sign-In Response
+        window.addEventListener('load', initializeGoogleSignIn);
+
         function handleCredentialResponse(response) {
-            console.log('[v0] Google Sign-In response received');
-            
             try {
-                const credential = response.credential;
-                const payload = parseJwt(credential);
+                const payload = JSON.parse(atob(response.credential.split('.')[1]));
                 
-                console.log('[v0] Decoded payload:', payload);
+                currentUser = {
+                    name: payload.name,
+                    email: payload.email,
+                    picture: payload.picture,
+                    given_name: payload.given_name,
+                    sub: payload.sub
+                };
                 
-                const userEmail = payload.email;
-                
-                // Check if user is authorized
-                if (authorizedUsers[userEmail]) {
-                    currentUser = authorizedUsers[userEmail];
-                    console.log('[v0] User authorized:', currentUser);
-                    
-                    errorMessage.classList.remove('active');
-                    loginModal.classList.remove('active');
-                    updateUIAfterLogin();
-                } else {
-                    console.log('[v0] User not authorized:', userEmail);
-                    errorMessage.classList.add('active');
-                }
+                console.log('[v0] User signed in:', currentUser.email);
+                updateUIForSignedInUser();
             } catch (error) {
-                console.error('[v0] Error handling credential:', error);
-                errorMessage.textContent = 'Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin.';
-                errorMessage.classList.add('active');
+                console.error('[v0] Error decoding JWT:', error);
+                alert('Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin.');
             }
         }
 
-        // Parse JWT Token
-        function parseJwt(token) {
-            try {
-                const base64Url = token.split('.')[1];
-                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                }).join(''));
-                return JSON.parse(jsonPayload);
-            } catch (error) {
-                console.error('[v0] Error parsing JWT:', error);
-                throw error;
-            }
-        }
-
-        // Update UI After Login
-        function updateUIAfterLogin() {
-            console.log('[v0] Updating UI after login');
+        function updateUIForSignedInUser() {
+            closeLoginModal();
             
-            // Update buttons
-            loginBtn.style.display = 'none';
-            logoutBtn.style.display = 'block';
-            
-            // Hide sections
-            projectsSection.style.display = 'none';
-            companiesSection.style.display = 'none';
+            // Hide projects and companies
+            document.getElementById('projectsContainer').style.display = 'none';
+            document.getElementById('companiesSection').style.display = 'none';
             
             // Show user panel
+            const userPanel = document.getElementById('userPanel');
             userPanel.classList.add('active');
             
-            // Populate user data
-            populateUserData();
-        }
-
-        // Populate User Data
-        function populateUserData() {
-            if (!currentUser) return;
-            
-            console.log('[v0] Populating user data');
-            
-            // Update display name
-            document.getElementById('userNameDisplay').textContent = currentUser.name;
-            
-            // Update card
-            document.getElementById('cardUserCode').textContent = currentUser.userCode.replace(/-/g, ' ');
-            document.getElementById('cardUserName').textContent = currentUser.name;
-            document.getElementById('cardMemberSince').textContent = currentUser.memberSince;
-            
             // Update user info
-            document.getElementById('infoName').textContent = currentUser.name;
-            document.getElementById('infoEmail').textContent = currentUser.email;
-            document.getElementById('infoUserCode').textContent = currentUser.userCode;
-            document.getElementById('infoMemberSince').textContent = currentUser.memberSince;
+            document.getElementById('userEmail').textContent = currentUser.email;
+            document.getElementById('userName').textContent = currentUser.name;
             
-            // Generate QR Code
-            generateQRCode(currentUser.userCode);
+            // Generate user code from email
+            const userCode = generateUserCode(currentUser.sub);
+            document.getElementById('userCode').textContent = userCode;
             
-            // Populate orders
-            populateOrders();
+            // Generate QR code
+            generateQRCode(userCode);
+            
+            // Update auth button
+            const authButton = document.getElementById('authButton');
+            authButton.innerHTML = `
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                </svg>
+                ÇIKIŞ YAP
+            `;
+            authButton.onclick = handleLogout;
         }
 
-        // Generate QR Code
-        function generateQRCode(userCode) {
-            const qrcodeContainer = document.getElementById('qrcode');
-            qrcodeContainer.innerHTML = ''; // Clear previous QR code
-            
-            try {
-                new QRCode(qrcodeContainer, {
-                    text: userCode,
-                    width: 150,
-                    height: 150,
-                    colorDark: '#000000',
-                    colorLight: '#ffffff',
-                    correctLevel: QRCode.CorrectLevel.H
-                });
-                console.log('[v0] QR Code generated successfully');
-            } catch (error) {
-                console.error('[v0] Error generating QR code:', error);
-                qrcodeContainer.innerHTML = '<p style="color: #ef4444;">QR kod oluşturulamadı</p>';
-            }
+        function generateUserCode(userId) {
+            // Generate a formatted user code from user ID
+            const hash = userId.substring(0, 12).toUpperCase();
+            return `${hash.substring(0, 4)}-${hash.substring(4, 8)}-${hash.substring(8, 12)}`;
         }
 
-        // Populate Orders
-        function populateOrders() {
-            if (!currentUser || !currentUser.orders) return;
-            
-            const ordersContainer = document.getElementById('ordersContainer');
-            ordersContainer.innerHTML = '';
-            
-            if (currentUser.orders.length === 0) {
-                ordersContainer.innerHTML = '<p style="color: rgba(255, 255, 255, 0.6);">Henüz siparişiniz bulunmamaktadır.</p>';
-                return;
-            }
-            
-            currentUser.orders.forEach(order => {
-                const statusClass = `status-${order.status}`;
-                const statusText = {
-                    'completed': 'Tamamlandı',
-                    'processing': 'İşleniyor',
-                    'pending': 'Beklemede'
-                }[order.status];
-                
-                const orderHTML = `
-                    <div class="order-item">
-                        <div class="order-header">
-                            <span class="order-id">${order.id}</span>
-                            <span class="order-status ${statusClass}">${statusText}</span>
-                        </div>
-                        <div class="order-details">
-                            <p>${order.description}</p>
-                            <p style="margin-top: 5px; font-size: 12px;">${order.date}</p>
-                        </div>
-                    </div>
-                `;
-                ordersContainer.innerHTML += orderHTML;
-            });
-        }
-
-        // Card Flip Animation
-        creditCard.addEventListener('click', function() {
-            isCardFlipped = !isCardFlipped;
-            if (isCardFlipped) {
-                creditCard.classList.add('flipped');
-            } else {
-                creditCard.classList.remove('flipped');
-            }
-        });
-
-        // Custom Google Button Click
-        customGoogleBtn.addEventListener('click', function() {
-            console.log('[v0] Custom Google button clicked');
-            errorMessage.classList.remove('active');
-            
-            window.google.accounts.id.prompt((notification) => {
-                console.log('[v0] Prompt notification:', notification);
-                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                    console.log('[v0] Prompt not displayed, trying renderButton');
-                    // If prompt doesn't work, try alternative method
-                    document.getElementById('customGoogleBtn').onclick = null;
-                    const wrapper = document.createElement('div');
-                    wrapper.style.display = 'none';
-                    document.body.appendChild(wrapper);
-                    window.google.accounts.id.renderButton(wrapper, {
-                        type: 'standard',
-                        size: 'large',
-                        width: 300
-                    });
-                    setTimeout(() => {
-                        const googleBtn = wrapper.querySelector('div[role="button"]');
-                        if (googleBtn) googleBtn.click();
-                    }, 100);
+        function generateQRCode(text) {
+            const canvas = document.getElementById('qrCode');
+            QRCode.toCanvas(canvas, text, {
+                width: 200,
+                margin: 2,
+                color: {
+                    dark: '#000000',
+                    light: '#ffffff'
                 }
+            }, function (error) {
+                if (error) console.error('[v0] QR Code generation error:', error);
+                else console.log('[v0] QR Code generated successfully');
             });
-        });
+        }
 
-        // Modal Controls
-        loginBtn.addEventListener('click', function() {
-            loginModal.classList.add('active');
-            errorMessage.classList.remove('active');
-        });
+        function flipCard() {
+            const card = document.getElementById('creditCard');
+            card.classList.toggle('flipped');
+        }
 
-        closeModal.addEventListener('click', function() {
-            loginModal.classList.remove('active');
-            errorMessage.classList.remove('active');
-        });
-
-        loginModal.addEventListener('click', function(e) {
-            if (e.target === loginModal) {
-                loginModal.classList.remove('active');
-                errorMessage.classList.remove('active');
-            }
-        });
-
-        // Logout
-        logoutBtn.addEventListener('click', function() {
+        function handleLogout() {
             currentUser = null;
-            isCardFlipped = false;
             
-            // Reset UI
-            loginBtn.style.display = 'block';
-            logoutBtn.style.display = 'none';
-            projectsSection.style.display = 'block';
-            companiesSection.style.display = 'block';
-            userPanel.classList.remove('active');
-            creditCard.classList.remove('flipped');
+            // Show projects and companies
+            document.getElementById('projectsContainer').style.display = 'block';
+            document.getElementById('companiesSection').style.display = 'block';
             
-            // Sign out from Google
-            window.google.accounts.id.disableAutoSelect();
+            // Hide user panel
+            document.getElementById('userPanel').classList.remove('active');
+            
+            // Reset auth button
+            const authButton = document.getElementById('authButton');
+            authButton.innerHTML = `
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+                PANELE GİRİŞ
+            `;
+            authButton.onclick = openLoginModal;
             
             console.log('[v0] User logged out');
+        }
+
+        function openLoginModal() {
+            const modal = document.getElementById('loginModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Trigger Google Sign-In
+            setTimeout(() => {
+                if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+                    google.accounts.id.prompt();
+                }
+            }, 300);
+        }
+
+        function closeLoginModal() {
+            const modal = document.getElementById('loginModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Custom Google Sign-In button handler
+        document.getElementById('googleSignInButton').addEventListener('click', function() {
+            if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+                google.accounts.id.prompt();
+            } else {
+                alert('Google Sign-In henüz yüklenmedi. Lütfen bekleyin ve tekrar deneyin.');
+            }
         });
 
-        // Initialize when Google API loads
-        window.onload = function() {
-            console.log('[v0] Window loaded, waiting for Google API');
-            
-            // Wait for Google API to load
-            const checkGoogleLoaded = setInterval(function() {
-                if (window.google && window.google.accounts) {
-                    console.log('[v0] Google API loaded');
-                    clearInterval(checkGoogleLoaded);
-                    initializeGoogleSignIn();
-                }
-            }, 100);
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLoginModal();
+            }
+        });
+
+        // Close modal on backdrop click
+        document.getElementById('loginModal').addEventListener('click', (e) => {
+            if (e.target.id === 'loginModal') {
+                closeLoginModal();
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
         };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-element').forEach(el => {
+            observer.observe(el);
+        });
+
+        const footerObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.scroll-fade-in').forEach(el => {
+            footerObserver.observe(el);
+        });
+
+        function animateHeading() {
+            const words = document.querySelectorAll('.animated-word');
+            words.forEach((word, index) => {
+                setTimeout(() => {
+                    word.classList.add('revealed');
+                }, index * 60 + 200);
+            });
+        }
+
+        function addMagneticEffect() {
+            const magneticElements = document.querySelectorAll('.magnetic-btn');
+            
+            magneticElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    el.style.transform = 'translateY(-2px)';
+                });
+                
+                el.addEventListener('mouseleave', () => {
+                    el.style.transform = '';
+                });
+            });
+        }
+
+        window.addEventListener('load', () => {
+            setTimeout(animateHeading, 300);
+            addMagneticEffect();
+            
+            setTimeout(() => {
+                document.querySelectorAll('.reveal-element').forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        el.classList.add('revealed');
+                    }
+                });
+            }, 100);
+        });
     </script>
 </body>
 </html>
