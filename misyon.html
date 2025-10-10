@@ -312,7 +312,7 @@
             stroke: currentColor;
         }
 
-        /* <CHANGE> Added Liquid Glass User Panel Styles */
+        /* Added Liquid Glass User Panel Styles */
         .user-panel-overlay {
             position: fixed;
             top: 0;
@@ -838,7 +838,7 @@
         </div>
     </section>
 
-    <!-- <CHANGE> Added Liquid Glass User Panel -->
+    <!-- Added Liquid Glass User Panel -->
     <div class="user-panel-overlay" id="userPanelOverlay">
         <button class="user-panel-close" id="userPanelClose">&times;</button>
         <div class="user-panel-container">
@@ -929,10 +929,10 @@
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js')
                     .then(registration => {
-                        console.log('Service Worker registered with scope:', registration.scope);
+                        console.log('[v0] Service Worker registered with scope:', registration.scope);
                     })
                     .catch(error => {
-                        console.error('Service Worker registration failed:', error);
+                        console.error('[v0] Service Worker registration failed:', error);
                     });
             });
         }
@@ -963,16 +963,25 @@
         const userAvatar = document.getElementById('userAvatar');
 
         function initializeGoogleSignIn() {
+            console.log('[v0] Attempting to initialize Google Sign-In...');
+            
             if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-                google.accounts.id.initialize({
-                    client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
-                    callback: handleCredentialResponse,
-                    auto_select: false,
-                    cancel_on_tap_outside: true
-                });
-                console.log('Google Sign-In initialized successfully.');
+                try {
+                    google.accounts.id.initialize({
+                        client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
+                        callback: handleCredentialResponse,
+                        auto_select: false,
+                        cancel_on_tap_outside: true,
+                        ux_mode: 'popup',
+                        context: 'signin'
+                    });
+                    console.log('[v0] Google Sign-In initialized successfully.');
+                } catch (error) {
+                    console.error('[v0] Error initializing Google Sign-In:', error);
+                    showErrorToast('Google Sign-In başlatılamadı. Lütfen sayfayı yenileyin.');
+                }
             } else {
-                console.warn('Google Sign-In script not yet loaded. Retrying initialization...');
+                console.warn('[v0] Google Sign-In script not yet loaded. Retrying initialization...');
                 setTimeout(initializeGoogleSignIn, 500);
             }
         }
@@ -980,24 +989,89 @@
         window.addEventListener('load', initializeGoogleSignIn);
 
         function handleCredentialResponse(response) {
+            console.log('[v0] Received credential response');
+            
+            if (!response || !response.credential) {
+                console.error('[v0] Invalid credential response:', response);
+                showErrorToast('Giriş bilgileri alınamadı. Lütfen tekrar deneyin.');
+                return;
+            }
+
             try {
-                const payload = JSON.parse(atob(response.credential.split('.')[1]));
+                // Decode JWT token
+                const base64Url = response.credential.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                
+                const payload = JSON.parse(jsonPayload);
+                console.log('[v0] Successfully decoded JWT payload');
+                
+                if (!payload.email || !payload.name) {
+                    throw new Error('Missing required user information');
+                }
                 
                 currentUser = {
                     name: payload.name,
                     email: payload.email,
                     picture: payload.picture,
-                    given_name: payload.given_name
+                    given_name: payload.given_name || payload.name.split(' ')[0]
                 };
-                console.log('User signed in:', currentUser.email);
+                
+                console.log('[v0] User signed in:', currentUser.email);
                 updateUIForSignedInUser();
+                showSuccessToast(`Hoş geldiniz, ${currentUser.given_name}! 👋`);
+                
             } catch (error) {
-                console.error('Error decoding JWT or processing credential response:', error);
-                alert('Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin.');
+                console.error('[v0] Error decoding JWT or processing credential response:', error);
+                showErrorToast('Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin.');
             }
         }
 
-        // <CHANGE> Updated to show user panel after sign-in
+        function showSuccessToast(message) {
+            showToast(message, '#28a745');
+        }
+
+        function showErrorToast(message) {
+            showToast(message, '#dc3545');
+        }
+
+        function showToast(message, backgroundColor) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: ${backgroundColor};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                z-index: 10000;
+                font-weight: 600;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                max-width: 300px;
+            `;
+            toast.textContent = message;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (document.body.contains(toast)) {
+                        document.body.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
         function updateUIForSignedInUser() {
             googleSignInButton.style.display = 'none';
             userInfoElement.style.display = 'flex';
@@ -1014,7 +1088,9 @@
             userInfoElement.addEventListener('click', showProfileDrawer);
 
             // Show user panel immediately after sign-in
-            showUserPanel();
+            setTimeout(() => {
+                showUserPanel();
+            }, 500);
         }
 
         function signOut() {
@@ -1027,43 +1103,32 @@
                 hideProfileDrawer();
                 hideUserPanel();
 
-                const toast = document.createElement('div');
-                toast.style.cssText = `
-                    position: fixed;
-                    top: 100px;
-                    right: 20px;
-                    background: #dc3545;
-                    color: white;
-                    padding: 1rem 1.5rem;
-                    border-radius: 10px;
-                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-                    z-index: 10000;
-                    font-weight: 600;
-                    transform: translateX(100%);
-                    transition: transform 0.3s ease;
-                `;
-                toast.textContent = 'Başarıyla çıkış yaptınız! 👋';
-                
-                document.body.appendChild(toast);
-                
-                setTimeout(() => {
-                    toast.style.transform = 'translateX(0)';
-                }, 100);
-                
-                setTimeout(() => {
-                    toast.style.transform = 'translateX(100%)';
-                    setTimeout(() => {
-                        document.body.removeChild(toast);
-                    }, 300);
-                }, 2000);
+                showErrorToast('Başarıyla çıkış yaptınız! 👋');
             }
         }
 
         googleSignInButton.addEventListener('click', () => {
-            google.accounts.id.prompt();
+            console.log('[v0] Google Sign-In button clicked');
+            try {
+                if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+                    google.accounts.id.prompt((notification) => {
+                        console.log('[v0] Prompt notification:', notification);
+                        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                            console.warn('[v0] Prompt was not displayed or skipped');
+                            showErrorToast('Google giriş penceresi açılamadı. Lütfen pop-up engelleyicinizi kontrol edin.');
+                        }
+                    });
+                } else {
+                    console.error('[v0] Google Sign-In not initialized');
+                    showErrorToast('Google Sign-In henüz hazır değil. Lütfen bekleyin ve tekrar deneyin.');
+                }
+            } catch (error) {
+                console.error('[v0] Error showing Google Sign-In prompt:', error);
+                showErrorToast('Giriş penceresi açılırken bir hata oluştu.');
+            }
         });
 
-        // <CHANGE> User Panel Logic
+        // User Panel Logic
         const userPanelOverlay = document.getElementById('userPanelOverlay');
         const userPanelClose = document.getElementById('userPanelClose');
         const membershipCard = document.getElementById('membershipCard');
