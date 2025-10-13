@@ -312,7 +312,7 @@
             text-align: center;
         }
 
-        /* <CHANGE> Updated Member Card with glassmorphism design from örnek.html */
+        /* Updated Member Card with glassmorphism design from örnek.html */
         .member-card-container {
             perspective: 2000px;
             width: 100%;
@@ -550,7 +550,7 @@
             letter-spacing: 3px;
         }
 
-        /* <CHANGE> Updated Events Section - frameless cards with carousel */
+        /* Updated Events Section - frameless cards with carousel */
         .events-section {
             margin-top: 4rem;
         }
@@ -776,6 +776,15 @@
                     Google ile Giriş Yap
                 </button>
             </div>
+            
+            <!-- Added events section to hero page so they're visible before login -->
+            <div class="events-section" style="margin-top: 6rem;">
+                <h3 class="events-title">ETKİNLİKLER</h3>
+                <div class="events-carousel">
+                    <div class="events-track" id="heroEventsTrack"></div>
+                </div>
+                <div class="carousel-dots" id="heroCarouselDots"></div>
+            </div>
         </div>
     </section>
 
@@ -784,7 +793,7 @@
         <div class="dashboard-container">
             <h2 class="dashboard-title">HOŞGELDİNİZ</h2>
             
-             <CHANGE> Updated Member Card HTML with glassmorphism structure 
+             Updated Member Card with glassmorphism design from örnek.html 
             <div class="member-card-container" id="memberCardContainer">
                 <div class="member-card">
                     <div class="card-face card-front">
@@ -869,7 +878,7 @@
             }
         };
 
-        // <CHANGE> Updated events data with more detailed information
+        // Events data
         const events = [
             {
                 code: "EVT001",
@@ -908,15 +917,27 @@
             }
         ];
 
+        window.addEventListener('load', () => {
+            setupEventsCarousel('heroEventsTrack', 'heroCarouselDots');
+        });
+
         function initializeGoogleSignIn() {
+            console.log('[v0] Initializing Google Sign-In...');
             if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-                google.accounts.id.initialize({
-                    client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
-                    callback: handleCredentialResponse,
-                    auto_select: false,
-                    cancel_on_tap_outside: true
-                });
+                console.log('[v0] Google Sign-In API loaded successfully');
+                try {
+                    google.accounts.id.initialize({
+                        client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
+                        callback: handleCredentialResponse,
+                        auto_select: false,
+                        cancel_on_tap_outside: true
+                    });
+                    console.log('[v0] Google Sign-In initialized');
+                } catch (error) {
+                    console.error('[v0] Error initializing Google Sign-In:', error);
+                }
             } else {
+                console.log('[v0] Google Sign-In API not ready, retrying...');
                 setTimeout(initializeGoogleSignIn, 500);
             }
         }
@@ -924,8 +945,10 @@
         window.addEventListener('load', initializeGoogleSignIn);
 
         function handleCredentialResponse(response) {
+            console.log('[v0] Credential response received');
             try {
                 const payload = JSON.parse(atob(response.credential.split('.')[1]));
+                console.log('[v0] User payload:', payload);
                 
                 currentUser = {
                     name: payload.name,
@@ -936,12 +959,13 @@
                 
                 updateUIForSignedInUser();
             } catch (error) {
-                console.error('Error:', error);
-                alert('Giriş yapılırken bir hata oluştu.');
+                console.error('[v0] Error processing credential:', error);
+                alert('Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin.');
             }
         }
 
         function updateUIForSignedInUser() {
+            console.log('[v0] Updating UI for signed-in user');
             googleSignInButton.style.display = 'none';
             userInfoElement.style.display = 'flex';
             
@@ -964,7 +988,7 @@
             };
 
             setupMemberCard(userConfig);
-            setupEventsCarousel();
+            setupEventsCarousel('eventsTrack', 'carouselDots');
         }
 
         function setupMemberCard(userConfig) {
@@ -999,9 +1023,20 @@
             });
         }
 
-        function setupEventsCarousel() {
-            const eventsTrack = document.getElementById('eventsTrack');
-            const carouselDots = document.getElementById('carouselDots');
+        function setupEventsCarousel(trackId, dotsId) {
+            console.log('[v0] Setting up events carousel:', trackId, dotsId);
+            const eventsTrack = document.getElementById(trackId);
+            const carouselDots = document.getElementById(dotsId);
+            
+            if (!eventsTrack || !carouselDots) {
+                console.error('[v0] Events track or dots not found:', trackId, dotsId);
+                return;
+            }
+
+            // Clear existing content
+            eventsTrack.innerHTML = '';
+            carouselDots.innerHTML = '';
+            
             let currentIndex = 0;
 
             // Create event cards
@@ -1030,12 +1065,15 @@
                 carouselDots.appendChild(dot);
             });
 
+            console.log('[v0] Created', events.length, 'event cards');
+
             function goToSlide(index) {
                 currentIndex = index;
                 eventsTrack.style.transform = `translateX(-${index * 100}%)`;
                 
                 // Update dots
-                document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+                const dots = carouselDots.querySelectorAll('.carousel-dot');
+                dots.forEach((dot, i) => {
                     dot.classList.toggle('active', i === index);
                 });
 
@@ -1045,17 +1083,30 @@
             }
 
             // Auto-advance carousel
-            setInterval(() => {
+            const intervalId = setInterval(() => {
                 currentIndex = (currentIndex + 1) % events.length;
                 goToSlide(currentIndex);
             }, 5000);
 
             // Initialize theme
             goToSlide(0);
+            
+            console.log('[v0] Events carousel initialized successfully');
         }
 
         googleSignInButton.addEventListener('click', () => {
-            google.accounts.id.prompt();
+            console.log('[v0] Google Sign-In button clicked');
+            try {
+                google.accounts.id.prompt((notification) => {
+                    console.log('[v0] Prompt notification:', notification);
+                    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                        console.log('[v0] Prompt not displayed, reason:', notification.getNotDisplayedReason());
+                    }
+                });
+            } catch (error) {
+                console.error('[v0] Error showing Google Sign-In prompt:', error);
+                alert('Google ile giriş yapılamadı. Lütfen sayfayı yenileyin ve tekrar deneyin.');
+            }
         });
     </script>
 </body>
