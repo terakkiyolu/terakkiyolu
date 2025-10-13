@@ -776,15 +776,6 @@
                     Google ile Giriş Yap
                 </button>
             </div>
-            
-            <!-- Added events section to hero page so they're visible before login -->
-            <div class="events-section" style="margin-top: 6rem;">
-                <h3 class="events-title">ETKİNLİKLER</h3>
-                <div class="events-carousel">
-                    <div class="events-track" id="heroEventsTrack"></div>
-                </div>
-                <div class="carousel-dots" id="heroCarouselDots"></div>
-            </div>
         </div>
     </section>
 
@@ -916,10 +907,6 @@
                 formUrl: "https://example.com/form/mobile"
             }
         ];
-
-        window.addEventListener('load', () => {
-            setupEventsCarousel('heroEventsTrack', 'heroCarouselDots');
-        });
 
         function initializeGoogleSignIn() {
             console.log('[v0] Initializing Google Sign-In...');
