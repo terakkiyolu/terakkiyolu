@@ -3,275 +3,331 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teknoloji Şirketi</title>
+    <title>THE LENG - İDDİA EDİYORUZ EN İYİSİYİZ</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
     <style>
+        :root {
+            --primary-color: #000;
+            --secondary-color: #fff;
+            --text-color: #666;
+            --background-color: #fff;
+            --transition-speed: 0.3s;
+            --theme-color: #000;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        :root {
-            --theme-color: #000000;
-            --theme-light: #f5f5f5;
-            --transition-speed: 0.6s;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #ffffff 0%, var(--theme-light) 100%);
-            color: #000;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--primary-color);
             overflow-x: hidden;
-            transition: background var(--transition-speed) ease;
+            background-color: var(--background-color);
+            scroll-behavior: smooth;
+            transition: background-color 0.6s ease;
         }
 
-        /* Header */
-        header {
+        /* Header Styles */
+        .header {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 20px 50px;
+            background: transparent;
+            z-index: 1000;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 100;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .logo {
-            font-size: 28px;
-            font-weight: 900;
-            color: #000;
-            letter-spacing: 2px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 800;
+            font-size: clamp(1.5rem, 3.5vw, 1.8rem);
+            color: var(--primary-color);
+            letter-spacing: -0.8px;
+            text-transform: uppercase;
+            background: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 60px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            transition: all var(--transition-speed) ease;
+            cursor: pointer;
+        }
+
+        .logo:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo-dots {
+            display: flex;
+            gap: 0.2rem;
+        }
+
+        .dot {
+            width: clamp(8px, 1.8vw, 10px);
+            height: clamp(8px, 1.8vw, 10px);
+            border-radius: 50%;
+            background: var(--primary-color);
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         /* Menu Button */
-        .menu-btn {
+        .menu-button {
             width: 50px;
             height: 50px;
-            background: #000;
+            background: var(--primary-color);
             border: none;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            gap: 5px;
             transition: all 0.3s ease;
-            position: relative;
-            z-index: 1001;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .menu-btn:hover {
+        .menu-button:hover {
             transform: scale(1.1);
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .menu-btn span {
+        .menu-button span {
             width: 25px;
-            height: 3px;
-            background: #fff;
-            border-radius: 2px;
+            height: 2px;
+            background: var(--secondary-color);
             transition: all 0.3s ease;
         }
 
         /* Full Screen Menu */
         .fullscreen-menu {
             position: fixed;
-            top: -100%;
+            top: 0;
             left: 0;
             width: 100%;
-            height: 100vh;
-            background: #ffffff;
-            z-index: 1000;
+            height: 100%;
+            background: var(--secondary-color);
+            z-index: 2000;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            transition: top 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            justify-content: center;
+            transform: translateY(-100%);
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
         }
 
         .fullscreen-menu.active {
-            top: 0;
-        }
-
-        .close-menu {
-            position: absolute;
-            top: 30px;
-            right: 50px;
-            width: 50px;
-            height: 50px;
-            background: #000;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .close-menu:hover {
-            transform: rotate(90deg) scale(1.1);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .close-menu::before,
-        .close-menu::after {
-            content: '';
-            position: absolute;
-            width: 25px;
-            height: 3px;
-            background: #fff;
-            border-radius: 2px;
-        }
-
-        .close-menu::before {
-            transform: rotate(45deg);
-        }
-
-        .close-menu::after {
-            transform: rotate(-45deg);
+            transform: translateY(0);
         }
 
         .menu-items {
-            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
             text-align: center;
         }
 
-        .menu-items li {
-            margin: 30px 0;
+        .menu-item {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            color: var(--primary-color);
+            text-decoration: none;
+            letter-spacing: -2px;
             opacity: 0;
             transform: translateY(-30px);
-            transition: all 0.5s ease;
+            transition: all 0.4s ease;
         }
 
-        .fullscreen-menu.active .menu-items li {
+        .fullscreen-menu.active .menu-item {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .fullscreen-menu.active .menu-items li:nth-child(1) { transition-delay: 0.1s; }
-        .fullscreen-menu.active .menu-items li:nth-child(2) { transition-delay: 0.2s; }
-        .fullscreen-menu.active .menu-items li:nth-child(3) { transition-delay: 0.3s; }
-        .fullscreen-menu.active .menu-items li:nth-child(4) { transition-delay: 0.4s; }
-        .fullscreen-menu.active .menu-items li:nth-child(5) { transition-delay: 0.5s; }
+        .fullscreen-menu.active .menu-item:nth-child(1) { transition-delay: 0.1s; }
+        .fullscreen-menu.active .menu-item:nth-child(2) { transition-delay: 0.2s; }
+        .fullscreen-menu.active .menu-item:nth-child(3) { transition-delay: 0.3s; }
+        .fullscreen-menu.active .menu-item:nth-child(4) { transition-delay: 0.4s; }
+        .fullscreen-menu.active .menu-item:nth-child(5) { transition-delay: 0.5s; }
 
-        .menu-items a {
-            text-decoration: none;
-            color: #000;
-            font-size: 48px;
-            font-weight: 700;
-            letter-spacing: 3px;
+        .menu-item:hover {
+            color: #666;
+            transform: translateX(20px);
+        }
+
+        .user-info {
             position: relative;
-            padding: 10px 30px;
-            display: inline-block;
-            transition: all 0.4s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.6rem 1.2rem;
+            background: white;
+            border-radius: 60px;
+            font-size: clamp(0.88rem, 2vw, 0.98rem);
+            font-weight: 600;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            user-select: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
         }
 
-        .menu-items a::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 4px;
-            background: #000;
-            transform: translateX(-50%);
-            transition: width 0.4s ease;
+        .user-info:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
         }
 
-        .menu-items a:hover {
-            transform: scale(1.1);
-        }
-
-        .menu-items a:hover::before {
-            width: 100%;
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+            flex-shrink: 0;
         }
 
         /* Hero Section */
         .hero {
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 100px 20px;
+            background: var(--background-color);
+            padding: 8rem 2rem 4rem;
             position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            text-align: left;
         }
 
-        .hero h1 {
-            font-size: 72px;
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            text-align: left;
+        }
+
+        .hero-title {
+            font-size: clamp(4rem, 12vw, 8rem);
             font-weight: 900;
-            margin-bottom: 20px;
-            letter-spacing: 4px;
-            line-height: 1.2;
-            text-transform: uppercase;
-            color: #000;
+            line-height: 0.9;
+            margin-bottom: 3rem;
+            letter-spacing: -3px;
+            color: var(--primary-color);
+            position: relative;
+            overflow: hidden;
         }
 
-        .hero p {
-            font-size: 24px;
-            margin-bottom: 40px;
-            color: #333;
-            max-width: 600px;
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            color: var(--text-color);
+            margin-bottom: 4rem;
+            max-width: 700px;
+            line-height: 1.4;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
         }
 
         .cta-button {
-            padding: 18px 50px;
-            font-size: 18px;
-            background: #000;
-            color: #fff;
-            border: none;
-            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem 3rem;
+            background: var(--primary-color);
+            border: 3px solid var(--primary-color);
+            border-radius: 60px;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            min-height: 70px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            letter-spacing: 1px;
         }
 
         .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
         /* User Dashboard */
         .user-dashboard {
-            display: none;
             min-height: 100vh;
-            padding: 120px 20px 50px;
-            max-width: 1400px;
-            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+            display: none;
         }
 
         .user-dashboard.active {
             display: block;
         }
 
-        /* Member Card */
-        .member-card-container {
-            perspective: 1500px;
-            margin: 0 auto 80px;
-            width: 450px;
-            height: 280px;
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .member-card {
+        .dashboard-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            color: var(--primary-color);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        /* Member Card */
+        .member-card-container {
+            perspective: 2000px;
             width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+            max-width: 450px;
+            height: 280px;
+            margin: 0 auto 4rem;
             cursor: pointer;
         }
 
-        .member-card.flipped {
+        .member-card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .member-card-container.flipped .member-card {
             transform: rotateY(180deg);
         }
 
@@ -281,49 +337,37 @@
             height: 100%;
             backface-visibility: hidden;
             border-radius: 20px;
-            padding: 35px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
 
         .card-front {
-            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
-            color: #fff;
+            background: linear-gradient(135deg, #000 0%, #333 100%);
+            color: white;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        .card-back {
-            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-            color: #fff;
-            transform: rotateY(180deg);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
         .card-logo {
-            font-size: 24px;
+            font-size: 1.5rem;
             font-weight: 900;
-            letter-spacing: 2px;
-            margin-bottom: 40px;
+            letter-spacing: -1px;
         }
 
         .card-chip {
             width: 50px;
             height: 40px;
-            background: linear-gradient(135deg, #d4af37 0%, #f4e5a1 100%);
+            background: linear-gradient(135deg, #d4af37 0%, #f4e5b0 100%);
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 1rem;
         }
 
         .card-number {
-            font-size: 26px;
-            letter-spacing: 4px;
+            font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 25px;
-            font-family: 'Courier New', monospace;
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
         }
 
         .card-info {
@@ -333,578 +377,530 @@
         }
 
         .card-holder {
-            font-size: 12px;
-            color: #aaa;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 0.3rem;
         }
 
         .card-name {
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 1.1rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 2px;
         }
 
-        .card-qr {
-            margin-bottom: 20px;
+        .card-back {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
+            color: white;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        .card-qr canvas {
-            border-radius: 10px;
-            background: #fff;
-            padding: 10px;
+        .qr-code-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
         }
 
         .qr-label {
-            margin-top: 15px;
-            font-size: 14px;
-            color: #aaa;
-            letter-spacing: 1px;
+            font-size: 1rem;
+            opacity: 0.8;
+            text-align: center;
         }
 
         /* Events Section */
         .events-section {
-            margin-top: 60px;
+            margin-top: 4rem;
         }
 
         .events-title {
-            font-size: 42px;
+            font-size: clamp(2rem, 5vw, 3rem);
             font-weight: 900;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
             text-align: center;
-            margin-bottom: 50px;
-            letter-spacing: 2px;
-            color: #000;
         }
 
         .events-carousel {
             position: relative;
-            max-width: 1200px;
+            width: 100%;
+            max-width: 600px;
             margin: 0 auto;
             overflow: hidden;
-            padding: 20px 0;
         }
 
         .events-track {
             display: flex;
-            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
-            gap: 30px;
+            transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
         }
 
         .event-card {
-            min-width: 350px;
-            height: 450px;
+            min-width: 100%;
+            padding: 3rem;
             border-radius: 0;
-            padding: 0;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .event-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-        }
-
-        .event-image {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-
-        .event-content {
-            padding: 30px;
-            background: #fff;
-            height: 200px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            background: var(--theme-color);
+            color: white;
+            transition: all 0.6s ease;
         }
 
         .event-code {
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            opacity: 0.7;
+            font-size: 0.9rem;
+            font-weight: 600;
+            opacity: 0.8;
+            margin-bottom: 1rem;
         }
 
         .event-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            line-height: 1.3;
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
         }
 
-        .event-date {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 15px;
+        .event-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            opacity: 0.9;
         }
 
-        .event-btn {
-            padding: 12px 25px;
+        .event-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            background: white;
+            color: var(--theme-color);
             border: none;
             border-radius: 50px;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 14px;
-            letter-spacing: 1px;
-            align-self: flex-start;
         }
 
-        .event-btn:hover {
-            transform: translateX(5px);
+        .event-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
         }
 
-        .carousel-nav {
+        .carousel-dots {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-top: 40px;
+            gap: 1rem;
+            margin-top: 2rem;
         }
 
         .carousel-dot {
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            background: #ddd;
-            border: none;
+            background: #ccc;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .carousel-dot.active {
-            width: 40px;
-            border-radius: 6px;
-            background: #000;
+            background: var(--theme-color);
+            transform: scale(1.3);
         }
 
-        /* Modal */
-        .modal {
-            display: none;
+        /* Loading Animation */
+        .loading {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .modal.active {
+            background: var(--background-color);
             display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
         }
 
-        .modal-content {
-            background: #fff;
-            border-radius: 20px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            animation: modalSlideIn 0.4s ease;
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
 
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-header {
-            padding: 30px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background: #000;
-            color: #fff;
-            border: none;
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
             border-radius: 50%;
-            cursor: pointer;
-            font-size: 24px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s ease;
+            animation: spin 1s linear infinite;
         }
 
-        .modal-close:hover {
-            transform: rotate(90deg);
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .modal-body {
-            padding: 30px;
-        }
-
-        .modal-body h3 {
-            font-size: 28px;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        .modal-body p {
-            font-size: 16px;
-            line-height: 1.8;
-            color: #555;
-            margin-bottom: 25px;
-        }
-
-        .modal-form-btn {
-            width: 100%;
-            padding: 15px;
-            background: #000;
-            color: #fff;
-            border: none;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            letter-spacing: 1px;
-        }
-
-        .modal-form-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Responsive */
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 42px;
+            .nav {
+                padding: 0.75rem 1.25rem;
             }
 
-            .menu-items a {
-                font-size: 32px;
+            .hero {
+                padding: 7rem 1.25rem 3rem;
             }
 
             .member-card-container {
-                width: 100%;
-                max-width: 380px;
+                max-width: 100%;
+                height: 240px;
+            }
+
+            .card-face {
+                padding: 1.5rem;
             }
 
             .event-card {
-                min-width: 300px;
-            }
-
-            .events-title {
-                font-size: 32px;
+                padding: 2rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
     <!-- Header -->
-    <header>
-        <div class="logo">TECH</div>
-        <button class="menu-btn" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+    <header class="header" id="header">
+        <nav class="nav">
+            <div class="logo">
+                <div class="logo-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                THE LENG
+            </div>
+            <div class="nav-right">
+                <div id="userInfoElement" class="user-info" style="display: none;">
+                    <div class="user-avatar" id="userAvatar"></div>
+                    <span id="userName"></span>
+                </div>
+                <button class="menu-button" id="menuButton">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
     </header>
 
     <!-- Full Screen Menu -->
     <div class="fullscreen-menu" id="fullscreenMenu">
-        <button class="close-menu" onclick="toggleMenu()"></button>
-        <ul class="menu-items">
-            <li><a href="#home">ANA SAYFA</a></li>
-            <li><a href="#about">HAKKIMIZDA</a></li>
-            <li><a href="#services">HİZMETLER</a></li>
-            <li><a href="#events">ETKİNLİKLER</a></li>
-            <li><a href="#contact">İLETİŞİM</a></li>
-        </ul>
+        <div class="menu-items">
+            <a href="#home" class="menu-item">ANA SAYFA</a>
+            <a href="#about" class="menu-item">HAKKIMIZDA</a>
+            <a href="#services" class="menu-item">HİZMETLER</a>
+            <a href="#portfolio" class="menu-item">PORTFÖY</a>
+            <a href="#contact" class="menu-item">İLETİŞİM</a>
+        </div>
     </div>
 
     <!-- Hero Section -->
-    <section class="hero" id="heroSection">
-        <h1>İDDİA EDİYORUZ<br>EN İYİSİ BİZİZ</h1>
-        <p>Teknolojinin geleceğini bugünden inşa ediyoruz</p>
-        <div id="g_id_onload"
-             data-client_id="YOUR_GOOGLE_CLIENT_ID"
-             data-callback="handleCredentialResponse">
+    <section class="hero" id="home">
+        <div class="hero-content" id="heroContent">
+            <h1 class="hero-title">
+                İDDİA EDİYORUZ<br>
+                EN İYİSİYİZ.
+            </h1>
+            <p class="hero-subtitle">
+                Dijital dünyada fark yaratan, sınırları zorlayan ve her projede mükemmelliği hedefleyen 
+                teknoloji şirketi. Hayallerinizi gerçeğe dönüştürüyoruz.
+            </p>
+            <div class="hero-actions">
+                <button id="googleSignInButton" class="cta-button google-signin">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    Google ile Giriş Yap
+                </button>
+            </div>
         </div>
-        <div class="g_id_signin" data-type="standard"></div>
     </section>
 
     <!-- User Dashboard -->
-    <div class="user-dashboard" id="userDashboard">
-        <!-- Member Card -->
-        <div class="member-card-container">
-            <div class="member-card" id="memberCard" onclick="flipCard()">
-                <div class="card-face card-front">
-                    <div class="card-logo">TECH MEMBER</div>
-                    <div class="card-chip"></div>
-                    <div class="card-number" id="cardNumber">0000 0000 0000 0000</div>
-                    <div class="card-info">
+    <section class="user-dashboard" id="userDashboard">
+        <div class="dashboard-container">
+            <h2 class="dashboard-title">HOŞGELDİNİZ</h2>
+            
+            <!-- Member Card -->
+            <div class="member-card-container" id="memberCardContainer">
+                <div class="member-card">
+                    <div class="card-face card-front">
                         <div>
-                            <div class="card-holder">Üye Adı</div>
-                            <div class="card-name" id="cardName">KULLANICI ADI</div>
+                            <div class="card-logo">THE LENG</div>
+                            <div class="card-chip"></div>
+                        </div>
+                        <div>
+                            <div class="card-number" id="cardNumber">**** **** **** ****</div>
+                            <div class="card-info">
+                                <div>
+                                    <div class="card-holder">ÜYE ADI</div>
+                                    <div class="card-name" id="cardName">-</div>
+                                </div>
+                                <div>
+                                    <div class="card-holder">ÜYE NO</div>
+                                    <div class="card-name" id="cardMemberNo">-</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <div class="card-face card-back">
+                        <div class="qr-code-container">
+                            <canvas id="qrCode"></canvas>
+                        </div>
+                        <div class="qr-label">ÜYE NUMARASI QR KODU</div>
+                    </div>
                 </div>
-                <div class="card-face card-back">
-                    <div class="card-qr" id="qrCode"></div>
-                    <div class="qr-label">ÜYE NUMARASI</div>
+            </div>
+
+            <!-- Events Section -->
+            <div class="events-section">
+                <h3 class="events-title">ETKİNLİKLER</h3>
+                <div class="events-carousel">
+                    <div class="events-track" id="eventsTrack"></div>
                 </div>
+                <div class="carousel-dots" id="carouselDots"></div>
             </div>
         </div>
-
-        <!-- Events Section -->
-        <div class="events-section">
-            <h2 class="events-title">ETKİNLİKLER</h2>
-            <div class="events-carousel">
-                <div class="events-track" id="eventsTrack"></div>
-            </div>
-            <div class="carousel-nav" id="carouselNav"></div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal" id="eventModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">×</button>
-            <div class="modal-header">
-                <h3 id="modalTitle"></h3>
-                <p id="modalCode" style="font-size: 14px; color: #666; margin-top: 5px;"></p>
-            </div>
-            <div class="modal-body">
-                <p id="modalDescription"></p>
-                <button class="modal-form-btn" onclick="redirectToForm()">FORMA GİT</button>
-            </div>
-        </div>
-    </div>
+    </section>
 
     <script>
-        // Events Data with Colors
+        // Loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Menu Toggle
+        const menuButton = document.getElementById('menuButton');
+        const fullscreenMenu = document.getElementById('fullscreenMenu');
+
+        menuButton.addEventListener('click', () => {
+            fullscreenMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking on menu items
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', () => {
+                fullscreenMenu.classList.remove('active');
+            });
+        });
+
+        // Google Sign-In
+        let currentUser = null;
+        const googleSignInButton = document.getElementById('googleSignInButton');
+        const userInfoElement = document.getElementById('userInfoElement');
+        const userName = document.getElementById('userName');
+        const userAvatar = document.getElementById('userAvatar');
+        const heroSection = document.getElementById('home');
+        const userDashboard = document.getElementById('userDashboard');
+
+        // User configurations with member codes
+        const userConfigurations = {
+            "m.yusufertek@gmail.com": {
+                name: "Yusuf Ertek",
+                memberCode: "TL2025001"
+            },
+            "test@example.com": {
+                name: "Test User",
+                memberCode: "TL2025002"
+            }
+        };
+
+        // Events data with codes and colors
         const events = [
             {
-                id: 1,
-                code: 'TECH-2024-001',
-                title: 'Yapay Zeka ve Gelecek',
-                date: '15 Ocak 2024',
-                description: 'Yapay zeka teknolojilerinin geleceği ve iş dünyasına etkileri üzerine kapsamlı bir seminer.',
-                image: '/placeholder.svg?height=250&width=350',
-                color: '#FF6B6B',
-                formUrl: 'https://forms.google.com/ai-event'
+                code: "EVT001",
+                title: "Yapay Zeka Zirvesi 2025",
+                description: "Yapay zeka teknolojilerinin geleceğini şekillendirecek uzmanlarla buluşun. Makine öğrenimi, derin öğrenme ve AI uygulamaları üzerine kapsamlı workshop'lar.",
+                color: "#e74c3c",
+                formUrl: "https://example.com/form/ai-summit"
             },
             {
-                id: 2,
-                code: 'TECH-2024-002',
-                title: 'Blockchain Devrimi',
-                date: '22 Ocak 2024',
-                description: 'Blockchain teknolojisi ve kripto para dünyasının derinliklerine yolculuk.',
-                image: '/placeholder.svg?height=250&width=350',
-                color: '#4ECDC4',
-                formUrl: 'https://forms.google.com/blockchain-event'
+                code: "EVT002",
+                title: "Blockchain & Web3 Konferansı",
+                description: "Blockchain teknolojisi ve Web3 ekosisteminin son trendlerini keşfedin. NFT, DeFi ve metaverse konularında derinlemesine bilgi edinin.",
+                color: "#3498db",
+                formUrl: "https://example.com/form/blockchain"
             },
             {
-                id: 3,
-                code: 'TECH-2024-003',
-                title: 'Siber Güvenlik Zirvesi',
-                date: '5 Şubat 2024',
-                description: 'Dijital dünyada güvenlik stratejileri ve en son tehdit analizleri.',
-                image: '/placeholder.svg?height=250&width=350',
-                color: '#95E1D3',
-                formUrl: 'https://forms.google.com/security-event'
+                code: "EVT003",
+                title: "Siber Güvenlik Eğitimi",
+                description: "Dijital dünyanın en kritik konusu olan siber güvenlik hakkında uzman eğitmenlerden öğrenin. Penetrasyon testleri ve güvenlik protokolleri.",
+                color: "#2ecc71",
+                formUrl: "https://example.com/form/cybersecurity"
             },
             {
-                id: 4,
-                code: 'TECH-2024-004',
-                title: 'Cloud Computing Workshop',
-                date: '12 Şubat 2024',
-                description: 'Bulut teknolojileri ve modern uygulama geliştirme pratikleri.',
-                image: '/placeholder.svg?height=250&width=350',
-                color: '#F38181',
-                formUrl: 'https://forms.google.com/cloud-event'
-            },
-            {
-                id: 5,
-                code: 'TECH-2024-005',
-                title: 'IoT ve Akıllı Şehirler',
-                date: '20 Şubat 2024',
-                description: 'Nesnelerin interneti ve akıllı şehir uygulamaları üzerine interaktif workshop.',
-                image: '/placeholder.svg?height=250&width=350',
-                color: '#AA96DA',
-                formUrl: 'https://forms.google.com/iot-event'
+                code: "EVT004",
+                title: "Cloud Computing Workshop",
+                description: "Bulut bilişim teknolojileri ve modern DevOps pratikleri üzerine uygulamalı eğitim. AWS, Azure ve Google Cloud platformları.",
+                color: "#f39c12",
+                formUrl: "https://example.com/form/cloud"
             }
         ];
 
-        let currentEventIndex = 0;
-        let currentModalEvent = null;
-
-        // Menu Toggle
-        function toggleMenu() {
-            const menu = document.getElementById('fullscreenMenu');
-            menu.classList.toggle('active');
+        function initializeGoogleSignIn() {
+            if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+                google.accounts.id.initialize({
+                    client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
+                    callback: handleCredentialResponse,
+                    auto_select: false,
+                    cancel_on_tap_outside: true
+                });
+            } else {
+                setTimeout(initializeGoogleSignIn, 500);
+            }
         }
 
-        // Google Sign In
+        window.addEventListener('load', initializeGoogleSignIn);
+
         function handleCredentialResponse(response) {
-            const userData = parseJwt(response.credential);
-            showUserDashboard(userData);
+            try {
+                const payload = JSON.parse(atob(response.credential.split('.')[1]));
+                
+                currentUser = {
+                    name: payload.name,
+                    email: payload.email,
+                    picture: payload.picture,
+                    given_name: payload.given_name
+                };
+                
+                updateUIForSignedInUser();
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Giriş yapılırken bir hata oluştu.');
+            }
         }
 
-        function parseJwt(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            return JSON.parse(jsonPayload);
+        function updateUIForSignedInUser() {
+            googleSignInButton.style.display = 'none';
+            userInfoElement.style.display = 'flex';
+            
+            userName.textContent = currentUser.given_name || currentUser.name;
+            
+            if (currentUser.picture) {
+                userAvatar.innerHTML = `<img src="${currentUser.picture}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+            } else {
+                userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
+            }
+
+            // Show dashboard
+            heroSection.style.display = 'none';
+            userDashboard.classList.add('active');
+
+            // Setup user card
+            const userConfig = userConfigurations[currentUser.email] || {
+                name: currentUser.name,
+                memberCode: "TL" + Math.floor(Math.random() * 1000000)
+            };
+
+            setupMemberCard(userConfig);
+            setupEventsCarousel();
         }
 
-        function showUserDashboard(userData) {
-            document.getElementById('heroSection').style.display = 'none';
-            document.getElementById('userDashboard').classList.add('active');
+        function setupMemberCard(userConfig) {
+            const cardName = document.getElementById('cardName');
+            const cardMemberNo = document.getElementById('cardMemberNo');
+            const cardNumber = document.getElementById('cardNumber');
+            const memberCardContainer = document.getElementById('memberCardContainer');
+
+            cardName.textContent = userConfig.name.toUpperCase();
+            cardMemberNo.textContent = userConfig.memberCode;
             
-            // Generate member number
-            const memberNumber = generateMemberNumber();
-            
-            // Update card
-            document.getElementById('cardNumber').textContent = formatMemberNumber(memberNumber);
-            document.getElementById('cardName').textContent = userData.name.toUpperCase();
-            
+            // Format member code as card number
+            const formatted = userConfig.memberCode.match(/.{1,4}/g).join(' ');
+            cardNumber.textContent = formatted;
+
             // Generate QR Code
-            generateQRCode(memberNumber);
-            
-            // Load events
-            loadEvents();
-        }
+            const qrCanvas = document.getElementById('qrCode');
+            QRCode.toCanvas(qrCanvas, userConfig.memberCode, {
+                width: 200,
+                margin: 1,
+                color: {
+                    dark: '#000000',
+                    light: '#ffffff'
+                }
+            });
 
-        function generateMemberNumber() {
-            return Math.floor(1000000000000000 + Math.random() * 9000000000000000).toString();
-        }
-
-        function formatMemberNumber(number) {
-            return number.match(/.{1,4}/g).join(' ');
-        }
-
-        function generateQRCode(memberNumber) {
-            const qrContainer = document.getElementById('qrCode');
-            qrContainer.innerHTML = '';
-            QRCode.toCanvas(memberNumber, { width: 180, margin: 1 }, function (error, canvas) {
-                if (error) console.error(error);
-                qrContainer.appendChild(canvas);
+            // Card flip functionality
+            memberCardContainer.addEventListener('click', () => {
+                memberCardContainer.classList.toggle('flipped');
             });
         }
 
-        // Card Flip
-        function flipCard() {
-            document.getElementById('memberCard').classList.toggle('flipped');
-        }
+        function setupEventsCarousel() {
+            const eventsTrack = document.getElementById('eventsTrack');
+            const carouselDots = document.getElementById('carouselDots');
+            let currentIndex = 0;
 
-        // Events Carousel
-        function loadEvents() {
-            const track = document.getElementById('eventsTrack');
-            const nav = document.getElementById('carouselNav');
-            
-            track.innerHTML = '';
-            nav.innerHTML = '';
-            
+            // Create event cards
             events.forEach((event, index) => {
-                // Create event card
                 const card = document.createElement('div');
                 card.className = 'event-card';
-                card.style.borderTop = `5px solid ${event.color}`;
+                card.style.background = event.color;
                 card.innerHTML = `
-                    <img src="${event.image}" alt="${event.title}" class="event-image">
-                    <div class="event-content">
-                        <div>
-                            <div class="event-code" style="color: ${event.color}">${event.code}</div>
-                            <div class="event-title">${event.title}</div>
-                            <div class="event-date">${event.date}</div>
-                        </div>
-                        <button class="event-btn" style="background: ${event.color}; color: #fff;">
-                            DETAYLAR
-                        </button>
-                    </div>
+                    <div class="event-code">${event.code}</div>
+                    <h4 class="event-title">${event.title}</h4>
+                    <p class="event-description">${event.description}</p>
+                    <button class="event-button" onclick="window.open('${event.formUrl}', '_blank')">
+                        FORMA GİT
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="m9 18 6-6-6-6"/>
+                        </svg>
+                    </button>
                 `;
-                card.onclick = () => openModal(event);
-                track.appendChild(card);
-                
-                // Create nav dot
-                const dot = document.createElement('button');
+                eventsTrack.appendChild(card);
+
+                // Create dot
+                const dot = document.createElement('div');
                 dot.className = 'carousel-dot';
                 if (index === 0) dot.classList.add('active');
-                dot.onclick = () => goToSlide(index);
-                nav.appendChild(dot);
+                dot.addEventListener('click', () => goToSlide(index));
+                carouselDots.appendChild(dot);
             });
-            
-            // Auto slide
+
+            function goToSlide(index) {
+                currentIndex = index;
+                eventsTrack.style.transform = `translateX(-${index * 100}%)`;
+                
+                // Update dots
+                document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+
+                // Update theme color
+                document.documentElement.style.setProperty('--theme-color', events[index].color);
+                document.body.style.backgroundColor = events[index].color + '10';
+            }
+
+            // Auto-advance carousel
             setInterval(() => {
-                currentEventIndex = (currentEventIndex + 1) % events.length;
-                goToSlide(currentEventIndex);
+                currentIndex = (currentIndex + 1) % events.length;
+                goToSlide(currentIndex);
             }, 5000);
+
+            // Initialize theme
+            goToSlide(0);
         }
 
-        function goToSlide(index) {
-            currentEventIndex = index;
-            const track = document.getElementById('eventsTrack');
-            const offset = -index * (350 + 30); // card width + gap
-            track.style.transform = `translateX(${offset}px)`;
-            
-            // Update dots
-            document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-                dot.classList.toggle('active', i === index);
-            });
-            
-            // Change theme color
-            changeThemeColor(events[index].color);
-        }
-
-        function changeThemeColor(color) {
-            document.documentElement.style.setProperty('--theme-color', color);
-            
-            // Create lighter version for background
-            const lightColor = color + '15'; // Add alpha for transparency
-            document.documentElement.style.setProperty('--theme-light', lightColor);
-        }
-
-        // Modal
-        function openModal(event) {
-            currentModalEvent = event;
-            document.getElementById('modalTitle').textContent = event.title;
-            document.getElementById('modalCode').textContent = event.code;
-            document.getElementById('modalDescription').textContent = event.description;
-            document.getElementById('eventModal').classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('eventModal').classList.remove('active');
-        }
-
-        function redirectToForm() {
-            if (currentModalEvent) {
-                window.open(currentModalEvent.formUrl, '_blank');
-            }
-        }
-
-        // Close modal on outside click
-        document.getElementById('eventModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
+        googleSignInButton.addEventListener('click', () => {
+            google.accounts.id.prompt();
         });
     </script>
 </body>
