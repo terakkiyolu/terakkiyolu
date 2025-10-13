@@ -975,7 +975,11 @@
             };
 
             setupMemberCard(userConfig);
-            setupEventsCarousel('eventsTrack', 'carouselDots');
+            
+            setTimeout(() => {
+                console.log('[v0] Setting up events carousel after delay');
+                setupEventsCarousel();
+            }, 100);
         }
 
         function setupMemberCard(userConfig) {
@@ -1010,15 +1014,23 @@
             });
         }
 
-        function setupEventsCarousel(trackId, dotsId) {
-            console.log('[v0] Setting up events carousel:', trackId, dotsId);
-            const eventsTrack = document.getElementById(trackId);
-            const carouselDots = document.getElementById(dotsId);
+        function setupEventsCarousel() {
+            console.log('[v0] Starting events carousel setup');
             
-            if (!eventsTrack || !carouselDots) {
-                console.error('[v0] Events track or dots not found:', trackId, dotsId);
+            const eventsTrack = document.getElementById('eventsTrack');
+            const carouselDots = document.getElementById('carouselDots');
+            
+            if (!eventsTrack) {
+                console.error('[v0] Events track element not found!');
                 return;
             }
+            
+            if (!carouselDots) {
+                console.error('[v0] Carousel dots element not found!');
+                return;
+            }
+
+            console.log('[v0] Found events track and dots elements');
 
             // Clear existing content
             eventsTrack.innerHTML = '';
@@ -1027,7 +1039,10 @@
             let currentIndex = 0;
 
             // Create event cards
+            console.log('[v0] Creating', events.length, 'event cards');
             events.forEach((event, index) => {
+                console.log('[v0] Creating card for:', event.title);
+                
                 const card = document.createElement('div');
                 card.className = 'event-card';
                 card.style.background = event.color;
@@ -1052,9 +1067,12 @@
                 carouselDots.appendChild(dot);
             });
 
-            console.log('[v0] Created', events.length, 'event cards');
+            console.log('[v0] Event cards created successfully');
+            console.log('[v0] Events track children count:', eventsTrack.children.length);
+            console.log('[v0] Carousel dots children count:', carouselDots.children.length);
 
             function goToSlide(index) {
+                console.log('[v0] Going to slide:', index);
                 currentIndex = index;
                 eventsTrack.style.transform = `translateX(-${index * 100}%)`;
                 
@@ -1078,7 +1096,7 @@
             // Initialize theme
             goToSlide(0);
             
-            console.log('[v0] Events carousel initialized successfully');
+            console.log('[v0] Events carousel setup completed successfully');
         }
 
         googleSignInButton.addEventListener('click', () => {
