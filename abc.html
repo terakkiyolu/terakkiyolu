@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THE LENG - İDDİA EDİYORUZ EN İYİSİYİZ</title>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 
     <style>
@@ -31,7 +30,7 @@
             overflow-x: hidden;
             background-color: var(--background-color);
             scroll-behavior: smooth;
-            transition: background-color 0.6s ease;
+            transition: background-color 0.8s ease;
         }
 
         /* Header Styles */
@@ -507,6 +506,73 @@
             transform: scale(1.3);
         }
 
+        /* Added demo login modal */
+        .demo-login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+
+        .demo-login-modal.active {
+            display: flex;
+        }
+
+        .demo-login-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .demo-login-title {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .demo-login-subtitle {
+            font-size: 1rem;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+        }
+
+        .demo-user-option {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: #f5f5f5;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .demo-user-option:hover {
+            background: #e0e0e0;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .demo-user-name {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.3rem;
+        }
+
+        .demo-user-email {
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
         /* Loading Animation */
         .loading {
             position: fixed;
@@ -570,6 +636,22 @@
     <!-- Loading Screen -->
     <div class="loading" id="loading">
         <div class="spinner"></div>
+    </div>
+
+    <!-- Added demo login modal -->
+    <div class="demo-login-modal" id="demoLoginModal">
+        <div class="demo-login-content">
+            <h2 class="demo-login-title">DEMO GİRİŞ</h2>
+            <p class="demo-login-subtitle">Bir kullanıcı seçin</p>
+            <div class="demo-user-option" onclick="loginAsUser('yusuf')">
+                <div class="demo-user-name">Yusuf Ertek</div>
+                <div class="demo-user-email">m.yusufertek@gmail.com</div>
+            </div>
+            <div class="demo-user-option" onclick="loginAsUser('test')">
+                <div class="demo-user-name">Test Kullanıcı</div>
+                <div class="demo-user-email">test@example.com</div>
+            </div>
+        </div>
     </div>
 
     <!-- Header -->
@@ -702,7 +784,6 @@
             });
         });
 
-        // Google Sign-In
         let currentUser = null;
         const googleSignInButton = document.getElementById('googleSignInButton');
         const userInfoElement = document.getElementById('userInfoElement');
@@ -710,15 +791,18 @@
         const userAvatar = document.getElementById('userAvatar');
         const heroSection = document.getElementById('home');
         const userDashboard = document.getElementById('userDashboard');
+        const demoLoginModal = document.getElementById('demoLoginModal');
 
         // User configurations with member codes
         const userConfigurations = {
-            "m.yusufertek@gmail.com": {
+            "yusuf": {
                 name: "Yusuf Ertek",
+                email: "m.yusufertek@gmail.com",
                 memberCode: "TL2025001"
             },
-            "test@example.com": {
-                name: "Test User",
+            "test": {
+                name: "Test Kullanıcı",
+                email: "test@example.com",
                 memberCode: "TL2025002"
             }
         };
@@ -752,65 +836,45 @@
                 description: "Bulut bilişim teknolojileri ve modern DevOps pratikleri üzerine uygulamalı eğitim. AWS, Azure ve Google Cloud platformları.",
                 color: "#f39c12",
                 formUrl: "https://example.com/form/cloud"
+            },
+            {
+                code: "EVT005",
+                title: "Mobile App Development",
+                description: "React Native ve Flutter ile cross-platform mobil uygulama geliştirme. Modern UI/UX tasarım prensipleri ve performans optimizasyonu.",
+                color: "#9b59b6",
+                formUrl: "https://example.com/form/mobile"
             }
         ];
 
-        function initializeGoogleSignIn() {
-            if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-                google.accounts.id.initialize({
-                    client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
-                    callback: handleCredentialResponse,
-                    auto_select: false,
-                    cancel_on_tap_outside: true
-                });
-            } else {
-                setTimeout(initializeGoogleSignIn, 500);
-            }
-        }
+        googleSignInButton.addEventListener('click', () => {
+            demoLoginModal.classList.add('active');
+        });
 
-        window.addEventListener('load', initializeGoogleSignIn);
-
-        function handleCredentialResponse(response) {
-            try {
-                const payload = JSON.parse(atob(response.credential.split('.')[1]));
-                
-                currentUser = {
-                    name: payload.name,
-                    email: payload.email,
-                    picture: payload.picture,
-                    given_name: payload.given_name
-                };
-                
-                updateUIForSignedInUser();
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Giriş yapılırken bir hata oluştu.');
-            }
+        function loginAsUser(userType) {
+            const userConfig = userConfigurations[userType];
+            
+            currentUser = {
+                name: userConfig.name,
+                email: userConfig.email,
+                memberCode: userConfig.memberCode
+            };
+            
+            demoLoginModal.classList.remove('active');
+            updateUIForSignedInUser();
         }
 
         function updateUIForSignedInUser() {
             googleSignInButton.style.display = 'none';
             userInfoElement.style.display = 'flex';
             
-            userName.textContent = currentUser.given_name || currentUser.name;
-            
-            if (currentUser.picture) {
-                userAvatar.innerHTML = `<img src="${currentUser.picture}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
-            } else {
-                userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
-            }
+            userName.textContent = currentUser.name.split(' ')[0];
+            userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
 
             // Show dashboard
             heroSection.style.display = 'none';
             userDashboard.classList.add('active');
 
-            // Setup user card
-            const userConfig = userConfigurations[currentUser.email] || {
-                name: currentUser.name,
-                memberCode: "TL" + Math.floor(Math.random() * 1000000)
-            };
-
-            setupMemberCard(userConfig);
+            setupMemberCard(currentUser);
             setupEventsCarousel();
         }
 
@@ -882,11 +946,14 @@
                 // Update dots
                 document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
                     dot.classList.toggle('active', i === index);
+                    if (i === index) {
+                        dot.style.background = events[index].color;
+                    }
                 });
 
                 // Update theme color
                 document.documentElement.style.setProperty('--theme-color', events[index].color);
-                document.body.style.backgroundColor = events[index].color + '10';
+                document.body.style.backgroundColor = events[index].color + '15';
             }
 
             // Auto-advance carousel
@@ -898,10 +965,6 @@
             // Initialize theme
             goToSlide(0);
         }
-
-        googleSignInButton.addEventListener('click', () => {
-            google.accounts.id.prompt();
-        });
     </script>
 </body>
 </html>
