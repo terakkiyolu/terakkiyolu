@@ -848,7 +848,6 @@
             });
         });
 
-        // Google Sign-In
         let currentUser = null;
         const googleSignInButton = document.getElementById('googleSignInButton');
         const userInfoElement = document.getElementById('userInfoElement');
@@ -869,7 +868,6 @@
             }
         };
 
-        // Events data
         const events = [
             {
                 code: "EVT001",
@@ -909,22 +907,14 @@
         ];
 
         function initializeGoogleSignIn() {
-            console.log('[v0] Initializing Google Sign-In...');
             if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-                console.log('[v0] Google Sign-In API loaded successfully');
-                try {
-                    google.accounts.id.initialize({
-                        client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
-                        callback: handleCredentialResponse,
-                        auto_select: false,
-                        cancel_on_tap_outside: true
-                    });
-                    console.log('[v0] Google Sign-In initialized');
-                } catch (error) {
-                    console.error('[v0] Error initializing Google Sign-In:', error);
-                }
+                google.accounts.id.initialize({
+                    client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
+                    callback: handleCredentialResponse,
+                    auto_select: false,
+                    cancel_on_tap_outside: true
+                });
             } else {
-                console.log('[v0] Google Sign-In API not ready, retrying...');
                 setTimeout(initializeGoogleSignIn, 500);
             }
         }
@@ -932,10 +922,8 @@
         window.addEventListener('load', initializeGoogleSignIn);
 
         function handleCredentialResponse(response) {
-            console.log('[v0] Credential response received');
             try {
                 const payload = JSON.parse(atob(response.credential.split('.')[1]));
-                console.log('[v0] User payload:', payload);
                 
                 currentUser = {
                     name: payload.name,
@@ -946,13 +934,12 @@
                 
                 updateUIForSignedInUser();
             } catch (error) {
-                console.error('[v0] Error processing credential:', error);
+                console.error('Giriş hatası:', error);
                 alert('Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin.');
             }
         }
 
         function updateUIForSignedInUser() {
-            console.log('[v0] Updating UI for signed-in user');
             googleSignInButton.style.display = 'none';
             userInfoElement.style.display = 'flex';
             
@@ -964,22 +951,26 @@
                 userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
             }
 
-            // Show dashboard
             heroSection.style.display = 'none';
             userDashboard.classList.add('active');
 
-            // Setup user card
             const userConfig = userConfigurations[currentUser.email] || {
                 name: currentUser.name,
                 memberCode: "TL" + Math.floor(Math.random() * 1000000)
             };
 
-            setupMemberCard(userConfig);
-            
-            setTimeout(() => {
-                console.log('[v0] Setting up events carousel after delay');
+            waitForQRCode(() => {
+                setupMemberCard(userConfig);
                 setupEventsCarousel();
-            }, 100);
+            });
+        }
+
+        function waitForQRCode(callback) {
+            if (typeof QRCode !== 'undefined') {
+                callback();
+            } else {
+                setTimeout(() => waitForQRCode(callback), 100);
+            }
         }
 
         function setupMemberCard(userConfig) {
@@ -992,57 +983,44 @@
             cardName.textContent = userConfig.name.toUpperCase();
             cardMemberNo.textContent = userConfig.memberCode;
             
-            // Format member code as card number
             const formatted = userConfig.memberCode.match(/.{1,4}/g).join(' ');
             cardNumber.textContent = formatted;
             qrMemberCode.textContent = formatted;
 
-            // Generate QR Code
-            const qrCanvas = document.getElementById('qrCode');
-            QRCode.toCanvas(qrCanvas, userConfig.memberCode, {
-                width: 160,
-                margin: 1,
-                color: {
-                    dark: '#000000',
-                    light: '#ffffff'
-                }
-            });
+            try {
+                const qrCanvas = document.getElementById('qrCode');
+                QRCode.toCanvas(qrCanvas, userConfig.memberCode, {
+                    width: 160,
+                    margin: 1,
+                    color: {
+                        dark: '#000000',
+                        light: '#ffffff'
+                    }
+                });
+            } catch (error) {
+                console.error('QR kod oluşturma hatası:', error);
+            }
 
-            // Card flip functionality
             memberCardContainer.addEventListener('click', () => {
                 memberCardContainer.classList.toggle('flipped');
             });
         }
 
         function setupEventsCarousel() {
-            console.log('[v0] Starting events carousel setup');
-            
             const eventsTrack = document.getElementById('eventsTrack');
             const carouselDots = document.getElementById('carouselDots');
             
-            if (!eventsTrack) {
-                console.error('[v0] Events track element not found!');
-                return;
-            }
-            
-            if (!carouselDots) {
-                console.error('[v0] Carousel dots element not found!');
+            if (!eventsTrack || !carouselDots) {
+                console.error('Etkinlik elementleri bulunamadı');
                 return;
             }
 
-            console.log('[v0] Found events track and dots elements');
-
-            // Clear existing content
             eventsTrack.innerHTML = '';
             carouselDots.innerHTML = '';
             
             let currentIndex = 0;
 
-            // Create event cards
-            console.log('[v0] Creating', events.length, 'event cards');
             events.forEach((event, index) => {
-                console.log('[v0] Creating card for:', event.title);
-                
                 const card = document.createElement('div');
                 card.className = 'event-card';
                 card.style.background = event.color;
@@ -1059,7 +1037,6 @@
                 `;
                 eventsTrack.appendChild(card);
 
-                // Create dot
                 const dot = document.createElement('div');
                 dot.className = 'carousel-dot';
                 if (index === 0) dot.classList.add('active');
@@ -1067,49 +1044,32 @@
                 carouselDots.appendChild(dot);
             });
 
-            console.log('[v0] Event cards created successfully');
-            console.log('[v0] Events track children count:', eventsTrack.children.length);
-            console.log('[v0] Carousel dots children count:', carouselDots.children.length);
-
             function goToSlide(index) {
-                console.log('[v0] Going to slide:', index);
                 currentIndex = index;
                 eventsTrack.style.transform = `translateX(-${index * 100}%)`;
                 
-                // Update dots
                 const dots = carouselDots.querySelectorAll('.carousel-dot');
                 dots.forEach((dot, i) => {
                     dot.classList.toggle('active', i === index);
                 });
 
-                // Update theme color
                 document.documentElement.style.setProperty('--theme-color', events[index].color);
                 document.body.style.backgroundColor = events[index].color + '10';
             }
 
-            // Auto-advance carousel
-            const intervalId = setInterval(() => {
+            setInterval(() => {
                 currentIndex = (currentIndex + 1) % events.length;
                 goToSlide(currentIndex);
             }, 5000);
 
-            // Initialize theme
             goToSlide(0);
-            
-            console.log('[v0] Events carousel setup completed successfully');
         }
 
         googleSignInButton.addEventListener('click', () => {
-            console.log('[v0] Google Sign-In button clicked');
             try {
-                google.accounts.id.prompt((notification) => {
-                    console.log('[v0] Prompt notification:', notification);
-                    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                        console.log('[v0] Prompt not displayed, reason:', notification.getNotDisplayedReason());
-                    }
-                });
+                google.accounts.id.prompt();
             } catch (error) {
-                console.error('[v0] Error showing Google Sign-In prompt:', error);
+                console.error('Google giriş hatası:', error);
                 alert('Google ile giriş yapılamadı. Lütfen sayfayı yenileyin ve tekrar deneyin.');
             }
         });
