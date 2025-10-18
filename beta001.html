@@ -336,6 +336,114 @@
     }
     /* </CHANGE> */
 
+    /* Landing Page Styles */
+    .landing-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    /* Adding top navigation bar styles for main app */
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .top-nav-logo {
+      font-size: 1.5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .top-nav-user {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .top-nav-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #667eea;
+      object-fit: cover;
+    }
+
+    .top-nav-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .top-nav-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #2d3748;
+    }
+
+    .top-nav-member {
+      font-size: 0.75rem;
+      color: #718096;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .top-nav-logout {
+      padding: 0.6rem 1.5rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .top-nav-logout:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    @media (max-width: 768px) {
+      .top-nav {
+        padding: 0 1rem;
+      }
+
+      .top-nav-logo {
+        font-size: 1.2rem;
+      }
+
+      .top-nav-info {
+        display: none;
+      }
+
+      .top-nav-logout {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+      }
+    }
+
     .simplified-login-screen {
       position: fixed;
       top: 0;
@@ -1591,6 +1699,19 @@
   </div>
   <!-- </CHANGE> -->
 
+  <!-- Adding top navigation bar for main app -->
+  <div class="top-nav" id="topNav" style="display: none;">
+    <div class="top-nav-logo">THE LENG</div>
+    <div class="top-nav-user">
+      <img class="top-nav-avatar" id="topNavAvatar" src="/placeholder.svg" alt="User">
+      <div class="top-nav-info">
+        <div class="top-nav-name" id="topNavName">-</div>
+        <div class="top-nav-member" id="topNavMember">-</div>
+      </div>
+      <button class="top-nav-logout" id="topNavLogout">Çıkış</button>
+    </div>
+  </div>
+
   <div class="header-container" id="headerContainer">
     <nav class="navbar">
       <div class="user-info" id="userInfo" style="display: none;">
@@ -1838,7 +1959,6 @@
     }
 
     setupLandingEventsCarousel();
-    // </CHANGE>
 
     // Fetch users data
     fetch('users.json')
@@ -1867,7 +1987,6 @@
         }
       });
     }
-    // </CHANGE>
 
     const cardFlipContainer = document.getElementById('cardFlipContainer');
     if (cardFlipContainer) {
@@ -2125,32 +2244,32 @@
           ...usersDatabase[userEmail]
         };
         
-        document.getElementById('userName').textContent = currentUser.name;
-        document.getElementById('userAvatar').src = currentUser.picture;
-        document.getElementById('userInfo').style.display = 'flex';
+        // Show main app and hide landing page
+        document.getElementById('landingPage').style.display = 'none';
+        document.getElementById('bottomNav').style.display = 'flex';
+        document.getElementById('mainContent').style.display = 'block';
+        document.getElementById('topNav').style.display = 'flex';
         
-        document.getElementById('memberNumber').textContent = currentUser.memberNumber;
-        document.getElementById('memberName').textContent = currentUser.name;
-        document.getElementById('memberDepartment').textContent = currentUser.department;
-        
-        generateQRCode(currentUser.memberNumber);
-        
-        document.getElementById('landingPage').classList.add('hidden');
-        document.getElementById('headerContainer').classList.add('visible');
-        document.getElementById('bottomNav').classList.add('visible');
-        document.getElementById('mainContent').classList.add('visible');
-        // </CHANGE>
-
-        if (currentUser.isAdmin) {
-          document.getElementById('communitiesView').style.display = 'none';
-          document.getElementById('adminMembersView').style.display = 'block';
-          document.getElementById('eventsView').style.display = 'none';
-          document.getElementById('adminScannerView').style.display = 'block';
+        if (currentUser) {
+          document.getElementById('memberName').textContent = currentUser.name;
+          document.getElementById('memberNumber').textContent = currentUser.memberNumber;
+          document.getElementById('memberDepartment').textContent = currentUser.department;
+          document.getElementById('qrMemberCode').textContent = currentUser.memberNumber;
           
-          displayRegisteredMembers();
-        } else {
+          document.getElementById('topNavAvatar').src = currentUser.avatar;
+          document.getElementById('topNavName').textContent = currentUser.name;
+          document.getElementById('topNavMember').textContent = currentUser.memberNumber;
+          
+          generateQRCode(currentUser.memberNumber);
           displayUserCommunities();
+          
+          if (currentUser.isAdmin) {
+            document.getElementById('adminMembersView').style.display = 'block';
+            document.getElementById('adminScannerView').style.display = 'block';
+            displayRegisteredMembers();
+          }
         }
+
       } else {
         alert('Bu e-posta adresi sistemde kayıtlı değil. Lütfen yöneticinizle iletişime geçin.');
       }
@@ -2181,32 +2300,23 @@
       }
     }
 
-    window.onload = initializeGoogleSignIn;
-
-    const switcher = document.getElementById('pageSwitcher');
-    const root = document.documentElement;
-
-    const trackPrevious = (el) => {
-      const radios = el.querySelectorAll('input[type="radio"]');
-      let previousValue = null;
-
-      const initiallyChecked = el.querySelector('input[type="radio"]:checked');
-      if (initiallyChecked) {
-        previousValue = initiallyChecked.getAttribute("c-option");
-        el.setAttribute('c-previous', previousValue);
+    document.getElementById('topNavLogout').addEventListener('click', () => {
+      if (confirm('Çıkış yapmak istediğinize emin misiniz?')) {
+        currentUser = null;
+        document.getElementById('landingPage').style.display = 'flex';
+        document.getElementById('bottomNav').style.display = 'none';
+        document.getElementById('mainContent').style.display = 'none';
+        document.getElementById('topNav').style.display = 'none';
+        
+        document.getElementById('adminMembersView').style.display = 'none';
+        document.getElementById('adminScannerView').style.display = 'none';
+        
+        if (html5QrCode) {
+          html5QrCode.stop().catch(err => console.log(err));
+          html5QrCode = null;
+        }
       }
-
-      radios.forEach(radio => {
-        radio.addEventListener('change', () => {
-          if (radio.checked) {
-            el.setAttribute('c-previous', previousValue ?? '');
-            previousValue = radio.getAttribute("c-option");
-          }
-        });
-      });
-    }
-
-    trackPrevious(switcher);
+    });
 
     const pageRadios = document.querySelectorAll('input[name="page"]');
     const pages = document.querySelectorAll('.page-content');
@@ -2252,6 +2362,33 @@
         }
       });
     });
+
+    window.onload = initializeGoogleSignIn;
+
+    const switcher = document.getElementById('pageSwitcher');
+    const root = document.documentElement;
+
+    const trackPrevious = (el) => {
+      const radios = el.querySelectorAll('input[type="radio"]');
+      let previousValue = null;
+
+      const initiallyChecked = el.querySelector('input[type="radio"]:checked');
+      if (initiallyChecked) {
+        previousValue = initiallyChecked.getAttribute("c-option");
+        el.setAttribute('c-previous', previousValue);
+      }
+
+      radios.forEach(radio => {
+        radio.addEventListener('change', () => {
+          if (radio.checked) {
+            el.setAttribute('c-previous', previousValue ?? '');
+            previousValue = radio.getAttribute("c-option");
+          }
+        });
+      });
+    }
+
+    trackPrevious(switcher);
   </script>
 </body>
 </html>
