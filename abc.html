@@ -224,7 +224,7 @@
             object-fit: cover;
         }
 
-        /* <CHANGE> Profile Page Styles - New page instead of panel */
+        /* Profile Page Styles - New page instead of panel */
         .profile-page {
             position: fixed;
             top: 0;
@@ -408,7 +408,7 @@
             border-radius: 4px;
         }
 
-        /* <CHANGE> Member number with Helvetica Bold font and left-aligned */
+        /* Member number with Helvetica Bold font and left-aligned */
         .card-number {
             font-family: 'Helvetica', 'Arial', sans-serif;
             font-size: 2rem;
@@ -422,6 +422,12 @@
             position: relative;
             z-index: 1;
             text-align: left;
+            opacity: 0; /* Initially hidden for animation */
+            transition: opacity 0.6s ease 0.3s;
+        }
+
+        .profile-page.active .card-number {
+            opacity: 1;
         }
 
         .card-info {
@@ -500,7 +506,6 @@
         }
 
         .qr-member-code {
-            text-align: center;
             font-family: 'Helvetica', 'Arial', sans-serif;
             font-size: 1.5rem;
             font-weight: 700;
@@ -508,7 +513,7 @@
             letter-spacing: 3px;
         }
 
-        /* <CHANGE> Communities Section Styles */
+        /* Communities Section Styles */
         .communities-section {
             margin-top: 40px;
             opacity: 0;
@@ -913,7 +918,7 @@
         </div>
     </div>
 
-    <!-- <CHANGE> Profile Page - New full page instead of panel -->
+    <!-- Profile Page - New full page instead of panel -->
     <div class="profile-page" id="profilePage">
         <button class="profile-close-btn" id="profileCloseBtn">×</button>
         <div class="profile-container">
@@ -942,7 +947,7 @@
                 </div>
             </div>
 
-            <!-- <CHANGE> Communities Section -->
+            <!-- Communities Section -->
             <div class="communities-section">
                 <h2 class="communities-title">ÜYE OLDUĞUM TOPLULUKLAR</h2>
                 <div class="communities-grid" id="communitiesGrid"></div>
@@ -1027,7 +1032,7 @@
         const heroSection = document.getElementById('home');
         const userDashboard = document.getElementById('userDashboard');
 
-        // <CHANGE> User configurations with community memberships
+        // User configurations with community memberships
         const userConfigurations = {
             "m.yusufertek@gmail.com": {
                 name: "Muhammed Yusuf Ertek",
@@ -1056,7 +1061,7 @@
             }
         };
 
-        // <CHANGE> Communities data with codes, icons, and descriptions
+        // Communities data with codes, icons, and descriptions
         const communities = {
             "COM001": {
                 name: "Yapay Zeka Topluluğu",
@@ -1201,7 +1206,7 @@
 
         setupEventsCarousel('eventsTrack', 'carouselDots');
 
-        // <CHANGE> Profile page controls instead of panel
+        // Profile page controls instead of panel
         const profilePage = document.getElementById('profilePage');
         const profileCloseBtn = document.getElementById('profileCloseBtn');
         const memberCardContainer = document.getElementById('memberCardContainer');
@@ -1279,7 +1284,7 @@
 
             setupEventsCarousel('eventsTrackDashboard', 'carouselDotsDashboard');
 
-            // <CHANGE> Wait for QR code library and setup member card with communities
+            // Wait for QR code library and setup member card with communities
             waitForQRCode(() => {
                 setupMemberCard(userConfig);
                 setupCommunities(userConfig);
@@ -1288,43 +1293,83 @@
 
         function waitForQRCode(callback) {
             if (typeof QRCode !== 'undefined') {
+                console.log('[v0] QRCode library loaded successfully');
                 callback();
             } else {
+                console.log('[v0] Waiting for QRCode library...');
                 setTimeout(() => waitForQRCode(callback), 100);
             }
         }
 
-        // <CHANGE> Setup member card with proper QR code generation
         function setupMemberCard(userConfig) {
+            console.log('[v0] Setting up member card for:', userConfig.name);
+            
             const cardName = document.getElementById('cardName');
             const cardNumber = document.getElementById('cardNumber');
             const qrMemberCode = document.getElementById('qrMemberCode');
+            const qrCanvas = document.getElementById('qrCode');
 
+            // Set member name
             cardName.textContent = userConfig.name.toUpperCase();
+            cardName.style.opacity = '1';
             
+            // Format member code for display (TL2025001 -> TL20 25001)
             const formatted = userConfig.memberCode.substring(0, 4) + ' ' + userConfig.memberCode.substring(4);
             cardNumber.textContent = formatted;
+            cardNumber.style.opacity = '1';
             qrMemberCode.textContent = formatted;
 
-            // Generate QR code
+            if (!qrCanvas) {
+                console.error('[v0] QR canvas element not found');
+                return;
+            }
+
+            if (typeof QRCode === 'undefined') {
+                console.error('[v0] QRCode library not loaded');
+                return;
+            }
+
             try {
-                const qrCanvas = document.getElementById('qrCode');
-                QRCode.toCanvas(qrCanvas, userConfig.memberCode, {
-                    width: 160,
-                    margin: 1,
-                    color: {
-                        dark: '#000000',
-                        light: '#ffffff'
+                console.log('[v0] Generating QR code for:', userConfig.memberCode);
+                
+                // Clear any existing canvas content
+                const ctx = qrCanvas.getContext('2d');
+                ctx.clearRect(0, 0, qrCanvas.width, qrCanvas.height);
+                
+                // Generate new QR code
+                QRCode.toCanvas(
+                    qrCanvas,
+                    userConfig.memberCode,
+                    {
+                        width: 160,
+                        height: 160,
+                        margin: 1,
+                        color: {
+                            dark: '#000000',
+                            light: '#ffffff'
+                        },
+                        errorCorrectionLevel: 'M'
+                    },
+                    function(error) {
+                        if (error) {
+                            console.error('[v0] QR kod oluşturma hatası:', error);
+                            // Fallback: Show text if QR fails
+                            ctx.font = '14px Arial';
+                            ctx.fillStyle = '#000';
+                            ctx.textAlign = 'center';
+                            ctx.fillText('QR Kod', 80, 75);
+                            ctx.fillText('Oluşturulamadı', 80, 95);
+                        } else {
+                            console.log('[v0] QR code generated successfully');
+                        }
                     }
-                }, function (error) {
-                    if (error) console.error('QR kod hatası:', error);
-                });
+                );
             } catch (error) {
-                console.error('QR kod oluşturma hatası:', error);
+                console.error('[v0] QR kod oluşturma hatası:', error);
             }
         }
 
-        // <CHANGE> Setup communities section based on user memberships
+        // Setup communities section based on user memberships
         function setupCommunities(userConfig) {
             const communitiesGrid = document.getElementById('communitiesGrid');
             communitiesGrid.innerHTML = '';
