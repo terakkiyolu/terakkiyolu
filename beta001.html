@@ -1,150 +1,1868 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Barkod ve NFC Okuyucu & Yazıcı</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Üyelik Sistemi</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: system-ui, sans-serif;
+    * {
       margin: 0;
-      background: #f4f4f9;
-      color: #222;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+    }
+
+    :root {
+      --fz: 16px;
+      --saturation: 1.8;
+      
+      --page1-bg: #f5e6d3;
+      --page1-content: #3d2f1f;
+      --page1-action: #d4a574;
+      --page1-glass: #e8d4b8;
+      --page1-light: #ffffff;
+      --page1-dark: #2a1f15;
+      
+      --page2-bg: #f0dcc4;
+      --page2-content: #4a3828;
+      --page2-action: #c9965f;
+      --page2-glass: #e0c9a8;
+      --page2-light: #ffffff;
+      --page2-dark: #2f2318;
+      
+      --page3-bg: #f8ead8;
+      --page3-content: #3a2e20;
+      --page3-action: #b8956a;
+      --page3-glass: #ecdfc8;
+      --page3-light: #ffffff;
+      --page3-dark: #251a10;
+      
+      --c-bg: var(--page1-bg);
+      --c-content: var(--page1-content);
+      --c-action: var(--page1-action);
+      --c-glass: var(--page1-glass);
+      --c-light: var(--page1-light);
+      --c-dark: var(--page1-dark);
+      
+      --glass-reflex-light: 1;
+      --glass-reflex-dark: 1;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: linear-gradient(135deg, #f5e6d3 0%, #f0dcc4 50%, #f8ead8 100%);
+      color: var(--c-content);
+      min-height: 100vh;
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(212, 165, 116, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(201, 150, 95, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(184, 149, 106, 0.1) 0%, transparent 50%);
+      animation: particleFloat 20s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes particleFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.1); }
+      66% { transform: translate(-20px, 20px) scale(0.9); }
+    }
+
+    svg {
+      display: none;
+    }
+
+    /* Simplified login screen with only Google Sign-In */
+    .login-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 600ms ease, visibility 600ms ease;
+      background: linear-gradient(135deg, #f5e6d3 0%, #f0dcc4 50%, #f8ead8 100%);
+    }
+
+    .login-screen::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 50%, rgba(212, 165, 116, 0.2) 0%, transparent 70%);
+      animation: pulseGlow 4s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+
+    .login-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .glass-form {
+      --bg-color: rgba(232, 212, 184, 0.4);
+      --highlight: rgba(255, 255, 255, 0.9);
+      --text: #3d2f1f;
+      
+      position: relative;
+      width: 420px;
+      max-width: 90%;
+      min-height: 400px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 
+        0 8px 32px rgba(61, 47, 31, 0.2),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+      animation: fadeInUp 800ms ease;
+      z-index: 10;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .glass-filter,
+    .glass-overlay,
+    .glass-specular {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+    }
+
+    .glass-filter {
+      z-index: 1;
+      backdrop-filter: blur(16px) saturate(1.5);
+      -webkit-backdrop-filter: blur(16px) saturate(1.5);
+      filter: url(#glass-distortion) brightness(1.1);
+    }
+
+    .glass-overlay {
+      z-index: 2;
+      background: var(--bg-color);
+    }
+
+    .glass-specular {
+      z-index: 3;
+      box-shadow: inset 2px 2px 2px var(--highlight);
+      transition: background 300ms ease;
+    }
+
+    .glass-content {
+      position: relative;
+      z-index: 4;
+      padding: 40px;
+      color: var(--text);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .glass-content h3 {
+      margin: 0 0 12px 0;
+      font-size: 2rem;
+      font-weight: 700;
+      text-align: center;
+      color: var(--text);
+    }
+
+    .glass-content .subtitle {
+      text-align: center;
+      font-size: 0.95rem;
+      opacity: 0.8;
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    .google-signin-wrapper {
+      margin: 24px 0;
+    }
+
+    .custom-google-btn {
+      width: 100%;
+      padding: 14px 20px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(212, 165, 116, 0.4);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 300ms ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+        0 4px 12px rgba(61, 47, 31, 0.15);
+    }
+
+    .custom-google-btn:hover {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: rgba(212, 165, 116, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 1),
+        0 6px 20px rgba(61, 47, 31, 0.2);
+    }
+
+    .custom-google-btn:active {
+      transform: translateY(0);
+    }
+
+    .google-icon {
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 4px;
+      padding: 2px;
+    }
+    /* </CHANGE> */
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 24px 0;
+      opacity: 0.6;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(212, 165, 116, 0.3);
+    }
+
+    .divider span {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .form-group i {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text);
+      opacity: 0.7;
+      font-size: 18px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 16px 14px 48px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 16px;
+      transition: all 300ms ease;
+      box-shadow: inset 0 2px 4px rgba(61, 47, 31, 0.08);
+    }
+
+    .form-group input:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.8);
+      border-color: var(--c-action);
+      box-shadow: 
+        inset 0 2px 4px rgba(61, 47, 31, 0.08),
+        0 0 0 3px rgba(212, 165, 116, 0.2);
+    }
+
+    .form-group input::placeholder {
+      color: rgba(61, 47, 31, 0.5);
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 14px;
+      background: rgba(212, 165, 116, 0.5);
+      border: 1px solid rgba(212, 165, 116, 0.7);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 300ms ease;
+      margin-top: 12px;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 4px 12px rgba(212, 165, 116, 0.3);
+    }
+
+    button[type="submit"]:hover {
+      background: rgba(212, 165, 116, 0.7);
+      border-color: rgba(212, 165, 116, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 6px 20px rgba(212, 165, 116, 0.4);
+    }
+
+    .form-switch {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .form-switch a {
+      color: #c9965f;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 200ms ease;
+    }
+
+    .form-switch a:hover {
+      color: #d4a574;
+      text-decoration: underline;
+    }
+
+    .form-container {
+      display: none;
+      opacity: 0;
+      transform: translateX(20px);
+      transition: opacity 400ms ease, transform 400ms ease;
+    }
+
+    .form-container.active {
+      display: block;
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .header-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 70px;
+      padding: 8px 20px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 30%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 20%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+      transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .navbar-logo {
+      display: none;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 16px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 40%, transparent);
+      backdrop-filter: blur(8px);
+      font-size: 0.9rem;
+      color: var(--c-content);
+    }
+
+    .user-info span {
+      display: block;
+      font-weight: 600;
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--c-action);
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+    }
+
+    .switcher {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 244px;
+      max-width: 244px;
+      height: 70px;
+      box-sizing: border-box;
+      padding: 8px 12px 10px;
+      border: none;
+      border-radius: 99em;
+      font-size: var(--fz);
+      background-color: color-mix(in srgb, var(--c-glass) 30%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 20%), transparent),
+        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+      transition: all 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      position: relative;
+    }
+
+    .switcher__legend {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      border: 0;
+      padding: 0;
+      white-space: nowrap;
+      clip-path: inset(100%);
+      clip: rect(0 0 0 0);
+      overflow: hidden;
+    }
+
+    .switcher__input {
+      clip: rect(0 0 0 0);
+      clip-path: inset(100%);
+      height: 1px;
+      width: 1px;
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+    }
+
+    .switcher__icon {
+      display: block;
+      width: 100%;
+      transition: scale 200ms cubic-bezier(0.5, 0, 0, 1);
+    }
+
+    .switcher__option {
+      --c: var(--c-content);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 16px;
+      width: 68px;
+      height: 100%;
+      box-sizing: border-box;
+      border-radius: 99em;
+      opacity: 1;
+      transition: all 160ms;
+    }
+
+    .switcher__option:hover {
+      --c: var(--c-action);
+      cursor: pointer;
+    }
+
+    .switcher__option:hover .switcher__icon {
+      scale: 1.2;
+    }
+
+    .switcher__option:has(input:checked) {
+      --c: var(--c-content);
+      cursor: auto;
+    }
+
+    .switcher::after {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      display: block;
+      width: 84px;
+      height: calc(100% - 10px);
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 60%, transparent);
+      z-index: -1;
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 30%), transparent),
+        0px 3px 6px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 15%), transparent);
+    }
+
+    .switcher:has(input[c-option="1"]:checked)::after {
+      translate: 0 0;
+      transform-origin: right;
+      transition: translate 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      animation: scaleToggle 440ms ease; 
+    }
+
+    .switcher:has(input[c-option="2"]:checked)::after {
+      translate: 76px 0;
+      transition: translate 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      animation: scaleToggle2 440ms ease; 
+    }
+
+    .switcher:has(input[c-option="3"]:checked)::after {
+      translate: 152px 0;
+      transform-origin: left;
+      transition: translate 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      animation: scaleToggle3 440ms ease; 
+    }
+
+    @keyframes scaleToggle {
+      0% { scale: 1 1; }
+      50% { scale: 1.1 1; }
+      100% { scale: 1 1; }
+    }
+
+    @keyframes scaleToggle2 {
+      0% { scale: 1 1; }
+      50% { scale: 1.2 1; }
+      100% { scale: 1 1; }
+    } 
+
+    @keyframes scaleToggle3 {
+      0% { scale: 1 1; }
+      50% { scale: 1.1 1; }
+      100% { scale: 1 1; }
+    }
+
+    main {
+      padding-top: 100px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 120px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-content {
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 600ms cubic-bezier(0.4, 0, 0.2, 1), 
+                  transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: 1000px;
+      width: 100%;
+      padding: 40px;
+    }
+
+    .page-content.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card-flip-container {
+      perspective: 1500px;
+      width: 460px;
+      max-width: 100%;
+      height: 280px;
+      margin: 0 auto;
+      cursor: pointer;
+    }
+
+    .card-flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 800ms cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+
+    .card-flip-container.flipped .card-flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .membership-card,
+    .membership-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .membership-card {
+      padding: 36px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, 
+        color-mix(in srgb, var(--c-glass) 70%, transparent) 0%,
+        color-mix(in srgb, var(--c-glass) 40%, transparent) 100%);
+      backdrop-filter: blur(20px) saturate(1.8);
+      -webkit-backdrop-filter: blur(20px) saturate(1.8);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) 40%, transparent),
+        inset 3px 4px 0px -1px color-mix(in srgb, var(--c-light) 90%, transparent), 
+        inset -3px -3px 0px -1px color-mix(in srgb, var(--c-light) 70%, transparent), 
+        0px 12px 40px 0px color-mix(in srgb, var(--c-dark) 25%, transparent),
+        0px 4px 12px 0px color-mix(in srgb, var(--c-action) 30%, transparent);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: cardFloat 1000ms cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .membership-card-back {
+      padding: 36px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, 
+        color-mix(in srgb, var(--c-glass) 70%, transparent) 0%,
+        color-mix(in srgb, var(--c-glass) 40%, transparent) 100%);
+      backdrop-filter: blur(20px) saturate(1.8);
+      -webkit-backdrop-filter: blur(20px) saturate(1.8);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) 40%, transparent),
+        inset 3px 4px 0px -1px color-mix(in srgb, var(--c-light) 90%, transparent), 
+        inset -3px -3px 0px -1px color-mix(in srgb, var(--c-light) 70%, transparent), 
+        0px 12px 40px 0px color-mix(in srgb, var(--c-dark) 25%, transparent),
+        0px 4px 12px 0px color-mix(in srgb, var(--c-action) 30%, transparent);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      height: 100vh;
-      overflow-x: hidden;
+      justify-content: center;
+      transform: rotateY(180deg);
+      overflow: hidden;
     }
-    h1 {
-      margin-top: 20px;
-      font-size: 1.5rem;
-      text-align: center;
-    }
-    video {
-      width: 90%;
-      max-width: 400px;
-      border-radius: 12px;
-      margin-top: 20px;
-    }
-    button {
-      background: #007bff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 20px;
-      margin: 10px;
-      font-size: 1rem;
-      cursor: pointer;
-      width: 90%;
-      max-width: 400px;
-    }
-    button:active {
-      background: #0056b3;
-    }
-    #result, #nfcResult {
+
+    .qr-code-container {
       background: white;
-      border-radius: 8px;
-      padding: 10px;
-      margin: 10px;
-      width: 90%;
-      max-width: 400px;
-      word-wrap: break-word;
-      text-align: center;
+      padding: 16px;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(61, 47, 31, 0.2);
+      margin-bottom: 20px;
     }
-    input[type="text"] {
-      padding: 10px;
-      width: 80%;
-      border-radius: 8px;
-      border: 1px solid #ccc;
+
+    .qr-code-container img {
+      display: block;
+      width: 160px;
+      height: 160px;
+    }
+
+    .qr-code-label {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--c-content);
+      opacity: 0.8;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+    }
+
+    .qr-member-code {
+      text-align: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--c-content);
+      letter-spacing: 3px;
+    }
+
+    @keyframes cardFloat {
+      from {
+        opacity: 0;
+        transform: translateY(50px) rotateX(15deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+      }
+    }
+
+    .membership-card::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      right: -25%;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, 
+        color-mix(in srgb, var(--c-action) 40%, transparent) 0%,
+        transparent 70%);
+      border-radius: 50%;
+      filter: blur(50px);
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+
+    .membership-card::after {
+      content: '';
+      position: absolute;
+      bottom: -40%;
+      left: -20%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, 
+        color-mix(in srgb, var(--c-action) 25%, transparent) 0%,
+        transparent 70%);
+      border-radius: 50%;
+      filter: blur(40px);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--c-content);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-shadow: 0 2px 8px rgba(61, 47, 31, 0.2);
+    }
+
+    .card-chip {
+      width: 56px;
+      height: 44px;
+      background: linear-gradient(135deg, 
+        color-mix(in srgb, var(--c-action) 70%, var(--c-light)),
+        color-mix(in srgb, var(--c-action) 40%, transparent));
+      border-radius: 10px;
+      box-shadow: 
+        inset 0 2px 6px rgba(61, 47, 31, 0.3),
+        0 2px 8px rgba(61, 47, 31, 0.2);
+      position: relative;
+    }
+
+    .card-chip::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      bottom: 8px;
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 4px;
+    }
+
+    .card-number {
+      font-family: 'Space Mono', monospace;
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--c-content);
+      letter-spacing: 6px;
+      margin: 24px 0;
+      text-shadow: 
+        0 2px 4px rgba(61, 47, 31, 0.2),
+        0 4px 12px color-mix(in srgb, var(--c-action) 40%, transparent);
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      position: relative;
+      z-index: 1;
+      gap: 20px;
+    }
+
+    .card-holder {
+      flex: 1;
+    }
+
+    .card-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--c-content);
+      opacity: 0.7;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .card-value {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--c-content);
+      text-transform: uppercase;
+      text-shadow: 0 1px 4px rgba(61, 47, 31, 0.15);
+    }
+
+    .card-date {
+      text-align: right;
+    }
+
+    .card-extra-info {
+      display: none;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 40px;
+      color: var(--c-content);
+      transition: color 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      text-shadow: 0 2px 12px rgba(61, 47, 31, 0.15);
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .info-card {
+      padding: 32px;
+      border-radius: 20px;
+      background-color: color-mix(in srgb, var(--c-glass) 40%, transparent);
+      backdrop-filter: blur(12px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(12px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 30%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent), 
+        0px 4px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      text-align: left;
+    }
+
+    .info-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 40%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 25%), transparent);
+    }
+
+    .community-card {
+      position: relative;
+      padding: 32px;
+      border-radius: 20px;
+      width: 100%;
+      aspect-ratio: 1.6 / 1;
+      overflow: hidden;
+      background: linear-gradient(135deg, 
+        color-mix(in srgb, var(--c-glass) 70%, transparent) 0%,
+        color-mix(in srgb, var(--c-glass) 40%, transparent) 100%);
+      backdrop-filter: blur(20px) saturate(1.8);
+      -webkit-backdrop-filter: blur(20px) saturate(1.8);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) 40%, transparent),
+        inset 3px 4px 0px -1px color-mix(in srgb, var(--c-light) 90%, transparent), 
+        inset -3px -3px 0px -1px color-mix(in srgb, var(--c-light) 70%, transparent), 
+        0px 12px 40px 0px color-mix(in srgb, var(--c-dark) 25%, transparent),
+        0px 4px 12px 0px color-mix(in srgb, var(--c-action) 30%, transparent);
+      transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .community-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.25;
+      z-index: 0;
+      transition: opacity 400ms ease;
+    }
+
+    .community-card::after {
+      content: '';
+      position: absolute;
+      top: -60%;
+      right: -25%;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, 
+        color-mix(in srgb, var(--c-action) 40%, transparent) 0%,
+        transparent 70%);
+      border-radius: 50%;
+      filter: blur(50px);
+      animation: glowPulse 3s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    .community-card:hover::before {
+      opacity: 0.4;
+    }
+
+    .community-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) 50%, transparent),
+        inset 3px 4px 0px -1px color-mix(in srgb, var(--c-light) 95%, transparent), 
+        inset -3px -3px 0px -1px color-mix(in srgb, var(--c-light) 80%, transparent), 
+        0px 16px 48px 0px color-mix(in srgb, var(--c-dark) 30%, transparent),
+        0px 8px 20px 0px color-mix(in srgb, var(--c-action) 40%, transparent);
+    }
+
+    .community-card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .community-logo {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+      margin-bottom: 16px;
+      background: white;
+      padding: 12px;
+      border-radius: 16px;
+      box-shadow: 
+        0 4px 16px rgba(61, 47, 31, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .community-card h3 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--c-content);
+      text-shadow: 
+        0 2px 8px rgba(255, 255, 255, 0.9),
+        0 1px 4px rgba(61, 47, 31, 0.2);
+    }
+
+    .community-code {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(212, 165, 116, 0.5);
+      border: 1px solid rgba(212, 165, 116, 0.7);
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 0;
+      color: var(--c-content);
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 2px 8px rgba(212, 165, 116, 0.3);
+    }
+
+    .community-website-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 24px;
+      background: rgba(212, 165, 116, 0.6);
+      border: 1px solid rgba(212, 165, 116, 0.8);
+      border-radius: 14px;
+      color: var(--c-content);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 300ms ease;
+      text-decoration: none;
+      position: relative;
+      z-index: 1;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 4px 12px rgba(212, 165, 116, 0.4);
+    }
+
+    .community-website-btn:hover {
+      background: rgba(212, 165, 116, 0.8);
+      border-color: rgba(212, 165, 116, 1);
+      transform: translateY(-2px);
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        0 6px 20px rgba(212, 165, 116, 0.5);
+    }
+
+    .info-card-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 16px;
+      padding: 12px;
+      border-radius: 12px;
+      background-color: color-mix(in srgb, var(--c-action) 30%, transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .info-card-icon svg {
+      width: 100%;
+      height: 100%;
+      fill: var(--c-action);
+    }
+
+    .info-card h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--c-content);
+    }
+
+    .info-card-date {
+      font-size: 0.85rem;
+      color: var(--c-action);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .info-card p {
       font-size: 1rem;
-      margin: 5px 0;
+      line-height: 1.6;
+      color: var(--c-content);
+      opacity: 0.8;
+    }
+
+    .scanner-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    #qr-reader {
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 24px rgba(61, 47, 31, 0.2);
+    }
+
+    .scanned-list {
+      margin-top: 32px;
+    }
+
+    .scanned-item {
+      padding: 20px;
+      margin-bottom: 16px;
+      border-radius: 16px;
+      background-color: color-mix(in srgb, var(--c-glass) 40%, transparent);
+      backdrop-filter: blur(12px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(12px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 30%), transparent),
+        0px 4px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 300ms ease;
+    }
+
+    .scanned-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 40%), transparent),
+        0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 25%), transparent);
+    }
+
+    .scanned-info h4 {
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+      color: var(--c-content);
+    }
+
+    .scanned-info p {
+      font-size: 0.9rem;
+      color: var(--c-content);
+      opacity: 0.7;
+    }
+
+    .download-btn {
+      padding: 12px 24px;
+      background: rgba(212, 165, 116, 0.5);
+      border: 1px solid rgba(212, 165, 116, 0.7);
+      border-radius: 12px;
+      color: var(--c-content);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 300ms ease;
+      margin-top: 24px;
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 4px 12px rgba(212, 165, 116, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .download-btn:hover {
+      background: rgba(212, 165, 116, 0.7);
+      border-color: rgba(212, 165, 116, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 
+        inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 6px 20px rgba(212, 165, 116, 0.4);
+    }
+
+    .admin-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(212, 165, 116, 0.3);
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-left: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 12px;
+      }
+
+      .glass-form {
+        width: 95%;
+        min-height: 380px;
+      }
+
+      .glass-content {
+        padding: 32px 24px;
+      }
+
+      .bottom-nav {
+        bottom: 12px;
+      }
+
+      .switcher {
+        width: 244px;
+        max-width: 244px;
+        height: 70px;
+      }
+
+      .switcher__option {
+        width: 68px;
+      }
+
+      .switcher::after {
+        width: 84px;
+      }
+
+      .switcher:has(input[c-option="2"]:checked)::after {
+        translate: 76px 0;
+      }
+
+      .switcher:has(input[c-option="3"]:checked)::after {
+        translate: 152px 0;
+      }
+
+      .card-flip-container {
+        width: 100%;
+        max-width: 400px;
+        height: 260px;
+      }
+
+      .membership-card,
+      .membership-card-back {
+        padding: 28px;
+      }
+
+      .card-number {
+        font-size: 48px;
+        letter-spacing: 6px;
+      }
+
+      .qr-code-container img {
+        width: 140px;
+        height: 140px;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .community-card {
+        aspect-ratio: 1.6 / 1;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>📱 Barkod & NFC Okuyucu & Yazıcı</h1>
-  <video id="camera" autoplay playsinline></video>
-  <button id="startScan">🎥 Barkod Tarayıcıyı Başlat</button>
-  <div id="result">Henüz bir barkod okunmadı.</div>
+  <audio id="clickSound" preload="auto">
+    <source src="ses.mp3" type="audio/mpeg">
+  </audio>
 
-  <button id="nfcScan">📶 NFC Etiketi Tara</button>
-  <div id="nfcResult">Henüz bir NFC etiketi okunmadı.</div>
+  <audio id="pageSwitchSound" preload="auto">
+    <source src="ses2.mp3" type="audio/mpeg">
+  </audio>
 
-  <h2>NFC Yazma</h2>
-  <input type="text" id="nfcWriteInput" placeholder="NFC etiketine yazılacak metin..." />
-  <button id="nfcWrite">✍️ NFC Etiketine Yaz</button>
+  <svg>
+    <filter id="glass-distortion">
+      <feTurbulence type="turbulence" baseFrequency="0.008" numOctaves="2" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="77" />
+    </filter>
+  </svg>
+
+  <!-- Simplified login screen with only Google Sign-In button -->
+  <div class="login-screen" id="loginScreen">
+    <div class="glass-form">
+      <div class="glass-filter"></div>
+      <div class="glass-overlay"></div>
+      <div class="glass-specular"></div>
+      <div class="glass-content">
+        <h3>Hoş Geldiniz</h3>
+        <p class="subtitle">Üyelik sistemine giriş yapmak için Google hesabınızla oturum açın</p>
+        
+        <div class="google-signin-wrapper">
+          <button class="custom-google-btn" id="customGoogleBtn">
+            <svg class="google-icon" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            Google ile Giriş Yap
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </CHANGE> -->
+
+  <div class="header-container">
+    <nav class="navbar">
+      <div class="user-info" id="userInfo" style="display: none;">
+        <img id="userAvatar" class="user-avatar" src="/placeholder.svg" alt="User">
+        <span id="userName"></span>
+      </div>
+    </nav>
+  </div>
+
+  <div class="bottom-nav">
+    <fieldset class="switcher" id="pageSwitcher">
+      <legend class="switcher__legend">Sayfa Seçin</legend>
+      <label class="switcher__option">
+        <input class="switcher__input" type="radio" name="page" value="page1" c-option="1" checked/>
+        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
+          <path fill="var(--c)" d="M18 6C11.373 6 6 11.373 6 18s5.373 12 12 12 12-5.373 12-12S24.627 6 18 6zm0 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S8 23.523 8 18 12.477 8 18 8zm-2 4v8h-3l5 6 5-6h-3v-8h-4z"/>
+        </svg>
+      </label>
+      <label class="switcher__option">
+        <input class="switcher__input" type="radio" name="page" value="page2" c-option="2"/>
+        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
+          <path fill="var(--c)" d="M18 6l-2.5 7.5H8l6 4.5L11.5 26 18 21.5 24.5 26 22 18l6-4.5h-7.5L18 6z"/>
+        </svg>
+      </label>
+      <label class="switcher__option">
+        <input class="switcher__input" type="radio" name="page" value="page3" c-option="3"/>
+        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
+          <path fill="var(--c)" d="M6 8v20h24V8H6zm2 2h20v16H8V10zm4 3v2h12v-2H12zm0 4v2h12v-2H12zm0 4v2h8v-2h-8z"/>
+        </svg>
+      </label>
+    </fieldset>
+  </div>
+
+  <main>
+    <div class="page-content active" id="page1">
+      <div class="card-flip-container" id="cardFlipContainer">
+        <div class="card-flip-inner">
+          <div class="membership-card">
+            <div class="card-header">
+              <div class="card-logo">MEMBER</div>
+              <div class="card-chip"></div>
+            </div>
+            <div class="card-number" id="memberNumber">0000 0000</div>
+            <div class="card-info">
+              <div class="card-holder">
+                <div class="card-label">Üye Adı</div>
+                <div class="card-value" id="memberName">-</div>
+              </div>
+              <div class="card-date">
+                <div class="card-label">Bölüm</div>
+                <div class="card-value" id="memberDepartment">-</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="membership-card-back">
+            <div class="qr-code-label">Üye QR Kodu</div>
+            <div class="qr-code-container">
+              <img id="qrCodeImage" src="/placeholder.svg" alt="QR Code">
+            </div>
+            <div class="qr-member-code" id="qrMemberCode">0000 0000</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-content" id="page2">
+      <div class="content-section" id="adminMembersView" style="display: none;">
+        <h1 class="section-title">Kayıtlı Üyeler <span class="admin-badge">Admin</span></h1>
+        <div class="cards-grid" id="membersCardsGrid"></div>
+      </div>
+      
+      <div class="content-section" id="communitiesView">
+        <h1 class="section-title">Topluluklar</h1>
+        <div class="cards-grid" id="communitiesGrid"></div>
+      </div>
+    </div>
+
+    <div class="page-content" id="page3">
+      <div class="content-section scanner-container" id="adminScannerView" style="display: none;">
+        <h1 class="section-title">QR Kod Okuyucu <span class="admin-badge">Admin</span></h1>
+        <div id="qr-reader"></div>
+        <div class="scanned-list" id="scannedList">
+          <h3 style="margin-bottom: 16px; color: var(--c-content);">Taranan Üyeler</h3>
+          <div id="scannedItems"></div>
+          <button class="download-btn" id="downloadBtn" style="display: none;">
+            <i class="fas fa-download"></i>
+            JSON İndir
+          </button>
+        </div>
+      </div>
+      
+      <div class="content-section" id="eventsView">
+        <h1 class="section-title">Etkinlikler</h1>
+        <div class="cards-grid">
+          <div class="info-card">
+            <div class="info-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM7 11h5v5H7z"/>
+              </svg>
+            </div>
+            <div class="info-card-date">25 Mart 2025</div>
+            <h3>Bahar Şenliği</h3>
+            <p>Bahar şenliğimiz 25 Mart'ta kampüs alanında gerçekleşecek. Müzik, yemek ve eğlence dolu bir gün sizi bekliyor!</p>
+          </div>
+          <div class="info-card">
+            <div class="info-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+            </div>
+            <div class="info-card-date">18 Mart 2025</div>
+            <h3>Teknik Gezi</h3>
+            <p>Teknoloji şirketlerine düzenlenecek teknik gezi için kayıtlar başladı. Kontenjan sınırlıdır.</p>
+          </div>
+          <div class="info-card">
+            <div class="info-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+              </svg>
+            </div>
+            <div class="info-card-date">12 Mart 2025</div>
+            <h3>Networking Gecesi</h3>
+            <p>Sektör profesyonelleri ve üyelerimizin buluşacağı networking etkinliğimize davetlisiniz.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
 
   <script>
-    const video = document.getElementById('camera');
-    const result = document.getElementById('result');
+    const clickSound = document.getElementById('clickSound');
+    const pageSwitchSound = document.getElementById('pageSwitchSound');
+    
+    function playClickSound() {
+      if (clickSound) {
+        clickSound.currentTime = 0;
+        clickSound.play().catch(err => console.log('Audio play failed:', err));
+      }
+    }
 
-    document.getElementById('startScan').addEventListener('click', async () => {
-      if ('BarcodeDetector' in window) {
-        const barcodeDetector = new BarcodeDetector({ formats: ['qr_code', 'ean_13', 'code_128'] });
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-          video.srcObject = stream;
-          const scan = async () => {
-            try {
-              const barcodes = await barcodeDetector.detect(video);
-              if (barcodes.length > 0) {
-                result.textContent = '📦 ' + barcodes[0].rawValue;
-              }
-            } catch (e) {
-              console.error(e);
-            }
-            requestAnimationFrame(scan);
+    function playPageSwitchSound() {
+      if (pageSwitchSound) {
+        pageSwitchSound.currentTime = 0;
+        pageSwitchSound.play().catch(err => console.log('Audio play failed:', err));
+      }
+    }
+
+    let usersDatabase = {};
+    let communitiesDatabase = {};
+    let currentUser = null;
+    let scannedMembers = [];
+    let html5QrCode = null;
+
+    // Fetch users data
+    fetch('users.json')
+      .then(response => response.json())
+      .then(data => {
+        usersDatabase = data;
+        console.log('Users database loaded:', usersDatabase);
+      })
+      .catch(err => console.error('Error loading users:', err));
+
+    // Fetch communities data
+    fetch('communities.json')
+      .then(response => response.json())
+      .then(data => {
+        communitiesDatabase = data;
+        console.log('Communities database loaded:', communitiesDatabase);
+      })
+      .catch(err => console.error('Error loading communities:', err));
+
+    const glassForm = document.querySelector('.glass-form');
+    const glassSpecular = document.querySelector('.glass-specular');
+
+    if (glassForm && glassSpecular) {
+      glassForm.addEventListener('mousemove', (e) => {
+        const rect = glassForm.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        glassSpecular.style.background = `radial-gradient(
+          circle at ${x}px ${y}px,
+          rgba(255,255,255,0.3) 0%,
+          rgba(255,255,255,0.1) 30%,
+          rgba(255,255,255,0) 60%
+        )`;
+      });
+
+      glassForm.addEventListener('mouseleave', () => {
+        glassSpecular.style.background = 'none';
+      });
+    }
+
+    const customGoogleBtn = document.getElementById('customGoogleBtn');
+    if (customGoogleBtn) {
+      customGoogleBtn.addEventListener('click', () => {
+        playClickSound();
+        if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+          google.accounts.id.prompt();
+        }
+      });
+    }
+
+    const cardFlipContainer = document.getElementById('cardFlipContainer');
+    if (cardFlipContainer) {
+      cardFlipContainer.addEventListener('click', () => {
+        playClickSound();
+        cardFlipContainer.classList.toggle('flipped');
+      });
+    }
+
+    function getTimeSlot() {
+      const now = new Date();
+      const hours = now.getHours();
+      return Math.floor(hours / 2);
+    }
+
+    function generateSecureHash(memberNumber, timeSlot) {
+      const secret = "MEMBER_SYSTEM_2025";
+      const data = `${memberNumber}|${timeSlot}|${secret}`;
+      let hash = 0;
+      for (let i = 0; i < data.length; i++) {
+        const char = data.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+      }
+      return Math.abs(hash).toString(36).toUpperCase().substring(0, 8);
+    }
+
+    function generateSecureQRData(memberNumber) {
+      const timeSlot = getTimeSlot();
+      const hash = generateSecureHash(memberNumber, timeSlot);
+      return `${memberNumber}|${timeSlot}|${hash}`;
+    }
+
+    function validateQRData(qrData) {
+      try {
+        const parts = qrData.split('|');
+        if (parts.length !== 3) {
+          return { valid: false, error: 'Geçersiz QR kod formatı' };
+        }
+
+        const [memberNumber, timeSlotStr, receivedHash] = parts;
+        const scannedTimeSlot = parseInt(timeSlotStr);
+        const currentTimeSlot = getTimeSlot();
+
+        if (scannedTimeSlot !== currentTimeSlot) {
+          return { 
+            valid: false, 
+            error: 'QR kod süresi dolmuş (Her 2 saatte bir yenilenir)',
+            memberNumber 
           };
-          scan();
-        } catch (err) {
-          alert('Kameraya erişilemiyor: ' + err);
+        }
+
+        const expectedHash = generateSecureHash(memberNumber, scannedTimeSlot);
+        if (receivedHash !== expectedHash) {
+          return { 
+            valid: false, 
+            error: 'QR kod doğrulaması başarısız',
+            memberNumber 
+          };
+        }
+
+        return { 
+          valid: true, 
+          memberNumber,
+          timeSlot: scannedTimeSlot
+        };
+      } catch (error) {
+        return { valid: false, error: 'QR kod okuma hatası' };
+      }
+    }
+
+    function generateQRCode(memberNumber) {
+      const qrCodeImage = document.getElementById('qrCodeImage');
+      const qrMemberCode = document.getElementById('qrMemberCode');
+      
+      const secureData = generateSecureQRData(memberNumber);
+      const qrData = encodeURIComponent(secureData);
+      qrCodeImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${qrData}`;
+      qrMemberCode.textContent = memberNumber;
+
+      const now = new Date();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      const milliseconds = now.getMilliseconds();
+      
+      const minutesUntilRefresh = (120 - (minutes % 120)) % 120;
+      const timeUntilRefresh = (minutesUntilRefresh * 60 - seconds) * 1000 - milliseconds;
+      
+      setTimeout(() => {
+        generateQRCode(memberNumber);
+      }, timeUntilRefresh);
+    }
+
+    function displayUserCommunities() {
+      const communitiesGrid = document.getElementById('communitiesGrid');
+      
+      if (!currentUser || !currentUser.communities || currentUser.communities.length === 0) {
+        communitiesGrid.innerHTML = '<p style="opacity: 0.6; text-align: center; grid-column: 1/-1;">Henüz bir topluluğa üye değilsiniz.</p>';
+        return;
+      }
+
+      const userCommunitiesHTML = currentUser.communities.map(code => {
+        const community = communitiesDatabase[code];
+        if (!community) return '';
+        
+        return `
+          <div class="community-card">
+            <div style="background-image: url('${community.backgroundImage}'); position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-size: cover; background-position: center; opacity: 0.25; z-index: 0;"></div>
+            <div class="community-card-content">
+              <img src="${community.logo}" alt="${community.name}" class="community-logo">
+              <h3>${community.name}</h3>
+              <span class="community-code">${community.code}</span>
+            </div>
+            <a href="${community.website}" target="_blank" class="community-website-btn">
+              <i class="fas fa-external-link-alt"></i>
+              Duyurular & Etkinlikler
+            </a>
+          </div>
+        `;
+      }).join('');
+      
+      communitiesGrid.innerHTML = userCommunitiesHTML;
+    }
+
+    function displayRegisteredMembers() {
+      const membersCardsGrid = document.getElementById('membersCardsGrid');
+      
+      const membersHTML = Object.entries(usersDatabase).map(([email, user]) => `
+        <div class="info-card">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+            <img src="${user.avatar}" alt="${user.name}" style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--c-action);">
+            <div>
+              <h3 style="margin: 0; font-size: 1.2rem;">${user.name}</h3>
+              ${user.isAdmin ? '<span class="admin-badge" style="margin-left: 0; margin-top: 4px; display: inline-block;">Admin</span>' : ''}
+            </div>
+          </div>
+          <div style="display: grid; gap: 8px;">
+            <p style="margin: 0;"><strong>Üye No:</strong> ${user.memberNumber}</p>
+            <p style="margin: 0;"><strong>Bölüm:</strong> ${user.department}</p>
+            <p style="margin: 0;"><strong>E-posta:</strong> ${email}</p>
+            <p style="margin: 0;"><strong>Topluluklar:</strong> ${user.communities && user.communities.length > 0 ? user.communities.join(', ') : 'Yok'}</p>
+          </div>
+        </div>
+      `).join('');
+      
+      membersCardsGrid.innerHTML = membersHTML;
+    }
+
+    function initQRScanner() {
+      if (!currentUser || !currentUser.isAdmin) return;
+
+      html5QrCode = new Html5Qrcode("qr-reader");
+      
+      html5QrCode.start(
+        { facingMode: "environment" },
+        {
+          fps: 10,
+          qrbox: { width: 250, height: 250 }
+        },
+        (decodedText) => {
+          handleQRScan(decodedText);
+        },
+        (errorMessage) => {
+          // Ignore scan errors
+        }
+      ).catch((err) => {
+        console.error("QR Scanner error:", err);
+      });
+    }
+
+    function handleQRScan(qrData) {
+      playClickSound();
+      
+      const validation = validateQRData(qrData);
+      
+      if (!validation.valid) {
+        alert(`QR Kod Hatası: ${validation.error}`);
+        return;
+      }
+
+      const member = Object.values(usersDatabase).find(
+        user => user.memberNumber === validation.memberNumber
+      );
+
+      if (member) {
+        const scanTime = new Date().toLocaleString('tr-TR');
+        const existingScan = scannedMembers.find(
+          scan => scan.memberNumber === validation.memberNumber
+        );
+
+        if (!existingScan) {
+          scannedMembers.push({
+            name: member.name,
+            memberNumber: member.memberNumber,
+            department: member.department,
+            scanTime: scanTime,
+            timeSlot: validation.timeSlot
+          });
+          
+          updateScannedList();
+        } else {
+          alert('Bu üye zaten tarandı.');
         }
       } else {
-        alert('Tarayıcınız BarcodeDetector desteklemiyor.');
+        alert('Üye sistemde bulunamadı.');
       }
+    }
+
+    function updateScannedList() {
+      const scannedItems = document.getElementById('scannedItems');
+      const downloadBtn = document.getElementById('downloadBtn');
+      
+      if (scannedMembers.length === 0) {
+        scannedItems.innerHTML = '<p style="opacity: 0.6; text-align: center;">Henüz tarama yapılmadı</p>';
+        downloadBtn.style.display = 'none';
+        return;
+      }
+
+      scannedItems.innerHTML = scannedMembers.map(member => `
+        <div class="scanned-item">
+          <div class="scanned-info">
+            <h4>${member.name}</h4>
+            <p>${member.memberNumber} • ${member.department}</p>
+            <p style="font-size: 0.8rem; margin-top: 4px;">${member.scanTime} • Zaman Dilimi: ${member.timeSlot}</p>
+          </div>
+        </div>
+      `).join('');
+
+      downloadBtn.style.display = 'flex';
+    }
+
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      playClickSound();
+      
+      const dataStr = JSON.stringify(scannedMembers, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `taranan-uyeler-${new Date().toISOString().split('T')[0]}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
     });
 
-    // NFC Okuma
-    document.getElementById('nfcScan').addEventListener('click', async () => {
-      if ('NDEFReader' in window) {
-        try {
-          const ndef = new NDEFReader();
-          await ndef.scan();
-          ndef.onreading = event => {
-            const decoder = new TextDecoder();
-            let text = '';
-            for (const record of event.message.records) {
-              text += decoder.decode(record.data) + '\n';
-            }
-            document.getElementById('nfcResult').textContent = '📶 NFC Okundu:\n' + text;
-          };
-          alert('NFC tarayıcı başlatıldı, etiketi yaklaştırın.');
-        } catch (err) {
-          alert('NFC başlatılamadı: ' + err);
+    function handleCredentialResponse(response) {
+      const responsePayload = parseJwt(response.credential);
+      const userEmail = responsePayload.email;
+      
+      console.log("User signed in:", userEmail);
+      
+      if (usersDatabase[userEmail]) {
+        currentUser = {
+          email: userEmail,
+          picture: responsePayload.picture,
+          ...usersDatabase[userEmail]
+        };
+        
+        document.getElementById('userName').textContent = currentUser.name;
+        document.getElementById('userAvatar').src = currentUser.picture;
+        document.getElementById('userInfo').style.display = 'flex';
+        
+        document.getElementById('memberNumber').textContent = currentUser.memberNumber;
+        document.getElementById('memberName').textContent = currentUser.name;
+        document.getElementById('memberDepartment').textContent = currentUser.department;
+        
+        generateQRCode(currentUser.memberNumber);
+        
+        document.getElementById('loginScreen').classList.add('hidden');
+
+        if (currentUser.isAdmin) {
+          document.getElementById('communitiesView').style.display = 'none';
+          document.getElementById('adminMembersView').style.display = 'block';
+          document.getElementById('eventsView').style.display = 'none';
+          document.getElementById('adminScannerView').style.display = 'block';
+          
+          displayRegisteredMembers();
+        } else {
+          displayUserCommunities();
         }
       } else {
-        alert('Bu cihaz Web NFC desteklemiyor.');
+        alert('Bu e-posta adresi sistemde kayıtlı değil. Lütfen yöneticinizle iletişime geçin.');
       }
-    });
+    }
 
-    // NFC Yazma
-    document.getElementById('nfcWrite').addEventListener('click', async () => {
-      if ('NDEFReader' in window) {
-        const textToWrite = document.getElementById('nfcWriteInput').value;
-        if (!textToWrite) return alert('Lütfen yazılacak metni girin.');
+    function parseJwt(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonPayload);
+    }
 
-        try {
-          const ndef = new NDEFReader();
-          await ndef.write({ records: [{ recordType: 'text', data: textToWrite }] });
-          alert('✅ NFC etikete başarıyla yazıldı! Etiketi yaklaştırın.');
-        } catch (err) {
-          alert('❌ NFC yazılamadı: ' + err);
-        }
+    function initializeGoogleSignIn() {
+      if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+        google.accounts.id.initialize({
+          client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
+          callback: handleCredentialResponse,
+          auto_select: false,
+          cancel_on_tap_outside: true
+        });
+        
+        console.log('Google Sign-In initialized successfully.');
       } else {
-        alert('Bu cihaz Web NFC desteklemiyor.');
+        console.warn('Google Sign-In script not yet loaded. Retrying...');
+        setTimeout(initializeGoogleSignIn, 500);
       }
+    }
+
+    window.onload = initializeGoogleSignIn;
+
+    const switcher = document.getElementById('pageSwitcher');
+    const root = document.documentElement;
+
+    const trackPrevious = (el) => {
+      const radios = el.querySelectorAll('input[type="radio"]');
+      let previousValue = null;
+
+      const initiallyChecked = el.querySelector('input[type="radio"]:checked');
+      if (initiallyChecked) {
+        previousValue = initiallyChecked.getAttribute("c-option");
+        el.setAttribute('c-previous', previousValue);
+      }
+
+      radios.forEach(radio => {
+        radio.addEventListener('change', () => {
+          if (radio.checked) {
+            el.setAttribute('c-previous', previousValue ?? '');
+            previousValue = radio.getAttribute("c-option");
+          }
+        });
+      });
+    }
+
+    trackPrevious(switcher);
+
+    const pageRadios = document.querySelectorAll('input[name="page"]');
+    const pages = document.querySelectorAll('.page-content');
+
+    pageRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        playPageSwitchSound();
+        const selectedPage = radio.value;
+        
+        pages.forEach(page => {
+          page.classList.remove('active');
+        });
+
+        document.getElementById(selectedPage).classList.add('active');
+        
+        if (selectedPage === 'page3' && currentUser && currentUser.isAdmin && !html5QrCode) {
+          setTimeout(() => {
+            initQRScanner();
+          }, 500);
+        }
+
+        if (selectedPage === 'page1') {
+          root.style.setProperty('--c-bg', 'var(--page1-bg)');
+          root.style.setProperty('--c-content', 'var(--page1-content)');
+          root.style.setProperty('--c-action', 'var(--page1-action)');
+          root.style.setProperty('--c-glass', 'var(--page1-glass)');
+          root.style.setProperty('--c-light', 'var(--page1-light)');
+          root.style.setProperty('--c-dark', 'var(--page1-dark)');
+        } else if (selectedPage === 'page2') {
+          root.style.setProperty('--c-bg', 'var(--page2-bg)');
+          root.style.setProperty('--c-content', 'var(--page2-content)');
+          root.style.setProperty('--c-action', 'var(--page2-action)');
+          root.style.setProperty('--c-glass', 'var(--page2-glass)');
+          root.style.setProperty('--c-light', 'var(--page2-light)');
+          root.style.setProperty('--c-dark', 'var(--page2-dark)');
+        } else if (selectedPage === 'page3') {
+          root.style.setProperty('--c-bg', 'var(--page3-bg)');
+          root.style.setProperty('--c-content', 'var(--page3-content)');
+          root.style.setProperty('--c-action', 'var(--page3-action)');
+          root.style.setProperty('--c-glass', 'var(--page3-glass)');
+          root.style.setProperty('--c-light', 'var(--page3-light)');
+          root.style.setProperty('--c-dark', 'var(--page3-dark)');
+        }
+      });
     });
   </script>
 </body>
