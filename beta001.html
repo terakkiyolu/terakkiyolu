@@ -1,302 +1,151 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Mobil Barkod & QR Okuyucu</title>
-  <meta name="description" content="Hafif, aşırı mobil uyumlu barkod/QR okuyucu - kamera seçimi, flaş, geçmiş ve kopyala desteği." />
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barkod ve NFC Okuyucu & Yazıcı</title>
   <style>
-    :root{
-      --bg:#0f1724; --card:#0b1220; --accent:#06b6d4; --muted:#94a3b8; --success:#10b981;
-      --glass: rgba(255,255,255,0.03);
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      background: #f4f4f9;
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+      overflow-x: hidden;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Helvetica Neue',Arial}
-    body{background:linear-gradient(180deg,#071028 0%, var(--bg) 100%);color:#e6eef6;display:flex;align-items:stretch;justify-content:center;padding:18px}
-    .wrap{width:100%;max-width:980px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);box-shadow:0 8px 30px rgba(2,6,23,0.7);overflow:hidden;display:grid;grid-template-columns:1fr;gap:12px;padding:12px}
-
-    header{display:flex;gap:12px;align-items:center}
-    .brand{display:flex;flex-direction:column}
-    .brand h1{margin:0;font-size:18px;letter-spacing:0.2px}
-    .brand p{margin:0;font-size:12px;color:var(--muted)}
-
-    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
-    button,select{background:var(--glass);border:1px solid rgba(255,255,255,0.04);color:inherit;padding:10px 12px;border-radius:10px;font-size:15px}
-    button.strong{background:linear-gradient(90deg,var(--accent),#3b82f6);color:#041025;font-weight:600}
-
-    .cam-wrap{position:relative;border-radius:12px;overflow:hidden;background:#000;height:60vw;max-height:640px;display:flex;align-items:center;justify-content:center}
-    video{width:100%;height:100%;object-fit:cover}
-    canvas.overlay{position:absolute;inset:0;pointer-events:none}
-
-    .bottom{display:flex;gap:12px;flex-direction:column}
-    .result{padding:10px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);display:flex;align-items:center;justify-content:space-between;gap:8px}
-    .result .text{flex:1;word-break:break-all}
-    .chips{display:flex;gap:8px;flex-wrap:wrap}
-    .chip{padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.03);font-size:13px}
-
-    .history{display:flex;flex-direction:column;gap:8px;max-height:180px;overflow:auto;padding:6px}
-    .history-item{display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;background:rgba(255,255,255,0.02)}
-
-    footer{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;padding-top:6px}
-
-    /* Responsive tweaks */
-    @media(min-width:700px){
-      .wrap{grid-template-columns: 1fr 420px;padding:18px}
-      .cam-wrap{height:calc(100vh - 220px);max-height:820px}
-      .controls{flex-direction:column;gap:10px}
+    h1 {
+      margin-top: 20px;
+      font-size: 1.5rem;
+      text-align: center;
     }
-
-    /* big touch targets for mobile */
-    @media(max-width:700px){button,select{font-size:16px;padding:14px 16px;border-radius:14px}}
+    video {
+      width: 90%;
+      max-width: 400px;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 20px;
+      margin: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 90%;
+      max-width: 400px;
+    }
+    button:active {
+      background: #0056b3;
+    }
+    #result, #nfcResult {
+      background: white;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 10px;
+      width: 90%;
+      max-width: 400px;
+      word-wrap: break-word;
+      text-align: center;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      margin: 5px 0;
+    }
   </style>
 </head>
 <body>
-  <div class="wrap" id="app">
-    <section>
-      <header>
-        <div class="brand">
-          <h1>Mobil Barkod & QR Okuyucu</h1>
-          <p>Hızlı, güvenilir ve mobil öncelikli</p>
-        </div>
+  <h1>📱 Barkod & NFC Okuyucu & Yazıcı</h1>
+  <video id="camera" autoplay playsinline></video>
+  <button id="startScan">🎥 Barkod Tarayıcıyı Başlat</button>
+  <div id="result">Henüz bir barkod okunmadı.</div>
 
-        <div class="controls" aria-hidden="false">
-          <select id="cameraSelect" aria-label="Kamera seçimi"></select>
-          <button id="toggleFlash">Flaş</button>
-          <button id="startBtn" class="strong">Başlat</button>
-          <button id="stopBtn">Durdur</button>
-        </div>
-      </header>
+  <button id="nfcScan">📶 NFC Etiketi Tara</button>
+  <div id="nfcResult">Henüz bir NFC etiketi okunmadı.</div>
 
-      <div class="cam-wrap" aria-live="polite">
-        <video id="video" playsinline></video>
-        <canvas id="overlay" class="overlay"></canvas>
-        <div style="position:absolute;left:10px;top:10px;background:rgba(0,0,0,0.35);padding:6px;border-radius:8px;font-size:13px">Durum: <span id="status">Hazır</span></div>
-      </div>
-
-      <div class="bottom">
-        <div class="result" id="resultBox" hidden>
-          <div class="text" id="resultText">-</div>
-          <div class="chips">
-            <button id="copyBtn" title="Kopyala">Kopyala</button>
-            <button id="openBtn" title="Aç">Aç</button>
-          </div>
-        </div>
-
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:center"><strong>Okuma Geçmişi</strong><button id="clearHistory" style="font-size:13px">Temizle</button></div>
-          <div class="history" id="history"></div>
-        </div>
-      </div>
-    </section>
-
-    <aside style="padding:6px">
-      <div style="padding:10px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent)">
-        <h3 style="margin-top:0">Açıklama</h3>
-        <p style="color:var(--muted)">Tarayıcı destekliyorsa yüksek performanslı <code>BarcodeDetector</code> kullanılır. Destek yoksa hafif JavaScript fallback (ZXing) çalışır.</p>
-        <ul style="color:var(--muted);padding-left:18px;margin:6px 0">
-          <li>Çalıştırmak için HTTPS veya localhost gereklidir.</li>
-          <li>QR, EAN, Code128 vb. formatları desteklenir (cihaz + API uyumuna bağlı).</li>
-          <li>Flaş kontrolü cihaz/ortam tarafından sınırlı olabilir.</li>
-        </ul>
-        <div style="margin-top:10px"><small style="color:var(--muted)">Yapım: otomatik üretildi • Mobil öncelikli</small></div>
-      </div>
-    </aside>
-
-    <footer>
-      <div>Tarayıcı: <span id="browserInfo">?</span></div>
-      <div>© Mobil Barkod Okuyucu</div>
-    </footer>
-  </div>
-
-  <!-- ZXing fallback -->
-  <script src="https://unpkg.com/@zxing/library@0.19.8/umd/index.min.js"></script>
+  <h2>NFC Yazma</h2>
+  <input type="text" id="nfcWriteInput" placeholder="NFC etiketine yazılacak metin..." />
+  <button id="nfcWrite">✍️ NFC Etiketine Yaz</button>
 
   <script>
-    // Kısa açıklama: BarcodeDetector varsa kullan, yoksa ZXing fallback
-    const video = document.getElementById('video');
-    const overlay = document.getElementById('overlay');
-    const ctx = overlay.getContext('2d');
-    const cameraSelect = document.getElementById('cameraSelect');
-    const startBtn = document.getElementById('startBtn');
-    const stopBtn = document.getElementById('stopBtn');
-    const status = document.getElementById('status');
-    const resultBox = document.getElementById('resultBox');
-    const resultText = document.getElementById('resultText');
-    const copyBtn = document.getElementById('copyBtn');
-    const openBtn = document.getElementById('openBtn');
-    const historyEl = document.getElementById('history');
-    const clearHistory = document.getElementById('clearHistory');
-    const toggleFlash = document.getElementById('toggleFlash');
-    const browserInfo = document.getElementById('browserInfo');
+    const video = document.getElementById('camera');
+    const result = document.getElementById('result');
 
-    let stream = null; let scanning = false; let detector = null; let codeReader = null; let useBarcodeDetector = false;
-    let lastDetected = null; let torchOn = false;
-
-    function logStatus(msg){ status.textContent = msg }
-
-    async function listCameras(){
-      try{
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        const cams = devices.filter(d=>d.kind==='videoinput');
-        cameraSelect.innerHTML = '';
-        cams.forEach((c,i)=>{
-          const opt = document.createElement('option');
-          opt.value = c.deviceId;
-          opt.text = c.label || `Kamera ${i+1}`;
-          cameraSelect.appendChild(opt);
-        });
-        if(cams.length===0){ cameraSelect.innerHTML = '<option>kamera yok</option>' }
-      }catch(e){ console.warn(e); cameraSelect.innerHTML = '<option>cihaz bilgisi alınamadı</option>' }
-    }
-
-    async function startCamera(){
-      if(scanning) return;
-      const deviceId = cameraSelect.value || undefined;
-      const constraints = { video: { deviceId: deviceId ? { exact: deviceId } : undefined, facingMode: 'environment', width: {ideal:1280}, height:{ideal:720} }, audio:false };
-      try{
-        stream = await navigator.mediaDevices.getUserMedia(constraints);
-        video.srcObject = stream;
-        await video.play();
-        overlay.width = video.videoWidth || overlay.clientWidth;
-        overlay.height = video.videoHeight || overlay.clientHeight;
-        scanning = true;
-        logStatus('Tarama başlatıldı');
-        startLoop();
-      }catch(e){ console.error(e); logStatus('Kamera başlatılamadı: '+(e.message||e)); }
-    }
-
-    function stopCamera(){
-      scanning = false;
-      if(stream){ stream.getTracks().forEach(t=>t.stop()); stream = null }
-      video.pause(); video.srcObject = null;
-      ctx.clearRect(0,0,overlay.width,overlay.height);
-      logStatus('Durduruldu');
-    }
-
-    async function initDetector(){
-      if('BarcodeDetector' in window){
-        try{
-          const supported = await BarcodeDetector.getSupportedFormats();
-          detector = new BarcodeDetector({formats: supported});
-          useBarcodeDetector = true;
-          browserInfo.textContent = 'BarcodeDetector (native)';
-        }catch(e){ console.warn('BarcodeDetector init failed',e); }
-      }
-      if(!detector){
-        // ZXing fallback
-        if(window.ZXing){
-          codeReader = new ZXing.BrowserBarcodeReader();
-          useBarcodeDetector = false;
-          browserInfo.textContent = 'ZXing fallback';
-        }else{
-          browserInfo.textContent = 'Basit fallback (kütüphane yüklenmedi)';
+    document.getElementById('startScan').addEventListener('click', async () => {
+      if ('BarcodeDetector' in window) {
+        const barcodeDetector = new BarcodeDetector({ formats: ['qr_code', 'ean_13', 'code_128'] });
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+          video.srcObject = stream;
+          const scan = async () => {
+            try {
+              const barcodes = await barcodeDetector.detect(video);
+              if (barcodes.length > 0) {
+                result.textContent = '📦 ' + barcodes[0].rawValue;
+              }
+            } catch (e) {
+              console.error(e);
+            }
+            requestAnimationFrame(scan);
+          };
+          scan();
+        } catch (err) {
+          alert('Kameraya erişilemiyor: ' + err);
         }
+      } else {
+        alert('Tarayıcınız BarcodeDetector desteklemiyor.');
       }
-    }
-
-    async function startLoop(){
-      await initDetector();
-      if(!stream) return;
-      const track = stream.getVideoTracks()[0];
-      const settings = track.getSettings();
-      overlay.width = video.videoWidth || settings.width || overlay.clientWidth;
-      overlay.height = video.videoHeight || settings.height || overlay.clientHeight;
-
-      async function frame(){
-        if(!scanning) return;
-        ctx.clearRect(0,0,overlay.width,overlay.height);
-        try{
-          if(useBarcodeDetector && detector){
-            const img = new ImageCapture(track);
-            const bitmap = await img.grabFrame();
-            const barcodes = await detector.detect(bitmap);
-            if(barcodes && barcodes.length) handleDetected(barcodes.map(b=>({rawValue:b.rawValue, bounding:b.boundingBox, format:b.format})));          
-          }else if(codeReader){
-            // ZXing: try once per frame at lower scale to save CPU
-            const canvas = document.createElement('canvas');
-            const scale = 0.7; canvas.width = overlay.width*scale; canvas.height = overlay.height*scale;
-            const c = canvas.getContext('2d'); c.drawImage(video,0,0,canvas.width,canvas.height);
-            try{
-              const result = await codeReader.decodeFromCanvas(canvas);
-              if(result) handleDetected([{rawValue:result.text, format:result.format}]);
-            }catch(e){ /* no code in frame */ }
-          }
-        }catch(e){ /* ignore frame errors */ }
-        requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
-    }
-
-    function drawBox(b){
-      if(!b) return;
-      ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(6,182,212,0.9)'; ctx.fillStyle = 'rgba(6,182,212,0.12)';
-      try{
-        if(b.x!==undefined){ // bounding box
-          ctx.strokeRect(b.x,b.y,b.width,b.height); ctx.fillRect(b.x,b.y,b.width,b.height);
-        }else if(Array.isArray(b)){
-          ctx.beginPath(); ctx.moveTo(b[0].x,b[0].y); b.slice(1).forEach(p=>ctx.lineTo(p.x,p.y)); ctx.closePath(); ctx.stroke(); ctx.fill();
-        }
-      }catch(e){}
-    }
-
-    function handleDetected(items){
-      const it = items[0];
-      if(!it || !it.rawValue) return;
-      if(it.rawValue === lastDetected) return; // basit debounce
-      lastDetected = it.rawValue;
-      resultBox.hidden = false;
-      resultText.textContent = it.rawValue;
-      // draw bounding if available
-      if(it.bounding){ drawBox(it.bounding) }
-      // add to history
-      const row = document.createElement('div'); row.className='history-item';
-      const t = document.createElement('div'); t.style.flex='1'; t.textContent = it.rawValue;
-      const f = document.createElement('div'); f.style.opacity='0.8'; f.textContent = it.format||'';
-      const cbtn = document.createElement('button'); cbtn.textContent='Kopyala'; cbtn.onclick=()=>navigator.clipboard.writeText(it.rawValue);
-      row.appendChild(t); row.appendChild(f); row.appendChild(cbtn);
-      historyEl.insertBefore(row, historyEl.firstChild);
-
-      // quick action: if it's a URL enable open
-      try{ const url = new URL(it.rawValue); openBtn.style.display='inline-block'; openBtn.onclick = ()=>window.open(url.href,'_blank'); }catch(e){ openBtn.style.display='none'; }
-      // small vibrate on mobile
-      if(navigator.vibrate) navigator.vibrate(120);
-      logStatus('Bulundu');
-
-      // reset lastDetected after 1.6s to allow re-detection
-      setTimeout(()=>{ lastDetected=null; logStatus('Tarama devam ediyor') },1600);
-    }
-
-    // UI events
-    startBtn.addEventListener('click',()=>startCamera());
-    stopBtn.addEventListener('click',()=>stopCamera());
-    copyBtn.addEventListener('click',()=>{ navigator.clipboard.writeText(resultText.textContent||'') });
-    clearHistory.addEventListener('click',()=>{ historyEl.innerHTML=''; });
-
-    toggleFlash.addEventListener('click',async ()=>{
-      if(!stream) return; const [track] = stream.getVideoTracks();
-      const imageCap = track; // track.applyConstraints
-      try{
-        const capabilities = track.getCapabilities();
-        if(!capabilities.torch){ alert('Flaş/touch yok veya tarayıcı desteklemiyor'); return }
-        torchOn = !torchOn;
-        await track.applyConstraints({ advanced: [{ torch: torchOn }] });
-        toggleFlash.textContent = torchOn ? 'Flaş: Açık' : 'Flaş';
-      }catch(e){ console.warn(e); alert('Flaş kontrolü başarısız: '+e.message) }
     });
 
-    // populate cameras on load
-    (async function(){ await listCameras();
-      navigator.mediaDevices.addEventListener('devicechange', listCameras);
-      cameraSelect.addEventListener('change', ()=>{ if(scanning){ stopCamera(); startCamera(); } });
-      // show basic info
-      browserInfo.textContent = navigator.userAgent;
-    })();
+    // NFC Okuma
+    document.getElementById('nfcScan').addEventListener('click', async () => {
+      if ('NDEFReader' in window) {
+        try {
+          const ndef = new NDEFReader();
+          await ndef.scan();
+          ndef.onreading = event => {
+            const decoder = new TextDecoder();
+            let text = '';
+            for (const record of event.message.records) {
+              text += decoder.decode(record.data) + '\n';
+            }
+            document.getElementById('nfcResult').textContent = '📶 NFC Okundu:\n' + text;
+          };
+          alert('NFC tarayıcı başlatıldı, etiketi yaklaştırın.');
+        } catch (err) {
+          alert('NFC başlatılamadı: ' + err);
+        }
+      } else {
+        alert('Bu cihaz Web NFC desteklemiyor.');
+      }
+    });
 
-    // graceful unload
-    window.addEventListener('pagehide', ()=>stopCamera());
+    // NFC Yazma
+    document.getElementById('nfcWrite').addEventListener('click', async () => {
+      if ('NDEFReader' in window) {
+        const textToWrite = document.getElementById('nfcWriteInput').value;
+        if (!textToWrite) return alert('Lütfen yazılacak metni girin.');
 
-    // note: some browsers require a user gesture to start camera
+        try {
+          const ndef = new NDEFReader();
+          await ndef.write({ records: [{ recordType: 'text', data: textToWrite }] });
+          alert('✅ NFC etikete başarıyla yazıldı! Etiketi yaklaştırın.');
+        } catch (err) {
+          alert('❌ NFC yazılamadı: ' + err);
+        }
+      } else {
+        alert('Bu cihaz Web NFC desteklemiyor.');
+      }
+    });
   </script>
 </body>
 </html>
