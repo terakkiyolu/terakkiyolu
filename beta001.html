@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Üyelik Sistemi</title>
+  <title>THE LENG - Üyelik Sistemi</title>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -56,7 +56,7 @@
     }
 
     body {
-      font-family: "DM Sans", sans-serif;
+      font-family: "DM Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: linear-gradient(135deg, #f5e6d3 0%, #f0dcc4 50%, #f8ead8 100%);
       color: var(--c-content);
       min-height: 100vh;
@@ -91,8 +91,252 @@
       display: none;
     }
 
-    /* Simplified login screen with only Google Sign-In */
-    .login-screen {
+    /* Replaced login screen with THE LENG landing page */
+    .landing-page {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+      background: #fff;
+      transition: opacity 600ms ease, visibility 600ms ease;
+      overflow-y: auto;
+    }
+
+    .landing-page.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* Landing page header */
+    .landing-header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: transparent;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .landing-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .landing-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: clamp(1.5rem, 3.5vw, 1.8rem);
+      color: #000;
+      letter-spacing: -0.8px;
+      text-transform: uppercase;
+      background: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 60px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .landing-logo:hover {
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .logo-dots {
+      display: flex;
+      gap: 0.2rem;
+    }
+
+    .dot {
+      width: clamp(8px, 1.8vw, 10px);
+      height: clamp(8px, 1.8vw, 10px);
+      border-radius: 50%;
+      background: #000;
+      transition: transform 0.3s ease;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      background: #fff;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      text-align: left;
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      text-align: left;
+    }
+
+    .hero-title {
+      font-size: clamp(4rem, 12vw, 8rem);
+      font-weight: 900;
+      line-height: 0.9;
+      margin-bottom: 3rem;
+      letter-spacing: -3px;
+      color: #000;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
+      color: #666;
+      margin-bottom: 4rem;
+      max-width: 700px;
+      line-height: 1.4;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .google-signin-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.5rem 3rem;
+      background: #000;
+      border: 3px solid #000;
+      border-radius: 60px;
+      font-weight: 700;
+      text-decoration: none;
+      color: white;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      min-height: 70px;
+      cursor: pointer;
+    }
+
+    .google-signin-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Events Section */
+    .landing-events-section {
+      padding: 4rem 2rem;
+      background: #fff;
+    }
+
+    .events-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .events-carousel {
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 24px;
+    }
+
+    .events-track {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .event-card {
+      min-width: 100%;
+      padding: 4rem 3rem;
+      background: #e74c3c;
+      color: white;
+      transition: all 0.6s ease;
+    }
+
+    .event-code {
+      font-size: 0.9rem;
+      font-weight: 700;
+      opacity: 0.9;
+      margin-bottom: 1.5rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .event-title {
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-weight: 900;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+      letter-spacing: -1px;
+    }
+
+    .event-description {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      opacity: 0.95;
+    }
+
+    .event-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.2rem 2.5rem;
+      background: white;
+      color: #e74c3c;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .event-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+    }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+
+    .carousel-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #ddd;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .carousel-dot.active {
+      background: #e74c3c;
+      transform: scale(1.4);
+    }
+    /* </CHANGE> */
+
+    .simplified-login-screen {
       position: fixed;
       top: 0;
       left: 0;
@@ -106,7 +350,7 @@
       background: linear-gradient(135deg, #f5e6d3 0%, #f0dcc4 50%, #f8ead8 100%);
     }
 
-    .login-screen::before {
+    .simplified-login-screen::before {
       content: '';
       position: absolute;
       top: 0;
@@ -122,7 +366,7 @@
       50% { opacity: 1; transform: scale(1.1); }
     }
 
-    .login-screen.hidden {
+    .simplified-login-screen.hidden {
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
@@ -388,6 +632,14 @@
       gap: 16px;
       padding: 20px;
       z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 600ms ease, visibility 600ms ease;
+    }
+
+    .header-container.visible {
+      opacity: 1;
+      visibility: visible;
     }
 
     .navbar {
@@ -441,6 +693,14 @@
       left: 50%;
       transform: translateX(-50%);
       z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 600ms ease, visibility 600ms ease;
+    }
+
+    .bottom-nav.visible {
+      opacity: 1;
+      visibility: visible;
     }
 
     .switcher {
@@ -585,6 +845,14 @@
       padding-bottom: 120px;
       position: relative;
       z-index: 1;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 600ms ease, visibility 600ms ease;
+    }
+
+    main.visible {
+      opacity: 1;
+      visibility: visible;
     }
 
     .page-content {
@@ -1162,6 +1430,22 @@
     }
 
     @media (max-width: 768px) {
+      .landing-nav {
+        padding: 0.75rem 1.25rem;
+      }
+
+      .hero {
+        padding: 7rem 1.25rem 3rem;
+      }
+
+      .landing-events-section {
+        padding: 3rem 1.25rem;
+      }
+
+      .event-card {
+        padding: 3rem 2rem;
+      }
+
       .header-container {
         flex-direction: row;
         flex-wrap: wrap;
@@ -1255,33 +1539,59 @@
     </filter>
   </svg>
 
-  <!-- Simplified login screen with only Google Sign-In button -->
-  <div class="login-screen" id="loginScreen">
-    <div class="glass-form">
-      <div class="glass-filter"></div>
-      <div class="glass-overlay"></div>
-      <div class="glass-specular"></div>
-      <div class="glass-content">
-        <h3>Hoş Geldiniz</h3>
-        <p class="subtitle">Üyelik sistemine giriş yapmak için Google hesabınızla oturum açın</p>
-        
-        <div class="google-signin-wrapper">
-          <button class="custom-google-btn" id="customGoogleBtn">
-            <svg class="google-icon" viewBox="0 0 24 24">
-              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+  <!-- New landing page with THE LENG branding and events carousel -->
+  <div class="landing-page" id="landingPage">
+    <!-- Landing Header -->
+    <header class="landing-header">
+      <nav class="landing-nav">
+        <div class="landing-logo">
+          <div class="logo-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+          THE LENG
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          İDDİA EDİYORUZ<br>
+          EN İYİSİYİZ.
+        </h1>
+        <p class="hero-subtitle">
+          Dijital dünyada fark yaratan, sınırları zorlayan ve her projede mükemmelliği hedefleyen 
+          teknoloji şirketi. Hayallerinizi gerçeğe dönüştürüyoruz.
+        </p>
+        <div class="hero-actions">
+          <button id="landingGoogleSignInBtn" class="google-signin-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
             </svg>
             Google ile Giriş Yap
           </button>
         </div>
       </div>
-    </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="landing-events-section">
+      <div class="events-container">
+        <div class="events-carousel">
+          <div class="events-track" id="landingEventsTrack"></div>
+        </div>
+        <div class="carousel-dots" id="landingCarouselDots"></div>
+      </div>
+    </section>
   </div>
   <!-- </CHANGE> -->
 
-  <div class="header-container">
+  <div class="header-container" id="headerContainer">
     <nav class="navbar">
       <div class="user-info" id="userInfo" style="display: none;">
         <img id="userAvatar" class="user-avatar" src="/placeholder.svg" alt="User">
@@ -1290,7 +1600,7 @@
     </nav>
   </div>
 
-  <div class="bottom-nav">
+  <div class="bottom-nav" id="bottomNav">
     <fieldset class="switcher" id="pageSwitcher">
       <legend class="switcher__legend">Sayfa Seçin</legend>
       <label class="switcher__option">
@@ -1314,7 +1624,7 @@
     </fieldset>
   </div>
 
-  <main>
+  <main id="mainContent">
     <div class="page-content active" id="page1">
       <div class="card-flip-container" id="cardFlipContainer">
         <div class="card-flip-inner">
@@ -1435,6 +1745,101 @@
     let scannedMembers = [];
     let html5QrCode = null;
 
+    const events = [
+      {
+        code: "EVT001",
+        title: "Yapay Zeka Zirvesi 2025",
+        description: "Yapay zeka teknolojilerinin geleceğini şekillendirecek uzmanlarla buluşun. Makine öğrenimi, derin öğrenme ve AI uygulamaları üzerine kapsamlı workshop'lar.",
+        color: "#e74c3c",
+        formUrl: "https://example.com/form/ai-summit"
+      },
+      {
+        code: "EVT002",
+        title: "Blockchain & Web3 Konferansı",
+        description: "Blockchain teknolojisi ve Web3 ekosisteminin son trendlerini keşfedin. NFT, DeFi ve metaverse konularında derinlemesine bilgi edinin.",
+        color: "#3498db",
+        formUrl: "https://example.com/form/blockchain"
+      },
+      {
+        code: "EVT003",
+        title: "Siber Güvenlik Eğitimi",
+        description: "Dijital dünyanın en kritik konusu olan siber güvenlik hakkında uzman eğitmenlerden öğrenin. Penetrasyon testleri ve güvenlik protokolleri.",
+        color: "#2ecc71",
+        formUrl: "https://example.com/form/cybersecurity"
+      },
+      {
+        code: "EVT004",
+        title: "Cloud Computing Workshop",
+        description: "Bulut bilişim teknolojileri ve modern DevOps pratikleri üzerine uygulamalı eğitim. AWS, Azure ve Google Cloud platformları.",
+        color: "#f39c12",
+        formUrl: "https://example.com/form/cloud"
+      },
+      {
+        code: "EVT005",
+        title: "Mobile App Development Bootcamp",
+        description: "React Native ve Flutter ile cross-platform mobil uygulama geliştirme. Sıfırdan ileri seviyeye kapsamlı eğitim programı.",
+        color: "#9b59b6",
+        formUrl: "https://example.com/form/mobile"
+      }
+    ];
+
+    // Initialize landing page events carousel
+    function setupLandingEventsCarousel() {
+      const eventsTrack = document.getElementById('landingEventsTrack');
+      const carouselDots = document.getElementById('landingCarouselDots');
+      
+      if (!eventsTrack || !carouselDots) return;
+
+      eventsTrack.innerHTML = '';
+      carouselDots.innerHTML = '';
+      
+      let currentIndex = 0;
+
+      events.forEach((event, index) => {
+        const card = document.createElement('div');
+        card.className = 'event-card';
+        card.style.background = event.color;
+        card.innerHTML = `
+          <div class="event-code">${event.code}</div>
+          <h4 class="event-title">${event.title}</h4>
+          <p class="event-description">${event.description}</p>
+          <button class="event-button" onclick="window.open('${event.formUrl}', '_blank')">
+            FORMA GİT
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </button>
+        `;
+        eventsTrack.appendChild(card);
+
+        const dot = document.createElement('div');
+        dot.className = 'carousel-dot';
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(index));
+        carouselDots.appendChild(dot);
+      });
+
+      function goToSlide(index) {
+        currentIndex = index;
+        eventsTrack.style.transform = `translateX(-${index * 100}%)`;
+        
+        const dots = carouselDots.querySelectorAll('.carousel-dot');
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === index);
+        });
+      }
+
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % events.length;
+        goToSlide(currentIndex);
+      }, 5000);
+
+      goToSlide(0);
+    }
+
+    setupLandingEventsCarousel();
+    // </CHANGE>
+
     // Fetch users data
     fetch('users.json')
       .then(response => response.json())
@@ -1453,37 +1858,16 @@
       })
       .catch(err => console.error('Error loading communities:', err));
 
-    const glassForm = document.querySelector('.glass-form');
-    const glassSpecular = document.querySelector('.glass-specular');
-
-    if (glassForm && glassSpecular) {
-      glassForm.addEventListener('mousemove', (e) => {
-        const rect = glassForm.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        glassSpecular.style.background = `radial-gradient(
-          circle at ${x}px ${y}px,
-          rgba(255,255,255,0.3) 0%,
-          rgba(255,255,255,0.1) 30%,
-          rgba(255,255,255,0) 60%
-        )`;
-      });
-
-      glassForm.addEventListener('mouseleave', () => {
-        glassSpecular.style.background = 'none';
-      });
-    }
-
-    const customGoogleBtn = document.getElementById('customGoogleBtn');
-    if (customGoogleBtn) {
-      customGoogleBtn.addEventListener('click', () => {
+    const landingGoogleSignInBtn = document.getElementById('landingGoogleSignInBtn');
+    if (landingGoogleSignInBtn) {
+      landingGoogleSignInBtn.addEventListener('click', () => {
         playClickSound();
         if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
           google.accounts.id.prompt();
         }
       });
     }
+    // </CHANGE>
 
     const cardFlipContainer = document.getElementById('cardFlipContainer');
     if (cardFlipContainer) {
@@ -1751,7 +2135,11 @@
         
         generateQRCode(currentUser.memberNumber);
         
-        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('landingPage').classList.add('hidden');
+        document.getElementById('headerContainer').classList.add('visible');
+        document.getElementById('bottomNav').classList.add('visible');
+        document.getElementById('mainContent').classList.add('visible');
+        // </CHANGE>
 
         if (currentUser.isAdmin) {
           document.getElementById('communitiesView').style.display = 'none';
