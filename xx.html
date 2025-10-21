@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terakki Yolu Beta Önizleme</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at 20% 20%, #111, #000);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      margin-top: 60px;
+      font-size: 2.5rem;
+      background: linear-gradient(90deg, #00d0ff, #00ffb3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: fadeDown 1s ease forwards;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      width: 90%;
+      max-width: 1100px;
+      margin-top: 40px;
+      padding-bottom: 60px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 20px;
+      transition: all 0.4s ease;
+      transform: translateY(20px);
+      opacity: 0;
+      animation: fadeUp 0.8s forwards;
+    }
+
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: #00ffcc;
+      box-shadow: 0 0 20px rgba(0,255,200,0.2);
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      object-fit: cover;
+      height: 180px;
+    }
+
+    .card h2 {
+      font-size: 1.3rem;
+      margin: 0 0 8px 0;
+      color: #00eaff;
+    }
+
+    .card p {
+      color: #ccc;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #00ffcc, #00b3ff);
+      color: #000;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: linear-gradient(90deg, #00b3ff, #00ffcc);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Terakki Yolu – Beta Önizlemeleri</h1>
+
+  <div class="container" id="cards">
+    <!-- Kartlar JS ile eklenecek -->
+  </div>
+
+  <script>
+    const betas = [
+      { id: "beta001", title: "Beta 001", desc: "İlk deneme sürümü – temel sayfa yapısı testleri.", img: "https://picsum.photos/seed/beta001/600/400" },
+      { id: "beta002", title: "Beta 002", desc: "Yeni içerik düzeni ve menü animasyonları denemesi.", img: "https://picsum.photos/seed/beta002/600/400" },
+      { id: "beta003", title: "Beta 003", desc: "Arka plan ve tema geçişlerinin test sürümü.", img: "https://picsum.photos/seed/beta003/600/400" },
+      { id: "beta004", title: "Beta 004", desc: "Veri entegrasyonu ve hız optimizasyonu testi.", img: "https://picsum.photos/seed/beta004/600/400" },
+      { id: "beta005", title: "Beta 005", desc: "Yeni içerik sayfa düzeni ve navigasyon testi.", img: "https://picsum.photos/seed/beta005/600/400" },
+      { id: "beta006", title: "Beta 006", desc: "Son önizleme – genel performans ölçümleri.", img: "https://picsum.photos/seed/beta006/600/400" }
+    ];
+
+    const container = document.getElementById('cards');
+    betas.forEach((b, i) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.animationDelay = `${i * 0.15}s`;
+      card.innerHTML = `
+        <img src="${b.img}" alt="${b.title}">
+        <h2>${b.title}</h2>
+        <p>${b.desc}</p>
+        <a class="btn" href="https://terakkiyolu.org/${b.id}" target="_blank">Sayfayı Aç</a>
+      `;
+      container.appendChild(card);
+    });
+  </script>
+</body>
+</html>
