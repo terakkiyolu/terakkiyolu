@@ -81,32 +81,50 @@
 
         let currentUser = null;
 
-        // Initialize Google Sign-In
-        function initializeGoogleSignIn() {
-            google.accounts.id.initialize({
-                client_id: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
-                callback: handleCredentialResponse,
-                auto_select: false,
-                cancel_on_tap_outside: true
-            });
-
-            google.accounts.id.renderButton(
-                document.getElementById("google-signin-button"),
-                {
-                    theme: "filled_black",
-                    size: "large",
-                    text: "signin_with",
-                    shape: "rectangular",
-                    width: 280
-                }
-            );
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
         }
 
-        // Handle Google Sign-In response
+        function initializeGoogleSignIn() {
+            if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+                google.accounts.id.initialize({
+                    client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
+                    callback: handleCredentialResponse,
+                    auto_select: false,
+                    cancel_on_tap_outside: true
+                });
+
+                // Render button if element exists
+                const buttonElement = document.getElementById("google-signin-button");
+                if (buttonElement) {
+                    google.accounts.id.renderButton(
+                        buttonElement,
+                        {
+                            theme: "filled_black",
+                            size: "large",
+                            text: "signin_with",
+                            shape: "rectangular",
+                            width: 280
+                        }
+                    );
+                }
+                
+                console.log('Google Sign-In initialized successfully.');
+            } else {
+                console.warn('Google Sign-In script not yet loaded. Retrying...');
+                setTimeout(initializeGoogleSignIn, 500);
+            }
+        }
+
         function handleCredentialResponse(response) {
             try {
                 const credential = response.credential;
-                const payload = JSON.parse(atob(credential.split('.')[1]));
+                const payload = parseJwt(credential);
                 
                 const email = payload.email;
                 const name = payload.name;
@@ -261,8 +279,9 @@
             renderLogin();
         }
 
-        // Initialize app
-        renderLogin();
+        window.onload = function() {
+            renderLogin();
+        };
     </script>
 </body>
 </html>
