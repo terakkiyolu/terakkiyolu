@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Üyelik Kartı</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiw5x5ZWxpayBLYXJ0xLEiLCJzaG9ydF9uYW1lIjoiS2FydCIsInN0YXJ0X3VybCI6Ii8iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMDAwMDAwIiwidGhlbWVfY29sb3IiOiIjMDAwMDAwIn0=">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .card-shadow {
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .blue-neon {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gold-premium {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        }
+        
+        .black-matte {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+        
+        .white-simple {
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+            color: #000;
+        }
+        
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shimmer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-black min-h-screen">
+    <div id="app"></div>
+
+    <script>
+        // Member database
+        const MEMBERS = [
+            "MEMBER|m.yusufertek@gmail.com|Muhammed|20251020-001|3",
+            "MEMBER|test@example.com|Test User|20251020-002|1",
+            "MEMBER|premium@example.com|Premium User|20251020-003|2",
+            "MEMBER|simple@example.com|Simple User|20251020-004|4"
+        ];
+
+        let currentUser = null;
+
+        // Initialize Google Sign-In
+        function initializeGoogleSignIn() {
+            google.accounts.id.initialize({
+                client_id: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
+                callback: handleCredentialResponse,
+                auto_select: false,
+                cancel_on_tap_outside: true
+            });
+
+            google.accounts.id.renderButton(
+                document.getElementById("google-signin-button"),
+                {
+                    theme: "filled_black",
+                    size: "large",
+                    text: "signin_with",
+                    shape: "rectangular",
+                    width: 280
+                }
+            );
+        }
+
+        // Handle Google Sign-In response
+        function handleCredentialResponse(response) {
+            try {
+                const credential = response.credential;
+                const payload = JSON.parse(atob(credential.split('.')[1]));
+                
+                const email = payload.email;
+                const name = payload.name;
+
+                // Validate member
+                const memberData = MEMBERS.find(m => m.includes(email));
+                
+                if (memberData) {
+                    const [, memberEmail, memberName, memberNumber, patternId] = memberData.split('|');
+                    currentUser = {
+                        email: memberEmail,
+                        name: memberName,
+                        memberNumber: memberNumber,
+                        patternId: parseInt(patternId)
+                    };
+                    renderCard();
+                } else {
+                    renderError();
+                }
+            } catch (error) {
+                console.error('Sign-in error:', error);
+                renderError();
+            }
+        }
+
+        // Render login screen
+        function renderLogin() {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <div class="min-h-screen flex items-center justify-center p-4">
+                    <div class="text-center fade-in">
+                        <div class="mb-8">
+                            <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center">
+                                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                                </svg>
+                            </div>
+                            <h1 class="text-3xl font-bold text-white mb-2">Üyelik Kartı</h1>
+                            <p class="text-gray-400">Kartınızı görüntülemek için giriş yapın</p>
+                        </div>
+                        <div id="google-signin-button" class="flex justify-center"></div>
+                    </div>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                initializeGoogleSignIn();
+            }, 100);
+        }
+
+        // Render error screen
+        function renderError() {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <div class="min-h-screen flex items-center justify-center p-4">
+                    <div class="text-center fade-in">
+                        <div class="w-20 h-20 mx-auto mb-4 bg-red-500/20 rounded-full flex items-center justify-center">
+                            <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">Erişim Reddedildi</h2>
+                        <p class="text-gray-400 mb-6">Bu e-posta adresi sistemde kayıtlı değil</p>
+                        <button onclick="renderLogin()" class="px-6 py-3 bg-white text-black rounded-lg font-medium hover:bg-gray-100 transition-colors">
+                            Tekrar Dene
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Get card class based on pattern ID
+        function getCardClass(patternId) {
+            switch(patternId) {
+                case 1: return 'blue-neon';
+                case 2: return 'gold-premium';
+                case 3: return 'black-matte';
+                case 4: return 'white-simple';
+                default: return 'blue-neon';
+            }
+        }
+
+        // Get text color based on pattern ID
+        function getTextColor(patternId) {
+            return patternId === 4 ? 'text-black' : 'text-white';
+        }
+
+        // Render membership card
+        function renderCard() {
+            const app = document.getElementById('app');
+            const cardClass = getCardClass(currentUser.patternId);
+            const textColor = getTextColor(currentUser.patternId);
+            
+            app.innerHTML = `
+                <div class="min-h-screen flex items-center justify-center p-4 py-8">
+                    <div class="w-full max-w-sm fade-in">
+                        <div class="${cardClass} ${textColor} rounded-3xl p-8 card-shadow shimmer relative overflow-hidden">
+                            <div class="relative z-10">
+                                <div class="flex justify-between items-start mb-8">
+                                    <div>
+                                        <p class="text-sm opacity-80 mb-1">Üye Kartı</p>
+                                        <h2 class="text-2xl font-bold">${currentUser.name}</h2>
+                                    </div>
+                                    <div class="w-12 h-12 ${currentUser.patternId === 4 ? 'bg-black' : 'bg-white'} ${currentUser.patternId === 4 ? 'bg-opacity-10' : 'bg-opacity-20'} rounded-xl flex items-center justify-center">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-4 mb-8">
+                                    <div>
+                                        <p class="text-xs opacity-60 mb-1">Üye Numarası</p>
+                                        <p class="text-lg font-mono font-semibold">${currentUser.memberNumber}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs opacity-60 mb-1">E-posta</p>
+                                        <p class="text-sm">${currentUser.email}</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-center">
+                                    <div id="qrcode" class="bg-white p-3 rounded-xl"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="logout()" class="w-full mt-6 px-6 py-3 bg-white/10 text-white rounded-xl font-medium hover:bg-white/20 transition-colors backdrop-blur-sm">
+                            Çıkış Yap
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Generate QR code
+            setTimeout(() => {
+                new QRCode(document.getElementById("qrcode"), {
+                    text: `MEMBER:${currentUser.memberNumber}:${currentUser.email}`,
+                    width: 128,
+                    height: 128,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            }, 100);
+        }
+
+        // Logout function
+        function logout() {
+            currentUser = null;
+            google.accounts.id.disableAutoSelect();
+            renderLogin();
+        }
+
+        // Initialize app
+        renderLogin();
+    </script>
+</body>
+</html>
