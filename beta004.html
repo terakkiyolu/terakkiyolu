@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE LENG - İDDİA EDİYORUZ EN İYİSİYİZ</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <meta name="theme-color" content="#f8f8f8">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <link rel="manifest" href="/manifest.json">
+
+    <style>
+        :root {
+            --primary-color: #000;
+            --secondary-color: #333;
+            --text-color: #666;
+            --background-color: #f8f8f8;
+            --border-radius-sm: 10px;
+            --border-radius-md: 25px;
+            --border-radius-lg: 60px;
+            --transition-speed: 0.3s;
+            --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 5px 20px rgba(0, 0, 0, 0.15);
+            --shadow-strong: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --accent-gradient: linear-gradient(135deg, #667eea, #764ba2);
+            --card-border-color: #e4e4e7;
+            --card-bg-light: #fafafa;
+            --card-bg-gradient-from: #f4f4f5;
+            --card-bg-gradient-to: white;
+            --card-text-dark: #18181b;
+            --card-text-medium: #666;
+            --card-accent-color: #ff8c00;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--secondary-color);
+            overflow-x: hidden;
+            background-color: var(--background-color);
+            scroll-behavior: smooth;
+        }
+
+        *:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: transparent;
+            backdrop-filter: none;
+            z-index: 1000;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .header.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 800;
+            font-size: clamp(1.5rem, 3.5vw, 1.8rem);
+            color: var(--primary-color);
+            letter-spacing: -0.8px;
+            text-transform: uppercase;
+            background: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-light);
+            transition: all var(--transition-speed) ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .logo:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .logo-dots {
+            display: flex;
+            gap: 0.2rem;
+        }
+
+        .dot {
+            width: clamp(8px, 1.8vw, 10px);
+            height: clamp(8px, 1.8vw, 10px);
+            border-radius: 50%;
+            background: var(--primary-color);
+            transition: transform var(--transition-speed) ease;
+        }
+        .logo:hover .dot:nth-child(1) { transform: translateY(-3px); }
+        .logo:hover .dot:nth-child(2) { transform: translateY(3px); }
+
+        .nav-center {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-link {
+            font-size: clamp(1rem, 2vw, 1.05rem);
+            font-weight: 600;
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color var(--transition-speed) ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: all var(--transition-speed) ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-info {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.6rem 1.2rem;
+            background: white;
+            border-radius: var(--border-radius-lg);
+            font-size: clamp(0.88rem, 2vw, 0.98rem);
+            font-weight: 600;
+            color: var(--secondary-color);
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            user-select: none;
+            box-shadow: var(--shadow-light);
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .user-info:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .menu-toggle div {
+            width: 100%;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 10px;
+            transition: all 0.3s linear;
+            transform-origin: 1px;
+        }
+
+        .menu-toggle.open .bar1 {
+            transform: rotate(45deg);
+        }
+
+        .menu-toggle.open .bar2 {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        .menu-toggle.open .bar3 {
+            transform: rotate(-45deg);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: var(--background-color);
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            text-align: left;
+        }
+        /* ... (Rest of Hero Styles are the same) ... */
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            text-align: left;
+        }
+
+        .gradient-blob {
+            position: absolute;
+            right: -10%;
+            top: 10%;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb);
+            border-radius: 50%;
+            opacity: 0.7;
+            filter: blur(80px);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .gradient-blob-2 {
+            position: absolute;
+            left: -15%;
+            bottom: 20%;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            border-radius: 50%;
+            opacity: 0.5;
+            filter: blur(60px);
+            animation: float 6s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            33% { transform: translateY(-30px) rotate(120deg) scale(1.1); }
+            66% { transform: translateY(20px) rotate(240deg) scale(0.9); }
+        }
+
+        .hero-title {
+            font-size: clamp(4rem, 12vw, 8rem);
+            font-weight: 300;
+            line-height: 0.9;
+            margin-bottom: 3rem;
+            letter-spacing: -3px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-title::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: shimmer 2.5s infinite linear;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            color: var(--text-color);
+            margin-bottom: 4rem;
+            max-width: 700px;
+            line-height: 1.4;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-subtitle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2.5s infinite linear 0.5s;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem 3rem;
+            background: var(--primary-color);
+            border: 3px solid var(--primary-color);
+            border-radius: var(--border-radius-lg);
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            min-height: 70px;
+        }
+
+        .cta-button:hover {
+            background: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .cta-button.secondary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .cta-button svg {
+            stroke: currentColor;
+        }
+
+        /* NEW: Services Section Styles */
+        .services-section {
+            padding: 8rem 2rem;
+            background-color: white;
+            text-align: center;
+        }
+
+        .services-section h2 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            letter-spacing: -2px;
+        }
+
+        .services-section > p {
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            color: var(--text-color);
+            margin-bottom: 5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: var(--card-bg-light);
+            padding: 2.5rem;
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-light);
+            text-align: left;
+            transition: all var(--transition-speed) ease;
+            border: 1px solid var(--card-border-color);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .service-card svg {
+            width: 45px;
+            height: 45px;
+            color: var(--card-accent-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--card-text-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .service-card p {
+            font-size: 1rem;
+            color: var(--card-text-medium);
+        }
+        
+        /* Company Cards Section */
+        .company-cards-section {
+            padding: 6rem 2rem;
+            background-color: var(--background-color);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .company-cards-section h2 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 4rem;
+            letter-spacing: -2px;
+        }
+        /* ... (Rest of Card Flip Styles are the same) ... */
+
+        .company-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            justify-items: center;
+        }
+
+        /* Card Flip Styles... (No change) */
+        .card-flip-container {
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            height: 360px;
+            perspective: 2000px;
+            cursor: pointer;
+        }
+        /* ... (Card flip styles) ... */
+
+        /* Enhanced Contact Panel Styles... (No change) */
+        .contact-panel-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            backdrop-filter: blur(10px);
+        }
+        /* ... (Contact panel styles) ... */
+
+        /* Profile Drawer Styles... (No change) */
+        .profile-drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
+        }
+        /* ... (Profile drawer styles) ... */
+
+        /* NEW: Footer Styles */
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4rem 2rem 2rem;
+            font-size: 0.95rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-logo-container .logo {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: none;
+            padding: 0;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            cursor: default;
+        }
+        
+        .footer-logo-container .logo:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .footer-logo-container .logo-dots .dot {
+            background: white;
+        }
+
+        .footer-logo-container p {
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 300px;
+        }
+
+        .footer-links h4, .footer-contact h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+            position: relative;
+        }
+        
+        .footer-links h4::after, .footer-contact h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 30px;
+            height: 2px;
+            background: var(--card-accent-color);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a, .footer-contact a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover, .footer-contact a:hover {
+            color: white;
+        }
+
+        .footer-contact .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-contact .contact-item svg {
+            width: 18px;
+            height: 18px;
+            color: var(--card-accent-color);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 2rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+        }
+        
+        .footer-bottom a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+        }
+        
+        .footer-bottom a:hover {
+            text-decoration: underline;
+        }
+
+        /* Mobile Responsive Adjustments */
+        @media (max-width: 900px) {
+            .nav-center {
+                display: none;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .nav {
+                justify-content: space-between;
+            }
+
+            .nav-right {
+                gap: 0.5rem;
+            }
+            
+            .header.scrolled .nav-right {
+                gap: 0.5rem;
+            }
+
+            /* Mobile Navigation Drawer */
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100vh;
+                width: 70%;
+                max-width: 300px;
+                background-color: white;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+                flex-direction: column;
+                padding: 5rem 2rem 2rem;
+                transform: translateX(100%);
+                transition: transform 0.3s ease-in-out;
+            }
+
+            .nav-links.open {
+                transform: translateX(0);
+            }
+            
+            .nav-link {
+                color: var(--primary-color);
+                font-size: 1.2rem;
+                padding: 1rem 0;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+            
+            .nav-link::after {
+                content: none;
+            }
+            
+            .nav-link:hover {
+                background-color: var(--card-bg-light);
+                padding-left: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 0.75rem 1.25rem;
+            }
+
+            .hero {
+                padding: 7rem 1.25rem 3rem;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: none;
+            }
+            
+            .services-section {
+                padding: 6rem 1.25rem;
+            }
+            
+            .services-grid {
+                gap: 1.5rem;
+            }
+
+            /* Mobile cards: 2 per row */
+            .company-cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                max-width: 100%;
+            }
+
+            .card-flip-container {
+                max-width: 100%;
+                height: 300px;
+            }
+
+            .profile-drawer {
+                width: 100%;
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+
+            .contact-panel {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .contact-panel h2 {
+                font-size: 2rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav {
+                padding: 0.5rem 1rem;
+            }
+
+            .hero {
+                padding: 6rem 1rem 2rem;
+            }
+
+            .company-cards-grid {
+                gap: 0.8rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-flip-container {
+                height: 280px;
+            }
+
+            .contact-panel {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Very small screens - single column if needed */
+        @media (max-width: 360px) {
+            .company-cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <header class="header" id="header">
+        <nav class="nav">
+            <div class="logo" onclick="scrollToSection('home')">
+                <div class="logo-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                THE LENG
+            </div>
+            
+            <div class="nav-center">
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#home" class="nav-link active" data-section="home">Anasayfa</a></li>
+                    <li><a href="#services" class="nav-link" data-section="services">Hizmetlerimiz</a></li>
+                    <li><a href="#clients" class="nav-link" data-section="clients">Müşterilerimiz</a></li>
+                    <li><a href="#" class="nav-link" id="contactLink">İletişim</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-right">
+                <button class="menu-toggle" id="menuToggle">
+                    <div class="bar1"></div>
+                    <div class="bar2"></div>
+                    <div class="bar3"></div>
+                </button>
+                <div id="userInfoElement" class="user-info" style="display: none;">
+                    <div class="user-avatar" id="userAvatar"></div>
+                    <span id="userName"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="gradient-blob"></div>
+        <div class="gradient-blob-2"></div>
+        <div class="hero-content scroll-animate" id="heroContent">
+            <h1 class="hero-title">
+                İDDİA EDİYORUZ<br>
+                EN İYİSİYİZ.
+            </h1>
+            <p class="hero-subtitle">
+                Dijital dünyada fark yaratan, sınırları zorlayan ve her projede mükemmelliği hedefleyen 
+                teknoloji şirketi. Hayallerinizi gerçeğe dönüştürüyoruz.
+            </p>
+            <div class="hero-actions">
+                <button id="googleSignInButton" class="cta-button google-signin">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    Google ile Giriş Yap
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-section" id="services">
+        <h2 class="scroll-animate">Hizmetlerimiz</h2>
+        <p class="scroll-animate">Dijital varlığınızı zirveye taşımak için entegre ve yenilikçi çözümler sunuyoruz. İhtiyaçlarınıza özel stratejilerle büyümenizi hızlandırın.</p>
+        <div class="services-grid">
+            <div class="service-card scroll-animate">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                <h3>Özel Yazılım Geliştirme</h3>
+                <p>İş süreçlerinize tamamen uyumlu, ölçeklenebilir ve yüksek performanslı özel yazılımlar tasarlıyor ve geliştiriyoruz.</p>
+            </div>
+            <div class="service-card scroll-animate">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                <h3>Web ve Mobil Uygulama</h3>
+                <p>Müşteri deneyimini en üst düzeye taşıyan, modern ve responsive web siteleri ile native mobil uygulamalar geliştiriyoruz.</p>
+            </div>
+            <div class="service-card scroll-animate">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-megaphone"><path d="m3 11 18-5v2L3 13v2a4 4 0 0 1 4 4v1H6a2 2 0 0 1-2-2z"/><path d="M11 5v7"/><path d="M13 5v7"/></svg>
+                <h3>Dijital Pazarlama Stratejileri</h3>
+                <p>SEO, sosyal medya yönetimi ve performans pazarlaması ile markanızın görünürlüğünü artırarak gerçek müşteri potansiyelini yakalıyoruz.</p>
+            </div>
+            <div class="service-card scroll-animate">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6" y1="6" y2="6"/><line x1="6" x2="6" y1="18" y2="18"/></svg>
+                <h3>Bulut ve Altyapı Çözümleri</h3>
+                <p>Güvenli, esnek ve maliyet etkin bulut çözümleri (AWS, Azure, GCP) ile işletmenizin teknoloji altyapısını modernize ediyoruz.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="company-cards-section" id="clients">
+        <h2 class="scroll-animate">Başarıyla Tamamlanan Projelerimiz</h2>
+        <div class="company-cards-grid" id="companyCardsGrid">
+            </div>
+    </section>
+
+    <div class="contact-panel-overlay" id="contactPanelOverlay">
+        <div class="contact-panel">
+            <button class="close-button" id="closeContactPanel">&times;</button>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headphones contact-panel-icon"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7A9 9 0 0 1 21 12V7a2 2 0 0 0-2-2h-3a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2h-1.5"/></svg>
+            <h2>Müşteri Danışmanına Ulaşın</h2>
+            <p>Size yardımcı olmaktan mutluluk duyarız. Aşağıdaki iletişim kanallarından bize ulaşabilirsiniz:</p>
+            <div class="contact-info">
+                <a href="tel:+905551234567" class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    +90 555 123 45 67
+                </a>
+                <a href="mailto:info@theleng.com" class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    info@theleng.com
+                </a>
+                <a href="https://wa.me/905551234567" target="_blank" rel="noopener noreferrer" class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                    WhatsApp
+                </a>
+                <a href="https://twitter.com/theleng" target="_blank" rel="noopener noreferrer" class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17-18 11.6 2.2.1 4.4-.6 6-2 1.1-.9 1.8-2.2 2.1-3.7C3.2 15.2 2 13 2 12c2.1 1.2 4.4 1.8 6.7 1.7-1.1-3.9 1.5-7.5 5.4-8.5 3.6-.8 7.1 2 7.1 2z"/></svg>
+                    Twitter
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-drawer-overlay" id="profileDrawerOverlay">
+        <div class="profile-drawer" id="profileDrawer">
+            <div class="profile-drawer-header">
+                <div class="user-avatar" id="drawerUserAvatar"></div>
+                <div>
+                    <h3 class="profile-drawer-title" id="drawerUserName"></h3>
+                    <p class="profile-drawer-description" id="drawerUserEmail"></p>
+                </div>
+            </div>
+            <div class="profile-drawer-content">
+                <a href="#" class="profile-drawer-item" id="drawerPanelLink" style="display: none;" target="_blank" rel="noopener noreferrer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                    <span>Panele Yönlendir</span>
+                </a>
+                <a href="#" class="profile-drawer-item" id="drawerMakePayment">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                    <span>Ödeme Yap</span>
+                </a>
+                <a href="#" class="profile-drawer-item" id="drawerEditProfile">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-cog"><circle cx="18" cy="15" r="3"/><path d="M6 21v-2a4 4 0 0 1 4-4h4"/><path d="M19.07 4.93a10 10 0 0 0-16.28 6.86"/><path d="M22 17v.01"/><path d="M22 20v.01"/><path d="M22 14v.01"/><path d="M15 22v.01"/><path d="M18 22v.01"/><path d="M21 22v.01"/></svg>
+                    <span>Profili Düzenle</span>
+                </a>
+            </div>
+            <div class="profile-drawer-footer">
+                <button class="profile-drawer-close-button" id="drawerSignOutButton">
+                    Çıkış Yap
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo-container scroll-animate">
+                <div class="logo">
+                    <div class="logo-dots">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                    THE LENG
+                </div>
+                <p>Dijital dünyada fark yaratan, sınırları zorlayan ve her projede mükemmelliği hedefleyen teknoloji şirketi.</p>
+            </div>
+            
+            <div class="footer-links scroll-animate">
+                <h4>Hızlı Bağlantılar</h4>
+                <ul>
+                    <li><a href="#home">Anasayfa</a></li>
+                    <li><a href="#services">Hizmetlerimiz</a></li>
+                    <li><a href="#clients">Müşterilerimiz</a></li>
+                    <li><a href="#">Hakkımızda</a></li>
+                    <li><a href="#" id="footerContactLink">İletişim</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact scroll-animate">
+                <h4>İletişim</h4>
+                <div class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <a href="tel:+905551234567">+90 555 123 45 67</a>
+                </div>
+                <div class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    <a href="mailto:info@theleng.com">info@theleng.com</a>
+                </div>
+                <div class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin"><path d="M12 2v20"/><path d="M18 18H6"/><path d="M6 12h12"/></svg>
+                    <span>İstanbul, Türkiye</span>
+                </div>
+            </div>
+            
+            <div class="footer-links scroll-animate">
+                <h4>Sosyal Medya</h4>
+                <ul>
+                    <li><a href="https://twitter.com/theleng" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
+                    <li><a href="https://linkedin.com/company/theleng" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                    <li><a href="https://github.com/theleng" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                    <li><a href="https://wa.me/905551234567" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 THE LENG. Tüm Hakları Saklıdır. | <a href="#">Gizlilik Politikası</a>
+        </div>
+    </footer>
+
+    <script>
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registered with scope:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.error('Service Worker registration failed:', error);
+                    });
+            });
+        }
+
+        // Loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            
+            updateActiveNavLink();
+        });
+
+        // NEW: Mobile Menu Toggle Logic
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+            menuToggle.classList.toggle('open');
+        });
+        
+        // Google Sign-In Implementation
+        let currentUser = null;
+        const heroContentDiv = document.getElementById('heroContent');
+        
+        const googleSignInButton = document.getElementById('googleSignInButton');
+        const userInfoElement = document.getElementById('userInfoElement');
+        const userName = document.getElementById('userName');
+        const userAvatar = document.getElementById('userAvatar');
+        
+        let contactAdvisorButton = null;
+
+        const userConfigurations = {
+            "m.yusufertek@gmail.com": {
+                name: "Yusuf Ertek",
+                panelLink: "https://terakkiyolu.org/new1",
+                welcomeTitle: "HOŞGELDİNİZ Yusuf BEY",
+                welcomeSubtitle: "Aşağıdaki butonda panele giriş yapabilirsiniz."
+            }
+        };
+
+        function initializeGoogleSignIn() {
+            if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+                google.accounts.id.initialize({
+                    client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
+                    callback: handleCredentialResponse,
+                    auto_select: false,
+                    cancel_on_tap_outside: true
+                });
+                console.log('Google Sign-In initialized successfully.');
+            } else {
+                console.warn('Google Sign-In script not yet loaded. Retrying initialization...');
+                setTimeout(initializeGoogleSignIn, 500);
+            }
+        }
+
+        window.addEventListener('load', initializeGoogleSignIn);
+
+        function handleCredentialResponse(response) {
+            try {
+                const payload = JSON.parse(atob(response.credential.split('.')[1]));
+                
+                currentUser = {
+                    name: payload.name,
+                    email: payload.email,
+                    picture: payload.picture,
+                    given_name: payload.given_name
+                };
+                console.log('User signed in:', currentUser.email);
+                updateUIForSignedInUser();
+            } catch (error) {
+                console.error('Error decoding JWT or processing credential response:', error);
+                alert('Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin.');
+            }
+        }
+
+        function updateUIForSignedInUser() {
+            googleSignInButton.style.display = 'none';
+            userInfoElement.style.display = 'flex';
+            
+            userName.textContent = currentUser.given_name || currentUser.name;
+            
+            if (currentUser.picture) {
+                userAvatar.innerHTML = `<img src="${currentUser.picture}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+            } else {
+                userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
+            }
+
+            userInfoElement.removeEventListener('click', showProfileDrawer);
+            userInfoElement.addEventListener('click', showProfileDrawer);
+
+            const userConfig = userConfigurations[currentUser.email];
+            if (userConfig) {
+                displayPersonalizedContent(userConfig);
+            } else {
+                displayUnregisteredUserContent();
+            }
+            ensureContactButtonInHeroActions();
+        }
+
+        function displayPersonalizedContent(config) {
+            heroContentDiv.innerHTML = `
+                <h1 class="hero-title">
+                    ${config.welcomeTitle}
+                </h1>
+                <p class="hero-subtitle">
+                    ${config.welcomeSubtitle}
+                </p>
+                <div class="hero-actions">
+                    <a href="${config.panelLink}" class="cta-button" target="_blank" rel="noopener noreferrer">
+                        PANELE GİRİŞ
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="m9 18 6-6-6-6"/>
+                        </svg>
+                    </a>
+                </div>
+            `;
+            applyShimmerToText();
+            ensureContactButtonInHeroActions();
+            addRippleEffect(heroContentDiv.querySelector('.cta-button:not(.secondary)'));
+        }
+
+        function displayUnregisteredUserContent() {
+            heroContentDiv.innerHTML = `
+                <h1 class="hero-title">
+                    BİZİMLE ÇALIŞMAYA<br>
+                    NE DERSİNİZ?
+                </h1>
+                <p class="hero-subtitle">
+                    Siz de dijital dönüşüm yolculuğunuzda bize katılın ve hayallerinizi gerçeğe dönüştürelim.
+                </p>
+                <div class="hero-actions">
+                </div>
+            `;
+            applyShimmerToText();
+            ensureContactButtonInHeroActions();
+        }
+
+        function restoreDefaultHeroContent() {
+            heroContentDiv.innerHTML = `
+                <h1 class="hero-title">
+                    İDDİA EDİYORUZ<br>
+                    EN İYİSİYİZ.
+                </h1>
+                <p class="hero-subtitle">
+                    Dijital dünyada fark yaratan, sınırları zorlayan ve her projede mükemmelliği hedefleyen 
+                    teknoloji şirketi. Hayallerinizi gerçeğe dönüştürüyoruz.
+                </p>
+                <div class="hero-actions">
+                </div>
+            `;
+            const heroActionsDiv = heroContentDiv.querySelector('.hero-actions');
+
+            if (!currentUser) {
+                googleSignInButton.style.display = 'flex';
+                heroActionsDiv.appendChild(googleSignInButton);
+                addRippleEffect(googleSignInButton);
+                removeContactButtonFromHeroActions();
+            } else {
+                googleSignInButton.style.display = 'none';
+                ensureContactButtonInHeroActions();
+            }
+            
+            initializeScrollAnimations();
+            applyShimmerToText();
+        }
+
+        function signOut() {
+            if (confirm('Çıkış yapmak istediğinizden emin misiniz?')) {
+                google.accounts.id.disableAutoSelect();
+                currentUser = null;
+                
+                googleSignInButton.style.display = 'flex';
+                userInfoElement.style.display = 'none';
+                hideProfileDrawer();
+                
+                removeContactButtonFromHeroActions();
+                restoreDefaultHeroContent();
+
+                const toast = document.createElement('div');
+                toast.style.cssText = `
+                    position: fixed;
+                    top: 100px;
+                    right: 20px;
+                    background: #dc3545;
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border-radius: 10px;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                    z-index: 10000;
+                    font-weight: 600;
+                    transform: translateX(100%);
+                    transition: transform 0.3s ease;
+                `;
+                toast.textContent = 'Başarıyla çıkış yaptınız! 👋';
+                
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.style.transform = 'translateX(0)';
+                }, 100);
+                
+                setTimeout(() => {
+                    toast.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        document.body.removeChild(toast);
+                    }, 300);
+                }, 2000);
+            }
+        }
+
+        googleSignInButton.addEventListener('click', () => {
+            google.accounts.id.prompt();
+        });
+
+        // Contact Panel Logic
+        const contactPanelOverlay = document.getElementById('contactPanelOverlay');
+        const closeContactPanelButton = document.getElementById('closeContactPanel');
+
+        function showContactPanel() {
+            contactPanelOverlay.classList.add('active');
+        }
+
+        function hideContactPanel() {
+            contactPanelOverlay.classList.remove('active');
+        }
+
+        closeContactPanelButton.addEventListener('click', hideContactPanel);
+        contactPanelOverlay.addEventListener('click', (e) => {
+            if (e.target === contactPanelOverlay) {
+                hideContactPanel();
+            }
+        });
+        
+        // NEW: Navigation links that open the contact panel
+        document.getElementById('contactLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            showContactPanel();
+            if (navLinks.classList.contains('open')) {
+                navLinks.classList.remove('open');
+                menuToggle.classList.remove('open');
+            }
+        });
+        document.getElementById('footerContactLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            showContactPanel();
+        });
+
+        // Profile Drawer Logic
+        const profileDrawerOverlay = document.getElementById('profileDrawerOverlay');
+        const profileDrawer = document.getElementById('profileDrawer');
+        const drawerUserAvatar = document.getElementById('drawerUserAvatar');
+        const drawerUserName = document.getElementById('drawerUserName');
+        const drawerUserEmail = document.getElementById('drawerUserEmail');
+        const drawerPanelLink = document.getElementById('drawerPanelLink');
+        const drawerMakePayment = document.getElementById('drawerMakePayment');
+        const drawerEditProfile = document.getElementById('drawerEditProfile');
+        const drawerSignOutButton = document.getElementById('drawerSignOutButton');
+
+        function showProfileDrawer() {
+            if (!currentUser) return;
+
+            if (currentUser.picture) {
+                drawerUserAvatar.innerHTML = `<img src="${currentUser.picture}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+            } else {
+                drawerUserAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
+            }
+            drawerUserName.textContent = currentUser.name;
+            drawerUserEmail.textContent = currentUser.email;
+
+            const userConfig = userConfigurations[currentUser.email];
+            if (userConfig && userConfig.panelLink) {
+                drawerPanelLink.href = userConfig.panelLink;
+                drawerPanelLink.style.display = 'flex';
+            } else {
+                drawerPanelLink.style.display = 'none';
+            }
+
+            profileDrawerOverlay.classList.add('active');
+        }
+
+        function hideProfileDrawer() {
+            profileDrawerOverlay.classList.remove('active');
+        }
+
+        profileDrawerOverlay.addEventListener('click', (e) => {
+            if (e.target === profileDrawerOverlay) {
+                hideProfileDrawer();
+            }
+        });
+
+        drawerMakePayment.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Ödeme sayfası yakında eklenecek!');
+            hideProfileDrawer();
+        });
+
+        drawerEditProfile.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Profil düzenleme sayfası yakında eklenecek!');
+            hideProfileDrawer();
+        });
+
+        drawerSignOutButton.addEventListener('click', signOut);
+
+        // Ripple Effect Functionality
+        function createRipple(event) {
+            const button = event.currentTarget;
+            const circle = document.createElement('span');
+            const diameter = Math.max(button.clientWidth, button.clientHeight);
+            const radius = diameter / 2;
+
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
+            circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+            circle.classList.add('ripple');
+
+            const ripple = button.getElementsByClassName('ripple')[0];
+
+            if (ripple) {
+                ripple.remove();
+            }
+
+            button.appendChild(circle);
+        }
+
+        function addRippleEffect(element) {
+            if (element) {
+                element.removeEventListener('click', createRipple);
+                element.addEventListener('click', createRipple);
+            }
+        }
+
+        document.querySelectorAll('.google-signin, .cta-button, .contact-panel .contact-item, .close-button, .profile-drawer-item, .profile-drawer-close-button, .logo').forEach(element => {
+            addRippleEffect(element);
+        });
+        
+        // NEW: Add ripple effect to the menu toggle
+        addRippleEffect(document.getElementById('menuToggle'));
+
+
+        function ensureContactButtonInHeroActions() {
+            const heroActionsDiv = heroContentDiv.querySelector('.hero-actions');
+            if (!contactAdvisorButton) {
+                contactAdvisorButton = document.createElement('button');
+                contactAdvisorButton.id = 'contactAdvisorButton';
+                contactAdvisorButton.className = 'cta-button secondary';
+                contactAdvisorButton.innerHTML = `
+                    MÜŞTERİ DANIŞMANINA ULAŞ
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                `;
+                contactAdvisorButton.addEventListener('click', showContactPanel);
+                addRippleEffect(contactAdvisorButton);
+            }
+            if (!heroActionsDiv.contains(contactAdvisorButton)) {
+                heroActionsDiv.appendChild(contactAdvisorButton);
+            }
+            contactAdvisorButton.style.display = 'inline-flex';
+        }
+
+        function removeContactButtonFromHeroActions() {
+            if (contactAdvisorButton && contactAdvisorButton.parentNode) {
+                contactAdvisorButton.parentNode.removeChild(contactAdvisorButton);
+            }
+            if (contactAdvisorButton) {
+                contactAdvisorButton.style.display = 'none';
+            }
+        }
+
+        // Scroll Animation (Intersection Observer)
+        const sections = document.querySelectorAll('section');
+        const navLinksList = document.querySelectorAll('.nav-link');
+        
+        function initializeScrollAnimations() {
+            const animateOnScrollElements = document.querySelectorAll('.scroll-animate');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // observer.unobserve(entry.target); // Keep observing for menu highlight
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            animateOnScrollElements.forEach(element => {
+                element.classList.remove('visible');
+                observer.observe(element);
+            });
+        }
+        window.addEventListener('load', initializeScrollAnimations);
+        
+        // NEW: Scroll-based active link update
+        function updateActiveNavLink() {
+            let current = 'home';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinksList.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-section') === current) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        // NEW: Smooth scrolling for nav links
+        document.querySelectorAll('.nav-link[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80, // Offset for fixed header
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu
+                    if (navLinks.classList.contains('open')) {
+                        navLinks.classList.remove('open');
+                        menuToggle.classList.remove('open');
+                    }
+                }
+            });
+        });
+
+        // Function to handle smooth scroll for the logo click
+        function scrollToSection(id) {
+             const targetElement = document.getElementById(id);
+             if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80, // Offset for fixed header
+                    behavior: 'smooth'
+                });
+             }
+        }
+
+
+        // Apply Shimmer to Hero Text
+        function applyShimmerToText() {
+            const heroTitle = document.querySelector('.hero-title');
+            const heroSubtitle = document.querySelector('.hero-subtitle');
+            if (heroTitle) heroTitle.style.animation = 'none';
+            if (heroSubtitle) heroSubtitle.style.animation = 'none';
+            
+            void heroTitle.offsetWidth; 
+            void heroSubtitle.offsetWidth;
+
+            if (heroTitle) heroTitle.style.animation = '';
+            if (heroSubtitle) heroSubtitle.style.animation = '';
+        }
+        window.addEventListener('load', applyShimmerToText);
+
+        // Company Data for Card Flip
+        const companies = [
+            {
+                logo: "/placeholder.svg?height=80&width=80",
+                name: "Tech Solutions A.Ş.",
+                industry: "Yazılım Geliştirme",
+                reason: "Yenilikçi ve ölçeklenebilir yazılım çözümleri sunarak iş süreçlerimizi optimize ettiler. Hızlı teslimat ve mükemmel destekleri sayesinde projelerimiz zamanında tamamlandı.",
+                benefits: ["Ölçeklenebilir Yazılım", "Hızlı Teslimat", "Mükemmel Destek", "İş Süreç Optimizasyonu"]
+            },
+            {
+                logo: "/placeholder.svg?height=80&width=80",
+                name: "Global Pazarlama Ltd.",
+                industry: "Dijital Pazarlama",
+                reason: "Dijital pazarlama stratejilerimizi baştan sona yenilediler. Hedef kitlemize ulaşmamızı sağlayan yaratıcı kampanyalar ve detaylı analizlerle satışlarımızı %40 artırdık.",
+                benefits: ["Yaratıcı Kampanyalar", "Detaylı Analiz", "Satış Artışı", "Hedef Kitleye Ulaşım"]
+            },
+            {
+                logo: "/placeholder.svg?height=80&width=80",
+                name: "E-Ticaret Devi",
+                industry: "Online Perakendecilik",
+                reason: "Kullanıcı dostu ve güvenli e-commerce altyapısı sayesinde müşteri deneyimimizi üst seviyeye taşıdık. Entegrasyon süreçleri sorunsuzdu ve teknik ekip her zaman yanımızdaydı.",
+                benefits: ["Kullanıcı Dostu Arayüz", "Güvenli Altyapı", "Sorunsuz Entegrasyon", "Müşteri Deneyimi"]
+            },
+            {
+                logo: "/placeholder.svg?height=80&width=80",
+                name: "Finansal Çözümler A.Ş.",
+                industry: "Finans ve Danışmanlık",
+                reason: "Karmaşık finansal verilerimizi anlaşılır raporlara dönüştüren özel bir analiz platformu geliştirdiler. Bu sayede daha bilinçli kararlar alabiliyor ve riskleri minimize edebiliyoruz.",
+                benefits: ["Veri Analizi", "Özel Platform", "Bilinçli Kararlar", "Risk Yönetimi"]
+            }
+        ];
+
+        function createCardFlip(company) {
+            const cardContainer = document.createElement('div');
+            cardContainer.className = 'card-flip-container scroll-animate';
+
+            const cardInner = document.createElement('div');
+            cardInner.className = 'card-flip-inner';
+
+            // Front of the card
+            const cardFront = document.createElement('div');
+            cardFront.className = 'card-flip-front';
+            cardFront.innerHTML = `
+                <div class="card-front-content">
+                    <img src="${company.logo}" alt="${company.name} Logo" class="card-front-logo">
+                    <div class="card-front-text">
+                        <h3 class="card-front-title">${company.name}</h3>
+                        <p class="card-front-subtitle">${company.industry}</p>
+                    </div>
+                    <div class="card-front-icon-wrapper">
+                        <svg class="card-front-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 12Z"/><path d="M15 6v6h6"/></svg>
+                    </div>
+                </div>
+            `;
+
+            // Back of the card
+            const cardBack = document.createElement('div');
+            cardBack.className = 'card-flip-back';
+            cardBack.innerHTML = `
+                <div class="card-back-content">
+                    <div class="card-back-text-section">
+                        <h3 class="card-back-title">${company.name}</h3>
+                        <p class="card-back-description">${company.reason}</p>
+                    </div>
+                    <div class="card-back-features">
+                        ${company.benefits.map(benefit => `
+                            <div class="card-back-feature-item">
+                                <svg class="card-back-feature-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                                <span>${benefit}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            cardInner.appendChild(cardFront);
+            cardInner.appendChild(cardBack);
+            cardContainer.appendChild(cardInner);
+
+            // Add flip functionality
+            cardContainer.addEventListener('mouseenter', () => {
+                cardContainer.classList.add('flipped');
+            });
+            cardContainer.addEventListener('mouseleave', () => {
+                cardContainer.classList.remove('flipped');
+            });
+            // Also flip on click for mobile devices
+            cardContainer.addEventListener('click', () => {
+                if (window.innerWidth < 768) {
+                    cardContainer.classList.toggle('flipped');
+                }
+            });
+
+
+            return cardContainer;
+        }
+
+        // Populate company cards
+        window.addEventListener('load', () => {
+            const companyCardsGrid = document.getElementById('companyCardsGrid');
+            companies.forEach(company => {
+                companyCardsGrid.appendChild(createCardFlip(company));
+            });
+            initializeScrollAnimations();
+            updateActiveNavLink(); // Initial call
+        });
+    </script>
+</body>
+</html>
