@@ -1,1607 +1,1555 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE LENG - İDDİA EDİYORUZ EN İYİSİYİZ</title>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-
-    <meta name="theme-color" content="#f8f8f8">
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
-    <link rel="manifest" href="/manifest.json">
-
-    <style>
-        :root {
-            --primary-color: #000;
-            --secondary-color: #333;
-            --text-color: #666;
-            --background-color: #f8f8f8;
-            --border-radius-sm: 10px;
-            --border-radius-md: 25px;
-            --border-radius-lg: 60px;
-            --transition-speed: 0.3s;
-            --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.08);
-            --shadow-medium: 0 5px 20px rgba(0, 0, 0, 0.15);
-            --shadow-strong: 0 10px 30px rgba(0, 0, 0, 0.2);
-            --accent-gradient: linear-gradient(135deg, #667eea, #764ba2);
-            --card-border-color: #e4e4e7;
-            --card-bg-light: #fafafa;
-            --card-bg-gradient-from: #f4f4f5;
-            --card-bg-gradient-to: white;
-            --card-text-dark: #18181b;
-            --card-text-medium: #666;
-            --card-accent-color: #ff8c00;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: var(--secondary-color);
-            overflow-x: hidden;
-            background-color: var(--background-color);
-            scroll-behavior: smooth;
-        }
-
-        *:focus {
-            outline: none;
-            box-shadow: none;
-        }
-
-        /* Header Styles */
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: transparent;
-            backdrop-filter: none;
-            z-index: 1000;
-            transition: all var(--transition-speed) ease;
-        }
-
-        .header.scrolled {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-light);
-        }
-
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-weight: 800;
-            font-size: clamp(1.5rem, 3.5vw, 1.8rem);
-            color: var(--primary-color);
-            letter-spacing: -0.8px;
-            text-transform: uppercase;
-            background: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--border-radius-lg);
-            box-shadow: var(--shadow-light);
-            transition: all var(--transition-speed) ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .logo:hover {
-            transform: translateY(-3px) scale(1.01);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .logo-dots {
-            display: flex;
-            gap: 0.2rem;
-        }
-
-        .dot {
-            width: clamp(8px, 1.8vw, 10px);
-            height: clamp(8px, 1.8vw, 10px);
-            border-radius: 50%;
-            background: var(--primary-color);
-            transition: transform var(--transition-speed) ease;
-        }
-        .logo:hover .dot:nth-child(1) { transform: translateY(-3px); }
-        .logo:hover .dot:nth-child(2) { transform: translateY(3px); }
-
-        .nav-center {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .nav-link {
-            font-size: clamp(1rem, 2vw, 1.05rem);
-            font-weight: 600;
-            color: var(--secondary-color);
-            text-decoration: none;
-            transition: color var(--transition-speed) ease;
-            position: relative;
-            padding: 0.5rem 0;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: var(--primary-color);
-            transition: all var(--transition-speed) ease;
-            transform: translateX(-50%);
-        }
-
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 100%;
-        }
-        
-        .nav-link:hover {
-            color: var(--primary-color);
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .user-info {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            padding: 0.6rem 1.2rem;
-            background: white;
-            border-radius: var(--border-radius-lg);
-            font-size: clamp(0.88rem, 2vw, 0.98rem);
-            font-weight: 600;
-            color: var(--secondary-color);
-            cursor: pointer;
-            transition: all var(--transition-speed) ease;
-            user-select: none;
-            box-shadow: var(--shadow-light);
-            position: relative;
-            overflow: hidden;
-            z-index: 10;
-        }
-
-        .user-info:hover {
-            background: rgba(255, 255, 255, 0.8);
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--accent-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 0.8rem;
-            flex-shrink: 0;
-            overflow: hidden;
-        }
-
-        /* Mobile Menu Toggle */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            justify-content: space-around;
-            width: 30px;
-            height: 25px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            z-index: 1001;
-        }
-
-        .menu-toggle div {
-            width: 100%;
-            height: 3px;
-            background: var(--primary-color);
-            border-radius: 10px;
-            transition: all 0.3s linear;
-            transform-origin: 1px;
-        }
-
-        .menu-toggle.open .bar1 {
-            transform: rotate(45deg);
-        }
-
-        .menu-toggle.open .bar2 {
-            opacity: 0;
-            transform: translateX(-10px);
-        }
-
-        .menu-toggle.open .bar3 {
-            transform: rotate(-45deg);
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            background: var(--background-color);
-            padding: 8rem 2rem 4rem;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            text-align: left;
-        }
-        /* ... (Rest of Hero Styles are the same) ... */
-
-        .hero-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            text-align: left;
-        }
-
-        .gradient-blob {
-            position: absolute;
-            right: -10%;
-            top: 10%;
-            width: 500px;
-            height: 500px;
-            background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb);
-            border-radius: 50%;
-            opacity: 0.7;
-            filter: blur(80px);
-            animation: float 8s ease-in-out infinite;
-        }
-
-        .gradient-blob-2 {
-            position: absolute;
-            left: -15%;
-            bottom: 20%;
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(135deg, #a8edea, #fed6e3);
-            border-radius: 50%;
-            opacity: 0.5;
-            filter: blur(60px);
-            animation: float 6s ease-in-out infinite reverse;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
-            33% { transform: translateY(-30px) rotate(120deg) scale(1.1); }
-            66% { transform: translateY(20px) rotate(240deg) scale(0.9); }
-        }
-
-        .hero-title {
-            font-size: clamp(4rem, 12vw, 8rem);
-            font-weight: 300;
-            line-height: 0.9;
-            margin-bottom: 3rem;
-            letter-spacing: -3px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--primary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-title::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-            animation: shimmer 2.5s infinite linear;
-        }
-
-        .hero-subtitle {
-            font-size: clamp(1.2rem, 4vw, 1.8rem);
-            color: var(--text-color);
-            margin-bottom: 4rem;
-            max-width: 700px;
-            line-height: 1.4;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-subtitle::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 2.5s infinite linear 0.5s;
-        }
-
-        @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        .hero-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.5rem 3rem;
-            background: var(--primary-color);
-            border: 3px solid var(--primary-color);
-            border-radius: var(--border-radius-lg);
-            font-weight: 700;
-            text-decoration: none;
-            color: white;
-            transition: all var(--transition-speed) ease;
-            position: relative;
-            overflow: hidden;
-            font-size: clamp(1rem, 3vw, 1.2rem);
-            min-height: 70px;
-        }
-
-        .cta-button:hover {
-            background: var(--secondary-color);
-            border-color: var(--secondary-color);
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .cta-button.secondary {
-            background: transparent;
-            color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-
-        .cta-button.secondary:hover {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .cta-button svg {
-            stroke: currentColor;
-        }
-
-        /* NEW: Services Section Styles */
-        .services-section {
-            padding: 8rem 2rem;
-            background-color: white;
-            text-align: center;
-        }
-
-        .services-section h2 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 800;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            letter-spacing: -2px;
-        }
-
-        .services-section > p {
-            font-size: clamp(1.1rem, 3vw, 1.5rem);
-            color: var(--text-color);
-            margin-bottom: 5rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .service-card {
-            background: var(--card-bg-light);
-            padding: 2.5rem;
-            border-radius: var(--border-radius-md);
-            box-shadow: var(--shadow-light);
-            text-align: left;
-            transition: all var(--transition-speed) ease;
-            border: 1px solid var(--card-border-color);
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-medium);
-            border-color: rgba(0, 0, 0, 0.1);
-        }
-
-        .service-card svg {
-            width: 45px;
-            height: 45px;
-            color: var(--card-accent-color);
-            margin-bottom: 1.5rem;
-        }
-
-        .service-card h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--card-text-dark);
-            margin-bottom: 0.75rem;
-        }
-
-        .service-card p {
-            font-size: 1rem;
-            color: var(--card-text-medium);
-        }
-        
-        /* Company Cards Section */
-        .company-cards-section {
-            padding: 6rem 2rem;
-            background-color: var(--background-color);
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .company-cards-section h2 {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 800;
-            color: var(--primary-color);
-            margin-bottom: 4rem;
-            letter-spacing: -2px;
-        }
-        /* ... (Rest of Card Flip Styles are the same) ... */
-
-        .company-cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            justify-items: center;
-        }
-
-        /* Card Flip Styles... (No change) */
-        .card-flip-container {
-            position: relative;
-            width: 100%;
-            max-width: 320px;
-            height: 360px;
-            perspective: 2000px;
-            cursor: pointer;
-        }
-        /* ... (Card flip styles) ... */
-
-        /* Enhanced Contact Panel Styles... (No change) */
-        .contact-panel-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-            backdrop-filter: blur(10px);
-        }
-        /* ... (Contact panel styles) ... */
-
-        /* Profile Drawer Styles... (No change) */
-        .profile-drawer-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            display: flex;
-            justify-content: flex-end;
-            align-items: flex-end;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease;
-        }
-        /* ... (Profile drawer styles) ... */
-
-        /* NEW: Footer Styles */
-        .footer {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 4rem 2rem 2rem;
-            font-size: 0.95rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 3rem;
-            padding-bottom: 3rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-logo-container .logo {
-            background: var(--primary-color);
-            color: white;
-            box-shadow: none;
-            padding: 0;
-            margin-bottom: 1rem;
-            font-size: 2rem;
-            cursor: default;
-        }
-        
-        .footer-logo-container .logo:hover {
-            transform: none;
-            box-shadow: none;
-        }
-
-        .footer-logo-container .logo-dots .dot {
-            background: white;
-        }
-
-        .footer-logo-container p {
-            color: rgba(255, 255, 255, 0.7);
-            max-width: 300px;
-        }
-
-        .footer-links h4, .footer-contact h4 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: white;
-            position: relative;
-        }
-        
-        .footer-links h4::after, .footer-contact h4::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -5px;
-            width: 30px;
-            height: 2px;
-            background: var(--card-accent-color);
-        }
-
-        .footer-links ul {
-            list-style: none;
-        }
-
-        .footer-links ul li {
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-links a, .footer-contact a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover, .footer-contact a:hover {
-            color: white;
-        }
-
-        .footer-contact .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-        
-        .footer-contact .contact-item svg {
-            width: 18px;
-            height: 18px;
-            color: var(--card-accent-color);
-        }
-
-        .footer-bottom {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-            padding-top: 2rem;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.85rem;
-        }
-        
-        .footer-bottom a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-        }
-        
-        .footer-bottom a:hover {
-            text-decoration: underline;
-        }
-
-        /* Mobile Responsive Adjustments */
-        @media (max-width: 900px) {
-            .nav-center {
-                display: none;
-            }
-            .menu-toggle {
-                display: flex;
-            }
-            
-            .nav {
-                justify-content: space-between;
-            }
-
-            .nav-right {
-                gap: 0.5rem;
-            }
-            
-            .header.scrolled .nav-right {
-                gap: 0.5rem;
-            }
-
-            /* Mobile Navigation Drawer */
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: 0;
-                height: 100vh;
-                width: 70%;
-                max-width: 300px;
-                background-color: white;
-                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-                flex-direction: column;
-                padding: 5rem 2rem 2rem;
-                transform: translateX(100%);
-                transition: transform 0.3s ease-in-out;
-            }
-
-            .nav-links.open {
-                transform: translateX(0);
-            }
-            
-            .nav-link {
-                color: var(--primary-color);
-                font-size: 1.2rem;
-                padding: 1rem 0;
-                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            }
-            
-            .nav-link::after {
-                content: none;
-            }
-            
-            .nav-link:hover {
-                background-color: var(--card-bg-light);
-                padding-left: 10px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav {
-                padding: 0.75rem 1.25rem;
-            }
-
-            .hero {
-                padding: 7rem 1.25rem 3rem;
-            }
-
-            .hero-actions {
-                flex-direction: column;
-                align-items: flex-start;
-                width: 100%;
-            }
-
-            .cta-button {
-                width: 100%;
-                max-width: none;
-            }
-            
-            .services-section {
-                padding: 6rem 1.25rem;
-            }
-            
-            .services-grid {
-                gap: 1.5rem;
-            }
-
-            /* Mobile cards: 2 per row */
-            .company-cards-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-                max-width: 100%;
-            }
-
-            .card-flip-container {
-                max-width: 100%;
-                height: 300px;
-            }
-
-            .profile-drawer {
-                width: 100%;
-                border-bottom-left-radius: 0;
-                border-bottom-right-radius: 0;
-            }
-
-            .contact-panel {
-                padding: 2rem;
-                margin: 1rem;
-            }
-
-            .contact-panel h2 {
-                font-size: 2rem;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .nav {
-                padding: 0.5rem 1rem;
-            }
-
-            .hero {
-                padding: 6rem 1rem 2rem;
-            }
-
-            .company-cards-grid {
-                gap: 0.8rem;
-            }
-            
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .card-flip-container {
-                height: 280px;
-            }
-
-            .contact-panel {
-                padding: 1.5rem;
-            }
-        }
-
-        /* Very small screens - single column if needed */
-        @media (max-width: 360px) {
-            .company-cards-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE LENG - Üyelik Sistemi</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+    }
+
+    :root {
+      --fz: 16px;
+      --saturation: 1.8;
+      
+      --page1-bg: #f5e6d3;
+      --page1-content: #3d2f1f;
+      --page1-action: #d4a574;
+      --page1-glass: #e8d4b8;
+      --page1-light: #ffffff;
+      --page1-dark: #2a1f15;
+      
+      --page2-bg: #f0dcc4;
+      --page2-content: #4a3828;
+      --page2-action: #c9965f;
+      --page2-glass: #e0c9a8;
+      --page2-light: #ffffff;
+      --page2-dark: #2f2318;
+      
+      --page3-bg: #f8ead8;
+      --page3-content: #3a2e20;
+      --page3-action: #b8956a;
+      --page3-glass: #ecdfc8;
+      --page3-light: #ffffff;
+      --page3-dark: #251a10;
+      
+      --c-bg: var(--page1-bg);
+      --c-content: var(--page1-content);
+      --c-action: var(--page1-action);
+      --c-glass: var(--page1-glass);
+      --c-light: var(--page1-light);
+      --c-dark: var(--page1-dark);
+      
+      --glass-reflex-light: 1;
+      --glass-reflex-dark: 1;
+    }
+
+    body {
+      font-family: "DM Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #f5e6d3 0%, #f0dcc4 50%, #f8ead8 100%);
+      color: var(--c-content);
+      min-height: 100vh;
+      transition: background 600ms cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(212, 165, 116, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(201, 150, 95, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(184, 149, 106, 0.1) 0%, transparent 50%);
+      animation: particleFloat 20s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes particleFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.1); }
+      66% { transform: translate(-20px, 20px) scale(0.9); }
+    }
+
+    svg {
+      display: none;
+    }
+
+    /* Landing Page Styles */
+    .landing-page {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+      background: #fff;
+      transition: opacity 600ms ease, visibility 600ms ease;
+      overflow-y: auto;
+    }
+
+    .landing-page.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* Landing page header */
+    .landing-header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: transparent;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .landing-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .landing-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: clamp(1.5rem, 3.5vw, 1.8rem);
+      color: #000;
+      letter-spacing: -0.8px;
+      text-transform: uppercase;
+      background: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 60px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .landing-logo:hover {
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .logo-dots {
+      display: flex;
+      gap: 0.2rem;
+    }
+
+    .dot {
+      width: clamp(8px, 1.8vw, 10px);
+      height: clamp(8px, 1.8vw, 10px);
+      border-radius: 50%;
+      background: #000;
+      transition: transform 0.3s ease;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      background: #fff;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      text-align: left;
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      text-align: left;
+    }
+
+    .hero-title {
+      font-size: clamp(4rem, 12vw, 8rem);
+      font-weight: 900;
+      line-height: 0.9;
+      margin-bottom: 3rem;
+      letter-spacing: -3px;
+      color: #000;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
+      color: #666;
+      margin-bottom: 4rem;
+      max-width: 700px;
+      line-height: 1.4;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .google-signin-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.5rem 3rem;
+      background: #000;
+      border: 3px solid #000;
+      border-radius: 60px;
+      font-weight: 700;
+      text-decoration: none;
+      color: white;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      min-height: 70px;
+      cursor: pointer;
+    }
+
+    .google-signin-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Events Section */
+    .landing-events-section {
+      padding: 4rem 2rem;
+      background: #fff;
+    }
+
+    .events-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .events-carousel {
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 24px;
+    }
+
+    .events-track {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .event-card {
+      min-width: 100%;
+      padding: 4rem 3rem;
+      color: white;
+      transition: all 0.6s ease;
+    }
+
+    .event-code {
+      font-size: 0.9rem;
+      font-weight: 700;
+      opacity: 0.9;
+      margin-bottom: 1.5rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .event-title {
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-weight: 900;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+      letter-spacing: -1px;
+    }
+
+    .event-description {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      opacity: 0.95;
+    }
+
+    .event-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.2rem 2.5rem;
+      background: white;
+      color: #e74c3c;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .event-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+    }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+
+    .carousel-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #ddd;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .carousel-dot.active {
+      background: #e74c3c;
+      transform: scale(1.4);
+    }
+    
+    .header-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 600ms ease, visibility 600ms ease;
+    }
+
+    .header-container.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 70px;
+      padding: 8px 8px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 30%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 20%), transparent),
+        inset 1.8px 3px 0px -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent), 
+        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+      transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 16px;
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 40%, transparent);
+      backdrop-filter: blur(8px);
+      font-size: 0.9rem;
+      color: var(--c-content);
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 30%), transparent);
+    }
+
+    .user-info span {
+      display: block;
+      font-weight: 600;
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--c-action);
+      overflow: hidden;
+    }
+    
+    /* NEW: Logout Button Style */
+    .navbar-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 100%;
+        padding: 0 20px;
+        border: none;
+        border-radius: 99em;
+        font-size: 0.9rem;
+        color: var(--c-content);
+        font-weight: 600;
+        background-color: color-mix(in srgb, var(--c-glass) 30%, transparent);
+        backdrop-filter: blur(8px) saturate(var(--saturation));
+        -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+        box-shadow: 
+            inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 20%), transparent),
+            0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+        transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+    }
+    .navbar-btn:hover {
+        background-color: color-mix(in srgb, var(--c-glass) 50%, transparent);
+        transform: translateY(-2px);
+        box-shadow: 
+            inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 40%), transparent),
+            0px 8px 24px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent);
+    }
+
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 600ms ease, visibility 600ms ease;
+    }
+
+    .bottom-nav.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* ... (Mevcut .switcher, .switcher__option vb. stilleri aynı kalır) ... */
+    .switcher {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 244px;
+      max-width: 244px;
+      height: 70px;
+      box-sizing: border-box;
+      padding: 8px 12px 10px;
+      border: none;
+      border-radius: 99em;
+      font-size: var(--fz);
+      background-color: color-mix(in srgb, var(--c-glass) 30%, transparent);
+      backdrop-filter: blur(8px) saturate(var(--saturation));
+      -webkit-backdrop-filter: blur(8px) saturate(var(--saturation));
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 20%), transparent),
+        0px 6px 16px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent);
+      transition: all 400ms cubic-bezier(1, 0.0, 0.4, 1);
+      position: relative;
+    }
+
+    .switcher__legend {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      border: 0;
+      padding: 0;
+      white-space: nowrap;
+      clip-path: inset(100%);
+      clip: rect(0 0 0 0);
+      overflow: hidden;
+    }
+
+    .switcher__input {
+      clip: rect(0 0 0 0);
+      clip-path: inset(100%);
+      height: 1px;
+      width: 1px;
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+    }
+
+    .switcher__icon {
+      display: block;
+      width: 100%;
+      transition: scale 200ms cubic-bezier(0.5, 0, 0, 1);
+    }
+
+    .switcher__option {
+      --c: var(--c-content);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 16px;
+      width: 68px;
+      height: 100%;
+      box-sizing: border-box;
+      border-radius: 99em;
+      opacity: 1;
+      transition: all 160ms;
+    }
+
+    .switcher__option:hover {
+      --c: var(--c-action);
+      cursor: pointer;
+    }
+
+    .switcher__option:hover .switcher__icon {
+      scale: 1.2;
+    }
+
+    .switcher__option:has(input:checked) {
+      --c: var(--c-content);
+      cursor: auto;
+    }
+
+    .switcher::after {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      display: block;
+      width: 84px;
+      height: calc(100% - 10px);
+      border-radius: 99em;
+      background-color: color-mix(in srgb, var(--c-glass) 60%, transparent);
+      z-index: -1;
+      box-shadow: 
+        inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 30%), transparent),
+        0px 3px 6px 0px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 15%), transparent);
+    }
+    /* ... (Page switch animations) ... */
+
+    main {
+      padding-top: 100px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 120px;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 600ms ease, visibility 600ms ease;
+    }
+
+    main.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .page-content {
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 600ms cubic-bezier(0.4, 0, 0.2, 1), 
+                  transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: 1000px;
+      width: 100%;
+      padding: 40px;
+    }
+
+    .page-content.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Card Enhancements */
+    .card-info {
+        display: grid; /* Changed to grid for more structured layout */
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        align-items: flex-end;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .card-info .info-block {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .card-number {
+        font-size: 32px; /* Adjusted size to fit more info */
+        letter-spacing: 4px;
+        margin: 16px 0 24px 0;
+    }
+    
+    .card-holder { grid-area: 2 / 1 / 3 / 2; }
+    .card-department { grid-area: 2 / 2 / 3 / 3; }
+    .card-member-since { grid-area: 3 / 1 / 4 / 2; margin-top: 10px;}
+    .card-status { grid-area: 3 / 2 / 4 / 3; margin-top: 10px;}
+    
+    /* Community Card Redesign */
+    .community-card {
+        aspect-ratio: auto;
+        height: 200px;
+        padding: 24px;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto 1fr auto;
+        gap: 16px 20px;
+        align-items: center;
+    }
+    
+    .community-logo {
+        grid-row: 1 / 3;
+        grid-column: 1 / 2;
+        width: 64px;
+        height: 64px;
+        margin-bottom: 0;
+        align-self: flex-start;
+    }
+
+    .community-card h3 {
+        grid-row: 1 / 2;
+        grid-column: 2 / 3;
+        font-size: 1.5rem;
+        margin-bottom: 0;
+    }
+    
+    .community-code {
+        grid-row: 2 / 3;
+        grid-column: 2 / 3;
+        align-self: flex-start;
+    }
+    
+    .community-description {
+        grid-row: 3 / 4;
+        grid-column: 1 / 3;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: var(--c-content);
+        opacity: 0.8;
+    }
+
+    .community-actions {
+        grid-row: 4 / 5;
+        grid-column: 1 / 3;
+        display: flex;
+        gap: 12px;
+        margin-top: 10px;
+    }
+    
+    .community-website-btn, .community-action-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        background: rgba(212, 165, 116, 0.4);
+        border: 1px solid rgba(212, 165, 116, 0.6);
+        border-radius: 10px;
+        color: var(--c-content);
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 300ms ease;
+        text-decoration: none;
+        position: relative;
+        z-index: 1;
+        box-shadow: 
+            inset 0 1px 0 rgba(255, 255, 255, 0.5),
+            0 2px 8px rgba(212, 165, 116, 0.2);
+    }
+    
+    .community-action-btn.joined {
+        background: rgba(85, 172, 238, 0.4);
+        border-color: rgba(85, 172, 238, 0.6);
+    }
+    
+    .community-action-btn.joined:hover {
+        background: rgba(255, 99, 71, 0.6); /* Hinting at leaving */
+        border-color: rgba(255, 99, 71, 0.8);
+        color: white;
+    }
+
+    /* Info Card Redesign (Events) */
+    .info-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 250px;
+    }
+    
+    .info-card-icon {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 12px;
+    }
+
+    .info-card h3 {
+        font-size: 1.2rem;
+    }
+    
+    .info-card-date {
+        color: #e74c3c; /* Highlight date/action */
+    }
+
+    @media (max-width: 768px) {
+      /* ... (Mevcut medya sorguları) ... */
+      .navbar {
+        gap: 8px;
+      }
+      .card-number {
+        font-size: 32px;
+        letter-spacing: 4px;
+      }
+      .card-info {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+        gap: 10px;
+      }
+      .card-holder, .card-department, .card-member-since, .card-status {
+        grid-area: auto;
+        margin-top: 0;
+      }
+      .community-card {
+        grid-template-columns: 64px 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="loading" id="loading">
-        <div class="spinner"></div>
-    </div>
+  <audio id="clickSound" preload="auto">
+    <source src="ses.mp3" type="audio/mpeg">
+  </audio>
 
-    <header class="header" id="header">
-        <nav class="nav">
-            <div class="logo" onclick="scrollToSection('home')">
-                <div class="logo-dots">
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                </div>
-                THE LENG
-            </div>
-            
-            <div class="nav-center">
-                <ul class="nav-links" id="navLinks">
-                    <li><a href="#home" class="nav-link active" data-section="home">Anasayfa</a></li>
-                    <li><a href="#services" class="nav-link" data-section="services">Hizmetlerimiz</a></li>
-                    <li><a href="#clients" class="nav-link" data-section="clients">Müşterilerimiz</a></li>
-                    <li><a href="#" class="nav-link" id="contactLink">İletişim</a></li>
-                </ul>
-            </div>
-            
-            <div class="nav-right">
-                <button class="menu-toggle" id="menuToggle">
-                    <div class="bar1"></div>
-                    <div class="bar2"></div>
-                    <div class="bar3"></div>
-                </button>
-                <div id="userInfoElement" class="user-info" style="display: none;">
-                    <div class="user-avatar" id="userAvatar"></div>
-                    <span id="userName"></span>
-                </div>
-            </div>
-        </nav>
+  <audio id="pageSwitchSound" preload="auto">
+    <source src="ses2.mp3" type="audio/mpeg">
+  </audio>
+
+  <svg>
+    <filter id="glass-distortion">
+      <feTurbulence type="turbulence" baseFrequency="0.008" numOctaves="2" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="77" />
+    </filter>
+  </svg>
+
+  <div class="landing-page" id="landingPage">
+    <header class="landing-header">
+      <nav class="landing-nav">
+        <div class="landing-logo">
+          <div class="logo-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+          THE LENG
+        </div>
+      </nav>
     </header>
 
-    <section class="hero" id="home">
-        <div class="gradient-blob"></div>
-        <div class="gradient-blob-2"></div>
-        <div class="hero-content scroll-animate" id="heroContent">
-            <h1 class="hero-title">
-                İDDİA EDİYORUZ<br>
-                EN İYİSİYİZ.
-            </h1>
-            <p class="hero-subtitle">
-                Dijital dünyada fark yaratan, sınırları zorlayan ve her projede mükemmelliği hedefleyen 
-                teknoloji şirketi. Hayallerinizi gerçeğe dönüştürüyoruz.
-            </p>
-            <div class="hero-actions">
-                <button id="googleSignInButton" class="cta-button google-signin">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                    </svg>
-                    Google ile Giriş Yap
-                </button>
-            </div>
+    <section class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          İDDİA EDİYORUZ<br>
+          EN İYİSİYİZ.
+        </h1>
+        <p class="hero-subtitle">
+          Dijital dünyada fark yaratan, sınırları zorlayan ve her projede mükemmelliği hedefleyen 
+          teknoloji şirketi. Hayallerinizi gerçeğe dönüştürüyoruz.
+        </p>
+        <div class="hero-actions">
+          <button id="landingGoogleSignInBtn" class="google-signin-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            Google ile Giriş Yap
+          </button>
         </div>
+      </div>
     </section>
 
-    <section class="services-section" id="services">
-        <h2 class="scroll-animate">Hizmetlerimiz</h2>
-        <p class="scroll-animate">Dijital varlığınızı zirveye taşımak için entegre ve yenilikçi çözümler sunuyoruz. İhtiyaçlarınıza özel stratejilerle büyümenizi hızlandırın.</p>
-        <div class="services-grid">
-            <div class="service-card scroll-animate">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                <h3>Özel Yazılım Geliştirme</h3>
-                <p>İş süreçlerinize tamamen uyumlu, ölçeklenebilir ve yüksek performanslı özel yazılımlar tasarlıyor ve geliştiriyoruz.</p>
-            </div>
-            <div class="service-card scroll-animate">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-                <h3>Web ve Mobil Uygulama</h3>
-                <p>Müşteri deneyimini en üst düzeye taşıyan, modern ve responsive web siteleri ile native mobil uygulamalar geliştiriyoruz.</p>
-            </div>
-            <div class="service-card scroll-animate">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-megaphone"><path d="m3 11 18-5v2L3 13v2a4 4 0 0 1 4 4v1H6a2 2 0 0 1-2-2z"/><path d="M11 5v7"/><path d="M13 5v7"/></svg>
-                <h3>Dijital Pazarlama Stratejileri</h3>
-                <p>SEO, sosyal medya yönetimi ve performans pazarlaması ile markanızın görünürlüğünü artırarak gerçek müşteri potansiyelini yakalıyoruz.</p>
-            </div>
-            <div class="service-card scroll-animate">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-server"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6" y1="6" y2="6"/><line x1="6" x2="6" y1="18" y2="18"/></svg>
-                <h3>Bulut ve Altyapı Çözümleri</h3>
-                <p>Güvenli, esnek ve maliyet etkin bulut çözümleri (AWS, Azure, GCP) ile işletmenizin teknoloji altyapısını modernize ediyoruz.</p>
-            </div>
+    <section class="landing-events-section">
+      <div class="events-container">
+        <div class="events-carousel">
+          <div class="events-track" id="landingEventsTrack"></div>
         </div>
+        <div class="carousel-dots" id="landingCarouselDots"></div>
+      </div>
     </section>
+  </div>
+  <div class="header-container" id="headerContainer">
+    <nav class="navbar">
+      <div class="user-info" id="userInfo" style="display: none;">
+        <img id="userAvatar" class="user-avatar" src="/placeholder.svg" alt="User">
+        <span id="userName"></span>
+      </div>
+      <button id="signOutButton" class="navbar-btn" style="display: none;">
+        <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+      </button>
+    </nav>
+  </div>
 
-    <section class="company-cards-section" id="clients">
-        <h2 class="scroll-animate">Başarıyla Tamamlanan Projelerimiz</h2>
-        <div class="company-cards-grid" id="companyCardsGrid">
-            </div>
-    </section>
+  <div class="bottom-nav" id="bottomNav">
+    <fieldset class="switcher" id="pageSwitcher">
+      <legend class="switcher__legend">Sayfa Seçin</legend>
+      <label class="switcher__option">
+        <input class="switcher__input" type="radio" name="page" value="page1" c-option="1" checked/>
+        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
+          <path fill="var(--c)" d="M18 6C11.373 6 6 11.373 6 18s5.373 12 12 12 12-5.373 12-12S24.627 6 18 6zm0 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S8 23.523 8 18 12.477 8 18 8zm-2 4v8h-3l5 6 5-6h-3v-8h-4z"/>
+        </svg>
+      </label>
+      <label class="switcher__option">
+        <input class="switcher__input" type="radio" name="page" value="page2" c-option="2"/>
+        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
+          <path fill="var(--c)" d="M18 6l-2.5 7.5H8l6 4.5L11.5 26 18 21.5 24.5 26 22 18l6-4.5h-7.5L18 6z"/>
+        </svg>
+      </label>
+      <label class="switcher__option">
+        <input class="switcher__input" type="radio" name="page" value="page3" c-option="3"/>
+        <svg class="switcher__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 36 36">
+          <path fill="var(--c)" d="M6 8v20h24V8H6zm2 2h20v16H8V10zm4 3v2h12v-2H12zm0 4v2h12v-2H12zm0 4v2h8v-2h-8z"/>
+        </svg>
+      </label>
+    </fieldset>
+  </div>
 
-    <div class="contact-panel-overlay" id="contactPanelOverlay">
-        <div class="contact-panel">
-            <button class="close-button" id="closeContactPanel">&times;</button>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-headphones contact-panel-icon"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7A9 9 0 0 1 21 12V7a2 2 0 0 0-2-2h-3a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2h-1.5"/></svg>
-            <h2>Müşteri Danışmanına Ulaşın</h2>
-            <p>Size yardımcı olmaktan mutluluk duyarız. Aşağıdaki iletişim kanallarından bize ulaşabilirsiniz:</p>
-            <div class="contact-info">
-                <a href="tel:+905551234567" class="contact-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                    +90 555 123 45 67
-                </a>
-                <a href="mailto:info@theleng.com" class="contact-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                    info@theleng.com
-                </a>
-                <a href="https://wa.me/905551234567" target="_blank" rel="noopener noreferrer" class="contact-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
-                    WhatsApp
-                </a>
-                <a href="https://twitter.com/theleng" target="_blank" rel="noopener noreferrer" class="contact-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17-18 11.6 2.2.1 4.4-.6 6-2 1.1-.9 1.8-2.2 2.1-3.7C3.2 15.2 2 13 2 12c2.1 1.2 4.4 1.8 6.7 1.7-1.1-3.9 1.5-7.5 5.4-8.5 3.6-.8 7.1 2 7.1 2z"/></svg>
-                    Twitter
-                </a>
+  <main id="mainContent">
+    <div class="page-content active" id="page1">
+      <div class="card-flip-container" id="cardFlipContainer">
+        <div class="card-flip-inner">
+          <div class="membership-card">
+            <div class="card-header">
+              <div class="card-logo">MEMBER</div>
+              <div class="card-chip"></div>
             </div>
+            <div class="card-number" id="memberNumber">0000 0000</div>
+            <div class="card-info">
+              <div class="card-holder info-block">
+                <div class="card-label">Üye Adı</div>
+                <div class="card-value" id="memberName">-</div>
+              </div>
+              <div class="card-department info-block">
+                <div class="card-label">Bölüm</div>
+                <div class="card-value" id="memberDepartment">-</div>
+              </div>
+              <div class="card-member-since info-block">
+                <div class="card-label">Üyelik Başlangıcı</div>
+                <div class="card-value" id="memberSince">-</div>
+              </div>
+              <div class="card-status info-block">
+                <div class="card-label">Üye Seviyesi</div>
+                <div class="card-value" id="memberStatus">-</div>
+              </div>
+              </div>
+          </div>
+          
+          <div class="membership-card-back">
+            <div class="qr-code-label">Üye QR Kodu</div>
+            <div class="qr-code-container">
+              <img id="qrCodeImage" src="/placeholder.svg" alt="QR Code">
+            </div>
+            <div class="qr-member-code" id="qrMemberCode">0000 0000</div>
+          </div>
         </div>
+      </div>
     </div>
 
-    <div class="profile-drawer-overlay" id="profileDrawerOverlay">
-        <div class="profile-drawer" id="profileDrawer">
-            <div class="profile-drawer-header">
-                <div class="user-avatar" id="drawerUserAvatar"></div>
-                <div>
-                    <h3 class="profile-drawer-title" id="drawerUserName"></h3>
-                    <p class="profile-drawer-description" id="drawerUserEmail"></p>
-                </div>
-            </div>
-            <div class="profile-drawer-content">
-                <a href="#" class="profile-drawer-item" id="drawerPanelLink" style="display: none;" target="_blank" rel="noopener noreferrer">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
-                    <span>Panele Yönlendir</span>
-                </a>
-                <a href="#" class="profile-drawer-item" id="drawerMakePayment">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
-                    <span>Ödeme Yap</span>
-                </a>
-                <a href="#" class="profile-drawer-item" id="drawerEditProfile">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-cog"><circle cx="18" cy="15" r="3"/><path d="M6 21v-2a4 4 0 0 1 4-4h4"/><path d="M19.07 4.93a10 10 0 0 0-16.28 6.86"/><path d="M22 17v.01"/><path d="M22 20v.01"/><path d="M22 14v.01"/><path d="M15 22v.01"/><path d="M18 22v.01"/><path d="M21 22v.01"/></svg>
-                    <span>Profili Düzenle</span>
-                </a>
-            </div>
-            <div class="profile-drawer-footer">
-                <button class="profile-drawer-close-button" id="drawerSignOutButton">
-                    Çıkış Yap
-                </button>
-            </div>
-        </div>
+    <div class="page-content" id="page2">
+      <div class="content-section" id="adminMembersView" style="display: none;">
+        <h1 class="section-title">Kayıtlı Üyeler <span class="admin-badge">Admin</span></h1>
+        <div class="cards-grid" id="membersCardsGrid"></div>
+      </div>
+      
+      <div class="content-section" id="communitiesView">
+        <h1 class="section-title">Topluluklar</h1>
+        <div class="cards-grid" id="communitiesGrid"></div>
+      </div>
     </div>
+
+    <div class="page-content" id="page3">
+      <div class="content-section scanner-container" id="adminScannerView" style="display: none;">
+        <h1 class="section-title">QR Kod Okuyucu <span class="admin-badge">Admin</span></h1>
+        <div id="qr-reader"></div>
+        <div class="scanned-list" id="scannedList">
+          <h3 style="margin-bottom: 16px; color: var(--c-content);">Taranan Üyeler</h3>
+          <div id="scannedItems"></div>
+          <button class="download-btn" id="downloadBtn" style="display: none;">
+            <i class="fas fa-download"></i>
+            JSON İndir
+          </button>
+        </div>
+      </div>
+      
+      <div class="content-section" id="eventsView">
+        <h1 class="section-title">Etkinlikler</h1>
+        <div class="cards-grid" id="eventsCardsGrid">
+          </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const clickSound = document.getElementById('clickSound');
+    const pageSwitchSound = document.getElementById('pageSwitchSound');
     
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-logo-container scroll-animate">
-                <div class="logo">
-                    <div class="logo-dots">
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                    </div>
-                    THE LENG
-                </div>
-                <p>Dijital dünyada fark yaratan, sınırları zorlayan ve her projede mükemmelliği hedefleyen teknoloji şirketi.</p>
-            </div>
-            
-            <div class="footer-links scroll-animate">
-                <h4>Hızlı Bağlantılar</h4>
-                <ul>
-                    <li><a href="#home">Anasayfa</a></li>
-                    <li><a href="#services">Hizmetlerimiz</a></li>
-                    <li><a href="#clients">Müşterilerimiz</a></li>
-                    <li><a href="#">Hakkımızda</a></li>
-                    <li><a href="#" id="footerContactLink">İletişim</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-contact scroll-animate">
-                <h4>İletişim</h4>
-                <div class="contact-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                    <a href="tel:+905551234567">+90 555 123 45 67</a>
-                </div>
-                <div class="contact-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                    <a href="mailto:info@theleng.com">info@theleng.com</a>
-                </div>
-                <div class="contact-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin"><path d="M12 2v20"/><path d="M18 18H6"/><path d="M6 12h12"/></svg>
-                    <span>İstanbul, Türkiye</span>
-                </div>
-            </div>
-            
-            <div class="footer-links scroll-animate">
-                <h4>Sosyal Medya</h4>
-                <ul>
-                    <li><a href="https://twitter.com/theleng" target="_blank" rel="noopener noreferrer">Twitter / X</a></li>
-                    <li><a href="https://linkedin.com/company/theleng" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                    <li><a href="https://github.com/theleng" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-                    <li><a href="https://wa.me/905551234567" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            &copy; 2025 THE LENG. Tüm Hakları Saklıdır. | <a href="#">Gizlilik Politikası</a>
-        </div>
-    </footer>
+    function playClickSound() {
+      if (clickSound) {
+        clickSound.currentTime = 0;
+        clickSound.play().catch(err => console.log('Audio play failed:', err));
+      }
+    }
 
-    <script>
-        // PWA Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then(registration => {
-                        console.log('Service Worker registered with scope:', registration.scope);
-                    })
-                    .catch(error => {
-                        console.error('Service Worker registration failed:', error);
-                    });
-            });
+    function playPageSwitchSound() {
+      if (pageSwitchSound) {
+        pageSwitchSound.currentTime = 0;
+        pageSwitchSound.play().catch(err => console.log('Audio play failed:', err));
+      }
+    }
+
+    let usersDatabase = {};
+    let communitiesDatabase = {};
+    let currentUser = null;
+    let scannedMembers = [];
+    let html5QrCode = null;
+
+    const events = [
+      {
+        code: "EVT001",
+        title: "Yapay Zeka Zirvesi 2025",
+        description: "Yapay zeka teknolojilerinin geleceğini şekillendirecek uzmanlarla buluşun. Makine öğrenimi, derin öğrenme ve AI uygulamaları üzerine kapsamlı workshop'lar.",
+        color: "#e74c3c",
+        formUrl: "https://example.com/form/ai-summit",
+        date: "25 Mart 2025",
+        icon: '<path fill="#4285F4" d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V9h14v10zM7 11h5v5H7z"/>'
+      },
+      {
+        code: "EVT002",
+        title: "Blockchain & Web3 Konferansı",
+        description: "Blockchain teknolojisi ve Web3 ekosisteminin son trendlerini keşfedin. NFT, DeFi ve metaverse konularında derinlemesine bilgi edinin.",
+        color: "#3498db",
+        formUrl: "https://example.com/form/blockchain",
+        date: "18 Nisan 2025",
+        icon: '<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>'
+      },
+      {
+        code: "EVT003",
+        title: "Networking Gecesi",
+        description: "Sektör profesyonelleri ve üyelerimizin buluşacağı networking etkinliğimize davetlisiniz. Kariyerinize yön verin.",
+        color: "#2ecc71",
+        formUrl: "https://example.com/form/networking",
+        date: "12 Mart 2025",
+        icon: '<path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>'
+      },
+      {
+        code: "EVT004",
+        title: "Cloud Computing Workshop",
+        description: "Bulut bilişim teknolojileri ve modern DevOps pratikleri üzerine uygulamalı eğitim. AWS, Azure ve Google Cloud platformları.",
+        color: "#f39c12",
+        formUrl: "https://example.com/form/cloud",
+        date: "15 Mayıs 2025",
+        icon: '<path d="M19.35 10.04C18.67 6.59 15.64 4 12 4c-3.72 0-6.83 2.56-7.77 6.04-1.35.34-2.23 1.58-2.23 3.01 0 1.93 1.57 3.5 3.5 3.5H19c2.21 0 4-1.79 4-4 0-2.21-1.79-4-4-4z"/>'
+      }
+    ];
+    
+    // NEW: Function to render the Events grid
+    function displayEventsGrid() {
+        const eventsCardsGrid = document.getElementById('eventsCardsGrid');
+        eventsCardsGrid.innerHTML = events.map(event => `
+            <div class="info-card">
+              <div class="info-card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="fill: var(--c-action);">
+                  ${event.icon}
+                </svg>
+              </div>
+              <div class="info-card-date" style="color: ${event.color};">${event.date}</div>
+              <h3>${event.title}</h3>
+              <p>${event.description}</p>
+              <a href="${event.formUrl}" target="_blank" class="community-action-btn" style="background: ${event.color}4D; border-color: ${event.color}80; margin-top: 15px;">
+                 <i class="fas fa-ticket-alt"></i> Kaydol
+              </a>
+            </div>
+        `).join('');
+    }
+    
+    // Initialize the Events grid on load
+    window.addEventListener('load', displayEventsGrid);
+    // </NEW>
+
+
+    // Initialize landing page events carousel
+    function setupLandingEventsCarousel() {
+      const eventsTrack = document.getElementById('landingEventsTrack');
+      const carouselDots = document.getElementById('landingCarouselDots');
+      
+      if (!eventsTrack || !carouselDots) return;
+
+      eventsTrack.innerHTML = '';
+      carouselDots.innerHTML = '';
+      
+      let currentIndex = 0;
+
+      events.forEach((event, index) => {
+        const card = document.createElement('div');
+        card.className = 'event-card';
+        card.style.background = event.color;
+        card.innerHTML = `
+          <div class="event-code">${event.code}</div>
+          <h4 class="event-title">${event.title}</h4>
+          <p class="event-description">${event.description}</p>
+          <button class="event-button" style="color: ${event.color};" onclick="window.open('${event.formUrl}', '_blank')">
+            FORMA GİT
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </button>
+        `;
+        eventsTrack.appendChild(card);
+
+        const dot = document.createElement('div');
+        dot.className = 'carousel-dot';
+        if (index === 0) dot.classList.add('active');
+        dot.style.background = event.color; /* Use event color for dot */
+        dot.addEventListener('click', () => goToSlide(index));
+        carouselDots.appendChild(dot);
+      });
+
+      function goToSlide(index) {
+        currentIndex = index;
+        eventsTrack.style.transform = `translateX(-${index * 100}%)`;
+        
+        const dots = carouselDots.querySelectorAll('.carousel-dot');
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === index);
+        });
+      }
+
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % events.length;
+        goToSlide(currentIndex);
+      }, 5000);
+
+      goToSlide(0);
+    }
+
+    setupLandingEventsCarousel();
+    // </CHANGE>
+
+    // Fetch users data
+    fetch('users.json')
+      .then(response => response.json())
+      .then(data => {
+        usersDatabase = data;
+        // NEW: Add dummy properties if they don't exist for demo
+        Object.keys(usersDatabase).forEach(email => {
+            if (!usersDatabase[email].memberSince) usersDatabase[email].memberSince = '2024-01-01';
+            if (!usersDatabase[email].status) usersDatabase[email].status = usersDatabase[email].isAdmin ? 'YÖNETİCİ' : 'AKTİF ÜYE';
+        });
+        console.log('Users database loaded:', usersDatabase);
+      })
+      .catch(err => console.error('Error loading users:', err));
+
+    // Fetch communities data
+    fetch('communities.json')
+      .then(response => response.json())
+      .then(data => {
+        communitiesDatabase = data;
+        console.log('Communities database loaded:', communitiesDatabase);
+      })
+      .catch(err => console.error('Error loading communities:', err));
+
+    const landingGoogleSignInBtn = document.getElementById('landingGoogleSignInBtn');
+    if (landingGoogleSignInBtn) {
+      landingGoogleSignInBtn.addEventListener('click', () => {
+        playClickSound();
+        if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+          google.accounts.id.prompt();
+        }
+      });
+    }
+
+    const cardFlipContainer = document.getElementById('cardFlipContainer');
+    if (cardFlipContainer) {
+      cardFlipContainer.addEventListener('click', () => {
+        playClickSound();
+        cardFlipContainer.classList.toggle('flipped');
+      });
+    }
+
+    function getTimeSlot() {
+      const now = new Date();
+      const hours = now.getHours();
+      return Math.floor(hours / 2);
+    }
+
+    function generateSecureHash(memberNumber, timeSlot) {
+      const secret = "MEMBER_SYSTEM_2025";
+      const data = `${memberNumber}|${timeSlot}|${secret}`;
+      let hash = 0;
+      for (let i = 0; i < data.length; i++) {
+        const char = data.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+      }
+      return Math.abs(hash).toString(36).toUpperCase().substring(0, 8);
+    }
+
+    function generateSecureQRData(memberNumber) {
+      const timeSlot = getTimeSlot();
+      const hash = generateSecureHash(memberNumber, timeSlot);
+      return `${memberNumber}|${timeSlot}|${hash}`;
+    }
+
+    function validateQRData(qrData) {
+      try {
+        const parts = qrData.split('|');
+        if (parts.length !== 3) {
+          return { valid: false, error: 'Geçersiz QR kod formatı' };
         }
 
-        // Loading screen
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loading').classList.add('hidden');
-            }, 1000);
-        });
+        const [memberNumber, timeSlotStr, receivedHash] = parts;
+        const scannedTimeSlot = parseInt(timeSlotStr);
+        const currentTimeSlot = getTimeSlot();
 
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-            
-            updateActiveNavLink();
-        });
+        if (scannedTimeSlot !== currentTimeSlot) {
+          return { 
+            valid: false, 
+            error: 'QR kod süresi dolmuş (Her 2 saatte bir yenilenir)',
+            memberNumber 
+          };
+        }
 
-        // NEW: Mobile Menu Toggle Logic
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
+        const expectedHash = generateSecureHash(memberNumber, scannedTimeSlot);
+        if (receivedHash !== expectedHash) {
+          return { 
+            valid: false, 
+            error: 'QR kod doğrulaması başarısız',
+            memberNumber 
+          };
+        }
 
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('open');
-            menuToggle.classList.toggle('open');
-        });
-        
-        // Google Sign-In Implementation
-        let currentUser = null;
-        const heroContentDiv = document.getElementById('heroContent');
-        
-        const googleSignInButton = document.getElementById('googleSignInButton');
-        const userInfoElement = document.getElementById('userInfoElement');
-        const userName = document.getElementById('userName');
-        const userAvatar = document.getElementById('userAvatar');
-        
-        let contactAdvisorButton = null;
-
-        const userConfigurations = {
-            "m.yusufertek@gmail.com": {
-                name: "Yusuf Ertek",
-                panelLink: "https://terakkiyolu.org/new1",
-                welcomeTitle: "HOŞGELDİNİZ Yusuf BEY",
-                welcomeSubtitle: "Aşağıdaki butonda panele giriş yapabilirsiniz."
-            }
+        return { 
+          valid: true, 
+          memberNumber,
+          timeSlot: scannedTimeSlot
         };
+      } catch (error) {
+        return { valid: false, error: 'QR kod okuma hatası' };
+      }
+    }
 
-        function initializeGoogleSignIn() {
-            if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-                google.accounts.id.initialize({
-                    client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
-                    callback: handleCredentialResponse,
-                    auto_select: false,
-                    cancel_on_tap_outside: true
-                });
-                console.log('Google Sign-In initialized successfully.');
-            } else {
-                console.warn('Google Sign-In script not yet loaded. Retrying initialization...');
-                setTimeout(initializeGoogleSignIn, 500);
-            }
+    function generateQRCode(memberNumber) {
+      const qrCodeImage = document.getElementById('qrCodeImage');
+      const qrMemberCode = document.getElementById('qrMemberCode');
+      
+      const secureData = generateSecureQRData(memberNumber);
+      const qrData = encodeURIComponent(secureData);
+      qrCodeImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${qrData}`;
+      qrMemberCode.textContent = memberNumber;
+
+      const now = new Date();
+      // Calculate minutes into the 2-hour slot (120 minutes)
+      const minutesIn2Hours = now.getHours() % 2 * 60 + now.getMinutes(); 
+      const minutesUntilRefresh = 120 - minutesIn2Hours;
+
+      const secondsUntilRefresh = minutesUntilRefresh * 60 - now.getSeconds();
+      const timeUntilRefresh = secondsUntilRefresh * 1000 - now.getMilliseconds();
+      
+      // Ensure timeUntilRefresh is positive and not too large (max 7200000ms = 2 hours)
+      const refreshDelay = Math.max(1000, Math.min(timeUntilRefresh, 7200000));
+
+      console.log(`QR Code generated. Next refresh in: ${Math.floor(refreshDelay / 1000)} seconds.`);
+
+      setTimeout(() => {
+        generateQRCode(memberNumber);
+      }, refreshDelay);
+    }
+
+    // NEW: Join/Leave Community Simulation
+    function toggleCommunityMembership(code) {
+        playClickSound();
+        const communityCard = document.querySelector(`.community-card[data-code="${code}"]`);
+        if (!communityCard) return;
+
+        const isJoined = currentUser.communities.includes(code);
+        
+        if (isJoined) {
+            currentUser.communities = currentUser.communities.filter(c => c !== code);
+            alert(`"${communitiesDatabase[code].name}" topluluğundan ayrıldınız.`);
+        } else {
+            currentUser.communities.push(code);
+            alert(`"${communitiesDatabase[code].name}" topluluğuna katıldınız.`);
         }
+        
+        displayUserCommunities();
+    }
+    // </NEW>
 
-        window.addEventListener('load', initializeGoogleSignIn);
 
-        function handleCredentialResponse(response) {
-            try {
-                const payload = JSON.parse(atob(response.credential.split('.')[1]));
-                
-                currentUser = {
-                    name: payload.name,
-                    email: payload.email,
-                    picture: payload.picture,
-                    given_name: payload.given_name
-                };
-                console.log('User signed in:', currentUser.email);
-                updateUIForSignedInUser();
-            } catch (error) {
-                console.error('Error decoding JWT or processing credential response:', error);
-                alert('Giriş yapılırken bir hata oluştu. Lütfen tekrar deneyin.');
-            }
-        }
-
-        function updateUIForSignedInUser() {
-            googleSignInButton.style.display = 'none';
-            userInfoElement.style.display = 'flex';
+    function displayUserCommunities() {
+      const communitiesGrid = document.getElementById('communitiesGrid');
+      
+      const allCommunities = Object.values(communitiesDatabase).map(community => {
+        const isJoined = currentUser && currentUser.communities.includes(community.code);
+        const joinButtonText = isJoined ? 'Ayrıl' : 'Katıl';
+        const joinButtonClass = isJoined ? 'community-action-btn joined' : 'community-action-btn';
+        
+        return `
+          <div class="community-card" data-code="${community.code}">
+            <div style="background-image: url('${community.backgroundImage}'); position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-size: cover; background-position: center; opacity: 0.25; z-index: 0;"></div>
             
-            userName.textContent = currentUser.given_name || currentUser.name;
+            <img src="${community.logo}" alt="${community.name}" class="community-logo">
+            <h3>${community.name}</h3>
+            <span class="community-code">${community.code}</span>
+            <p class="community-description">${community.description || 'Bu topluluk, alanında uzman üyeleri bir araya getirerek bilgi paylaşımı ve ortak projeler geliştirmeyi hedefler.'}</p>
             
-            if (currentUser.picture) {
-                userAvatar.innerHTML = `<img src="${currentUser.picture}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
-            } else {
-                userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
-            }
+            <div class="community-actions">
+                <a href="${community.website}" target="_blank" class="community-website-btn">
+                  <i class="fas fa-external-link-alt"></i>
+                  Duyurular
+                </a>
+                <button class="${joinButtonClass}" onclick="toggleCommunityMembership('${community.code}')">
+                  <i class="fas fa-user-plus"></i> ${joinButtonText}
+                </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      communitiesGrid.innerHTML = allCommunities;
+    }
 
-            userInfoElement.removeEventListener('click', showProfileDrawer);
-            userInfoElement.addEventListener('click', showProfileDrawer);
+    function displayRegisteredMembers() {
+      const membersCardsGrid = document.getElementById('membersCardsGrid');
+      
+      const membersHTML = Object.entries(usersDatabase).map(([email, user]) => `
+        <div class="info-card">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+            <img src="${user.avatar || '/placeholder.svg'}" alt="${user.name}" style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--c-action); object-fit: cover;">
+            <div>
+              <h3 style="margin: 0; font-size: 1.2rem;">${user.name}</h3>
+              ${user.isAdmin ? '<span class="admin-badge" style="margin-left: 0; margin-top: 4px; display: inline-block;">Admin</span>' : ''}
+            </div>
+          </div>
+          <div style="display: grid; gap: 8px;">
+            <p style="margin: 0;"><strong>Üye No:</strong> ${user.memberNumber}</p>
+            <p style="margin: 0;"><strong>Bölüm:</strong> ${user.department}</p>
+            <p style="margin: 0;"><strong>Üyelik:</strong> ${user.memberSince} | ${user.status}</p>
+            <p style="margin: 0;"><strong>Topluluklar:</strong> ${user.communities && user.communities.length > 0 ? user.communities.join(', ') : 'Yok'}</p>
+          </div>
+        </div>
+      `).join('');
+      
+      membersCardsGrid.innerHTML = membersHTML;
+    }
 
-            const userConfig = userConfigurations[currentUser.email];
-            if (userConfig) {
-                displayPersonalizedContent(userConfig);
-            } else {
-                displayUnregisteredUserContent();
-            }
-            ensureContactButtonInHeroActions();
+    function initQRScanner() {
+      if (!currentUser || !currentUser.isAdmin) return;
+      if (html5QrCode && html5QrCode.isScanning) return; // Prevent multiple starts
+
+      html5QrCode = new Html5Qrcode("qr-reader");
+      
+      html5QrCode.start(
+        { facingMode: "environment" },
+        {
+          fps: 10,
+          qrbox: { width: 250, height: 250 }
+        },
+        (decodedText) => {
+          handleQRScan(decodedText);
+        },
+        (errorMessage) => {
+          // Ignore scan errors
         }
+      ).catch((err) => {
+        console.error("QR Scanner error:", err);
+      });
+    }
 
-        function displayPersonalizedContent(config) {
-            heroContentDiv.innerHTML = `
-                <h1 class="hero-title">
-                    ${config.welcomeTitle}
-                </h1>
-                <p class="hero-subtitle">
-                    ${config.welcomeSubtitle}
-                </p>
-                <div class="hero-actions">
-                    <a href="${config.panelLink}" class="cta-button" target="_blank" rel="noopener noreferrer">
-                        PANELE GİRİŞ
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="m9 18 6-6-6-6"/>
-                        </svg>
-                    </a>
-                </div>
-            `;
-            applyShimmerToText();
-            ensureContactButtonInHeroActions();
-            addRippleEffect(heroContentDiv.querySelector('.cta-button:not(.secondary)'));
+    function stopQRScanner() {
+        if (html5QrCode && html5QrCode.isScanning) {
+            html5QrCode.stop().catch(err => console.log("QR scanner stop error:", err));
+            html5QrCode = null;
         }
+    }
 
-        function displayUnregisteredUserContent() {
-            heroContentDiv.innerHTML = `
-                <h1 class="hero-title">
-                    BİZİMLE ÇALIŞMAYA<br>
-                    NE DERSİNİZ?
-                </h1>
-                <p class="hero-subtitle">
-                    Siz de dijital dönüşüm yolculuğunuzda bize katılın ve hayallerinizi gerçeğe dönüştürelim.
-                </p>
-                <div class="hero-actions">
-                </div>
-            `;
-            applyShimmerToText();
-            ensureContactButtonInHeroActions();
+
+    function handleQRScan(qrData) {
+      playClickSound();
+      
+      const validation = validateQRData(qrData);
+      
+      if (!validation.valid) {
+        alert(`QR Kod Hatası: ${validation.error}`);
+        return;
+      }
+
+      const member = Object.values(usersDatabase).find(
+        user => user.memberNumber === validation.memberNumber
+      );
+
+      if (member) {
+        const scanTime = new Date().toLocaleString('tr-TR');
+        const existingScan = scannedMembers.find(
+          scan => scan.memberNumber === validation.memberNumber && scan.timeSlot === validation.timeSlot
+        );
+
+        if (!existingScan) {
+          scannedMembers.push({
+            name: member.name,
+            memberNumber: member.memberNumber,
+            department: member.department,
+            scanTime: scanTime,
+            timeSlot: validation.timeSlot
+          });
+          
+          updateScannedList();
+        } else {
+          alert('Bu üye zaten bu zaman diliminde tarandı.');
         }
+      } else {
+        alert('Üye sistemde bulunamadı.');
+      }
+    }
 
-        function restoreDefaultHeroContent() {
-            heroContentDiv.innerHTML = `
-                <h1 class="hero-title">
-                    İDDİA EDİYORUZ<br>
-                    EN İYİSİYİZ.
-                </h1>
-                <p class="hero-subtitle">
-                    Dijital dünyada fark yaratan, sınırları zorlayan ve her projede mükemmelliği hedefleyen 
-                    teknoloji şirketi. Hayallerinizi gerçeğe dönüştürüyoruz.
-                </p>
-                <div class="hero-actions">
-                </div>
-            `;
-            const heroActionsDiv = heroContentDiv.querySelector('.hero-actions');
+    function updateScannedList() {
+      const scannedItems = document.getElementById('scannedItems');
+      const downloadBtn = document.getElementById('downloadBtn');
+      
+      if (scannedMembers.length === 0) {
+        scannedItems.innerHTML = '<p style="opacity: 0.6; text-align: center;">Henüz tarama yapılmadı</p>';
+        downloadBtn.style.display = 'none';
+        return;
+      }
 
-            if (!currentUser) {
-                googleSignInButton.style.display = 'flex';
-                heroActionsDiv.appendChild(googleSignInButton);
-                addRippleEffect(googleSignInButton);
-                removeContactButtonFromHeroActions();
-            } else {
-                googleSignInButton.style.display = 'none';
-                ensureContactButtonInHeroActions();
-            }
+      scannedItems.innerHTML = scannedMembers.map(member => `
+        <div class="scanned-item">
+          <div class="scanned-info">
+            <h4>${member.name}</h4>
+            <p>${member.memberNumber} • ${member.department}</p>
+            <p style="font-size: 0.8rem; margin-top: 4px;">${member.scanTime} • Zaman Dilimi: ${member.timeSlot}</p>
+          </div>
+        </div>
+      `).join('');
+
+      downloadBtn.style.display = 'flex';
+    }
+
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      playClickSound();
+      
+      const dataStr = JSON.stringify(scannedMembers, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `taranan-uyeler-${new Date().toISOString().split('T')[0]}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+    });
+
+    const signOutButton = document.getElementById('signOutButton');
+    if (signOutButton) {
+      signOutButton.addEventListener('click', signOut);
+    }
+    
+    function signOut() {
+        if (confirm('Çıkış yapmak istediğinizden emin misiniz?')) {
+            currentUser = null;
+            document.getElementById('landingPage').classList.remove('hidden');
+            document.getElementById('headerContainer').classList.remove('visible');
+            document.getElementById('bottomNav').classList.remove('visible');
+            document.getElementById('mainContent').classList.remove('visible');
+            document.getElementById('signOutButton').style.display = 'none';
+            document.getElementById('userInfo').style.display = 'none';
+
+            // Reset admin/user views
+            document.getElementById('communitiesView').style.display = 'block';
+            document.getElementById('adminMembersView').style.display = 'none';
+            document.getElementById('eventsView').style.display = 'block';
+            document.getElementById('adminScannerView').style.display = 'none';
             
-            initializeScrollAnimations();
-            applyShimmerToText();
+            // Re-render landing page for fresh sign-in prompt
+            google.accounts.id.disableAutoSelect();
+            stopQRScanner();
         }
+    }
 
-        function signOut() {
-            if (confirm('Çıkış yapmak istediğinizden emin misiniz?')) {
-                google.accounts.id.disableAutoSelect();
-                currentUser = null;
-                
-                googleSignInButton.style.display = 'flex';
-                userInfoElement.style.display = 'none';
-                hideProfileDrawer();
-                
-                removeContactButtonFromHeroActions();
-                restoreDefaultHeroContent();
 
-                const toast = document.createElement('div');
-                toast.style.cssText = `
-                    position: fixed;
-                    top: 100px;
-                    right: 20px;
-                    background: #dc3545;
-                    color: white;
-                    padding: 1rem 1.5rem;
-                    border-radius: 10px;
-                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-                    z-index: 10000;
-                    font-weight: 600;
-                    transform: translateX(100%);
-                    transition: transform 0.3s ease;
-                `;
-                toast.textContent = 'Başarıyla çıkış yaptınız! 👋';
-                
-                document.body.appendChild(toast);
-                
-                setTimeout(() => {
-                    toast.style.transform = 'translateX(0)';
-                }, 100);
-                
-                setTimeout(() => {
-                    toast.style.transform = 'translateX(100%)';
-                    setTimeout(() => {
-                        document.body.removeChild(toast);
-                    }, 300);
-                }, 2000);
-            }
+    function handleCredentialResponse(response) {
+      const responsePayload = parseJwt(response.credential);
+      const userEmail = responsePayload.email;
+      
+      console.log("User signed in:", userEmail);
+      
+      if (usersDatabase[userEmail]) {
+        currentUser = {
+          email: userEmail,
+          picture: responsePayload.picture,
+          ...usersDatabase[userEmail]
+        };
+        
+        document.getElementById('userName').textContent = currentUser.name;
+        document.getElementById('userAvatar').innerHTML = `<img src="${currentUser.picture}" alt="User" style="width: 100%; height: 100%; object-fit: cover;">`;
+        document.getElementById('userInfo').style.display = 'flex';
+        
+        // Populate Member Card Details
+        document.getElementById('memberNumber').textContent = currentUser.memberNumber;
+        document.getElementById('memberName').textContent = currentUser.name;
+        document.getElementById('memberDepartment').textContent = currentUser.department;
+        document.getElementById('memberSince').textContent = currentUser.memberSince;
+        document.getElementById('memberStatus').textContent = currentUser.status;
+        
+        generateQRCode(currentUser.memberNumber);
+        
+        document.getElementById('landingPage').classList.add('hidden');
+        document.getElementById('headerContainer').classList.add('visible');
+        document.getElementById('bottomNav').classList.add('visible');
+        document.getElementById('mainContent').classList.add('visible');
+        document.getElementById('signOutButton').style.display = 'flex';
+
+
+        if (currentUser.isAdmin) {
+          // Admin View: Members List and Scanner visible
+          document.getElementById('communitiesView').style.display = 'none';
+          document.getElementById('adminMembersView').style.display = 'block';
+          document.getElementById('eventsView').style.display = 'none';
+          document.getElementById('adminScannerView').style.display = 'block';
+          
+          displayRegisteredMembers();
+          // QR Scanner only starts when navigating to Page 3
+        } else {
+          // Standard User View: Communities and Events visible
+          document.getElementById('communitiesView').style.display = 'block';
+          document.getElementById('adminMembersView').style.display = 'none';
+          document.getElementById('eventsView').style.display = 'block';
+          document.getElementById('adminScannerView').style.display = 'none';
+
+          displayUserCommunities();
+          stopQRScanner(); // Ensure scanner is stopped for non-admins
         }
+      } else {
+        alert('Bu e-posta adresi sistemde kayıtlı değil. Lütfen yöneticinizle iletişime geçin.');
+        google.accounts.id.disableAutoSelect();
+      }
+    }
 
-        googleSignInButton.addEventListener('click', () => {
-            google.accounts.id.prompt();
-        });
+    function parseJwt(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonPayload);
+    }
 
-        // Contact Panel Logic
-        const contactPanelOverlay = document.getElementById('contactPanelOverlay');
-        const closeContactPanelButton = document.getElementById('closeContactPanel');
-
-        function showContactPanel() {
-            contactPanelOverlay.classList.add('active');
-        }
-
-        function hideContactPanel() {
-            contactPanelOverlay.classList.remove('active');
-        }
-
-        closeContactPanelButton.addEventListener('click', hideContactPanel);
-        contactPanelOverlay.addEventListener('click', (e) => {
-            if (e.target === contactPanelOverlay) {
-                hideContactPanel();
-            }
+    function initializeGoogleSignIn() {
+      if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+        google.accounts.id.initialize({
+          client_id: '858159418763-lklgnmvm6qa08dehrstd7e6eo8dauq04.apps.googleusercontent.com',
+          callback: handleCredentialResponse,
+          auto_select: false,
+          cancel_on_tap_outside: true
         });
         
-        // NEW: Navigation links that open the contact panel
-        document.getElementById('contactLink').addEventListener('click', (e) => {
-            e.preventDefault();
-            showContactPanel();
-            if (navLinks.classList.contains('open')) {
-                navLinks.classList.remove('open');
-                menuToggle.classList.remove('open');
-            }
+        console.log('Google Sign-In initialized successfully.');
+      } else {
+        console.warn('Google Sign-In script not yet loaded. Retrying...');
+        setTimeout(initializeGoogleSignIn, 500);
+      }
+    }
+
+    window.onload = initializeGoogleSignIn;
+
+    const switcher = document.getElementById('pageSwitcher');
+    const root = document.documentElement;
+
+    const trackPrevious = (el) => {
+      const radios = el.querySelectorAll('input[type="radio"]');
+      let previousValue = null;
+
+      const initiallyChecked = el.querySelector('input[type="radio"]:checked');
+      if (initiallyChecked) {
+        previousValue = initiallyChecked.getAttribute("c-option");
+        el.setAttribute('c-previous', previousValue);
+      }
+
+      radios.forEach(radio => {
+        radio.addEventListener('change', () => {
+          if (radio.checked) {
+            el.setAttribute('c-previous', previousValue ?? '');
+            previousValue = radio.getAttribute("c-option");
+          }
         });
-        document.getElementById('footerContactLink').addEventListener('click', (e) => {
-            e.preventDefault();
-            showContactPanel();
-        });
+      });
+    }
 
-        // Profile Drawer Logic
-        const profileDrawerOverlay = document.getElementById('profileDrawerOverlay');
-        const profileDrawer = document.getElementById('profileDrawer');
-        const drawerUserAvatar = document.getElementById('drawerUserAvatar');
-        const drawerUserName = document.getElementById('drawerUserName');
-        const drawerUserEmail = document.getElementById('drawerUserEmail');
-        const drawerPanelLink = document.getElementById('drawerPanelLink');
-        const drawerMakePayment = document.getElementById('drawerMakePayment');
-        const drawerEditProfile = document.getElementById('drawerEditProfile');
-        const drawerSignOutButton = document.getElementById('drawerSignOutButton');
+    trackPrevious(switcher);
 
-        function showProfileDrawer() {
-            if (!currentUser) return;
+    const pageRadios = document.querySelectorAll('input[name="page"]');
+    const pages = document.querySelectorAll('.page-content');
 
-            if (currentUser.picture) {
-                drawerUserAvatar.innerHTML = `<img src="${currentUser.picture}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
-            } else {
-                drawerUserAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
-            }
-            drawerUserName.textContent = currentUser.name;
-            drawerUserEmail.textContent = currentUser.email;
-
-            const userConfig = userConfigurations[currentUser.email];
-            if (userConfig && userConfig.panelLink) {
-                drawerPanelLink.href = userConfig.panelLink;
-                drawerPanelLink.style.display = 'flex';
-            } else {
-                drawerPanelLink.style.display = 'none';
-            }
-
-            profileDrawerOverlay.classList.add('active');
-        }
-
-        function hideProfileDrawer() {
-            profileDrawerOverlay.classList.remove('active');
-        }
-
-        profileDrawerOverlay.addEventListener('click', (e) => {
-            if (e.target === profileDrawerOverlay) {
-                hideProfileDrawer();
-            }
-        });
-
-        drawerMakePayment.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Ödeme sayfası yakında eklenecek!');
-            hideProfileDrawer();
-        });
-
-        drawerEditProfile.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('Profil düzenleme sayfası yakında eklenecek!');
-            hideProfileDrawer();
-        });
-
-        drawerSignOutButton.addEventListener('click', signOut);
-
-        // Ripple Effect Functionality
-        function createRipple(event) {
-            const button = event.currentTarget;
-            const circle = document.createElement('span');
-            const diameter = Math.max(button.clientWidth, button.clientHeight);
-            const radius = diameter / 2;
-
-            circle.style.width = circle.style.height = `${diameter}px`;
-            circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
-            circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
-            circle.classList.add('ripple');
-
-            const ripple = button.getElementsByClassName('ripple')[0];
-
-            if (ripple) {
-                ripple.remove();
-            }
-
-            button.appendChild(circle);
-        }
-
-        function addRippleEffect(element) {
-            if (element) {
-                element.removeEventListener('click', createRipple);
-                element.addEventListener('click', createRipple);
-            }
-        }
-
-        document.querySelectorAll('.google-signin, .cta-button, .contact-panel .contact-item, .close-button, .profile-drawer-item, .profile-drawer-close-button, .logo').forEach(element => {
-            addRippleEffect(element);
-        });
+    pageRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        playPageSwitchSound();
+        const selectedPage = radio.value;
         
-        // NEW: Add ripple effect to the menu toggle
-        addRippleEffect(document.getElementById('menuToggle'));
-
-
-        function ensureContactButtonInHeroActions() {
-            const heroActionsDiv = heroContentDiv.querySelector('.hero-actions');
-            if (!contactAdvisorButton) {
-                contactAdvisorButton = document.createElement('button');
-                contactAdvisorButton.id = 'contactAdvisorButton';
-                contactAdvisorButton.className = 'cta-button secondary';
-                contactAdvisorButton.innerHTML = `
-                    MÜŞTERİ DANIŞMANINA ULAŞ
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                    </svg>
-                `;
-                contactAdvisorButton.addEventListener('click', showContactPanel);
-                addRippleEffect(contactAdvisorButton);
-            }
-            if (!heroActionsDiv.contains(contactAdvisorButton)) {
-                heroActionsDiv.appendChild(contactAdvisorButton);
-            }
-            contactAdvisorButton.style.display = 'inline-flex';
-        }
-
-        function removeContactButtonFromHeroActions() {
-            if (contactAdvisorButton && contactAdvisorButton.parentNode) {
-                contactAdvisorButton.parentNode.removeChild(contactAdvisorButton);
-            }
-            if (contactAdvisorButton) {
-                contactAdvisorButton.style.display = 'none';
-            }
-        }
-
-        // Scroll Animation (Intersection Observer)
-        const sections = document.querySelectorAll('section');
-        const navLinksList = document.querySelectorAll('.nav-link');
-        
-        function initializeScrollAnimations() {
-            const animateOnScrollElements = document.querySelectorAll('.scroll-animate');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        // observer.unobserve(entry.target); // Keep observing for menu highlight
-                    }
-                });
-            }, {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            });
-
-            animateOnScrollElements.forEach(element => {
-                element.classList.remove('visible');
-                observer.observe(element);
-            });
-        }
-        window.addEventListener('load', initializeScrollAnimations);
-        
-        // NEW: Scroll-based active link update
-        function updateActiveNavLink() {
-            let current = 'home';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (scrollY >= sectionTop - 150) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navLinksList.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('data-section') === current) {
-                    link.classList.add('active');
-                }
-            });
-        }
-        
-        // NEW: Smooth scrolling for nav links
-        document.querySelectorAll('.nav-link[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80, // Offset for fixed header
-                        behavior: 'smooth'
-                    });
-                    
-                    // Close mobile menu
-                    if (navLinks.classList.contains('open')) {
-                        navLinks.classList.remove('open');
-                        menuToggle.classList.remove('open');
-                    }
-                }
-            });
+        pages.forEach(page => {
+          page.classList.remove('active');
         });
 
-        // Function to handle smooth scroll for the logo click
-        function scrollToSection(id) {
-             const targetElement = document.getElementById(id);
-             if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 80, // Offset for fixed header
-                    behavior: 'smooth'
-                });
-             }
+        document.getElementById(selectedPage).classList.add('active');
+        
+        // Logic for QR Scanner activation/deactivation
+        if (selectedPage === 'page3' && currentUser && currentUser.isAdmin) {
+          setTimeout(initQRScanner, 500);
+        } else {
+          stopQRScanner();
         }
 
 
-        // Apply Shimmer to Hero Text
-        function applyShimmerToText() {
-            const heroTitle = document.querySelector('.hero-title');
-            const heroSubtitle = document.querySelector('.hero-subtitle');
-            if (heroTitle) heroTitle.style.animation = 'none';
-            if (heroSubtitle) heroSubtitle.style.animation = 'none';
-            
-            void heroTitle.offsetWidth; 
-            void heroSubtitle.offsetWidth;
-
-            if (heroTitle) heroTitle.style.animation = '';
-            if (heroSubtitle) heroSubtitle.style.animation = '';
+        if (selectedPage === 'page1') {
+          root.style.setProperty('--c-bg', 'var(--page1-bg)');
+          root.style.setProperty('--c-content', 'var(--page1-content)');
+          root.style.setProperty('--c-action', 'var(--page1-action)');
+          root.style.setProperty('--c-glass', 'var(--page1-glass)');
+          root.style.setProperty('--c-light', 'var(--page1-light)');
+          root.style.setProperty('--c-dark', 'var(--page1-dark)');
+        } else if (selectedPage === 'page2') {
+          root.style.setProperty('--c-bg', 'var(--page2-bg)');
+          root.style.setProperty('--c-content', 'var(--page2-content)');
+          root.style.setProperty('--c-action', 'var(--page2-action)');
+          root.style.setProperty('--c-glass', 'var(--page2-glass)');
+          root.style.setProperty('--c-light', 'var(--page2-light)');
+          root.style.setProperty('--c-dark', 'var(--page2-dark)');
+        } else if (selectedPage === 'page3') {
+          root.style.setProperty('--c-bg', 'var(--page3-bg)');
+          root.style.setProperty('--c-content', 'var(--page3-content)');
+          root.style.setProperty('--c-action', 'var(--page3-action)');
+          root.style.setProperty('--c-glass', 'var(--page3-glass)');
+          root.style.setProperty('--c-light', 'var(--page3-light)');
+          root.style.setProperty('--c-dark', 'var(--page3-dark)');
         }
-        window.addEventListener('load', applyShimmerToText);
-
-        // Company Data for Card Flip
-        const companies = [
-            {
-                logo: "/placeholder.svg?height=80&width=80",
-                name: "Tech Solutions A.Ş.",
-                industry: "Yazılım Geliştirme",
-                reason: "Yenilikçi ve ölçeklenebilir yazılım çözümleri sunarak iş süreçlerimizi optimize ettiler. Hızlı teslimat ve mükemmel destekleri sayesinde projelerimiz zamanında tamamlandı.",
-                benefits: ["Ölçeklenebilir Yazılım", "Hızlı Teslimat", "Mükemmel Destek", "İş Süreç Optimizasyonu"]
-            },
-            {
-                logo: "/placeholder.svg?height=80&width=80",
-                name: "Global Pazarlama Ltd.",
-                industry: "Dijital Pazarlama",
-                reason: "Dijital pazarlama stratejilerimizi baştan sona yenilediler. Hedef kitlemize ulaşmamızı sağlayan yaratıcı kampanyalar ve detaylı analizlerle satışlarımızı %40 artırdık.",
-                benefits: ["Yaratıcı Kampanyalar", "Detaylı Analiz", "Satış Artışı", "Hedef Kitleye Ulaşım"]
-            },
-            {
-                logo: "/placeholder.svg?height=80&width=80",
-                name: "E-Ticaret Devi",
-                industry: "Online Perakendecilik",
-                reason: "Kullanıcı dostu ve güvenli e-commerce altyapısı sayesinde müşteri deneyimimizi üst seviyeye taşıdık. Entegrasyon süreçleri sorunsuzdu ve teknik ekip her zaman yanımızdaydı.",
-                benefits: ["Kullanıcı Dostu Arayüz", "Güvenli Altyapı", "Sorunsuz Entegrasyon", "Müşteri Deneyimi"]
-            },
-            {
-                logo: "/placeholder.svg?height=80&width=80",
-                name: "Finansal Çözümler A.Ş.",
-                industry: "Finans ve Danışmanlık",
-                reason: "Karmaşık finansal verilerimizi anlaşılır raporlara dönüştüren özel bir analiz platformu geliştirdiler. Bu sayede daha bilinçli kararlar alabiliyor ve riskleri minimize edebiliyoruz.",
-                benefits: ["Veri Analizi", "Özel Platform", "Bilinçli Kararlar", "Risk Yönetimi"]
-            }
-        ];
-
-        function createCardFlip(company) {
-            const cardContainer = document.createElement('div');
-            cardContainer.className = 'card-flip-container scroll-animate';
-
-            const cardInner = document.createElement('div');
-            cardInner.className = 'card-flip-inner';
-
-            // Front of the card
-            const cardFront = document.createElement('div');
-            cardFront.className = 'card-flip-front';
-            cardFront.innerHTML = `
-                <div class="card-front-content">
-                    <img src="${company.logo}" alt="${company.name} Logo" class="card-front-logo">
-                    <div class="card-front-text">
-                        <h3 class="card-front-title">${company.name}</h3>
-                        <p class="card-front-subtitle">${company.industry}</p>
-                    </div>
-                    <div class="card-front-icon-wrapper">
-                        <svg class="card-front-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 12Z"/><path d="M15 6v6h6"/></svg>
-                    </div>
-                </div>
-            `;
-
-            // Back of the card
-            const cardBack = document.createElement('div');
-            cardBack.className = 'card-flip-back';
-            cardBack.innerHTML = `
-                <div class="card-back-content">
-                    <div class="card-back-text-section">
-                        <h3 class="card-back-title">${company.name}</h3>
-                        <p class="card-back-description">${company.reason}</p>
-                    </div>
-                    <div class="card-back-features">
-                        ${company.benefits.map(benefit => `
-                            <div class="card-back-feature-item">
-                                <svg class="card-back-feature-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                                <span>${benefit}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-
-            cardInner.appendChild(cardFront);
-            cardInner.appendChild(cardBack);
-            cardContainer.appendChild(cardInner);
-
-            // Add flip functionality
-            cardContainer.addEventListener('mouseenter', () => {
-                cardContainer.classList.add('flipped');
-            });
-            cardContainer.addEventListener('mouseleave', () => {
-                cardContainer.classList.remove('flipped');
-            });
-            // Also flip on click for mobile devices
-            cardContainer.addEventListener('click', () => {
-                if (window.innerWidth < 768) {
-                    cardContainer.classList.toggle('flipped');
-                }
-            });
-
-
-            return cardContainer;
-        }
-
-        // Populate company cards
-        window.addEventListener('load', () => {
-            const companyCardsGrid = document.getElementById('companyCardsGrid');
-            companies.forEach(company => {
-                companyCardsGrid.appendChild(createCardFlip(company));
-            });
-            initializeScrollAnimations();
-            updateActiveNavLink(); // Initial call
-        });
-    </script>
+      });
+    });
+  </script>
 </body>
 </html>
