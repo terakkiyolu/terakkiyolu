@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPSS Hemşire Atama Simülasyonu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>KPSS Hemşire Atama Simülasyonu</h1>
+        <p>Aşağıdaki kontenjanlar simülasyon amaçlı oluşturulmuş hayali verilerdir. Lütfen P3 Puanınızı ve Genel Sıralamanızı girerek simülasyona başlayın.</p>
+        
+        <div class="user-input">
+            <label for="userPuan">KPSS P3 Puanınız:</label>
+            <input type="number" id="userPuan" value="83.500" step="0.001">
+            <label for="userSiralama">Genel Sıralamanız (Örn: 3000):</label>
+            <input type="number" id="userSiralama" value="3000">
+        </div>
+
+        <div class="main-content">
+            <section class="quota-section">
+                <h2>Mevcut Kontenjanlar (Simülasyon Verisi)</h2>
+                <table id="quotaTable">
+                    <thead>
+                        <tr>
+                            <th>Şehir / Kurum</th>
+                            <th>Kontenjan</th>
+                            <th>Son Puan</th>
+                            <th>Son Sıralama</th>
+                            <th>Eylem</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </section>
+
+            <section class="preference-section">
+                <h2>Tercih Listem (Max 30)</h2>
+                <p id="preferenceCount">Seçilen Tercih Sayısı: 0 / 30</p>
+                <ol id="preferenceList">
+                    </ol>
+                <button id="runSimButton" onclick="runSimulation()">Simülasyonu Çalıştır</button>
+            </section>
+        </div>
+        
+        <section class="results-section">
+            <h2>Simülasyon Sonuçları</h2>
+            <div id="simulationResults">
+                <p>Simülasyon sonuçlarını görmek için yukarıdan kontenjanları seçip "Simülasyonu Çalıştır" butonuna basın.</p>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
